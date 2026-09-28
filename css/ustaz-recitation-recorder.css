@@ -1,0 +1,319 @@
+/* =========================================================
+   BARAKALINK
+   USTAZ RECITATION RECORDER / MINI PLAYER
+   ========================================================= */
+
+.profile-recitation-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.ustaz-recorder {
+  width: 100%;
+  border-radius: 18px;
+  background: var(--card-bg, rgba(255,255,255,.96));
+  border: 1px solid var(--border-color, rgba(31,41,55,.10));
+  box-shadow: 0 8px 30px rgba(15, 23, 42, .06);
+}
+
+.ustaz-recorder-main {
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 14px;
+}
+
+.ustaz-recorder-button,
+.ustaz-audio-play-button,
+.ustaz-audio-remove-button {
+  border: 0;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+
+.ustaz-recorder-button:active,
+.ustaz-audio-play-button:active,
+.ustaz-audio-remove-button:active {
+  transform: scale(.94);
+}
+
+.ustaz-recorder-record {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #c62828;
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(198, 40, 40, .20);
+}
+
+.ustaz-recorder-record:hover {
+  box-shadow: 0 9px 22px rgba(198, 40, 40, .28);
+}
+
+.ustaz-recorder-stop {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #111827;
+  color: #fff;
+}
+
+.ustaz-recorder.is-recording .ustaz-recorder-record {
+  background: #b91c1c;
+  animation: ustazRecorderPulse 1.25s ease-in-out infinite;
+}
+
+.ustaz-recorder-middle {
+  min-width: 0;
+}
+
+.ustaz-recorder-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.ustaz-recorder-status {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+}
+
+.ustaz-recorder.is-recording .ustaz-recorder-status {
+  color: #b91c1c;
+}
+
+.ustaz-recorder-timer {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text-color, #1f2937);
+}
+
+.ustaz-recorder-waveform {
+  height: 31px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow: hidden;
+  opacity: .58;
+}
+
+.ustaz-recorder-waveform span {
+  width: 3px;
+  min-width: 3px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  color: #94a3b8;
+  transform-origin: center;
+}
+
+.ustaz-recorder.is-recording .ustaz-recorder-waveform {
+  opacity: 1;
+}
+
+.ustaz-recorder.is-recording .ustaz-recorder-waveform span {
+  height: var(--bar-height);
+  animation: ustazRecorderBars .85s ease-in-out var(--bar-delay) infinite alternate;
+  color: #c62828;
+}
+
+.ustaz-recorder-footer {
+  min-height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px 10px 75px;
+  border-top: 1px solid var(--border-color, rgba(31,41,55,.08));
+}
+
+.ustaz-recorder-hint {
+  font-size: .72rem;
+  color: var(--text-muted, #64748b);
+}
+
+.ustaz-recorder-file-button {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted, #64748b);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.ustaz-recorder-file-button:hover {
+  color: var(--text-color, #1f2937);
+}
+
+.ustaz-recorder-file-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.ustaz-recitation-preview {
+  margin-top: 10px;
+}
+
+.ustaz-audio-player {
+  position: relative;
+  width: 100%;
+  min-height: 70px;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 12px;
+  border-radius: 18px;
+  background: var(--card-bg, rgba(255,255,255,.96));
+  border: 1px solid var(--border-color, rgba(31,41,55,.10));
+}
+
+.ustaz-audio-play-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #111827;
+  color: #fff;
+}
+
+.ustaz-audio-track {
+  min-width: 0;
+}
+
+.ustaz-audio-track-top,
+.ustaz-audio-track-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ustaz-audio-track-top {
+  margin-bottom: 6px;
+}
+
+.ustaz-audio-track-top strong {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: .77rem;
+  font-weight: 800;
+}
+
+.ustaz-audio-track-top span,
+.ustaz-audio-track-bottom {
+  color: var(--text-muted, #64748b);
+  font-size: .68rem;
+}
+
+.ustaz-audio-progress-wrap {
+  width: 100%;
+}
+
+.ustaz-audio-progress-wrap input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: #111827;
+  cursor: pointer;
+}
+
+.ustaz-audio-remove-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  color: #94a3b8;
+}
+
+.ustaz-audio-remove-button:hover {
+  background: rgba(198, 40, 40, .08);
+  color: #c62828;
+}
+
+#profileRecitationPlayer {
+  display: none;
+}
+
+@keyframes ustazRecorderPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(198, 40, 40, .26);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(198, 40, 40, 0);
+  }
+}
+
+@keyframes ustazRecorderBars {
+  from {
+    transform: scaleY(.45);
+  }
+  to {
+    transform: scaleY(1.08);
+  }
+}
+
+@media (max-width: 640px) {
+  .ustaz-recorder-main {
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .ustaz-recorder-record {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ustaz-recorder-stop {
+    width: 38px;
+    height: 38px;
+  }
+
+  .ustaz-recorder-footer {
+    padding-left: 63px;
+  }
+
+  .ustaz-recorder-hint {
+    display: none;
+  }
+
+  .ustaz-recorder-file-button {
+    margin-left: auto;
+  }
+
+  .ustaz-audio-player {
+    gap: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ustaz-recorder.is-recording .ustaz-recorder-record,
+  .ustaz-recorder.is-recording .ustaz-recorder-waveform span {
+    animation: none;
+  }
+}
+
+[data-theme="dark"] .ustaz-recorder,
+[data-theme="dark"] .ustaz-audio-player {
+  background: var(--card-bg, #151a21);
+  border-color: var(--border-color, rgba(255,255,255,.08));
+}

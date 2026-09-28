@@ -1,0 +1,298 @@
+/* =========================================================
+   BARAKALINK USTAZ PROFILE WIZARD
+   Multi-page completion UI + visible language selection
+   ========================================================= */
+
+.profile-step-indicator {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0 26px;
+  padding: 0 4px;
+}
+
+.profile-step-indicator-item {
+  min-width: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted, #64748b);
+  text-align: center;
+}
+
+.profile-step-indicator-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border-color, rgba(31,41,55,.15));
+  background: var(--card-bg, #fff);
+  color: inherit;
+  font-size: .73rem;
+  font-weight: 800;
+  transition: .2s ease;
+}
+
+.profile-step-indicator-label {
+  max-width: 82px;
+  font-size: .66rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.profile-step-indicator-item.is-active {
+  color: var(--primary-color, #8b6b2f);
+}
+
+.profile-step-indicator-item.is-active .profile-step-indicator-number {
+  border-color: currentColor;
+  box-shadow: 0 0 0 4px rgba(139, 107, 47, .10);
+}
+
+.profile-step-indicator-item.is-complete {
+  color: var(--primary-color, #8b6b2f);
+}
+
+.profile-step-indicator-item.is-complete .profile-step-indicator-number {
+  background: currentColor;
+  color: #fff;
+  border-color: currentColor;
+}
+
+.profile-step-indicator-line {
+  flex: 1 1 48px;
+  min-width: 18px;
+  height: 1px;
+  margin-top: 15px;
+  background: var(--border-color, rgba(31,41,55,.12));
+  transition: background .2s ease;
+}
+
+.profile-step-indicator-line.is-complete {
+  background: var(--primary-color, #8b6b2f);
+}
+
+/* =========================================================
+   LANGUAGE SELECTION
+   ========================================================= */
+
+#profileLanguages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#profileLanguages .role-option {
+  position: relative;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 40px 12px 12px;
+  border: 1px solid var(--border-color, rgba(31,41,55,.12));
+  border-radius: 14px;
+  background: var(--card-bg, #fff);
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto !important;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+#profileLanguages .role-option:hover {
+  transform: translateY(-1px);
+}
+
+#profileLanguages .role-option.is-selected {
+  border-color: var(--primary-color, #8b6b2f);
+  background: color-mix(in srgb, var(--primary-color, #8b6b2f) 8%, var(--card-bg, #fff));
+  box-shadow: 0 5px 16px rgba(15,23,42,.06);
+}
+
+#profileLanguages .role-option input[type="checkbox"] {
+  position: static !important;
+  inset: auto !important;
+  opacity: 1 !important;
+  appearance: auto !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+  cursor: pointer;
+  accent-color: var(--primary-color, #8b6b2f);
+}
+
+#profileLanguages .role-option > i {
+  flex: 0 0 auto;
+  color: var(--text-muted, #64748b);
+}
+
+#profileLanguages .role-option.is-selected > i {
+  color: var(--primary-color, #8b6b2f);
+}
+
+#profileLanguages .role-option strong {
+  min-width: 0;
+  color: var(--text-color, #1f2937);
+  font-size: .8rem;
+}
+
+.language-selection-mark {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%) scale(.75);
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: transparent;
+  border: 1px solid var(--border-color, rgba(31,41,55,.14));
+  transition: .18s ease;
+}
+
+#profileLanguages .role-option.is-selected .language-selection-mark {
+  background: var(--primary-color, #8b6b2f);
+  border-color: var(--primary-color, #8b6b2f);
+  color: #fff;
+  transform: translateY(-50%) scale(1);
+}
+
+.language-selection-summary {
+  margin-top: 12px;
+  padding: 11px 12px;
+  border: 1px solid var(--border-color, rgba(31,41,55,.10));
+  border-radius: 13px;
+  background: var(--surface-subtle, rgba(148,163,184,.06));
+}
+
+.language-selection-summary-label {
+  margin-bottom: 7px;
+  font-size: .68rem;
+  font-weight: 800;
+  color: var(--text-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.language-selection-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.language-selection-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--primary-color, #8b6b2f);
+  color: #fff;
+  font-size: .69rem;
+  font-weight: 700;
+}
+
+.language-selection-empty {
+  color: var(--text-muted, #64748b);
+  font-size: .72rem;
+}
+
+/* =========================================================
+   LESSON FORMAT
+   ========================================================= */
+
+.lesson-format-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lesson-format-options .role-option {
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid var(--border-color, rgba(31,41,55,.12));
+  border-radius: 14px;
+  padding: 10px;
+  background: var(--card-bg, #fff);
+}
+
+.lesson-format-options .role-option input {
+  accent-color: var(--primary-color, #8b6b2f);
+}
+
+.lesson-format-options .role-option:has(input:checked) {
+  border-color: var(--primary-color, #8b6b2f);
+  background: color-mix(in srgb, var(--primary-color, #8b6b2f) 8%, var(--card-bg, #fff));
+}
+
+/* =========================================================
+   STEP SPACING
+   ========================================================= */
+
+.profile-step .profile-subsection-heading {
+  margin-bottom: 22px;
+}
+
+.profile-step > .auth-field:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .profile-step-indicator {
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+
+  .profile-step-indicator-item {
+    min-width: 48px;
+  }
+
+  .profile-step-indicator-number {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profile-step-indicator-label {
+    font-size: .58rem;
+  }
+
+  .profile-step-indicator-line {
+    min-width: 10px;
+    margin-top: 14px;
+  }
+
+  #profileLanguages {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-format-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-step-indicator-number,
+  #profileLanguages .role-option,
+  .language-selection-mark {
+    transition: none;
+  }
+}
+
+[data-theme="dark"] #profileLanguages .role-option,
+[data-theme="dark"] .lesson-format-options .role-option {
+  background: var(--card-bg, #151a21);
+  border-color: var(--border-color, rgba(255,255,255,.08));
+}

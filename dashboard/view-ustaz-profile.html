@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FBF7EE" id="themeColorMeta">
+
+  <title>Ustaz Profile — BarakaLink</title>
+  <meta name="description" content="View a BarakaLink Ustaz profile, teaching fields, languages, experience, availability, and recitation.">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Existing student dashboard styling -->
+  <link rel="stylesheet" href="../css/student.css">
+
+  <!-- Dedicated stylesheet for this page -->
+  <link rel="stylesheet" href="../css/view-ustaz-profile.css">
+  <link rel="stylesheet" href="../css/inbox.css">
+</head>
+<body>
+
+  <div class="ustaz-profile-page">
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+    <header class="ustaz-profile-topbar">
+      <div class="ustaz-profile-topbar-inner">
+
+        <button type="button" class="ustaz-back-button" id="ustazBackButton" aria-label="Back to Find Ustaz">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Find Ustaz</span>
+        </button>
+
+        <div class="ustaz-profile-page-brand" aria-label="BarakaLink">
+          BarakaLink
+        </div>
+
+        <div class="ustaz-profile-top-actions">
+          <button type="button" class="ustaz-theme-button" id="ustazThemeToggle" aria-label="Switch theme">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+    <main class="ustaz-profile-main">
+
+      <!-- LOADING -->
+      <section class="ustaz-profile-loading" id="ustazProfileLoading" aria-live="polite">
+        <div class="ustaz-profile-loading-spinner"></div>
+        <h2>Loading Ustaz profile</h2>
+        <p>Please wait while we load this teacher's profile.</p>
+      </section>
+
+
+      <!-- ERROR -->
+      <section class="ustaz-profile-error" id="ustazProfileError" hidden aria-live="assertive">
+        <div class="ustaz-profile-error-icon">
+          <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+        </div>
+        <h2>We couldn't load this profile</h2>
+        <p id="ustazProfileErrorMessage">The Ustaz profile could not be loaded.</p>
+        <button type="button" class="ustaz-profile-retry" id="ustazProfileRetry">
+          <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+          Try again
+        </button>
+      </section>
+
+
+      <!-- PUBLIC PROFILE -->
+      <div class="ustaz-profile-content" id="ustazProfileContent">
+
+        <!-- =================================================
+             ONE MAIN USTAZ PROFILE CARD
+             Identity → Teaching fields → Stats → About →
+             Teaching approach → Languages → Lesson details →
+             Availability → Recitation sample → Save button
+        ================================================== -->
+        <section class="ustaz-maincard" id="ustazProfileMainCard">
+
+          <!-- IDENTITY -->
+          <div class="ustaz-card-section ustaz-identity">
+            <div class="ustaz-identity-row">
+
+              <div class="ustaz-profile-avatar" id="ustazProfileAvatar">
+                <span class="ustaz-profile-avatar-initials" id="ustazProfileInitials">
+                  U
+                </span>
+                <img id="ustazProfileImage" src="" alt="" hidden>
+              </div>
+
+              <div class="ustaz-identity-heading">
+
+                <h1 class="ustaz-profile-name" id="ustazProfileName">
+                  Ustaz
+                </h1>
+
+                <div class="ustaz-profile-role" id="ustazProfileRole">
+                  <i class="fa-solid fa-quran" aria-hidden="true"></i>
+                  Ustaz
+                </div>
+
+                <div class="ustaz-profile-meta">
+
+                  <span class="ustaz-profile-location" id="ustazProfileLocation">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    <span>Location not available</span>
+                  </span>
+
+                  <span class="ustaz-profile-meta-divider" id="ustazProfileMosqueDivider" aria-hidden="true">
+                    •
+                  </span>
+
+                  <span class="ustaz-profile-mosque-line" id="ustazProfileMosqueLine">
+                    <i class="fa-solid fa-mosque" aria-hidden="true"></i>
+                    Nearby mosque: <strong id="ustazProfileMosque">Not provided</strong>
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TEACHING FIELDS -->
+          <div class="ustaz-card-section" id="ustazStudyFieldsSection">
+            <h2 class="ustaz-card-heading">Teaching fields</h2>
+            <div class="ustaz-profile-fields" id="ustazProfileStudyFields">
+              <span class="ustaz-profile-field-empty">
+                No study fields listed.
+              </span>
+            </div>
+          </div>
+
+          <!-- STATS: price / experience / subjects -->
+          <div class="ustaz-card-section" id="ustazProfileStats">
+            <div class="ustaz-maincard-stats">
+
+              <div class="ustaz-stat-tile">
+                <small>Price per hour</small>
+                <strong id="ustazProfileHourlyRate">—</strong>
+              </div>
+
+              <div class="ustaz-stat-tile">
+                <small>Experience</small>
+                <strong id="ustazProfileExperience">Not provided</strong>
+              </div>
+
+              <div class="ustaz-stat-tile">
+                <small>Subjects</small>
+                <strong id="ustazProfileSubjectCount">Not provided</strong>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ABOUT -->
+          <div class="ustaz-card-section" id="ustazAboutSection">
+            <h2 class="ustaz-card-heading">About this Ustaz</h2>
+            <p class="ustaz-profile-bio" id="ustazProfileBio">
+              No biography has been provided.
+            </p>
+          </div>
+
+          <!-- TEACHING APPROACH -->
+          <div class="ustaz-card-section" id="ustazTeachingApproachSection">
+            <h2 class="ustaz-card-heading">Teaching approach</h2>
+            <p class="ustaz-profile-teaching-approach" id="ustazProfileTeachingApproach">
+              No teaching approach has been provided.
+            </p>
+          </div>
+
+          <!-- LANGUAGES -->
+          <div class="ustaz-card-section" id="ustazLanguagesSection">
+            <h2 class="ustaz-card-heading">Languages</h2>
+            <div class="ustaz-profile-languages" id="ustazProfileLanguages">
+              <span class="ustaz-profile-empty">
+                No languages listed.
+              </span>
+            </div>
+          </div>
+
+          <!-- LESSON DETAILS -->
+          <div class="ustaz-card-section" id="ustazLessonDetailsSection">
+            <h2 class="ustaz-card-heading">Lesson details</h2>
+            <div class="ustaz-profile-info-list">
+
+              <div class="ustaz-profile-info-row">
+                <div class="ustaz-profile-info-icon">
+                  <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                </div>
+                <div class="ustaz-profile-info-copy">
+                  <small>Lesson duration</small>
+                  <strong id="ustazProfileLessonDuration">Not provided</strong>
+                </div>
+              </div>
+
+              <div class="ustaz-profile-info-row">
+                <div class="ustaz-profile-info-icon">
+                  <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+                </div>
+                <div class="ustaz-profile-info-copy">
+                  <small>Lesson format</small>
+                  <strong id="ustazProfileLessonFormat">Not provided</strong>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- AVAILABILITY -->
+          <div class="ustaz-card-section" id="ustazAvailabilitySection">
+            <h2 class="ustaz-card-heading">Availability</h2>
+            <div class="ustaz-profile-availability" id="ustazProfileAvailability">
+              <div class="ustaz-profile-empty">
+                No availability has been provided.
+              </div>
+            </div>
+          </div>
+
+          <!-- QURAN RECITATION SAMPLE -->
+          <div class="ustaz-card-section" id="ustazRecitationSection">
+            <h2 class="ustaz-card-heading">Quran Recitation Sample</h2>
+            <div class="ustaz-profile-recitation">
+              <h3 class="ustaz-profile-recitation-title" id="ustazProfileRecitationTitle">
+                Recitation
+              </h3>
+              <p class="ustaz-profile-recitation-description" id="ustazProfileRecitationDescription">
+                No recitation description has been provided.
+              </p>
+              <audio class="ustaz-profile-audio" id="ustazProfileAudio" controls preload="metadata" hidden></audio>
+              <div class="ustaz-profile-audio-empty" id="ustazProfileAudioEmpty">
+                No recitation recording is available.
+              </div>
+            </div>
+          </div>
+
+          <!-- SAVE BUTTON -->
+          <div class="ustaz-card-section ustaz-card-save">
+            <button type="button" class="ustaz-profile-save-button" id="ustazProfileSaveButton" aria-label="Save this Ustaz">
+              <i class="fa-regular fa-bookmark" aria-hidden="true"></i>
+              <span id="ustazProfileSaveText">
+                Save Ustaz
+              </span>
+            </button>
+
+<button
+  type="button"
+  id="ustazProfileChatButton"
+  class="ustaz-profile-action ustaz-profile-chat"
+>
+  <i class="fa-regular fa-comment-dots" aria-hidden="true"></i>
+  <span>Chat Ustaz</span>
+</button>
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FUTURE CONTENT AREA — separate from the profile card
+        ================================================== -->
+        <section class="ustaz-updates-section" id="ustazUpdatesSection">
+          <h2 class="ustaz-updates-heading">Ustaz Updates</h2>
+          <p class="ustaz-updates-placeholder">
+            This teacher's teaching posts and updates will appear here.
+          </p>
+        </section>
+
+
+        <footer class="ustaz-profile-footer">
+          BarakaLink — Find trusted Quran teachers near you.
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Shared API helper -->
+  <script src="../js/api.js"></script>
+
+  <!-- Parent-facing Ustaz profile logic -->
+  <script src="../js/view-ustaz-profile.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1165 @@
+/* =========================================================
+   BARAKALINK — RESPONSIVE
+========================================================= */
+
+
+/* =========================================================
+   1050px
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .nav-links {
+    gap:
+      1.2rem;
+  }
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .footer-top {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   900px
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .nav-links {
+    display:
+      none;
+  }
+
+  .site-nav
+  > .nav-actions
+  > .btn-outline {
+    display:
+      none;
+  }
+
+  .mobile-toggle {
+    display:
+      grid;
+  }
+
+  .hero-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .hero-copy {
+    max-width:
+      760px;
+  }
+
+  .hero-visual {
+    min-height:
+      450px;
+  }
+
+  .why-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .why-visual {
+    order:
+      2;
+  }
+
+  .steps {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+/* =========================================================
+   800px
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .contact-layout {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+/* =========================================================
+   768px
+========================================================= */
+
+@media (max-width: 768px) {
+
+  /* Hide signup button beside mobile menu */
+
+  .nav-actions .btn {
+    display:
+      none;
+  }
+}
+
+
+/* =========================================================
+   720px
+========================================================= */
+
+@media (max-width: 720px) {
+
+  .discovery-box {
+    grid-template-columns:
+      1fr;
+  }
+
+  /* ---------------------------------------------------------
+     STUDY FIELDS
+     2 cards per row
+  --------------------------------------------------------- */
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .9rem;
+  }
+
+  /* ---------------------------------------------------------
+     OTHER GRIDS
+  --------------------------------------------------------- */
+
+  .audience-grid,
+  .blog-grid,
+  .contact-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  /* ---------------------------------------------------------
+     COMMUNITY
+  --------------------------------------------------------- */
+
+  .community-stats {
+    grid-template-columns:
+      1fr;
+  }
+
+  .stat + .stat {
+
+    border-left:
+      0;
+
+    border-top:
+      1px solid
+      var(--border);
+  }
+
+  /* ---------------------------------------------------------
+     FOOTER
+  --------------------------------------------------------- */
+
+  .footer-top {
+    grid-template-columns:
+      1fr;
+  }
+
+  .footer-bottom {
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+  }
+}
+
+
+/* =========================================================
+   600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+  /* =======================================================
+     POPULAR QURAN TEACHERS
+     2 cards per row
+  ======================================================= */
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .8rem;
+  }
+
+  /* -------------------------------------------------------
+     Teacher card
+     Near-square without clipping content.
+  ------------------------------------------------------- */
+
+  .teacher-card {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    max-width:
+      none;
+
+    height:
+      auto;
+
+    min-height:
+      0;
+
+    transform:
+      none;
+  }
+
+  /* -------------------------------------------------------
+     Teacher image
+  ------------------------------------------------------- */
+
+  .popular-teacher-image {
+    height:
+      125px;
+
+    min-height:
+      0;
+  }
+
+  /* -------------------------------------------------------
+     Teacher body
+  ------------------------------------------------------- */
+
+  .teacher-card-body {
+    padding:
+      .6rem;
+  }
+
+  /* -------------------------------------------------------
+     Teacher name
+  ------------------------------------------------------- */
+
+  .teacher-card-body h3 {
+    margin:
+      0 0 .25rem;
+
+    font-size:
+      .78rem;
+
+    line-height:
+      1.15;
+
+    font-weight:
+      700;
+  }
+
+  /* -------------------------------------------------------
+     General teacher information
+  ------------------------------------------------------- */
+
+  .teacher-card-body p {
+    margin:
+      0;
+
+    font-size:
+      .64rem;
+
+    line-height:
+      1.25;
+  }
+
+  /* -------------------------------------------------------
+     Study tags
+  ------------------------------------------------------- */
+
+  .teacher-card .study-fields,
+  .teacher-card .teacher-fields,
+  .teacher-card .teacher-studies,
+  .teacher-card .study-tags {
+    font-size:
+      .58rem;
+
+    line-height:
+      1.2;
+  }
+
+  /* -------------------------------------------------------
+     Rating
+  ------------------------------------------------------- */
+
+  .teacher-card .rating,
+  .teacher-card .teacher-rating {
+    font-size:
+      .62rem;
+  }
+
+  /* -------------------------------------------------------
+     Location
+  ------------------------------------------------------- */
+
+  .teacher-card .location,
+  .teacher-card .teacher-location {
+    font-size:
+      .61rem;
+
+    line-height:
+      1.2;
+  }
+
+  /* -------------------------------------------------------
+     Experience
+  ------------------------------------------------------- */
+
+  .teacher-card .experience,
+  .teacher-card .teacher-experience {
+    font-size:
+      .6rem;
+
+    line-height:
+      1.2;
+  }
+
+  /* -------------------------------------------------------
+     Footer
+  ------------------------------------------------------- */
+
+  .teacher-card-footer {
+    padding:
+      .45rem .6rem;
+
+    gap:
+      .3rem;
+  }
+
+  /* -------------------------------------------------------
+     View Profile
+  ------------------------------------------------------- */
+
+  .teacher-card .btn,
+  .teacher-card-footer .btn,
+  .teacher-card-footer a,
+  .teacher-card-footer button {
+    font-size:
+      .62rem;
+
+    line-height:
+      1;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* =======================================================
+     QURAN STUDY FIELD CARDS
+     2 per row
+  ======================================================= */
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .8rem;
+  }
+
+  .field-card {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    height:
+      175px;
+
+    min-height:
+      175px;
+
+    padding:
+      .8rem;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      center;
+
+    justify-content:
+      flex-start;
+
+    text-align:
+      center;
+
+    overflow:
+      visible;
+  }
+
+  /* -------------------------------------------------------
+     Study field icon
+  ------------------------------------------------------- */
+
+  .field-card i {
+    flex:
+      0 0 auto;
+
+    display:
+      block;
+
+    font-size:
+      1.35rem;
+
+    margin:
+      0 0 .45rem;
+  }
+
+  /* -------------------------------------------------------
+     Study field title
+  ------------------------------------------------------- */
+
+  .field-card h3 {
+    flex:
+      0 0 auto;
+
+    margin:
+      0 0 .35rem;
+
+    font-size:
+      .82rem;
+
+    line-height:
+      1.15;
+  }
+
+  /* -------------------------------------------------------
+     Study field description
+  ------------------------------------------------------- */
+
+  .field-card p {
+    flex:
+      0 0 auto;
+
+    margin:
+      0;
+
+    font-size:
+      .66rem;
+
+    line-height:
+      1.3;
+  }
+
+  /* -------------------------------------------------------
+     Study field View button
+  ------------------------------------------------------- */
+
+  .field-card .btn,
+  .field-card a,
+  .field-card button {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex:
+      0 0 auto;
+
+    margin-top:
+      .55rem;
+
+    font-size:
+      .65rem;
+
+    line-height:
+      1;
+
+    white-space:
+      nowrap;
+
+    visibility:
+      visible;
+
+    opacity:
+      1;
+  }
+
+
+  /* =======================================================
+     SECTION HEADINGS
+  ======================================================= */
+
+  .section-heading h2 {
+    font-size:
+      1.35rem;
+
+    line-height:
+      1.2;
+  }
+
+  .section-heading p {
+    font-size:
+      .78rem;
+
+    line-height:
+      1.4;
+  }
+
+  /* Popular Quran Teachers specifically */
+
+  .popular-teachers .section-heading h2 {
+    font-size:
+      1.35rem;
+  }
+
+  .popular-teachers .section-heading p {
+    font-size:
+      .76rem;
+
+    line-height:
+      1.35;
+  }
+
+  /* Study fields specifically */
+
+  .study-fields .section-heading h2 {
+    font-size:
+      1.35rem;
+  }
+
+  .study-fields .section-heading p {
+    font-size:
+      .76rem;
+
+    line-height:
+      1.35;
+  }
+}
+
+
+/* =========================================================
+   550px
+========================================================= */
+
+@media (max-width: 550px) {
+
+  .contact-form-row {
+    grid-template-columns:
+      1fr;
+  }
+
+  .contact-information,
+  .contact-form-wrapper {
+    padding:
+      1.35rem;
+  }
+}
+
+
+/* =========================================================
+   520px
+========================================================= */
+
+@media (max-width: 520px) {
+
+  .site-nav {
+    padding-inline:
+      1rem;
+  }
+
+  .nav-actions {
+    gap:
+      .2rem;
+  }
+
+  .logo {
+    font-size:
+      1.2rem;
+  }
+
+  .logo-mark {
+    width:
+      30px;
+
+    height:
+      30px;
+  }
+
+  /* -------------------------------------------------------
+     Hero
+  ------------------------------------------------------- */
+
+  .hero-actions {
+    flex-direction:
+      column;
+  }
+
+  .hero-actions .btn {
+    width:
+      100%;
+  }
+
+  .hero-trust {
+    align-items:
+      flex-start;
+  }
+
+
+  /* =======================================================
+     STUDY FIELD CARDS
+  ======================================================= */
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .7rem;
+  }
+
+  .field-card {
+    height:
+      165px;
+
+    min-height:
+      165px;
+
+    padding:
+      .7rem;
+  }
+
+  .field-card i {
+    font-size:
+      1.25rem;
+
+    margin-bottom:
+      .4rem;
+  }
+
+  .field-card h3 {
+    font-size:
+      .76rem;
+
+    line-height:
+      1.1;
+
+    margin-bottom:
+      .3rem;
+  }
+
+  .field-card p {
+    font-size:
+      .61rem;
+
+    line-height:
+      1.23;
+  }
+
+  .field-card .btn,
+  .field-card a,
+  .field-card button {
+    margin-top:
+      .45rem;
+
+    font-size:
+      .62rem;
+
+    padding:
+      .4rem .6rem;
+  }
+
+
+  /* =======================================================
+     TEACHER CARDS
+  ======================================================= */
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .7rem;
+  }
+
+  .teacher-card {
+    width:
+      100%;
+
+    height:
+      auto;
+  }
+
+  .popular-teacher-image {
+    height:
+      118px;
+  }
+
+  .teacher-card-body {
+    padding:
+      .5rem;
+  }
+
+  /* Smaller Ustaz name */
+
+  .teacher-card-body h3 {
+    font-size:
+      .7rem;
+
+    line-height:
+      1.1;
+
+    margin-bottom:
+      .2rem;
+  }
+
+  /* Smaller text */
+
+  .teacher-card-body p {
+    font-size:
+      .59rem;
+
+    line-height:
+      1.2;
+  }
+
+  /* Study tags */
+
+  .teacher-card .study-fields,
+  .teacher-card .teacher-fields,
+  .teacher-card .teacher-studies,
+  .teacher-card .study-tags {
+    font-size:
+      .55rem;
+
+    line-height:
+      1.15;
+  }
+
+  /* Rating */
+
+  .teacher-card .rating,
+  .teacher-card .teacher-rating {
+    font-size:
+      .58rem;
+  }
+
+  /* Location */
+
+  .teacher-card .location,
+  .teacher-card .teacher-location {
+    font-size:
+      .57rem;
+
+    line-height:
+      1.15;
+  }
+
+  /* Experience */
+
+  .teacher-card .experience,
+  .teacher-card .teacher-experience {
+    font-size:
+      .56rem;
+
+    line-height:
+      1.15;
+  }
+
+  .teacher-card-footer {
+    padding:
+      .4rem .5rem;
+  }
+
+  .teacher-card .btn,
+  .teacher-card-footer .btn,
+  .teacher-card-footer a,
+  .teacher-card-footer button {
+    font-size:
+      .58rem;
+
+    padding:
+      .4rem .55rem;
+  }
+
+
+  /* =======================================================
+     SECTION HEADINGS
+  ======================================================= */
+
+  .section-heading h2 {
+    font-size:
+      1.25rem;
+
+    line-height:
+      1.18;
+  }
+
+  .section-heading p {
+    font-size:
+      .72rem;
+
+    line-height:
+      1.32;
+  }
+
+  .popular-teachers .section-heading h2,
+  .study-fields .section-heading h2 {
+    font-size:
+      1.25rem;
+  }
+
+  .popular-teachers .section-heading p,
+  .study-fields .section-heading p {
+    font-size:
+      .7rem;
+
+    line-height:
+      1.3;
+  }
+
+
+  /* =======================================================
+     HERO VISUAL
+  ======================================================= */
+
+  .search-card {
+    left:
+      2%;
+
+    bottom:
+      15px;
+
+    width:
+      190px;
+  }
+
+  .hero-visual {
+    min-height:
+      410px;
+  }
+
+  .why-circle {
+    width:
+      280px;
+
+    height:
+      280px;
+  }
+
+
+  /* =======================================================
+     AUTH
+  ======================================================= */
+
+  .name-row,
+  .role-options {
+    grid-template-columns:
+      1fr;
+  }
+
+  .auth-box {
+    max-height:
+      94dvh;
+
+    padding:
+      1.15rem;
+
+    border-radius:
+      22px;
+  }
+
+  .teacher-card-footer {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+}
+
+
+/* =========================================================
+   420px
+========================================================= */
+
+@media (max-width: 420px) {
+
+  /* =======================================================
+     STUDY FIELD CARDS
+  ======================================================= */
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .55rem;
+  }
+
+  .field-card {
+    height:
+      155px;
+
+    min-height:
+      155px;
+
+    padding:
+      .6rem;
+  }
+
+  .field-card i {
+    font-size:
+      1.15rem;
+
+    margin-bottom:
+      .3rem;
+  }
+
+  .field-card h3 {
+    font-size:
+      .69rem;
+
+    line-height:
+      1.08;
+  }
+
+  .field-card p {
+    font-size:
+      .55rem;
+
+    line-height:
+      1.18;
+  }
+
+  .field-card .btn,
+  .field-card a,
+  .field-card button {
+    margin-top:
+      .35rem;
+
+    font-size:
+      .57rem;
+
+    padding:
+      .38rem .55rem;
+
+    display:
+      inline-flex;
+
+    visibility:
+      visible;
+
+    opacity:
+      1;
+  }
+
+
+  /* =======================================================
+     TEACHER CARDS
+  ======================================================= */
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .55rem;
+  }
+
+  .popular-teacher-image {
+    height:
+      108px;
+  }
+
+  .teacher-card-body {
+    padding:
+      .42rem;
+  }
+
+  /* Very small teacher name */
+
+  .teacher-card-body h3 {
+    font-size:
+      .64rem;
+
+    line-height:
+      1.08;
+
+    margin-bottom:
+      .18rem;
+  }
+
+  .teacher-card-body p {
+    font-size:
+      .54rem;
+
+    line-height:
+      1.16;
+  }
+
+  .teacher-card .study-fields,
+  .teacher-card .teacher-fields,
+  .teacher-card .teacher-studies,
+  .teacher-card .study-tags {
+    font-size:
+      .5rem;
+
+    line-height:
+      1.1;
+  }
+
+  .teacher-card .rating,
+  .teacher-card .teacher-rating {
+    font-size:
+      .53rem;
+  }
+
+  .teacher-card .location,
+  .teacher-card .teacher-location {
+    font-size:
+      .52rem;
+
+    line-height:
+      1.1;
+  }
+
+  .teacher-card .experience,
+  .teacher-card .teacher-experience {
+    font-size:
+      .51rem;
+
+    line-height:
+      1.1;
+  }
+
+  .teacher-card-footer {
+    padding:
+      .32rem .42rem;
+  }
+
+  .teacher-card .btn,
+  .teacher-card-footer .btn,
+  .teacher-card-footer a,
+  .teacher-card-footer button {
+    font-size:
+      .54rem;
+
+    padding:
+      .37rem .5rem;
+  }
+
+
+  /* =======================================================
+     SECTION HEADINGS
+  ======================================================= */
+
+  .section-heading h2 {
+    font-size:
+      1.12rem;
+
+    line-height:
+      1.15;
+  }
+
+  .section-heading p {
+    font-size:
+      .67rem;
+
+    line-height:
+      1.28;
+  }
+
+  .popular-teachers .section-heading h2,
+  .study-fields .section-heading h2 {
+    font-size:
+      1.12rem;
+  }
+
+  .popular-teachers .section-heading p,
+  .study-fields .section-heading p {
+    font-size:
+      .66rem;
+
+    line-height:
+      1.25;
+  }
+
+
+  /* =======================================================
+     POPULAR TEACHERS VIEW BUTTON
+  ======================================================= */
+
+  .popular-teacher-footer {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .popular-view-btn {
+    display:
+      inline-flex;
+
+    width:
+      100%;
+
+    visibility:
+      visible;
+
+    opacity:
+      1;
+
+    font-size:
+      .62rem;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    scroll-behavior:
+      auto !important;
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+  }
+}

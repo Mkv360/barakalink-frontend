@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <title>Student Dashboard — BarakaLink</title>
+
+  <meta
+    name="description"
+    content="BarakaLink parent and student dashboard for discovering Ustaz and Ustaza, managing learning preferences, and accessing Islamic learning resources."
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+  >
+
+  <meta
+    name="theme-color"
+    content="#FBF7EE"
+    id="themeColorMeta"
+  >
+
+  <meta
+    name="color-scheme"
+    content="light dark"
+  >
+
+
+  <!-- =========================================================
+       FONTS
+  ========================================================== -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =========================================================
+       SHARED BARAKALINK CSS
+  ========================================================== -->
+  <link
+    rel="stylesheet"
+    href="../css/variables.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/base.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/components.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/landing.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/teachers.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/auth.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/dashboard.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/responsive.css"
+  >
+
+
+  <!-- =========================================================
+       STUDENT DASHBOARD CSS
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="../css/student.css"
+  >
+  <!-- =========================================================
+       STUDENT PROFILE / RESPONSIVE OVERRIDES
+  ========================================================== -->
+  <link
+    rel="stylesheet"
+    href="../css/student-profile.css"
+  >
+
+
+  <!-- =========================================================
+       FONT AWESOME
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================================
+       APP SHELL
+  ========================================================== -->
+
+  <div
+    class="student-dashboard"
+    id="studentDashboard"
+  >
+
+
+    <!-- =======================================================
+         MOBILE SIDEBAR OVERLAY
+    ======================================================== -->
+
+    <div
+      class="student-sidebar-overlay"
+      id="studentSidebarOverlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <!-- =======================================================
+         SIDEBAR
+    ======================================================== -->
+
+    <aside
+      class="student-sidebar"
+      id="studentSidebar"
+      aria-label="Student dashboard navigation"
+    >
+
+
+      <!-- SIDEBAR HEADER -->
+
+      <div class="student-sidebar-header">
+
+        <a
+          href="../index.html"
+          class="student-logo"
+          aria-label="BarakaLink home"
+        >
+
+          <svg
+            class="student-logo-mark"
+            viewBox="0 0 40 40"
+            fill="none"
+            aria-hidden="true"
+          >
+
+            <circle
+              cx="20"
+              cy="20"
+              r="13.5"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <circle
+              cx="20"
+              cy="6"
+              r="2.7"
+              fill="currentColor"
+            />
+
+            <circle
+              cx="34"
+              cy="20"
+              r="2.3"
+              fill="white"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+
+            <circle
+              cx="20"
+              cy="34"
+              r="2.3"
+              fill="white"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+
+            <circle
+              cx="6"
+              cy="20"
+              r="2.3"
+              fill="white"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+
+          </svg>
+
+          <span>
+            BarakaLink
+          </span>
+
+        </a>
+
+
+        <!-- MOBILE CLOSE -->
+
+        <button
+          type="button"
+          class="student-sidebar-close"
+          id="studentSidebarClose"
+          aria-label="Close navigation"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+      </div>
+
+
+      <!-- MOBILE SIDEBAR PROFILE -->
+
+      <button
+        type="button"
+        class="student-sidebar-account student-sidebar-profile-trigger"
+        id="studentSidebarProfileButton"
+        aria-label="Open your profile"
+        aria-expanded="false"
+        aria-controls="studentProfileMenu"
+      >
+
+        <span
+          class="student-sidebar-avatar"
+          id="studentSidebarAvatar"
+          data-user-avatar
+        >
+
+          <span
+            id="studentSidebarAvatarInitials"
+          >
+            BL
+          </span>
+
+          <img
+            id="studentSidebarAvatarImage"
+            src=""
+            alt="Your profile photo"
+            data-user-avatar-image
+            hidden
+          >
+
+        </span>
+
+        <span class="student-sidebar-account-copy">
+
+          <strong
+            id="studentSidebarName"
+            data-user-name
+          >
+            BarakaLink User
+          </strong>
+
+          <span
+            class="student-sidebar-account-label"
+            id="studentSidebarRole"
+          >
+            Parent / Student
+          </span>
+
+          <small
+            class="student-sidebar-account-bio"
+            id="studentSidebarBio"
+            data-user-bio
+          ></small>
+
+        </span>
+
+        <i
+          class="fa-solid fa-chevron-down student-sidebar-profile-chevron"
+          aria-hidden="true"
+        ></i>
+
+      </button>
+
+
+      <!-- SHARED PROFILE PANEL -->
+
+      <div
+        class="student-profile-menu"
+        id="studentProfileMenu"
+        hidden
+      >
+
+        <div class="student-profile-menu-header">
+
+          <div
+            class="student-profile-menu-avatar"
+            id="studentProfileMenuAvatar"
+            data-user-avatar
+          >
+
+            <span
+              id="studentProfileMenuInitials"
+            >
+              BL
+            </span>
+
+            <img
+              id="studentProfileMenuImage"
+              src=""
+              alt="Your profile photo"
+              data-user-avatar-image
+              hidden
+            >
+
+          </div>
+
+          <div class="student-profile-menu-heading">
+
+            <strong
+              id="studentProfileMenuName"
+              data-user-name
+            >
+              BarakaLink User
+            </strong>
+
+            <span
+              id="studentProfileMenuRole"
+            >
+              Parent / Student
+            </span>
+
+            <span
+              class="student-profile-verified"
+              id="studentProfileMenuVerification"
+            >
+              Verification status
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="student-profile-menu-divider"></div>
+
+
+        <div class="student-profile-menu-actions">
+
+          <a
+            href="profile.html"
+            class="student-profile-menu-link student-profile-edit-link"
+          >
+            <i class="fa-regular fa-pen-to-square"></i>
+            <span>Edit Profile</span>
+          </a>
+
+          <a
+            href="#teachers"
+            class="student-profile-menu-link"
+            data-section-link="teachers"
+          >
+            <i class="fa-solid fa-user-group"></i>
+            <span>Find Ustaz</span>
+          </a>
+
+          <button
+            type="button"
+            class="student-profile-menu-link student-profile-menu-logout"
+            id="studentMenuLogout"
+          >
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Logout</span>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           NAVIGATION
+      ====================================================== -->
+
+      <nav class="student-sidebar-nav">
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Dashboard
+          </span>
+
+
+          <a
+            href="#home"
+            class="student-nav-link active"
+            data-section="home"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-house"></i>
+            </span>
+
+            <span>
+              Home
+            </span>
+
+          </a>
+
+
+          <a
+            href="#teachers"
+            class="student-nav-link"
+            data-section="teachers"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-user-group"></i>
+            </span>
+
+            <span>
+              Find Ustaz
+            </span>
+
+          </a>
+
+
+          <a
+            href="#learning"
+            class="student-nav-link"
+            data-section="learning"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-book-open-reader"></i>
+            </span>
+
+            <span>
+              My Learning
+            </span>
+
+          </a>
+
+
+          <a
+            href="#saved"
+            class="student-nav-link"
+            data-section="saved"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-regular fa-bookmark"></i>
+            </span>
+
+            <span>
+              Saved Teachers
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Explore
+          </span>
+
+
+          <a
+            href="#content"
+            class="student-nav-link"
+            data-section="content"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-mosque"></i>
+            </span>
+
+            <span>
+              Islamic Content
+            </span>
+
+          </a>
+
+
+          <a
+            href="#teachers"
+            class="student-nav-link"
+            data-teacher-filter="study"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-compass"></i>
+            </span>
+
+            <span>
+              Study Fields
+            </span>
+
+          </a>
+
+        </div>
+
+
+
+      </nav>
+
+
+      <!-- SIDEBAR FOOTER -->
+
+      <div class="student-sidebar-footer">
+
+        <button
+          type="button"
+          class="student-sidebar-logout"
+          id="studentSidebarLogout"
+        >
+
+          <span class="student-nav-icon">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </span>
+
+          <span>
+            Logout
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =======================================================
+         MAIN CONTENT
+    ======================================================== -->
+
+    <div class="student-main">
+
+
+      <!-- =====================================================
+           TOPBAR
+      ====================================================== -->
+
+      <header class="student-topbar">
+
+
+        <div class="student-topbar-left">
+
+
+          <!-- MOBILE MENU -->
+
+          <button
+            type="button"
+            class="student-menu-toggle"
+            id="studentMenuToggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="studentSidebar"
+          >
+
+            <i class="fa-solid fa-bars"></i>
+
+          </button>
+
+
+          <!-- PAGE TITLE -->
+
+          <div class="student-topbar-heading">
+
+            <span id="studentSectionEyebrow">
+              Dashboard
+            </span>
+
+            <h2 id="studentSectionTitle">
+              Home
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <!-- TOPBAR ACTIONS -->
+
+        <div class="student-topbar-actions">
+
+
+          <!-- THEME -->
+
+          <button
+            type="button"
+            class="icon-button student-topbar-icon"
+            id="themeToggle"
+            aria-label="Switch to dark theme"
+          >
+
+            <i class="fa-solid fa-moon"></i>
+
+          </button>
+
+
+          <!-- NOTIFICATIONS -->
+
+          <button
+            type="button"
+            class="student-topbar-icon notification-button"
+            id="studentNotificationButton"
+            aria-label="Notifications"
+            aria-expanded="false"
+          >
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span
+              class="student-notification-badge"
+              id="studentNotificationBadge"
+              hidden
+            >
+              0
+            </span>
+
+          </button>
+
+
+          <!-- PROFILE -->
+
+          <button
+            type="button"
+            class="student-profile-button"
+            id="studentAvatarButton"
+            aria-label="Open profile menu"
+            aria-expanded="false"
+          >
+
+            <span
+              class="student-avatar"
+              id="studentAvatar"
+            >
+
+              <span id="studentAvatarInitials">
+                BL
+              </span>
+
+              <img
+                id="studentAvatarImage"
+                src=""
+                alt=""
+                hidden
+              >
+
+            </span>
+
+
+            <span class="student-profile-copy">
+
+              <strong id="studentTopbarName">
+                BarakaLink User
+              </strong>
+
+              <small id="studentTopbarRole">
+                Parent / Student
+              </small>
+
+            </span>
+
+
+            <i class="fa-solid fa-chevron-down student-profile-chevron"></i>
+
+          </button>
+
+
+        </div>
+
+
+        <!-- NOTIFICATION PANEL -->
+
+        <div
+          class="student-notification-panel"
+          id="studentNotificationPanel"
+          hidden
+        >
+
+          <div class="student-notification-header">
+
+            <div>
+
+              <strong>
+                Notifications
+              </strong>
+
+              <span>
+                Stay updated with your learning activity.
+              </span>
+
+            </div>
+
+            <button
+              type="button"
+              class="student-notification-clear"
+              id="studentNotificationClear"
+            >
+              Clear
+            </button>
+
+          </div>
+
+
+          <div
+            class="student-notification-list"
+            id="studentNotificationList"
+          >
+
+            <div class="student-notification-empty">
+
+              <div class="student-notification-empty-icon">
+                <i class="fa-regular fa-bell"></i>
+              </div>
+
+              <strong>
+                No new notifications
+              </strong>
+
+              <p>
+                New learning and teacher updates will appear here.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- =====================================================
+           PAGE SCROLL AREA
+      ====================================================== -->
+
+      <main class="student-content">
+
+        <!-- ===================================================
+             GLOBAL DASHBOARD STATUS
+        ==================================================== -->
+
+        <div
+          class="student-page-status"
+          aria-live="polite"
+        >
+
+          <div
+            class="student-page-loading"
+            id="studentPageLoading"
+            hidden
+          >
+
+            <div class="student-page-loading-spinner">
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </div>
+
+            <span>
+              Loading your BarakaLink dashboard...
+            </span>
+
+          </div>
+
+
+          <div
+            class="student-page-error"
+            id="studentPageError"
+            hidden
+          >
+
+            <div class="student-page-error-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <div>
+
+              <strong>
+                Something went wrong
+              </strong>
+
+              <p id="studentPageErrorMessage">
+                We could not load your dashboard.
+              </p>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="btn btn-outline"
+              id="studentPageRetry"
+            >
+              Try Again
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ===================================================
+             HOME SECTION
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="home"
+          data-section-panel="home"
+        >
+
+
+          <!-- WELCOME -->
+
+          <div class="student-welcome-card">
+
+
+            <div class="student-welcome-copy">
+
+              <div class="student-eyebrow">
+                <i class="fa-solid fa-hand-sparkles"></i>
+                Welcome to BarakaLink
+              </div>
+
+
+              <h1>
+                <span id="studentWelcomeText">
+                  Welcome back
+                </span>
+              </h1>
+
+
+              <p>
+                Discover Ustaz and Ustaza based on your study interests,
+                preferred teaching style, and registered location.
+              </p>
+
+
+              <div class="student-welcome-actions">
+
+                <a
+                  href="#teachers"
+                  class="btn btn-primary"
+                  data-section-link="teachers"
+                >
+                  Find a Ustaz
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+
+                <a
+                  href="profile.html"
+                  class="btn btn-outline"
+                >
+                  Edit Preferences
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <div class="student-welcome-visual">
+
+              <div class="student-welcome-orbit student-orbit-one"></div>
+
+              <div class="student-welcome-orbit student-orbit-two"></div>
+
+              <div class="student-welcome-symbol">
+
+                <i class="fa-solid fa-book-quran"></i>
+
+              </div>
+
+              <span class="student-welcome-dot dot-one"></span>
+              <span class="student-welcome-dot dot-two"></span>
+              <span class="student-welcome-dot dot-three"></span>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================================
+               PROFILE SUMMARY
+          ================================================== -->
+
+          <div class="student-summary-grid">
+
+
+            <!-- LOCATION -->
+
+            <article class="student-summary-card">
+
+              <div class="student-summary-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+
+              <div class="student-summary-copy">
+
+                <span>
+                  Your location
+                </span>
+
+                <strong id="studentLocation">
+                  Not set
+                </strong>
+
+                <small>
+                  Used for nearby teacher discovery
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <!-- NEAREST MOSQUE -->
+
+            <article class="student-summary-card">
+
+              <div class="student-summary-icon">
+                <i class="fa-solid fa-mosque"></i>
+              </div>
+
+              <div class="student-summary-copy">
+
+                <span>
+                  Nearest mosque
+                </span>
+
+                <strong id="studentNearestMosque">
+                  Not set
+                </strong>
+
+                <small>
+                  Your saved nearby mosque
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <!-- STUDY INTERESTS -->
+
+            <article class="student-summary-card">
+
+              <div class="student-summary-icon">
+                <i class="fa-solid fa-book-open"></i>
+              </div>
+
+              <div class="student-summary-copy">
+
+                <span>
+                  Study interests
+                </span>
+
+                <strong id="studentStudyCount">
+                  0
+                </strong>
+
+                <small>
+                  Selected study fields
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <!-- TEACHER GENDER -->
+
+            <article class="student-summary-card">
+
+              <div class="student-summary-icon">
+                <i class="fa-solid fa-user-group"></i>
+              </div>
+
+              <div class="student-summary-copy">
+
+                <span>
+                  Teacher preference
+                </span>
+
+                <strong id="studentGenderPreference">
+                  No preference
+                </strong>
+
+                <small>
+                  Used to shape recommendations
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <!-- CONTENT INTERESTS -->
+
+            <article class="student-summary-card">
+
+              <div class="student-summary-icon">
+                <i class="fa-solid fa-mosque"></i>
+              </div>
+
+              <div class="student-summary-copy">
+
+                <span>
+                  Islamic topics
+                </span>
+
+                <strong id="studentContentCount">
+                  0
+                </strong>
+
+                <small>
+                  Selected content interests
+                </small>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- =================================================
+               INTERESTS
+          ================================================== -->
+
+          <div class="student-two-column-grid">
+
+
+            <!-- STUDY FIELDS -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Learning
+                  </span>
+
+                  <h2>
+                    Your study interests
+                  </h2>
+
+                </div>
+
+
+                <a
+                  href="profile.html"
+                  class="student-panel-link"
+                >
+                  Edit
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+
+              </div>
+
+
+              <div
+                class="student-chip-list"
+                id="studentStudyInterests"
+              >
+
+                <div class="student-chip-empty">
+
+                  <i class="fa-solid fa-book-open"></i>
+
+                  <span>
+                    No study fields selected yet.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <!-- ISLAMIC CONTENT -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Explore
+                  </span>
+
+                  <h2>
+                    Islamic content interests
+                  </h2>
+
+                </div>
+
+
+                <a
+                  href="profile.html"
+                  class="student-panel-link"
+                >
+                  Edit
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+
+              </div>
+
+
+              <div
+                class="student-chip-list"
+                id="studentContentInterests"
+              >
+
+                <div class="student-chip-empty">
+
+                  <i class="fa-solid fa-mosque"></i>
+
+                  <span>
+                    No content interests selected yet.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- =================================================
+               QUICK ACTIONS
+          ================================================== -->
+
+          <div class="student-section-heading-row">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Quick access
+              </span>
+
+              <h2>
+                Continue learning
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="student-quick-grid">
+
+
+            <a
+              href="#teachers"
+              class="student-quick-card"
+              data-section-link="teachers"
+            >
+
+              <span class="student-quick-icon">
+                <i class="fa-solid fa-user-group"></i>
+              </span>
+
+              <span class="student-quick-copy">
+
+                <strong>
+                  Find an Ustaz
+                </strong>
+
+                <small>
+                  Browse teachers near your registered area.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right student-quick-arrow"></i>
+
+            </a>
+
+
+            <a
+              href="#learning"
+              class="student-quick-card"
+              data-section-link="learning"
+            >
+
+              <span class="student-quick-icon">
+                <i class="fa-solid fa-book-open-reader"></i>
+              </span>
+
+              <span class="student-quick-copy">
+
+                <strong>
+                  My Learning
+                </strong>
+
+                <small>
+                  Review your current learning activity.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right student-quick-arrow"></i>
+
+            </a>
+
+
+            <a
+              href="#content"
+              class="student-quick-card"
+              data-section-link="content"
+            >
+
+              <span class="student-quick-icon">
+                <i class="fa-solid fa-mosque"></i>
+              </span>
+
+              <span class="student-quick-copy">
+
+                <strong>
+                  Islamic Content
+                </strong>
+
+                <small>
+                  Explore Quran, Hadith, Tafseer and more.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right student-quick-arrow"></i>
+
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             FIND TEACHERS SECTION
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="teachers"
+          data-section-panel="teachers"
+          hidden
+        >
+
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Teacher Discovery
+              </span>
+
+              <h1>
+                Find your Ustaz
+              </h1>
+
+              <p>
+                Discover teachers based on your study interests,
+                preferred gender, and registered location.
+              </p>
+
+            </div>
+
+
+            <a
+              href="profile.html"
+              class="btn btn-outline"
+            >
+              Update Preferences
+            </a>
+
+          </div>
+
+
+          <!-- DISCOVERY INFO -->
+
+          <div class="student-discovery-note">
+
+            <div class="student-discovery-note-icon">
+              <i class="fa-solid fa-location-crosshairs"></i>
+            </div>
+
+            <div>
+
+              <strong>
+                Nearby teachers appear first
+              </strong>
+
+              <p>
+                Your registered sub-city and area are used to organize
+                teacher discovery from nearest to farther locations.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- FILTERS -->
+
+          <div class="student-filter-bar">
+
+            <div class="student-filter-group">
+
+              <button
+                type="button"
+                class="student-filter active"
+                data-teacher-filter="all"
+              >
+                All Teachers
+              </button>
+
+              <button
+                type="button"
+                class="student-filter"
+                data-teacher-filter="male"
+              >
+                Ustaz
+              </button>
+
+              <button
+                type="button"
+                class="student-filter"
+                data-teacher-filter="female"
+              >
+                Ustaza
+              </button>
+
+              <button
+                type="button"
+                class="student-filter"
+                data-teacher-filter="study"
+              >
+                My Study Fields
+              </button>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="student-sort-button"
+              id="studentSortButton"
+            >
+
+              <i class="fa-solid fa-arrow-down-wide-short"></i>
+
+              <span>
+                Nearest first
+              </span>
+
+            </button>
+
+          </div>
+
+
+          <!-- SEARCH -->
+
+          <div class="student-search-card">
+
+            <label
+              for="studentTeacherSearch"
+              class="student-search-label"
+            >
+              Search teachers
+            </label>
+
+
+            <div class="student-search-input-wrap">
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="search"
+                id="studentTeacherSearch"
+                name="teacher_search"
+                placeholder="Search by name or study field..."
+                autocomplete="off"
+              >
+
+              <button
+                type="button"
+                id="studentTeacherSearchClear"
+                class="student-search-clear"
+                aria-label="Clear search"
+                hidden
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- TEACHER RESULTS -->
+
+          <div class="student-results-header">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Recommended
+              </span>
+
+              <h2>
+                Teachers for you
+              </h2>
+
+            </div>
+
+
+            <span
+              class="student-results-count"
+              id="studentTeacherResultsCount"
+            >
+              0 teachers
+            </span>
+
+          </div>
+
+
+          <!-- LOADING -->
+
+          <div
+            class="student-teacher-loading"
+            id="studentTeacherLoading"
+            hidden
+          >
+
+            <article class="student-teacher-skeleton"></article>
+            <article class="student-teacher-skeleton"></article>
+            <article class="student-teacher-skeleton"></article>
+
+          </div>
+
+
+          <!-- RESULTS -->
+
+          <div
+            class="student-teacher-grid"
+            id="teacherList"
+          ></div>
+
+
+          <!-- EMPTY -->
+
+          <div
+            class="student-empty-state"
+            id="teacherEmptyState"
+          >
+
+            <div class="student-empty-icon">
+
+              <i class="fa-solid fa-user-group"></i>
+
+            </div>
+
+
+            <h3>
+              Teacher discovery is ready
+            </h3>
+
+
+            <p>
+              Once Ustaz profiles are available in the system,
+              BarakaLink will show recommendations here using
+              your registered preferences and location.
+            </p>
+
+
+            <a
+              href="profile.html"
+              class="btn btn-outline"
+            >
+              Review My Preferences
+            </a>
+
+          </div>
+
+
+          <!-- ERROR -->
+
+          <div
+            class="student-error-state"
+            id="studentTeacherError"
+            hidden
+          >
+
+            <div class="student-error-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <h3>
+              We couldn't load teachers
+            </h3>
+
+            <p id="studentTeacherErrorMessage">
+              Please try again.
+            </p>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="studentTeacherRetry"
+            >
+              Try Again
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             MY LEARNING
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="learning"
+          data-section-panel="learning"
+          hidden
+        >
+
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Learning
+              </span>
+
+              <h1>
+                My Learning
+              </h1>
+
+              <p>
+                Keep track of your learning journey with BarakaLink.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- LEARNING OVERVIEW -->
+
+          <div class="student-learning-grid">
+
+
+            <article class="student-learning-card student-learning-card-featured">
+
+              <div class="student-learning-card-top">
+
+                <span class="student-learning-icon">
+                  <i class="fa-solid fa-book-quran"></i>
+                </span>
+
+                <span class="student-learning-status">
+                  Getting started
+                </span>
+
+              </div>
+
+
+              <h2>
+                Your Quran learning journey
+              </h2>
+
+
+              <p>
+                Find an Ustaz or Ustaza who matches your study interests
+                and begin building your learning routine.
+              </p>
+
+
+              <a
+                href="#teachers"
+                class="student-card-action"
+                data-section-link="teachers"
+              >
+                Find a teacher
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
+            </article>
+
+
+            <article class="student-learning-card">
+
+              <span class="student-learning-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+              </span>
+
+              <strong>
+                Lessons
+              </strong>
+
+              <span
+                class="student-learning-number"
+                id="studentLessonCount"
+              >
+                0
+              </span>
+
+              <small>
+                Active lesson records
+              </small>
+
+            </article>
+
+
+            <article class="student-learning-card">
+
+              <span class="student-learning-icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </span>
+
+              <strong>
+                Progress
+              </strong>
+
+              <span
+                class="student-learning-number"
+                id="studentLearningProgress"
+              >
+                —
+              </span>
+
+              <small>
+                Learning progress
+              </small>
+
+            </article>
+
+          </div>
+
+
+          <!-- CURRENT TEACHER -->
+
+          <article class="student-panel student-current-teacher-panel">
+
+            <div class="student-panel-header">
+
+              <div>
+
+                <span class="student-panel-eyebrow">
+                  Your teacher
+                </span>
+
+                <h2>
+                  Current learning connection
+                </h2>
+
+              </div>
+
+            </div>
+
+
+            <div class="student-current-teacher-empty">
+
+              <div class="student-empty-icon">
+                <i class="fa-solid fa-chalkboard-user"></i>
+              </div>
+
+              <h3>
+                No teacher selected yet
+              </h3>
+
+              <p>
+                Your selected teacher and learning information
+                will appear here once a learning connection is created.
+              </p>
+
+              <a
+                href="#teachers"
+                class="btn btn-primary"
+                data-section-link="teachers"
+              >
+                Find an Ustaz
+              </a>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- ===================================================
+             SAVED TEACHERS
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="saved"
+          data-section-panel="saved"
+          hidden
+        >
+
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Saved
+              </span>
+
+              <h1>
+                Saved Teachers
+              </h1>
+
+              <p>
+                Keep teachers you may want to learn with in one place.
+              </p>
+
+            </div>
+
+
+            <a
+              href="#teachers"
+              class="btn btn-primary"
+              data-section-link="teachers"
+            >
+              Find Teachers
+            </a>
+
+          </div>
+
+
+          <div
+            class="student-saved-grid"
+            id="studentSavedTeachers"
+          ></div>
+
+
+          <div
+            class="student-empty-state"
+            id="studentSavedEmptyState"
+          >
+
+            <div class="student-empty-icon">
+
+              <i class="fa-regular fa-bookmark"></i>
+
+            </div>
+
+            <h3>
+              No saved teachers yet
+            </h3>
+
+            <p>
+              When you find a teacher you are interested in,
+              save their profile here for easier access later.
+            </p>
+
+            <a
+              href="#teachers"
+              class="btn btn-outline"
+              data-section-link="teachers"
+            >
+              Explore Teachers
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             ISLAMIC CONTENT
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="content"
+          data-section-panel="content"
+          hidden
+        >
+
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Islamic Learning
+              </span>
+
+              <h1>
+                Islamic Content
+              </h1>
+
+              <p>
+                Explore learning topics that match the Islamic interests
+                selected in your profile.
+              </p>
+
+            </div>
+
+
+            <a
+              href="profile.html"
+              class="btn btn-outline"
+            >
+              Edit Interests
+            </a>
+
+          </div>
+
+
+          <!-- TOPIC GRID -->
+
+          <div class="student-content-grid">
+
+
+            <article
+              class="student-content-card"
+              data-topic="quran"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-book-quran"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  Quran
+                </span>
+
+                <h2>
+                  Quran
+                </h2>
+
+                <p>
+                  Quran reading, learning and study resources.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+
+            <article
+              class="student-content-card"
+              data-topic="tafseer"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-scroll"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  Understanding
+                </span>
+
+                <h2>
+                  Tafseer
+                </h2>
+
+                <p>
+                  Explore Quran explanation and understanding.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+
+            <article
+              class="student-content-card"
+              data-topic="hadith"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-book-open"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  Sunnah
+                </span>
+
+                <h2>
+                  Hadith
+                </h2>
+
+                <p>
+                  Learn from hadith-focused Islamic resources.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+
+            <article
+              class="student-content-card"
+              data-topic="seerah"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-moon"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  History
+                </span>
+
+                <h2>
+                  Seerah
+                </h2>
+
+                <p>
+                  Study the life and example of the Prophet.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+
+            <article
+              class="student-content-card"
+              data-topic="fiqh"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  Practice
+                </span>
+
+                <h2>
+                  Fiqh
+                </h2>
+
+                <p>
+                  Explore Islamic jurisprudence and practical guidance.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+
+            <article
+              class="student-content-card"
+              data-topic="dua-adhkar"
+            >
+
+              <div class="student-content-card-icon">
+                <i class="fa-solid fa-hands-praying"></i>
+              </div>
+
+              <div class="student-content-card-copy">
+
+                <span>
+                  Daily practice
+                </span>
+
+                <h2>
+                  Dua & Adhkar
+                </h2>
+
+                <p>
+                  Build a stronger daily connection through remembrance.
+                </p>
+
+              </div>
+
+              <span class="student-content-card-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+
+            </article>
+
+          </div>
+
+
+          <!-- SELECTED TOPICS -->
+
+          <article class="student-panel">
+
+            <div class="student-panel-header">
+
+              <div>
+
+                <span class="student-panel-eyebrow">
+                  Personalization
+                </span>
+
+                <h2>
+                  Topics selected for you
+                </h2>
+
+              </div>
+
+
+              <a
+                href="profile.html"
+                class="student-panel-link"
+              >
+                Manage interests
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
+            </div>
+
+
+            <div
+              class="student-selected-topics"
+              id="studentSelectedTopics"
+            >
+
+              <div class="student-chip-empty">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <span>
+                  Your selected Islamic topics will appear here.
+                </span>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+      </main>
+
+
+      <!-- =====================================================
+           FOOTER
+      ====================================================== -->
+
+      <footer class="student-footer">
+
+        <div class="student-footer-inner">
+
+          <div>
+
+            <strong>
+              BarakaLink
+            </strong>
+
+            <span>
+              Making Quran learning easier to find.
+            </span>
+
+          </div>
+
+
+          <div class="student-footer-links">
+
+            <a href="../index.html">
+              Home
+            </a>
+
+          </div>
+
+
+          <span class="student-footer-copy">
+            © 2026 BarakaLink. All rights reserved.
+          </span>
+
+        </div>
+
+      </footer>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       MOBILE NAVIGATION SCRIPT FALLBACK
+  ========================================================== -->
+
+  <script>
+    window.BARAKALINK_PAGE = "student";
+  </script>
+
+
+  <!-- =========================================================
+       SHARED API
+  ========================================================== -->
+
+  <script
+    defer
+    src="../js/api.js"
+  ></script>
+
+
+  <!-- =========================================================
+       STUDENT DASHBOARD JS
+  ========================================================== -->
+
+  <script
+    defer
+    src="../js/student.js"
+  ></script>
+
+</body>
+
+</html>

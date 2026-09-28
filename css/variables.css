@@ -1,0 +1,106 @@
+/* =========================================================
+   BARAKALINK — DESIGN TOKENS
+========================================================= */
+
+:root {
+
+  --page-bg: #FBF7EE;
+  --surface: #FFFFFF;
+  --surface-soft: #FFFDF8;
+  --surface-muted: #F1E8D6;
+
+  --text: #1C1712;
+  --text-soft: #4C4135;
+  --text-muted: #7D7161;
+
+  --gold: #A8751B;
+  --gold-deep: #7D5511;
+  --gold-light: #E7C989;
+  --gold-soft: #F5E6BF;
+
+  --success: #477B50;
+  --danger: #B73A3A;
+
+  --border: rgba(28,23,18,.11);
+  --border-strong: rgba(28,23,18,.20);
+
+  --dark-section: #1C1712;
+  --dark-section-2: #120E09;
+
+  --dark-text: #FBF7EE;
+  --dark-muted: rgba(251,247,238,.64);
+
+  --container: 1220px;
+
+  --nav-height: 78px;
+
+  --section-space:
+    clamp(4.5rem, 9vw, 8rem);
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 30px;
+  --radius-xl: 40px;
+  --pill: 999px;
+
+  --shadow-sm:
+    0 12px 35px -20px rgba(28,23,18,.25);
+
+  --shadow-md:
+    0 28px 65px -30px rgba(28,23,18,.30);
+
+  --shadow-gold:
+    0 22px 50px -18px rgba(168,117,27,.42);
+
+  --font-display:
+    "Fraunces",
+    ui-serif,
+    Georgia,
+    serif;
+
+  --font-body:
+    "Plus Jakarta Sans",
+    ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+
+
+/* =========================================================
+   DARK THEME TOKENS
+========================================================= */
+
+body.dark-theme {
+
+  --page-bg: #17130F;
+  --surface: #211A13;
+  --surface-soft: #261E16;
+  --surface-muted: #2D241B;
+
+  --text: #F8F0E1;
+  --text-soft: #D8CBB8;
+  --text-muted: #A99B88;
+
+  --gold: #D6A84F;
+  --gold-deep: #E3B967;
+  --gold-light: #F1D18B;
+  --gold-soft: #4A3920;
+
+  --border: rgba(248,240,225,.11);
+  --border-strong: rgba(248,240,225,.20);
+
+  --dark-section: #110D09;
+  --dark-section-2: #0B0805;
+
+  --dark-text: #F8F0E1;
+  --dark-muted: rgba(248,240,225,.62);
+
+  --shadow-sm:
+    0 14px 35px -20px rgba(0,0,0,.55);
+
+  --shadow-md:
+    0 30px 75px -30px rgba(0,0,0,.65);
+
+  --shadow-gold:
+    0 22px 50px -18px rgba(214,168,79,.25);
+}

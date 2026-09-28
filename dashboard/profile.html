@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Edit Profile — BarakaLink</title>
+  <meta name="description" content="Manage your BarakaLink profile, photo, location, learning preferences, and account information.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#FBF7EE" id="themeColorMeta">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/student-profile.css">
+  <link rel="stylesheet" href="../css/profile-edit.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <main class="profile-edit-page" id="profileEditPage">
+
+    <div class="profile-edit-shell">
+
+      <header class="profile-edit-header">
+        <a href="student.html" class="profile-edit-back" id="profileEditBackLink">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to dashboard</span>
+        </a>
+
+        <div class="profile-edit-brand">
+          <span class="profile-edit-brand-mark" aria-hidden="true">
+            <i class="fa-solid fa-link"></i>
+          </span>
+          <span>BarakaLink</span>
+        </div>
+      </header>
+
+      <section class="profile-edit-hero">
+        <div>
+          <span class="profile-edit-eyebrow">Account</span>
+          <h1>Edit your profile</h1>
+          <p>Keep your personal information, learning preferences, location, and profile photo up to date.</p>
+        </div>
+      </section>
+
+      <div class="profile-edit-status" id="profileEditStatus" role="status" aria-live="polite"></div>
+
+      <form id="profileEditForm" novalidate>
+
+        <section class="profile-edit-card profile-edit-photo-card">
+          <div class="profile-edit-card-heading">
+            <div>
+              <span class="profile-edit-card-eyebrow">Profile photo</span>
+              <h2>Your photo</h2>
+            </div>
+          </div>
+
+          <div class="profile-edit-photo-layout">
+            <div class="profile-edit-photo-preview" id="profileEditPhotoPreviewWrap">
+              <span id="profileEditPhotoInitials">BL</span>
+              <img id="profileEditPhotoPreview" src="" alt="Your profile photo" hidden>
+            </div>
+
+            <div class="profile-edit-photo-actions">
+              <strong id="profileEditPhotoName">No photo selected</strong>
+              <p>JPG, PNG, or WebP. Maximum size: 5 MB.</p>
+
+              <div class="profile-edit-inline-actions">
+                <button type="button" class="btn btn-primary" id="profileEditPhotoChange">
+                  <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                  Change photo
+                </button>
+
+                <button type="button" class="btn btn-outline" id="profileEditPhotoRemove" hidden>
+                  <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                  Remove
+                </button>
+              </div>
+
+              <input id="profileEditPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <div class="profile-edit-field-error" id="profileEditPhotoError"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-edit-card">
+          <div class="profile-edit-card-heading">
+            <div>
+              <span class="profile-edit-card-eyebrow">Personal information</span>
+              <h2>Your account</h2>
+            </div>
+          </div>
+
+          <div class="profile-edit-grid">
+            <div class="profile-edit-field">
+              <label for="profileEditRole">Account type</label>
+              <input id="profileEditRole" type="text" readonly>
+            </div>
+
+            <div class="profile-edit-field">
+              <label for="profileEditPhone">Phone number</label>
+              <div class="profile-edit-input-with-status">
+                <input id="profileEditPhone" type="text" readonly>
+                <span id="profileEditPhoneStatus" class="profile-edit-verified-pill">Verified</span>
+              </div>
+            </div>
+
+            <div class="profile-edit-field">
+              <label for="profileEditFirstName">First name</label>
+              <input id="profileEditFirstName" type="text" maxlength="100" required>
+              <div class="profile-edit-field-error" id="profileEditNameError"></div>
+            </div>
+
+            <div class="profile-edit-field">
+              <label for="profileEditLastName">Last name</label>
+              <input id="profileEditLastName" type="text" maxlength="100" required>
+            </div>
+
+            <div class="profile-edit-field profile-edit-field-full">
+              <label for="profileEditBio">About you</label>
+              <textarea id="profileEditBio" maxlength="500" rows="4" placeholder="Tell us a little about yourself..."></textarea>
+              <div class="profile-edit-field-meta"><span id="profileEditBioCount">0</span>/500</div>
+              <div class="profile-edit-field-error" id="profileEditBioError"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-edit-card">
+          <div class="profile-edit-card-heading">
+            <div>
+              <span class="profile-edit-card-eyebrow">Location</span>
+              <h2>Where you are</h2>
+            </div>
+          </div>
+
+          <div class="profile-edit-grid">
+            <div class="profile-edit-field">
+              <label for="profileEditSubcity">Sub-city</label>
+              <select id="profileEditSubcity">
+                <option value="">Select Sub-City</option>
+                <option value="bole">Bole</option>
+                <option value="yeka">Yeka</option>
+                <option value="kirkos">Kirkos</option>
+                <option value="arada">Arada</option>
+                <option value="lideta">Lideta</option>
+                <option value="nifas-silk">Nifas Silk</option>
+                <option value="kolfe">Kolfe</option>
+                <option value="akaki">Akaki</option>
+              </select>
+              <div class="profile-edit-field-error" id="profileEditSubcityError"></div>
+            </div>
+
+            <div class="profile-edit-field">
+              <label for="profileEditArea">Area</label>
+              <select id="profileEditArea" disabled>
+                <option value="">Select Sub-City first</option>
+              </select>
+              <div class="profile-edit-field-error" id="profileEditAreaError"></div>
+            </div>
+
+            <div class="profile-edit-field profile-edit-field-full">
+              <label for="profileEditMosque">Nearest mosque</label>
+              <div class="profile-edit-input-with-icon">
+                <i class="fa-solid fa-mosque" aria-hidden="true"></i>
+                <input id="profileEditMosque" type="text" maxlength="150" placeholder="Enter the name of your nearest mosque" required>
+              </div>
+              <div class="profile-edit-field-error" id="profileEditMosqueError"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-edit-card" id="profileEditTeacherSection" hidden>
+          <div class="profile-edit-card-heading">
+            <div>
+              <span class="profile-edit-card-eyebrow">Teaching</span>
+              <h2>Ustaz / Ustaza information</h2>
+            </div>
+          </div>
+
+          <div class="profile-edit-grid">
+            <div class="profile-edit-field">
+              <label for="profileEditExperience">Teaching experience</label>
+              <input id="profileEditExperience" type="number" min="0" max="60" step="1">
+              <div class="profile-edit-field-error" id="profileEditExperienceError"></div>
+            </div>
+
+            <div class="profile-edit-field">
+              <label for="profileEditGender">Gender</label>
+              <select id="profileEditGender">
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <div class="profile-edit-field-error" id="profileEditGenderError"></div>
+            </div>
+
+            <div class="profile-edit-field profile-edit-field-full">
+              <label>Teaching study fields</label>
+              <div class="profile-edit-choice-grid" id="profileEditStudyFields"></div>
+              <div class="profile-edit-field-error" id="profileEditStudyFieldsError"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-edit-card">
+          <div class="profile-edit-card-heading">
+            <div>
+              <span class="profile-edit-card-eyebrow">Learning preferences</span>
+              <h2>Personalize your experience</h2>
+            </div>
+          </div>
+
+          <div class="profile-edit-field">
+            <label>Preferred teacher</label>
+            <div class="profile-edit-choice-grid" id="profileEditTeacherPreferences">
+              <label class="profile-edit-choice">
+                <input type="radio" name="profileEditTeacherPreference" value="male">
+                <span>Ustaz</span>
+              </label>
+              <label class="profile-edit-choice">
+                <input type="radio" name="profileEditTeacherPreference" value="female">
+                <span>Ustaza</span>
+              </label>
+              <label class="profile-edit-choice">
+                <input type="radio" name="profileEditTeacherPreference" value="no-preference">
+                <span>No preference</span>
+              </label>
+            </div>
+            <div class="profile-edit-field-error" id="profileEditTeacherPreferenceError"></div>
+          </div>
+
+          <div class="profile-edit-field profile-edit-field-spaced">
+            <label>Study interests</label>
+            <div class="profile-edit-choice-grid" id="profileEditStudyInterests"></div>
+            <div class="profile-edit-field-error" id="profileEditStudyInterestsError"></div>
+          </div>
+
+          <div class="profile-edit-field profile-edit-field-spaced">
+            <label>Islamic content interests</label>
+            <div class="profile-edit-choice-grid" id="profileEditContentInterests"></div>
+            <div class="profile-edit-field-error" id="profileEditContentInterestsError"></div>
+          </div>
+        </section>
+
+        <div class="profile-edit-actions">
+          <a href="student.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="profileEditSaveButton">
+            <span id="profileEditSaveText">Save profile</span>
+            <i class="fa-solid fa-check" id="profileEditSaveIcon" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/profile-edit.js"></script>
+</body>
+</html>

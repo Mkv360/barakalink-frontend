@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BarakaLink messages between parents and Ustaz teachers.">
+  <title>Messages | BarakaLink</title>
+
+  <!-- Keep the existing project font/icon setup if your dashboard uses them. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/inbox.css">
+</head>
+<body>
+  <div class="inbox-page">
+    <header class="inbox-topbar">
+      <button
+        type="button"
+        class="inbox-back"
+        id="inboxBackButton"
+        aria-label="Back to dashboard"
+      >
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </button>
+
+      <div class="inbox-title-wrap">
+        <h1>Messages</h1>
+        <p>Parent and Ustaz conversations</p>
+      </div>
+    </header>
+
+    <main class="inbox-shell" id="inboxShell">
+      <aside class="inbox-sidebar" aria-label="Conversations">
+        <div class="inbox-sidebar-head">
+          <h2>Your conversations</h2>
+          <span>Select a conversation to continue.</span>
+        </div>
+
+        <div
+          class="inbox-error"
+          id="inboxError"
+          hidden
+          role="alert"
+        ></div>
+
+        <div
+          class="inbox-conversation-list"
+          id="inboxConversationList"
+        ></div>
+
+        <div
+          class="inbox-empty-state"
+          id="inboxConversationEmpty"
+          hidden
+        >
+          <div>
+            <strong>No conversations yet</strong>
+            <span>Open an Ustaz profile and choose Chat Ustaz to start one.</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="inbox-chat" aria-label="Active conversation">
+        <div class="inbox-chat-header">
+          <button
+            type="button"
+            class="inbox-icon-button inbox-mobile-back"
+            id="inboxMobileBack"
+            aria-label="Back to conversations"
+          >
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          </button>
+
+          <span id="inboxChatAvatar" class="inbox-avatar" aria-hidden="true">BL</span>
+
+          <div class="inbox-chat-header-copy">
+            <h2 id="inboxChatName">Select a conversation</h2>
+            <span id="inboxChatRole">BarakaLink</span>
+          </div>
+        </div>
+
+        <div
+          class="inbox-messages"
+          id="inboxMessages"
+          aria-live="polite"
+        >
+          <div class="inbox-empty-state">
+            <div>
+              <strong>Select a conversation</strong>
+              <span>Your messages will appear here.</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="inbox-composer" id="inboxMessageForm" autocomplete="off">
+          <label class="inbox-screen-reader" for="inboxMessageInput">
+            Message
+          </label>
+
+          <textarea
+            id="inboxMessageInput"
+            name="body"
+            rows="1"
+            maxlength="4000"
+            placeholder="Write a message…"
+          ></textarea>
+
+          <button
+            type="submit"
+            class="inbox-send-button"
+            id="inboxSendButton"
+          >
+            Send
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/inbox.js"></script>
+
+</body>
+</html>

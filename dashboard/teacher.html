@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ustaz Dashboard — BarakaLink</title>
+  <meta name="description" content="BarakaLink Ustaz dashboard for managing your teaching profile, students, lesson setup, and account.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#FBF7EE" id="themeColorMeta">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/landing.css">
+  <link rel="stylesheet" href="../css/teachers.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/ustaz-dashboard.css">
+  <link rel="stylesheet" href="../css/ustaz-overview-order.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="ustaz-dashboard-body">
+  <div class="ustaz-dashboard" id="ustazDashboard">
+
+    <div class="ustaz-sidebar-overlay" id="ustazSidebarOverlay" aria-hidden="true"></div>
+
+    <aside class="ustaz-sidebar" id="ustazSidebar" aria-label="Ustaz dashboard navigation">
+      <div class="ustaz-sidebar-header">
+        <a href="../index.html" class="ustaz-logo" aria-label="BarakaLink home">
+          <svg class="ustaz-logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="13.5" stroke="currentColor" stroke-width="1.7" />
+            <circle cx="20" cy="6" r="2.7" fill="currentColor" />
+            <circle cx="34" cy="20" r="2.3" fill="white" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="20" cy="34" r="2.3" fill="white" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="6" cy="20" r="2.3" fill="white" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+          <span>BarakaLink</span>
+        </a>
+
+        <button type="button" class="ustaz-sidebar-close" id="ustazSidebarClose" aria-label="Close navigation">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="ustaz-sidebar-account ustaz-sidebar-profile-trigger"
+        id="ustazSidebarProfileButton"
+        aria-label="Open your profile"
+        aria-expanded="false"
+        aria-controls="ustazProfileMenu"
+      >
+        <span class="ustaz-avatar ustaz-avatar-small" id="ustazSidebarAvatar">
+          <span id="ustazSidebarAvatarInitials">BL</span>
+          <img id="ustazSidebarAvatarImage" src="" alt="Your profile photo" hidden>
+        </span>
+
+        <span class="ustaz-sidebar-account-copy">
+          <strong id="ustazSidebarName">BarakaLink User</strong>
+          <span class="ustaz-sidebar-account-label" id="ustazSidebarRole">Ustaz / Ustaza</span>
+          <small class="ustaz-sidebar-account-bio" id="ustazSidebarLocation">Location not set</small>
+        </span>
+
+        <i class="fa-solid fa-chevron-down ustaz-profile-chevron" aria-hidden="true"></i>
+      </button>
+
+      <div class="ustaz-profile-menu" id="ustazProfileMenu" hidden>
+        <div class="ustaz-profile-menu-header">
+          <span class="ustaz-avatar ustaz-avatar-menu">
+            <span id="ustazProfileMenuInitials">BL</span>
+            <img id="ustazProfileMenuImage" src="" alt="Your profile photo" hidden>
+          </span>
+          <div>
+            <strong id="ustazProfileMenuName">BarakaLink User</strong>
+            <span id="ustazProfileMenuPhone">Phone not available</span>
+          </div>
+        </div>
+
+        <div class="ustaz-profile-menu-details">
+          <div><i class="fa-solid fa-user-check"></i><span>Account</span><strong id="ustazProfileMenuStatus">Active</strong></div>
+          <div><i class="fa-solid fa-location-dot"></i><span>Location</span><strong id="ustazProfileMenuLocation">Not set</strong></div>
+          <div><i class="fa-solid fa-mosque"></i><span>Nearest mosque</span><strong id="ustazProfileMenuMosque">Not set</strong></div>
+          <div><i class="fa-brands fa-telegram"></i><span>Telegram</span><strong id="ustazProfileMenuTelegram">Verified</strong></div>
+        </div>
+
+        <div class="ustaz-profile-menu-divider"></div>
+        <a href="../ustaz-profile.html" class="ustaz-profile-menu-link">
+          <i class="fa-regular fa-pen-to-square"></i><span>Edit Profile</span>
+        </a>
+        <button type="button" class="ustaz-profile-menu-link ustaz-profile-menu-logout" id="ustazMenuLogout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span>
+        </button>
+      </div>
+
+      <nav class="ustaz-sidebar-nav">
+        <span class="ustaz-nav-label">Workspace</span>
+
+        <a href="#home" class="ustaz-nav-link active" data-section="home">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-house"></i></span>
+          <span>Overview</span>
+        </a>
+
+        <a href="#profile" class="ustaz-nav-link" data-section="profile">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-user"></i></span>
+          <span>My Profile</span>
+        </a>
+
+        <a href="#students" class="ustaz-nav-link" data-section="students">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-user-group"></i></span>
+          <span>Students</span>
+        </a>
+
+ <a href="#messages" class="ustaz-nav-link" id="ustazMessagesNavLink" data-section="messages">
+  <span class="ustaz-nav-icon"><i class="fa-regular fa-message"></i></span>
+  <span>Messages</span>
+  <span class="ustaz-nav-badge" id="ustazMessagesBadge" hidden>0</span>
+</a>
+
+        <a href="#availability" class="ustaz-nav-link" data-section="availability">
+          <span class="ustaz-nav-icon"><i class="fa-regular fa-calendar-check"></i></span>
+          <span>Availability</span>
+        </a>
+
+        <span class="ustaz-nav-label ustaz-nav-label-spaced">Account</span>
+
+        <a href="../ustaz-profile.html" class="ustaz-nav-link">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+          <span>Edit Profile</span>
+        </a>
+
+        <a href="#settings" class="ustaz-nav-link" data-section="settings">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-gear"></i></span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="ustaz-sidebar-footer">
+        <button type="button" class="ustaz-sidebar-logout" id="ustazSidebarLogout">
+          <span class="ustaz-nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="ustaz-main">
+      <header class="ustaz-topbar">
+        <div class="ustaz-topbar-left">
+          <button type="button" class="ustaz-menu-toggle" id="ustazMenuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="ustazSidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+
+          <div class="ustaz-topbar-heading">
+            <span id="ustazSectionEyebrow">Dashboard</span>
+            <h2 id="ustazSectionTitle">Overview</h2>
+          </div>
+        </div>
+
+        <div class="ustaz-topbar-actions">
+          <button type="button" class="ustaz-topbar-icon" id="themeToggle" aria-label="Switch to dark theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <button type="button" class="ustaz-topbar-icon" id="ustazNotificationButton" aria-label="Notifications" aria-expanded="false" aria-controls="ustazNotificationPanel">
+            <i class="fa-regular fa-bell"></i>
+            <span class="ustaz-notification-badge" id="ustazNotificationBadge" hidden>0</span>
+          </button>
+
+          <button type="button" class="ustaz-profile-button" id="ustazAvatarButton" aria-label="Open profile menu" aria-expanded="false">
+            <span class="ustaz-avatar" id="ustazAvatar">
+              <span id="ustazAvatarInitials">BL</span>
+              <img id="ustazAvatarImage" src="" alt="Your profile photo" hidden>
+            </span>
+            <span class="ustaz-profile-copy">
+              <strong id="ustazTopbarName">BarakaLink User</strong>
+              <small id="ustazTopbarRole">Ustaz / Ustaza</small>
+            </span>
+            <i class="fa-solid fa-chevron-down ustaz-profile-chevron"></i>
+          </button>
+        </div>
+
+        <div class="ustaz-notification-panel" id="ustazNotificationPanel" hidden>
+          <div class="ustaz-notification-header">
+            <div>
+              <strong>Notifications</strong>
+              <span>Stay updated with your teaching activity.</span>
+            </div>
+            <button type="button" class="ustaz-notification-clear" id="ustazNotificationClear">Clear</button>
+          </div>
+
+          <div class="ustaz-notification-list" id="ustazNotificationList"></div>
+        </div>
+
+
+      </header>
+
+      <main class="ustaz-content">
+        <div class="ustaz-page-loading" id="ustazPageLoading">
+          <div class="ustaz-loading-spinner"></div>
+          <span>Loading your teaching space...</span>
+        </div>
+
+        <div class="ustaz-error-panel" id="ustazPageError" hidden>
+          <div class="ustaz-error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div>
+            <strong>We couldn't load your dashboard</strong>
+            <p id="ustazPageErrorMessage">Please try again.</p>
+          </div>
+          <button type="button" class="btn btn-outline" id="ustazPageRetry">Try Again</button>
+        </div>
+
+        <!-- OVERVIEW -->
+        <section class="ustaz-section" id="home" data-section-panel="home">
+          <div class="ustaz-welcome-card">
+            <div class="ustaz-welcome-copy">
+              <span class="ustaz-eyebrow"><i class="fa-solid fa-sparkles"></i> Teaching space</span>
+              <h1><span>Assalamu Alaikum, </span><strong id="ustazWelcomeName">Ustaz</strong></h1>
+              <p>Your teacher dashboard is ready. Manage your profile, teaching setup, and future student connections from one place.</p>
+              <div class="ustaz-welcome-actions">
+                <a href="../ustaz-profile.html" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Edit teaching profile</a>
+                <a href="#profile" class="btn btn-outline" data-section-link="profile"><i class="fa-regular fa-eye"></i> View profile</a>
+              </div>
+            </div>
+            <div class="ustaz-welcome-art" aria-hidden="true">
+              <div class="ustaz-art-orbit orbit-a"></div>
+              <div class="ustaz-art-orbit orbit-b"></div>
+              <div class="ustaz-art-symbol"><i class="fa-solid fa-book-quran"></i></div>
+              <span class="ustaz-art-dot dot-a"></span>
+              <span class="ustaz-art-dot dot-b"></span>
+              <span class="ustaz-art-dot dot-c"></span>
+            </div>
+          </div>
+
+          <!-- PRIMARY OVERVIEW: PROFILE + TEACHING SETUP -->
+          <div class="ustaz-overview-primary-grid">
+            <article class="ustaz-panel ustaz-profile-overview-panel ustaz-home-profile-first">
+              <div class="ustaz-panel-header">
+                <div>
+                  <span class="ustaz-panel-eyebrow">Your profile</span>
+                  <h2>Teaching identity</h2>
+                </div>
+                <a href="../ustaz-profile.html" class="ustaz-panel-link">Edit <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+
+              <div class="ustaz-profile-summary">
+                <span class="ustaz-avatar ustaz-avatar-large" id="ustazHomeAvatar">
+                  <span id="ustazHomeAvatarInitials">BL</span>
+                  <img id="ustazHomeAvatarImage" src="" alt="Profile photo" hidden>
+                </span>
+                <div>
+                  <h3 id="ustazHomeName">BarakaLink User</h3>
+                  <p id="ustazHomeBio">Your teaching bio will appear here.</p>
+                  <div class="ustaz-meta-row"><span><i class="fa-solid fa-location-dot"></i><b id="ustazHomeLocation">Location not set</b></span><span><i class="fa-solid fa-venus-mars"></i><b id="ustazHomeGender">—</b></span></div>
+                </div>
+              </div>
+
+              <div class="ustaz-subject-list" id="ustazSubjectList"></div>
+            </article>
+
+            <article class="ustaz-panel ustaz-setup-panel">
+              <div class="ustaz-panel-header">
+                <div>
+                  <span class="ustaz-panel-eyebrow">Teaching setup</span>
+                  <h2>Lesson details</h2>
+                </div>
+              </div>
+              <div class="ustaz-detail-list">
+                <div><span><i class="fa-solid fa-coins"></i> Price per hour</span><strong id="ustazHomeRate">Not set</strong></div>
+                <div><span><i class="fa-regular fa-clock"></i> Lesson duration</span><strong id="ustazHomeDuration">Not set</strong></div>
+                <div><span><i class="fa-solid fa-video"></i> Lesson format</span><strong id="ustazHomeFormat">Not set</strong></div>
+                <div><span><i class="fa-solid fa-language"></i> Languages</span><strong id="ustazHomeLanguages">Not set</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <!-- RECITATION -->
+          <article class="ustaz-panel ustaz-recitation-panel ustaz-overview-full-panel">
+            <div class="ustaz-panel-header">
+              <div>
+                <span class="ustaz-panel-eyebrow">Recitation</span>
+                <h2>Qur'an sample</h2>
+              </div>
+              <a href="../ustaz-profile.html" class="ustaz-panel-link">Manage <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="ustaz-recitation-status" id="ustazRecitationStatusCard">
+              <span class="ustaz-recitation-icon"><i class="fa-solid fa-microphone"></i></span>
+              <div>
+                <strong id="ustazRecitationTitle">No sample loaded</strong>
+                <p id="ustazRecitationDescription">Add a recording from your profile completion page.</p>
+              </div>
+            </div>
+            <div class="ustaz-audio-mini" id="ustazAudioMini" hidden>
+              <button type="button" id="ustazAudioPlay" aria-label="Play recitation"><i class="fa-solid fa-play"></i></button>
+              <div>
+                <div class="ustaz-audio-top"><strong>Qur'an recitation</strong><span id="ustazAudioTime">0:00</span></div>
+                <input id="ustazAudioProgress" type="range" min="0" max="0" value="0" step="0.1" aria-label="Recitation progress">
+                <div class="ustaz-audio-bottom"><span>Teacher sample</span><span id="ustazAudioDuration">0:00</span></div>
+              </div>
+              <audio id="ustazAudioPlayer" preload="metadata"></audio>
+            </div>
+          </article>
+
+          <!-- SUMMARY -->
+          <div class="ustaz-summary-grid">
+            <article class="ustaz-summary-card">
+              <div class="ustaz-summary-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="ustaz-summary-copy">
+                <span>Teaching area</span>
+                <strong id="ustazSummaryLocation">Not set</strong>
+                <small>Used for nearby student discovery</small>
+              </div>
+            </article>
+
+            <article class="ustaz-summary-card">
+              <div class="ustaz-summary-icon"><i class="fa-solid fa-mosque"></i></div>
+              <div class="ustaz-summary-copy">
+                <span>Nearest mosque</span>
+                <strong id="ustazSummaryMosque">Not set</strong>
+                <small>Your saved nearby mosque</small>
+              </div>
+            </article>
+
+            <article class="ustaz-summary-card">
+              <div class="ustaz-summary-icon"><i class="fa-solid fa-book-open"></i></div>
+              <div class="ustaz-summary-copy">
+                <span>Teaching subjects</span>
+                <strong id="ustazSummarySubjects">0</strong>
+                <small>Registered study fields</small>
+              </div>
+            </article>
+
+            <article class="ustaz-summary-card">
+              <div class="ustaz-summary-icon"><i class="fa-solid fa-language"></i></div>
+              <div class="ustaz-summary-copy">
+                <span>Languages</span>
+                <strong id="ustazSummaryLanguages">Not set</strong>
+                <small>Languages available for lessons</small>
+              </div>
+            </article>
+          </div>
+
+          <!-- STATS -->
+          <div class="ustaz-stat-grid">
+            <article class="ustaz-stat-card">
+              <span class="ustaz-stat-icon"><i class="fa-solid fa-book-open"></i></span>
+              <div><span>Teaching subjects</span><strong id="ustazSubjectsCount">0</strong><small>Registered study fields</small></div>
+            </article>
+            <article class="ustaz-stat-card">
+              <span class="ustaz-stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+              <div><span>Experience</span><strong id="ustazExperience">—</strong><small>Years teaching</small></div>
+            </article>
+            <article class="ustaz-stat-card">
+              <span class="ustaz-stat-icon"><i class="fa-solid fa-circle-check"></i></span>
+              <div><span>Profile</span><strong id="ustazProfileStatus">—</strong><small>Account profile status</small></div>
+            </article>
+            <article class="ustaz-stat-card">
+              <span class="ustaz-stat-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <div><span>Teaching area</span><strong id="ustazArea">—</strong><small id="ustazSubcity">Sub-city not set</small></div>
+            </article>
+          </div>
+
+          <!-- QUALIFICATIONS -->
+          <article class="ustaz-panel ustaz-qualification-home-panel ustaz-overview-full-panel">
+            <div class="ustaz-panel-header">
+              <div>
+                <span class="ustaz-panel-eyebrow">Qualifications</span>
+                <h2>Teaching credentials</h2>
+              </div>
+              <a href="../ustaz-profile.html" class="ustaz-panel-link">Manage <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="ustaz-qualification-list" id="ustazHomeQualifications"></div>
+          </article>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="ustaz-section" id="profile" data-section-panel="profile" hidden>
+          <div class="ustaz-section-intro"><div><span class="ustaz-panel-eyebrow">My Profile</span><h1>Teaching profile</h1><p>This is the information BarakaLink can use to present your teaching profile.</p></div><a href="../ustaz-profile.html" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Edit profile</a></div>
+          <div class="ustaz-profile-page-grid">
+            <article class="ustaz-panel ustaz-public-profile-card">
+              <div class="ustaz-profile-hero">
+                <span class="ustaz-avatar ustaz-avatar-xl" id="ustazProfileAvatar"><span id="ustazProfileAvatarInitials">BL</span><img id="ustazProfileAvatarImage" src="" alt="Profile photo" hidden></span>
+                <div><span class="ustaz-status-pill" id="ustazProfilePill">Profile complete</span><h2 id="ustazProfileName">BarakaLink User</h2><p id="ustazProfileRole">Ustaz / Ustaza</p></div>
+              </div>
+              <div class="ustaz-bio-block"><span>About me</span><p id="ustazProfileBio">No bio added yet.</p></div>
+              <div class="ustaz-subject-list" id="ustazProfileSubjects"></div>
+            </article>
+            <article class="ustaz-panel">
+              <div class="ustaz-panel-header"><div><span class="ustaz-panel-eyebrow">Details</span><h2>Teaching information</h2></div></div>
+              <div class="ustaz-detail-list">
+                <div><span><i class="fa-solid fa-location-dot"></i> Sub-city</span><strong id="ustazProfileSubcity">—</strong></div>
+                <div><span><i class="fa-solid fa-location-crosshairs"></i> Area</span><strong id="ustazProfileArea">—</strong></div>
+                <div><span><i class="fa-solid fa-mosque"></i> Nearest mosque</span><strong id="ustazProfileMosque">—</strong></div>
+                <div><span><i class="fa-solid fa-clock-rotate-left"></i> Experience</span><strong id="ustazProfileExperience">—</strong></div>
+                <div><span><i class="fa-solid fa-venus-mars"></i> Gender</span><strong id="ustazProfileGender">—</strong></div>
+                <div><span><i class="fa-solid fa-phone"></i> Phone</span><strong id="ustazProfilePhone">—</strong></div>
+                <div><span><i class="fa-brands fa-telegram"></i> Telegram</span><strong id="ustazProfileTelegram">Verified</strong></div>
+                <div><span><i class="fa-regular fa-calendar"></i> Date of birth</span><strong id="ustazProfileDateOfBirth">Not provided</strong></div>
+                <div><span><i class="fa-solid fa-coins"></i> Price per hour</span><strong id="ustazProfileRate">Not set</strong></div>
+                <div><span><i class="fa-regular fa-clock"></i> Lesson duration</span><strong id="ustazProfileDuration">Not set</strong></div>
+                <div><span><i class="fa-solid fa-video"></i> Lesson format</span><strong id="ustazProfileFormat">Not set</strong></div>
+                <div><span><i class="fa-solid fa-person-chalkboard"></i> Teaching approach</span><strong id="ustazProfileTeachingApproach">Not provided</strong></div>
+                <div><span><i class="fa-solid fa-language"></i> Languages</span><strong id="ustazProfileLanguages">Not provided</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <article class="ustaz-panel ustaz-profile-qualifications-panel">
+            <div class="ustaz-panel-header">
+              <div><span class="ustaz-panel-eyebrow">Qualifications</span><h2>Teaching credentials</h2></div>
+            </div>
+            <p class="ustaz-panel-description">Qualifications and certificate documents associated with your teaching profile.</p>
+            <div class="ustaz-qualification-list" id="ustazProfileQualifications"></div>
+          </article>
+        </section>
+
+        <!-- STUDENTS -->
+        <section class="ustaz-section" id="students" data-section-panel="students" hidden>
+          <div class="ustaz-section-intro"><div><span class="ustaz-panel-eyebrow">Students</span><h1>Your students</h1><p>Student connections will appear here when the learning-request system is connected.</p></div></div>
+          <div class="ustaz-empty-panel"><span class="ustaz-empty-icon"><i class="fa-solid fa-user-group"></i></span><h3>No students yet</h3><p>Your student list is empty. When students connect with you, their learning relationship will appear here.</p></div>
+        </section>
+
+        <!-- MESSAGES -->
+        <section class="ustaz-section" id="messages" data-section-panel="messages" hidden>
+          <div class="ustaz-section-intro">
+            <div>
+              <span class="ustaz-panel-eyebrow">Communication</span>
+              <h1>Your messages</h1>
+              <p>Select a student conversation below. The full conversation will open in the existing inbox.</p>
+            </div>
+          </div>
+
+          <article class="ustaz-panel ustaz-message-section-panel">
+            <div class="ustaz-panel-header">
+              <div>
+                <span class="ustaz-panel-eyebrow">Conversations</span>
+                <h2>Student messages</h2>
+              </div>
+              <button type="button" class="ustaz-panel-link ustaz-messages-refresh" id="ustazMessagesRefreshButton">
+                <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                Refresh
+              </button>
+            </div>
+
+            <div class="ustaz-dashboard-conversation-list" id="ustazConversationList">
+              <div class="ustaz-conversation-state" id="ustazConversationLoading">
+                <span class="ustaz-conversation-state-icon"><i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i></span>
+                <strong>Loading conversations…</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- AVAILABILITY -->
+        <section class="ustaz-section" id="availability" data-section-panel="availability" hidden>
+          <div class="ustaz-section-intro"><div><span class="ustaz-panel-eyebrow">Schedule</span><h1>Availability</h1><p>Your teaching availability will be used later for lesson requests and scheduling.</p></div><a href="../ustaz-profile.html" class="btn btn-outline"><i class="fa-regular fa-calendar"></i> Update profile</a></div>
+          <article class="ustaz-panel">
+            <div class="ustaz-panel-header"><div><span class="ustaz-panel-eyebrow">Teaching days</span><h2>Your current schedule</h2></div></div>
+            <div class="ustaz-day-grid" id="ustazAvailabilityDays"></div>
+            <div class="ustaz-empty-inline" id="ustazAvailabilityEmpty"><i class="fa-regular fa-calendar-xmark"></i><span>No availability days have been added yet.</span></div>
+          </article>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="ustaz-section" id="settings" data-section-panel="settings" hidden>
+          <div class="ustaz-section-intro"><div><span class="ustaz-panel-eyebrow">Account</span><h1>Settings</h1><p>Manage basic dashboard preferences.</p></div></div>
+          <div class="ustaz-settings-grid">
+            <article class="ustaz-panel"><div class="ustaz-panel-header"><div><span class="ustaz-panel-eyebrow">Appearance</span><h2>Theme</h2></div></div><div class="ustaz-setting-row"><div><strong>Dark mode</strong><span>Switch the dashboard appearance.</span></div><button type="button" class="ustaz-switch" id="ustazThemeSwitch" role="switch" aria-checked="false"><span></span></button></div></article>
+            <article class="ustaz-panel"><div class="ustaz-panel-header"><div><span class="ustaz-panel-eyebrow">Account</span><h2>Session</h2></div></div><div class="ustaz-setting-row"><div><strong>Sign out</strong><span>End your current BarakaLink session.</span></div><button type="button" class="btn btn-outline" id="ustazSettingsLogout">Logout</button></div></article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js" defer></script>
+  <script src="../js/teacher.js" defer></script>
+</body>
+</html>

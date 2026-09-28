@@ -1,0 +1,2738 @@
+/* =========================================================
+   BARAKALINK — USTAZ DASHBOARD
+   frontend/css/ustaz-dashboard.css
+
+   This file is intentionally scoped to .ustaz-dashboard so
+   existing global BarakaLink styles do not stretch dashboard
+   avatars, audio controls, buttons, or panels unexpectedly.
+========================================================= */
+
+.ustaz-dashboard,
+.ustaz-dashboard * {
+  box-sizing: border-box;
+}
+
+.ustaz-dashboard {
+  --ud-bg: #fbf7ee;
+  --ud-surface: #ffffff;
+  --ud-surface-2: #f5efe3;
+  --ud-text: #17130F;
+  --ud-muted: #756e63;
+  --ud-border: rgba(23, 19, 15, 0.10);
+  --ud-border-strong: rgba(23, 19, 15, 0.17);
+  --ud-accent: #b48b42;
+  --ud-accent-dark: #8c6b30;
+  --ud-accent-soft: rgba(180, 139, 66, 0.12);
+  --ud-danger: #b84f4f;
+  --ud-shadow: 0 18px 45px rgba(37, 30, 18, 0.08);
+  --ud-shadow-small: 0 8px 24px rgba(37, 30, 18, 0.07);
+  --ud-radius: 20px;
+  --ud-radius-small: 14px;
+  --ud-sidebar: 276px;
+  min-height: 100vh;
+  color: var(--ud-text);
+  background: var(--ud-bg);
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+body.dark-theme .ustaz-dashboard,
+html[data-theme="dark"] .ustaz-dashboard {
+  --ud-bg: #17130F;
+  --ud-surface: #211c16;
+  --ud-surface-2: #2b241c;
+  --ud-text: #f7f1e5;
+  --ud-muted: #b8aea0;
+  --ud-border: rgba(255, 255, 255, 0.09);
+  --ud-border-strong: rgba(255, 255, 255, 0.15);
+  --ud-accent: #d1aa64;
+  --ud-accent-dark: #e0bb78;
+  --ud-accent-soft: rgba(209, 170, 100, 0.12);
+  --ud-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+  --ud-shadow-small: 0 8px 24px rgba(0, 0, 0, 0.20);
+}
+
+/* ---------- Shell ---------- */
+
+.ustaz-dashboard-body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ud-bg);
+}
+
+.ustaz-dashboard a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ustaz-dashboard button,
+.ustaz-dashboard input,
+.ustaz-dashboard textarea,
+.ustaz-dashboard select {
+  font: inherit;
+}
+
+.ustaz-dashboard button,
+.ustaz-dashboard a,
+.ustaz-dashboard input[type="range"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ustaz-sidebar-overlay {
+  display: none;
+}
+
+.ustaz-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 1000;
+  width: var(--ud-sidebar);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px 16px;
+  background:
+    linear-gradient(
+      180deg,
+      var(--ud-surface) 0%,
+      var(--ud-surface-2) 100%
+    );
+  color: var(--ud-text);
+  border-right: 1px solid var(--ud-border);
+}
+
+.ustaz-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 8px 18px;
+}
+
+.ustaz-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.ustaz-logo-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+}
+
+.ustaz-sidebar-close {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ud-border);
+  border-radius: 12px;
+  background: var(--ud-surface-2);
+  color: inherit;
+  cursor: pointer;
+}
+
+.ustaz-sidebar-account {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  border: 1px solid var(--ud-border);
+  border-radius: 16px;
+  background: var(--ud-surface);
+  color: var(--ud-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ustaz-sidebar-account:hover {
+  background: var(--ud-surface-2);
+}
+
+.ustaz-sidebar-account-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-sidebar-account-role {
+  color: var(--ud-muted);
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.ustaz-sidebar-account-copy strong,
+.ustaz-sidebar-account-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ustaz-sidebar-account-copy strong {
+  margin-top: 2px;
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.ustaz-sidebar-account-copy small {
+  margin-top: 3px;
+  color: var(--ud-muted);
+  font-size: .68rem;
+}
+
+.ustaz-profile-chevron {
+  color: currentColor;
+  font-size: .72rem;
+  opacity: .68;
+}
+
+.ustaz-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 22px;
+}
+
+.ustaz-nav-label {
+  padding: 0 11px 7px;
+  color: var(--ud-muted);
+  font-size: .64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+.ustaz-nav-label-spaced {
+  margin-top: 17px;
+}
+
+.ustaz-nav-link,
+.ustaz-sidebar-logout {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 11px;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--ud-muted);
+  font-size: .83rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.ustaz-nav-link:hover,
+.ustaz-sidebar-logout:hover {
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-nav-link.active {
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  box-shadow: inset 3px 0 0 var(--ud-accent);
+}
+
+.ustaz-nav-icon {
+  width: 22px;
+  flex: 0 0 22px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: .9rem;
+  opacity: .9;
+}
+
+.ustaz-nav-link > span:nth-child(2),
+.ustaz-sidebar-logout > span:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+
+.ustaz-nav-badge,
+.ustaz-notification-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--ud-accent);
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 800;
+}
+
+.ustaz-sidebar-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--ud-border);
+}
+
+.ustaz-sidebar-logout {
+  width: 100%;
+}
+
+/* ---------- Main ---------- */
+
+.ustaz-main {
+  min-height: 100vh;
+  margin-left: var(--ud-sidebar);
+}
+
+.ustaz-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 800;
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px clamp(18px, 3vw, 38px);
+  background: color-mix(in srgb, var(--ud-bg) 90%, transparent);
+  border-bottom: 1px solid var(--ud-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.ustaz-topbar-left,
+.ustaz-topbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.ustaz-topbar-left {
+  gap: 13px;
+  min-width: 0;
+}
+
+.ustaz-topbar-actions {
+  position: relative;
+  gap: 8px;
+}
+
+.ustaz-menu-toggle {
+  display: none;
+}
+
+.ustaz-topbar-heading span {
+  color: var(--ud-muted);
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.ustaz-topbar-heading h2 {
+  margin: 3px 0 0;
+  font-family: Fraunces, Georgia, serif;
+  color: var(--ud-text);
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+.ustaz-topbar-icon,
+.ustaz-profile-button {
+  border: 1px solid var(--ud-border);
+  background: var(--ud-surface);
+  color: var(--ud-text);
+}
+
+.ustaz-topbar-icon {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.ustaz-topbar-icon:hover,
+.ustaz-profile-button:hover {
+  border-color: var(--ud-border-strong);
+  box-shadow: var(--ud-shadow-small);
+}
+
+.ustaz-notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+.ustaz-profile-button {
+  max-width: 260px;
+  min-height: 46px;
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr) 12px;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 10px 5px 5px;
+  border-radius: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ustaz-profile-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-profile-copy strong,
+.ustaz-profile-copy small {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ustaz-profile-copy strong {
+  font-size: .77rem;
+}
+
+.ustaz-profile-copy small {
+  margin-top: 2px;
+  color: var(--ud-muted);
+  font-size: .63rem;
+  font-weight: 600;
+}
+
+/* ---------- Avatar system: never let global img rules break this ---------- */
+
+.ustaz-avatar {
+  position: relative !important;
+  isolation: isolate;
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #dfc27f, #9a7333);
+  color: #fff;
+  line-height: 1;
+  font-size: .78rem;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+.ustaz-avatar > span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden;
+}
+
+.ustaz-avatar > img,
+.ustaz-dashboard img[id$="AvatarImage"] {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+
+.ustaz-avatar-small {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  flex-basis: 44px !important;
+  font-size: .72rem;
+}
+
+.ustaz-avatar-menu {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  flex-basis: 48px !important;
+}
+
+.ustaz-avatar-large {
+  width: 72px !important;
+  height: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+  min-height: 72px !important;
+  max-height: 72px !important;
+  flex-basis: 72px !important;
+  font-size: .98rem;
+}
+
+.ustaz-avatar-xl {
+  width: 104px !important;
+  height: 104px !important;
+  min-width: 104px !important;
+  max-width: 104px !important;
+  min-height: 104px !important;
+  max-height: 104px !important;
+  flex-basis: 104px !important;
+  font-size: 1.2rem;
+}
+
+/* ---------- Profile menu ---------- */
+
+.ustaz-profile-menu {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: clamp(18px, 3vw, 38px);
+  z-index: 1100;
+  width: min(360px, calc(100vw - 28px));
+  padding: 12px;
+  border: 1px solid var(--ud-border);
+  border-radius: 18px;
+  background: var(--ud-surface);
+  color: var(--ud-text);
+  box-shadow: var(--ud-shadow);
+}
+
+.ustaz-profile-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 4px 13px;
+}
+
+.ustaz-profile-menu-header > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-profile-menu-header strong,
+.ustaz-profile-menu-header span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ustaz-profile-menu-header strong {
+  font-size: .82rem;
+}
+
+.ustaz-profile-menu-header div > span {
+  margin-top: 3px;
+  color: var(--ud-muted);
+  font-size: .7rem;
+}
+
+.ustaz-profile-menu-details {
+  display: grid;
+  gap: 2px;
+}
+
+.ustaz-profile-menu-details > div {
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 34px;
+  padding: 5px 4px;
+  font-size: .69rem;
+}
+
+.ustaz-profile-menu-details i {
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-profile-menu-details span {
+  color: var(--ud-muted);
+}
+
+.ustaz-profile-menu-details strong {
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-size: .69rem;
+}
+
+.ustaz-profile-menu-divider {
+  height: 1px;
+  margin: 8px 0;
+  background: var(--ud-border);
+}
+
+.ustaz-profile-menu-link {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 9px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ud-text);
+  font-size: .75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ustaz-profile-menu-link:hover {
+  background: var(--ud-surface-2);
+}
+
+.ustaz-profile-menu-logout {
+  color: var(--ud-danger);
+}
+
+/* ---------- Content ---------- */
+
+.ustaz-content {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 38px);
+}
+
+.ustaz-section {
+  width: 100%;
+}
+
+.ustaz-page-loading {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ud-muted);
+  font-size: .82rem;
+}
+
+.ustaz-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--ud-border);
+  border-top-color: var(--ud-accent);
+  border-radius: 50%;
+  animation: ustazSpin .8s linear infinite;
+}
+
+@keyframes ustazSpin {
+  to { transform: rotate(360deg); }
+}
+
+.ustaz-error-panel {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px 17px;
+  border: 1px solid rgba(184,79,79,.20);
+  border-radius: 16px;
+  background: rgba(184,79,79,.06);
+}
+
+.ustaz-error-icon {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: rgba(184,79,79,.10);
+  color: var(--ud-danger);
+}
+
+.ustaz-error-panel strong {
+  display: block;
+  font-size: .82rem;
+}
+
+.ustaz-error-panel p {
+  margin: 3px 0 0;
+  color: var(--ud-muted);
+  font-size: .7rem;
+}
+
+/* ---------- Reusable controls ---------- */
+
+.ustaz-dashboard .btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: .74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.ustaz-dashboard .btn:hover {
+  transform: translateY(-1px);
+}
+
+.ustaz-dashboard .btn-primary {
+  background:
+    linear-gradient(
+      135deg,
+      var(--ud-accent),
+      var(--ud-accent-dark)
+    );
+  color: #fff;
+  box-shadow: 0 9px 18px rgba(168,117,27,.18);
+}
+
+.ustaz-dashboard .btn-primary:hover {
+  background: var(--ud-accent);
+}
+
+.ustaz-dashboard .btn-outline {
+  background: transparent;
+  border-color: var(--ud-border-strong);
+  color: var(--ud-text);
+}
+
+.ustaz-dashboard .btn-outline:hover {
+  background: var(--ud-surface-2);
+}
+
+/* ---------- Overview welcome ---------- */
+
+.ustaz-welcome-card {
+  position: relative;
+  min-height: 285px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(180,139,66,.20),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      var(--ud-surface-2) 0%,
+      var(--ud-surface) 58%,
+      var(--ud-accent-soft) 140%
+    );
+  color: var(--ud-text);
+  border: 1px solid var(--ud-border);
+  box-shadow: var(--ud-shadow);
+}
+
+.ustaz-welcome-copy {
+  position: relative;
+  z-index: 2;
+  padding: clamp(26px, 4vw, 42px);
+}
+
+.ustaz-eyebrow,
+.ustaz-panel-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ud-accent-dark);
+  font-size: .62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.ustaz-welcome-card .ustaz-eyebrow {
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-welcome-copy h1 {
+  max-width: 700px;
+  margin: 12px 0 8px;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.45rem);
+  line-height: .98;
+  letter-spacing: -.045em;
+  font-weight: 500;
+}
+
+.ustaz-welcome-copy h1 strong {
+  color: var(--ud-accent-dark);
+  font-weight: 600;
+}
+
+.ustaz-welcome-copy > p {
+  max-width: 650px;
+  margin: 0;
+  color: var(--ud-muted);
+  font-size: .8rem;
+  line-height: 1.75;
+}
+
+.ustaz-welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.ustaz-welcome-card .btn-outline {
+  border-color: rgba(255,255,255,.20);
+  color: #fff;
+}
+
+.ustaz-welcome-card .btn-outline:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.ustaz-welcome-art {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(220,185,104,.20), transparent 55%);
+}
+
+.ustaz-art-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(226,199,126,.22);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-a { width: 190px; height: 190px; }
+.orbit-b { width: 130px; height: 130px; border-style: dashed; }
+
+.ustaz-art-symbol {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(232,205,132,.35);
+  border-radius: 22px;
+  background: rgba(255,255,255,.06);
+  color: #e8cb83;
+  font-size: 1.7rem;
+  box-shadow: 0 18px 35px rgba(0,0,0,.12);
+}
+
+.ustaz-art-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e6c47d;
+  box-shadow: 0 0 18px rgba(230,196,125,.55);
+}
+
+.dot-a { left: 18%; top: 24%; }
+.dot-b { right: 20%; top: 22%; }
+.dot-c { right: 15%; bottom: 25%; }
+
+/* ---------- Stats ---------- */
+
+.ustaz-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.ustaz-stat-card {
+  min-height: 118px;
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 17px;
+  border: 1px solid var(--ud-border);
+  border-radius: 17px;
+  background: var(--ud-surface);
+  box-shadow: var(--ud-shadow-small);
+}
+
+.ustaz-stat-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-stat-card div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-stat-card div > span {
+  color: var(--ud-muted);
+  font-size: .62rem;
+  font-weight: 700;
+}
+
+.ustaz-stat-card strong {
+  margin-top: 7px;
+  color: var(--ud-text);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: -.025em;
+}
+
+.ustaz-stat-card small {
+  margin-top: 6px;
+  color: var(--ud-muted);
+  font-size: .6rem;
+}
+
+/* ---------- Panels ---------- */
+
+.ustaz-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.ustaz-panel {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--ud-border);
+  border-radius: 19px;
+  background: var(--ud-surface);
+  box-shadow: var(--ud-shadow-small);
+}
+
+.ustaz-profile-overview-panel {
+  grid-row: span 2;
+}
+
+.ustaz-recitation-panel {
+  grid-column: 2;
+}
+
+.ustaz-panel-header {
+  min-height: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.ustaz-panel-header h2,
+.ustaz-section-intro h1,
+.ustaz-profile-page-grid h2 {
+  margin: 4px 0 0;
+  color: var(--ud-text);
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -.03em;
+}
+
+.ustaz-panel-header h2 {
+  font-size: 1.22rem;
+}
+
+.ustaz-panel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ud-accent-dark);
+  font-size: .69rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ustaz-profile-summary {
+  display: grid;
+  grid-template-columns: 72px minmax(0,1fr);
+  align-items: center;
+  gap: 13px;
+  margin-top: 18px;
+}
+
+.ustaz-profile-summary h3 {
+  margin: 0;
+  color: var(--ud-text);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.35rem;
+  letter-spacing: -.025em;
+}
+
+.ustaz-profile-summary p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 5px 0 8px;
+  color: var(--ud-muted);
+  font-size: .72rem;
+  line-height: 1.65;
+}
+
+.ustaz-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 16px;
+  color: var(--ud-muted);
+  font-size: .63rem;
+}
+
+.ustaz-meta-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ustaz-meta-row i {
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-meta-row b {
+  font-weight: 700;
+  color: var(--ud-text);
+}
+
+.ustaz-subject-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.dashboard-chip,
+.dashboard-empty-chip,
+.ustaz-day-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 31px;
+  padding: 6px 10px;
+  border: 1px solid var(--ud-border);
+  border-radius: 999px;
+  background: var(--ud-surface-2);
+  color: var(--ud-text);
+  font-size: .63rem;
+  font-weight: 700;
+}
+
+.dashboard-empty-chip {
+  color: var(--ud-muted);
+  font-weight: 600;
+}
+
+.ustaz-detail-list {
+  display: grid;
+  gap: 0;
+  margin-top: 10px;
+}
+
+.ustaz-detail-list > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 15px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--ud-border);
+}
+
+.ustaz-detail-list > div:last-child {
+  border-bottom: 0;
+}
+
+.ustaz-detail-list span {
+  color: var(--ud-muted);
+  font-size: .68rem;
+}
+
+.ustaz-detail-list span i {
+  width: 17px;
+  margin-right: 5px;
+  color: var(--ud-accent-dark);
+  text-align: center;
+}
+
+.ustaz-detail-list strong {
+  max-width: 220px;
+  color: var(--ud-text);
+  font-size: .69rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* ---------- Recitation mini player ---------- */
+
+.ustaz-recitation-status {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 16px;
+  padding: 11px;
+  border: 1px solid var(--ud-border);
+  border-radius: 13px;
+  background: var(--ud-surface-2);
+}
+
+.ustaz-recitation-status > div {
+  min-width: 0;
+}
+
+.ustaz-recitation-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-recitation-status strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ud-text);
+  font-size: .73rem;
+}
+
+.ustaz-recitation-status p {
+  margin: 3px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ud-muted);
+  font-size: .62rem;
+}
+
+.ustaz-audio-mini {
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--ud-border);
+  border-radius: 14px;
+  background: var(--ud-surface-2);
+}
+
+.ustaz-audio-mini > button {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ud-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.ustaz-audio-mini > div {
+  min-width: 0;
+}
+
+.ustaz-audio-top,
+.ustaz-audio-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ustaz-audio-top strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .64rem;
+}
+
+.ustaz-audio-top span,
+.ustaz-audio-bottom span {
+  color: var(--ud-muted);
+  font-size: .58rem;
+  font-weight: 700;
+}
+
+.ustaz-audio-mini input[type="range"] {
+  width: 100%;
+  height: 4px;
+  display: block;
+  margin: 8px 0 7px;
+  accent-color: var(--ud-accent);
+  cursor: pointer;
+}
+
+.ustaz-audio-mini audio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Section pages ---------- */
+
+.ustaz-section-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.ustaz-section-intro h1 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.ustaz-section-intro p {
+  max-width: 720px;
+  margin: 7px 0 0;
+  color: var(--ud-muted);
+  font-size: .74rem;
+  line-height: 1.7;
+}
+
+.ustaz-profile-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1.05fr) minmax(320px,.95fr);
+  gap: 14px;
+}
+
+.ustaz-public-profile-card {
+  min-height: 100%;
+}
+
+.ustaz-profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ustaz-profile-hero > div {
+  min-width: 0;
+}
+
+.ustaz-profile-hero h2 {
+  margin-top: 9px;
+  font-size: 1.7rem;
+}
+
+.ustaz-profile-hero p {
+  margin: 5px 0 0;
+  color: var(--ud-muted);
+  font-size: .72rem;
+}
+
+.ustaz-status-pill {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: .58rem;
+  font-weight: 800;
+}
+
+.ustaz-bio-block {
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ud-border);
+}
+
+.ustaz-bio-block > span {
+  color: var(--ud-muted);
+  font-size: .63rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.ustaz-bio-block p {
+  margin: 7px 0 0;
+  color: var(--ud-text);
+  font-size: .74rem;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* ---------- Empty states ---------- */
+
+.ustaz-empty-panel {
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 1px dashed var(--ud-border-strong);
+  border-radius: 20px;
+  background: var(--ud-surface);
+  text-align: center;
+}
+
+.ustaz-empty-icon {
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: 1.15rem;
+}
+
+.ustaz-empty-panel h3 {
+  margin: 17px 0 6px;
+  color: var(--ud-text);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.ustaz-empty-panel p {
+  max-width: 540px;
+  margin: 0;
+  color: var(--ud-muted);
+  font-size: .71rem;
+  line-height: 1.8;
+}
+
+.ustaz-empty-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 25px;
+  color: var(--ud-muted);
+  font-size: .68rem;
+}
+
+/* ---------- Availability ---------- */
+
+.ustaz-day-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.ustaz-day-grid:has(.ustaz-day-chip) + .ustaz-empty-inline {
+  display: none;
+}
+
+.ustaz-day-chip {
+  min-height: 46px;
+  border-radius: 13px;
+  justify-content: flex-start;
+  padding-inline: 12px;
+}
+
+/* ---------- Settings ---------- */
+
+.ustaz-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px;
+}
+
+.ustaz-setting-row {
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ud-border);
+}
+
+.ustaz-setting-row > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-setting-row strong {
+  font-size: .75rem;
+}
+
+.ustaz-setting-row span {
+  margin-top: 4px;
+  color: var(--ud-muted);
+  font-size: .63rem;
+  line-height: 1.5;
+}
+
+.ustaz-switch {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  flex: 0 0 48px;
+  padding: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: #76817b;
+  cursor: pointer;
+}
+
+.ustaz-switch > span {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(0);
+  transition: transform .2s ease;
+}
+
+.ustaz-switch[aria-checked="true"] {
+  background: var(--ud-accent);
+}
+
+.ustaz-switch[aria-checked="true"] > span {
+  transform: translateX(20px);
+}
+
+/* ---------- Focus ---------- */
+
+.ustaz-dashboard a:focus-visible,
+.ustaz-dashboard button:focus-visible,
+.ustaz-dashboard input:focus-visible {
+  outline: 2px solid var(--ud-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1180px) {
+  .ustaz-stat-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .ustaz-home-grid,
+  .ustaz-profile-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ustaz-profile-overview-panel,
+  .ustaz-recitation-panel {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .ustaz-welcome-card {
+    grid-template-columns: minmax(0,1fr) 220px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ustaz-sidebar {
+    transform: translateX(-100%);
+    transition: transform .22s ease;
+    box-shadow: 20px 0 50px rgba(0,0,0,.16);
+  }
+
+  .ustaz-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .ustaz-sidebar-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ustaz-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    display: block;
+    background: rgba(18, 14, 9, .48);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease;
+  }
+
+  body.ustaz-dashboard-sidebar-open .ustaz-sidebar-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .ustaz-main {
+    margin-left: 0;
+  }
+
+  .ustaz-menu-toggle {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ud-border);
+    border-radius: 12px;
+    background: var(--ud-surface);
+    color: var(--ud-text);
+    cursor: pointer;
+  }
+
+  .ustaz-topbar {
+    padding-inline: 18px;
+  }
+
+  .ustaz-content {
+    padding: 20px 18px 30px;
+  }
+}
+
+@media (max-width: 680px) {
+  .ustaz-welcome-card {
+    display: block;
+  }
+
+  .ustaz-welcome-art {
+    display: none;
+  }
+
+  .ustaz-stat-grid,
+  .ustaz-settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ustaz-profile-copy {
+    display: none;
+  }
+
+  .ustaz-profile-button {
+    grid-template-columns: 42px 12px;
+  }
+
+  .ustaz-profile-button .ustaz-profile-chevron {
+    grid-column: 2;
+  }
+
+  .ustaz-section-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ustaz-section-intro .btn {
+    width: 100%;
+  }
+
+  .ustaz-day-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .ustaz-profile-menu {
+    right: 14px;
+  }
+}
+
+@media (max-width: 470px) {
+  .ustaz-topbar {
+    min-height: 70px;
+    padding: 10px 12px;
+  }
+
+  .ustaz-topbar-actions {
+    gap: 5px;
+  }
+
+  .ustaz-topbar-icon,
+  .ustaz-menu-toggle {
+    width: 38px;
+    height: 38px;
+  }
+
+  .ustaz-profile-button {
+    min-height: 40px;
+    padding: 4px;
+    grid-template-columns: 38px 10px;
+  }
+
+  .ustaz-profile-button .ustaz-avatar {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .ustaz-content {
+    padding: 15px 12px 25px;
+  }
+
+  .ustaz-welcome-copy {
+    padding: 23px 19px;
+  }
+
+  .ustaz-welcome-copy h1 {
+    font-size: 2rem;
+  }
+
+  .ustaz-panel {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .ustaz-profile-summary {
+    grid-template-columns: 60px minmax(0,1fr);
+  }
+
+  .ustaz-profile-summary .ustaz-avatar-large {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    flex-basis: 60px !important;
+  }
+
+  .ustaz-profile-hero {
+    align-items: flex-start;
+  }
+
+  .ustaz-profile-hero .ustaz-avatar-xl {
+    width: 82px !important;
+    height: 82px !important;
+    min-width: 82px !important;
+    max-width: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    flex-basis: 82px !important;
+  }
+
+  .ustaz-profile-hero h2 {
+    font-size: 1.38rem;
+  }
+
+  .ustaz-detail-list > div {
+    grid-template-columns: minmax(0,1fr);
+    gap: 4px;
+  }
+
+  .ustaz-detail-list strong {
+    max-width: 100%;
+    text-align: left;
+  }
+}
+
+
+/* ---------- Final avatar isolation ---------- */
+.ustaz-dashboard .ustaz-avatar,
+.ustaz-dashboard .ustaz-sidebar-avatar {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  flex: 0 0 auto !important;
+}
+
+.ustaz-dashboard .ustaz-avatar img,
+.ustaz-dashboard .ustaz-sidebar-avatar img,
+.ustaz-dashboard img[id$="AvatarImage"] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 50% !important;
+}
+
+.ustaz-dashboard .ustaz-welcome-card .ustaz-eyebrow {
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-dashboard .ustaz-panel-eyebrow {
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-dashboard .ustaz-nav-link.active::before {
+  background: var(--ud-accent);
+}
+
+.ustaz-dashboard .ustaz-nav-link:hover,
+.ustaz-dashboard .ustaz-nav-link.active {
+  color: var(--ud-accent-dark);
+}
+
+/* =========================================================
+   PARENT-STYLE SHELL / PROFILE OVERRIDES
+   Keep Ustaz functionality, but use the same visual behavior
+   as the Parent/Student dashboard.
+========================================================= */
+
+/* Desktop: the sidebar is a floating panel with breathing room
+   around its outside border, matching the parent dashboard feel. */
+@media (min-width: 901px) {
+  .ustaz-sidebar {
+    inset: 12px auto 12px 12px;
+    width: var(--ud-sidebar);
+    min-height: calc(100vh - 24px);
+    height: calc(100vh - 24px);
+    border: 1px solid var(--ud-border);
+    border-radius: 22px;
+    box-shadow: var(--ud-shadow);
+    overflow: hidden;
+  }
+
+  .ustaz-main {
+    margin-left: 300px;
+  }
+
+  .ustaz-sidebar-profile-trigger {
+    display: none !important;
+  }
+}
+
+/* Parent-style three-line account block on mobile sidebar. */
+.ustaz-sidebar-profile-trigger {
+  position: relative;
+  width: 100%;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ud-text);
+}
+
+.ustaz-sidebar-profile-trigger .ustaz-sidebar-account-copy {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.ustaz-sidebar-profile-trigger .ustaz-sidebar-account-copy strong {
+  order: 1;
+  min-width: 0;
+  color: var(--ud-text);
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ustaz-sidebar-profile-trigger .ustaz-sidebar-account-label {
+  order: 2;
+  margin: 0;
+  color: #5f594f;
+  font-size: .72rem;
+  line-height: 1.25;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.ustaz-sidebar-profile-trigger .ustaz-sidebar-account-bio {
+  order: 3;
+  display: block;
+  margin: 0;
+  max-width: 100%;
+  color: #6f685e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .68rem;
+  line-height: 1.25;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.ustaz-sidebar-account-bio:empty,
+.ustaz-sidebar-account-bio[hidden] {
+  display: none !important;
+}
+
+.ustaz-sidebar-profile-trigger .ustaz-profile-chevron {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  color: #5f594f;
+  opacity: 1;
+  transition: transform .2s ease, color .2s ease;
+}
+
+.ustaz-sidebar-profile-trigger[aria-expanded="true"] .ustaz-profile-chevron {
+  transform: rotate(180deg);
+}
+
+.ustaz-sidebar-profile-trigger:hover .ustaz-profile-chevron,
+.ustaz-sidebar-profile-trigger:focus-visible .ustaz-profile-chevron {
+  color: var(--ud-accent-dark);
+}
+
+/* Desktop: profile avatar lives in the top-right corner only. */
+@media (min-width: 769px) {
+  .ustaz-sidebar-profile-trigger {
+    display: none !important;
+  }
+
+  .ustaz-topbar .ustaz-profile-button {
+    display: grid !important;
+  }
+}
+
+/* Mobile: topbar avatar is hidden; account trigger moves into sidebar. */
+@media (max-width: 900px) {
+  .ustaz-topbar .ustaz-profile-button {
+    display: none !important;
+  }
+
+  .ustaz-sidebar-profile-trigger {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    grid-template-columns: none;
+  }
+
+  .ustaz-sidebar {
+    position: fixed;
+  }
+}
+
+body.dark-theme .ustaz-sidebar-profile-trigger .ustaz-sidebar-account-label,
+html[data-theme="dark"] .ustaz-sidebar-profile-trigger .ustaz-sidebar-account-label {
+  color: #d9d1c5;
+}
+
+body.dark-theme .ustaz-sidebar-profile-trigger .ustaz-sidebar-account-bio,
+html[data-theme="dark"] .ustaz-sidebar-profile-trigger .ustaz-sidebar-account-bio {
+  color: #c7beb1;
+}
+
+body.dark-theme .ustaz-sidebar-profile-trigger .ustaz-profile-chevron,
+html[data-theme="dark"] .ustaz-sidebar-profile-trigger .ustaz-profile-chevron {
+  color: #d9d1c5;
+}
+
+/* Profile menu follows the parent behavior: desktop top-right,
+   mobile inside the sidebar. */
+.ustaz-profile-menu {
+  z-index: 3000;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(720px, calc(100dvh - 96px));
+  overflow: auto;
+  border-radius: 18px;
+  padding: 16px;
+  box-sizing: border-box;
+  background: var(--ud-surface);
+  color: var(--ud-text);
+  border: 1px solid var(--ud-border);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .16);
+}
+
+@media (min-width: 769px) {
+  .ustaz-profile-menu {
+    position: fixed;
+    top: 76px;
+    right: 20px;
+    left: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .ustaz-profile-menu {
+    position: absolute;
+    top: 126px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-height: calc(100dvh - 146px);
+    border-radius: 16px;
+  }
+}
+
+/* Parent-style global error/status surface. */
+.ustaz-error-panel {
+  width: 100%;
+  margin: 0 0 16px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background: rgba(178, 52, 52, .08);
+  border: 1px solid rgba(178, 52, 52, .18);
+}
+
+.ustaz-error-panel > div:nth-child(2) {
+  min-width: 0;
+}
+
+.ustaz-error-panel p {
+  overflow-wrap: anywhere;
+}
+
+/* Parent-style summary cards, including nearest mosque. */
+.ustaz-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  align-items: stretch;
+}
+
+.ustaz-summary-card {
+  min-width: 0;
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 17px;
+  border: 1px solid var(--ud-border);
+  border-radius: 17px;
+  background: var(--ud-surface);
+  box-shadow: var(--ud-shadow-small);
+}
+
+.ustaz-summary-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-summary-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-summary-copy > span {
+  color: var(--ud-muted);
+  font-size: .62rem;
+  font-weight: 700;
+}
+
+.ustaz-summary-copy strong {
+  margin-top: 7px;
+  color: var(--ud-text);
+  font-size: .84rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.ustaz-summary-copy small {
+  margin-top: 6px;
+  color: var(--ud-muted);
+  font-size: .60rem;
+  line-height: 1.45;
+}
+
+/* Qualification cards/document links. */
+.ustaz-qualification-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.ustaz-qualification-card {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--ud-border);
+  border-radius: 13px;
+  background: var(--ud-surface-2);
+}
+
+.ustaz-qualification-heading {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.ustaz-qualification-heading > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.ustaz-qualification-heading strong {
+  min-width: 0;
+  color: var(--ud-text);
+  font-size: .75rem;
+  overflow-wrap: anywhere;
+}
+
+.ustaz-qualification-heading span {
+  color: var(--ud-muted);
+  font-size: .62rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.ustaz-qualification-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+}
+
+.ustaz-qualification-link,
+.ustaz-qualification-file {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ud-accent-dark) !important;
+  font-size: .64rem;
+  font-weight: 800;
+}
+
+.ustaz-qualification-link {
+  white-space: nowrap;
+}
+
+.ustaz-qualification-file span {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ustaz-qualification-empty {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px dashed var(--ud-border-strong);
+  border-radius: 13px;
+  color: var(--ud-muted);
+  font-size: .67rem;
+  text-align: center;
+}
+
+.ustaz-panel-description {
+  margin: 5px 0 0;
+  color: var(--ud-muted);
+  font-size: .68rem;
+  line-height: 1.65;
+}
+
+.ustaz-profile-qualifications-panel {
+  margin-top: 14px;
+}
+
+@media (max-width: 1180px) {
+  .ustaz-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .ustaz-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ustaz-qualification-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ustaz-qualification-link,
+  .ustaz-qualification-file {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .ustaz-error-panel {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .ustaz-error-panel .btn {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   USTAZ DASHBOARD INTERACTION FIXES
+   Aligns the current CSS with teacher.js state handling and
+   adds the Parent/Student-style notification surface.
+========================================================= */
+
+.ustaz-dashboard [hidden] {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .ustaz-dashboard .ustaz-sidebar {
+    z-index: 1000;
+  }
+
+  .ustaz-dashboard .ustaz-sidebar.is-open,
+  .ustaz-dashboard.sidebar-open .ustaz-sidebar,
+  .ustaz-dashboard.ustaz-sidebar-open .ustaz-sidebar {
+    transform: translateX(0);
+  }
+
+  .ustaz-dashboard .ustaz-sidebar-overlay {
+    z-index: 900;
+  }
+
+  .ustaz-dashboard .ustaz-menu-toggle {
+    position: relative;
+    z-index: 1200;
+  }
+
+  body.ustaz-dashboard-scroll-locked {
+    overflow: hidden !important;
+    touch-action: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   NOTIFICATION PANEL
+---------------------------------------------------------- */
+
+.ustaz-notification-panel {
+  position: fixed;
+  top: 76px;
+  right: 84px;
+  z-index: 3000;
+  width: min(360px, calc(100vw - 28px));
+  max-height: min(560px, calc(100dvh - 96px));
+  overflow: auto;
+  padding: 14px;
+  box-sizing: border-box;
+  border: 1px solid var(--ud-border);
+  border-radius: 18px;
+  background: var(--ud-surface);
+  color: var(--ud-text);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .16);
+}
+
+.ustaz-notification-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 3px 3px 12px;
+  border-bottom: 1px solid var(--ud-border);
+}
+
+.ustaz-notification-header > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ustaz-notification-header strong {
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.ustaz-notification-header span {
+  color: var(--ud-muted);
+  font-size: .68rem;
+  line-height: 1.45;
+}
+
+.ustaz-notification-clear {
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding: 6px 9px;
+  border: 1px solid var(--ud-border);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ud-muted);
+  font-size: .65rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ustaz-notification-clear:hover,
+.ustaz-notification-clear:focus-visible {
+  background: var(--ud-surface-2);
+  color: var(--ud-text);
+}
+
+.ustaz-notification-list {
+  padding-top: 4px;
+}
+
+.ustaz-notification-empty {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 25px 18px;
+  text-align: center;
+}
+
+.ustaz-notification-empty-icon {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+  border-radius: 14px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: 1.05rem;
+}
+
+.ustaz-notification-empty strong {
+  font-size: .8rem;
+}
+
+.ustaz-notification-empty p {
+  max-width: 270px;
+  margin: 0;
+  color: var(--ud-muted);
+  font-size: .68rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .ustaz-notification-panel {
+    top: 70px;
+    right: 12px;
+    width: min(360px, calc(100vw - 24px));
+    max-height: calc(100dvh - 84px);
+  }
+
+  .ustaz-topbar .ustaz-profile-button {
+    display: none !important;
+  }
+
+  .ustaz-sidebar-profile-trigger {
+    display: flex !important;
+  }
+
+  .ustaz-sidebar .ustaz-profile-menu {
+    position: absolute;
+    top: 126px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}
+
+@media (min-width: 901px) {
+  .ustaz-sidebar-profile-trigger {
+    display: none !important;
+  }
+}
+/* =========================================================
+   BARAKALINK — USTAZ MESSAGE NOTIFICATIONS
+   Append to frontend/css/ustaz-dashboard.css
+========================================================= */
+
+.ustaz-message-notification {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 10px 28px 10px 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ud-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.ustaz-message-notification:hover,
+.ustaz-message-notification:focus-visible {
+  background: var(--ud-surface-2);
+  outline: none;
+}
+
+.ustaz-message-notification:focus-visible {
+  box-shadow: 0 0 0 2px var(--ud-accent-soft);
+}
+
+.ustaz-message-notification.unread {
+  background: var(--ud-accent-soft);
+}
+
+.ustaz-message-notification + .ustaz-message-notification {
+  margin-top: 4px;
+}
+
+.ustaz-message-notification-avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: .68rem;
+  font-weight: 800;
+}
+
+.ustaz-message-notification-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ustaz-message-notification-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ustaz-message-notification-title {
+  color: var(--ud-accent-dark);
+  font-size: .61rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.ustaz-message-notification-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ud-text);
+  font-size: .76rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.ustaz-message-notification-preview {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 1px;
+  color: var(--ud-muted);
+  font-size: .67rem;
+  line-height: 1.45;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ustaz-message-notification-time {
+  padding-top: 2px;
+  color: var(--ud-muted);
+  font-size: .59rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.ustaz-message-notification-dot {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ud-accent);
+  box-shadow: 0 0 0 3px var(--ud-accent-soft);
+}
+
+@media (max-width: 480px) {
+  .ustaz-message-notification {
+    grid-template-columns: 36px minmax(0, 1fr);
+    padding-right: 26px;
+  }
+
+  .ustaz-message-notification-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .ustaz-message-notification-time {
+    grid-column: 2;
+    padding-top: 0;
+  }
+}
+
+/* =========================================================
+   DASHBOARD MESSAGE SECTION — CONVERSATION LIST
+========================================================= */
+
+.ustaz-message-section-panel { min-width: 0; }
+
+.ustaz-messages-refresh {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.ustaz-messages-refresh:hover { color: var(--ud-accent-dark); }
+
+.ustaz-dashboard-conversation-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.ustaz-dashboard-conversation {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto 16px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ud-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.ustaz-dashboard-conversation:hover,
+.ustaz-dashboard-conversation:focus-visible {
+  background: var(--ud-surface-2);
+  border-color: var(--ud-border);
+  outline: none;
+}
+
+.ustaz-dashboard-conversation:focus-visible {
+  box-shadow: 0 0 0 2px var(--ud-accent-soft);
+}
+
+.ustaz-dashboard-conversation.has-unread { background: var(--ud-accent-soft); }
+
+.ustaz-dashboard-conversation-avatar {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.ustaz-dashboard-conversation-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ustaz-dashboard-conversation-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ustaz-dashboard-conversation-name,
+.ustaz-dashboard-conversation-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ustaz-dashboard-conversation-name { font-size: .78rem; font-weight: 800; }
+
+.ustaz-dashboard-conversation-preview {
+  color: var(--ud-muted);
+  font-size: .67rem;
+  line-height: 1.45;
+}
+
+.ustaz-dashboard-conversation-meta {
+  min-width: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  color: var(--ud-muted);
+  font-size: .58rem;
+  white-space: nowrap;
+}
+
+.ustaz-dashboard-conversation-unread {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--ud-accent);
+  color: #fff;
+  font-size: .58rem;
+  font-weight: 800;
+}
+
+.ustaz-dashboard-conversation-arrow { color: var(--ud-muted); font-size: .65rem; }
+
+.ustaz-conversation-state {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 22px;
+  text-align: center;
+}
+
+.ustaz-conversation-state-icon {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--ud-accent-soft);
+  color: var(--ud-accent-dark);
+  font-size: 1rem;
+}
+
+.ustaz-conversation-state strong { font-size: .78rem; }
+
+.ustaz-conversation-state p {
+  max-width: 360px;
+  margin: 0;
+  color: var(--ud-muted);
+  font-size: .67rem;
+  line-height: 1.6;
+}
+
+.ustaz-conversation-state-error .ustaz-conversation-state-icon {
+  background: rgba(184, 79, 79, .10);
+  color: var(--ud-danger);
+}
+
+@media (max-width: 600px) {
+  .ustaz-dashboard-conversation {
+    grid-template-columns: 42px minmax(0, 1fr) auto 14px;
+    gap: 10px;
+    padding: 10px 7px;
+  }
+  .ustaz-dashboard-conversation-avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+  .ustaz-dashboard-conversation-meta {
+    min-width: 38px;
+    font-size: .54rem;
+  }
+}
+/* =========================================================
+   BARAKALINK USTAZ OVERVIEW ORDER
+   =========================================================
+
+   Order on the overview page:
+   1. Welcome / Assalamu Alaikum
+   2. Your Profile + Teaching Setup
+   3. Recitation
+   4. Summary cards
+   5. Stats
+   6. Qualifications
+
+   Desktop:
+   - Profile + Teaching Setup sit side-by-side.
+   - Recitation and Qualifications use the full row.
+
+   Mobile:
+   - Profile + Teaching Setup stack vertically.
+   - Summary cards become a 2 x 2 grid.
+   - Stats become a 2 x 2 grid.
+========================================================= */
+
+/* ---------------------------------------------------------
+   PRIMARY: PROFILE + TEACHING SETUP
+--------------------------------------------------------- */
+.ustaz-overview-primary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 24px;
+  align-items: stretch;
+  margin-top: 24px;
+}
+
+.ustaz-overview-primary-grid > .ustaz-panel {
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+}
+
+.ustaz-overview-primary-grid .ustaz-panel-header {
+  min-height: 54px;
+}
+
+/* Recitation / qualifications: one full-width row after the primary cards. */
+.ustaz-overview-full-panel {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* ---------------------------------------------------------
+   MOBILE / TABLET ORDER
+--------------------------------------------------------- */
+@media (max-width: 900px) {
+  .ustaz-overview-primary-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .ustaz-overview-primary-grid > .ustaz-panel {
+    height: auto;
+  }
+
+  .ustaz-overview-full-panel {
+    margin-top: 18px;
+  }
+
+  /* Summary: 2 cards on the first row, 2 on the second row. */
+  .ustaz-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  /* Stats: 2 cards on the first row, 2 on the second row. */
+  .ustaz-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .ustaz-summary-card,
+  .ustaz-stat-card {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .ustaz-overview-primary-grid {
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .ustaz-overview-full-panel {
+    margin-top: 16px;
+  }
+
+  .ustaz-summary-grid,
+  .ustaz-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  /* Prevent long dynamic values from forcing a mobile card wider. */
+  .ustaz-summary-copy,
+  .ustaz-stat-card > div {
+    min-width: 0;
+  }
+
+  .ustaz-summary-copy strong,
+  .ustaz-summary-copy small,
+  .ustaz-stat-card strong,
+  .ustaz-stat-card small {
+    overflow-wrap: anywhere;
+  }
+}

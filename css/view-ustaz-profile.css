@@ -1,0 +1,972 @@
+/* =========================================================
+   BARAKALINK — PUBLIC USTAZ PROFILE
+   Dedicated stylesheet for:
+   frontend/dashboard/view-ustaz-profile.html
+
+   Scope: this page only. Do not import into student.css,
+   teacher.css, or any other BarakaLink stylesheet.
+========================================================= */
+
+:root {
+  --bl-bg: #fbf7ee;
+  --bl-surface: #ffffff;
+  --bl-surface-soft: #f6f0e4;
+  --bl-text: #201a15;
+  --bl-muted: #766d63;
+  --bl-border: rgba(32, 26, 21, 0.10);
+  --bl-accent: #b78a2c;
+  --bl-accent-dark: #8d681f;
+  --bl-success: #2f7d4a;
+  --bl-shadow: 0 20px 55px rgba(44, 34, 20, 0.10);
+  --bl-radius: 22px;
+  --bl-focus-ring: 0 0 0 3px color-mix(in srgb, var(--bl-accent) 45%, transparent);
+}
+
+body.dark-theme {
+  --bl-bg: #17130f;
+  --bl-surface: #211b16;
+  --bl-surface-soft: #2a231c;
+  --bl-text: #f6eee2;
+  --bl-muted: #b8aa98;
+  --bl-border: rgba(255, 255, 255, 0.09);
+  --bl-accent: #d5a64a;
+  --bl-accent-dark: #e0b866;
+  --bl-success: #73c28c;
+  --bl-shadow: 0 20px 55px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bl-bg);
+  color: var(--bl-text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ustaz-profile-page {
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------------------
+   TOP BAR
+--------------------------------------------------------- */
+
+.ustaz-profile-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--bl-border);
+  background: color-mix(in srgb, var(--bl-bg) 90%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.ustaz-profile-topbar-inner {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ustaz-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--bl-border);
+  background: var(--bl-surface);
+  color: var(--bl-text);
+  padding: 11px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.ustaz-back-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-profile-page-brand {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.ustaz-profile-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ustaz-theme-button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--bl-border);
+  border-radius: 50%;
+  background: var(--bl-surface);
+  color: var(--bl-text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------------------------------------------------------
+   MAIN LAYOUT
+--------------------------------------------------------- */
+
+.ustaz-profile-main {
+  width: min(880px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 70px;
+}
+
+/* ---------------------------------------------------------
+   LOADING / ERROR STATES
+--------------------------------------------------------- */
+
+.ustaz-profile-loading,
+.ustaz-profile-error {
+  width: min(760px, 100%);
+  margin: 70px auto;
+  padding: 34px;
+  text-align: center;
+  border: 1px solid var(--bl-border);
+  border-radius: var(--bl-radius);
+  background: var(--bl-surface);
+  box-shadow: var(--bl-shadow);
+}
+
+.ustaz-profile-loading-spinner {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
+  border: 3px solid var(--bl-border);
+  border-top-color: var(--bl-accent);
+  border-radius: 50%;
+  animation: ustazProfileSpin 0.8s linear infinite;
+}
+
+@keyframes ustazProfileSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ustaz-profile-error-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: rgba(183, 138, 44, 0.12);
+  color: var(--bl-accent);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+}
+
+.ustaz-profile-error h2 {
+  margin: 0 0 8px;
+}
+
+.ustaz-profile-error p {
+  margin: 0 0 20px;
+  color: var(--bl-muted);
+  line-height: 1.7;
+}
+
+.ustaz-profile-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 18px;
+  background: var(--bl-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.ustaz-profile-content {
+  display: none;
+}
+
+.ustaz-profile-content.is-visible {
+  display: block;
+}
+
+/* ---------------------------------------------------------
+   ONE MAIN PROFILE CARD
+   A single bordered card, split into stacked sections by a
+   top border rather than separate cards, so it reads as one
+   cohesive profile.
+--------------------------------------------------------- */
+
+.ustaz-maincard {
+  border-radius: var(--bl-radius);
+  background: var(--bl-surface);
+  border: 1px solid var(--bl-border);
+  box-shadow: var(--bl-shadow);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.ustaz-card-section {
+  padding: 28px 32px;
+}
+
+.ustaz-card-section + .ustaz-card-section {
+  border-top: 1px solid var(--bl-border);
+}
+
+.ustaz-card-heading {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+/* --- Identity: the only section with the hero treatment --- */
+
+.ustaz-identity {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--bl-surface), var(--bl-surface-soft));
+}
+
+.ustaz-identity::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: -140px;
+  right: -110px;
+  border-radius: 50%;
+  background: rgba(183, 138, 44, 0.08);
+  pointer-events: none;
+}
+
+.ustaz-identity-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.ustaz-profile-avatar {
+  flex: 0 0 auto;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bl-surface-soft);
+  border: 4px solid rgba(183, 138, 44, 0.28);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+}
+
+.ustaz-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.ustaz-profile-avatar-initials {
+  color: var(--bl-accent);
+  font-weight: 800;
+  font-size: 30px;
+}
+
+.ustaz-identity-heading {
+  min-width: 0;
+}
+
+.ustaz-profile-name {
+  margin: 0 0 6px;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Single Ustaz/Ustaza label, directly below the name. */
+.ustaz-profile-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  color: var(--bl-accent-dark);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ustaz-profile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--bl-muted);
+  line-height: 1.5;
+}
+
+.ustaz-profile-location,
+.ustaz-profile-mosque-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.ustaz-profile-location i,
+.ustaz-profile-mosque-line i {
+  color: var(--bl-accent);
+}
+
+.ustaz-profile-mosque-line strong {
+  color: var(--bl-text);
+  font-weight: 700;
+}
+
+.ustaz-profile-meta-divider {
+  color: var(--bl-border);
+}
+
+/* --- Teaching fields: gold-tinted category chips --- */
+
+.ustaz-profile-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ustaz-profile-field {
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bl-accent) 14%, var(--bl-surface));
+  border: 1px solid color-mix(in srgb, var(--bl-accent) 32%, transparent);
+  color: var(--bl-accent-dark);
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.ustaz-profile-field-empty {
+  color: var(--bl-muted);
+  font-size: 0.9rem;
+}
+
+/* --- Stats: price / experience / subjects, as tiles --- */
+
+.ustaz-maincard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ustaz-stat-tile {
+  min-width: 0;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--bl-border);
+  background: var(--bl-surface-soft);
+  box-shadow: 0 6px 18px rgba(44, 34, 20, 0.05);
+}
+
+body.dark-theme .ustaz-stat-tile {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.ustaz-stat-tile small {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--bl-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ustaz-stat-tile strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--bl-text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* --- About / Teaching approach --- */
+
+.ustaz-profile-bio,
+.ustaz-profile-teaching-approach {
+  margin: 0;
+  color: var(--bl-muted);
+  line-height: 1.85;
+  white-space: pre-wrap;
+}
+
+/* --- Languages: neutral outlined pills --- */
+
+.ustaz-profile-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.ustaz-profile-language {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--bl-border);
+  background: var(--bl-surface-soft);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.ustaz-profile-empty {
+  color: var(--bl-muted);
+  font-size: 0.9rem;
+}
+
+/* --- Lesson details: icon + label/value rows --- */
+
+.ustaz-profile-info-list {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+}
+
+.ustaz-profile-info-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--bl-border);
+}
+
+.ustaz-profile-info-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ustaz-profile-info-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--bl-surface-soft);
+  color: var(--bl-accent);
+  display: grid;
+  place-items: center;
+}
+
+.ustaz-profile-info-copy small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--bl-muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ustaz-profile-info-copy strong {
+  display: block;
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+/* --- Availability --- */
+
+.ustaz-profile-availability {
+  display: grid;
+  gap: 9px;
+}
+
+.ustaz-profile-day {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: var(--bl-surface-soft);
+}
+
+.ustaz-profile-day strong {
+  font-size: 0.88rem;
+}
+
+.ustaz-profile-day span {
+  color: var(--bl-muted);
+  font-size: 0.84rem;
+}
+
+/* --- Recitation sample --- */
+
+.ustaz-profile-recitation {
+  display: grid;
+  gap: 16px;
+}
+
+.ustaz-profile-recitation-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.ustaz-profile-recitation-description {
+  margin: 0;
+  color: var(--bl-muted);
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+.ustaz-profile-audio {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.ustaz-profile-audio-empty {
+  padding: 18px;
+  border-radius: 15px;
+  background: var(--bl-surface-soft);
+  color: var(--bl-muted);
+  font-size: 0.88rem;
+}
+
+/* --- Save button, closing section of the card --- */
+/* ---------------------------------------------------------
+   PROFILE ACTIONS — SAVE + CHAT
+   Both buttons always use the same size.
+--------------------------------------------------------- */
+
+.ustaz-card-save {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  background: var(--bl-surface-soft);
+}
+
+.ustaz-profile-save-button,
+.ustaz-profile-chat {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 22px;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  font: inherit;
+  font-weight: 800;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* ---------------------------------------------------------
+   SAVE
+--------------------------------------------------------- */
+
+.ustaz-profile-save-button {
+  background: var(--bl-surface);
+  color: var(--bl-text);
+}
+
+.ustaz-profile-save-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.08);
+}
+
+.ustaz-profile-save-button.is-saved {
+  background: rgba(183, 138, 44, 0.12);
+  border-color: rgba(183, 138, 44, 0.35);
+  color: var(--bl-accent-dark);
+}
+
+/* ---------------------------------------------------------
+   CHAT USTAZ
+--------------------------------------------------------- */
+
+.ustaz-profile-chat {
+  background: var(--bl-accent);
+  border-color: var(--bl-accent);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.ustaz-profile-chat:hover {
+  transform: translateY(-1px);
+  background: var(--bl-accent-dark);
+  border-color: var(--bl-accent-dark);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.12);
+}
+
+.ustaz-profile-chat i,
+.ustaz-profile-save-button i {
+  font-size: 0.95rem;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------
+   DISABLED CHAT
+--------------------------------------------------------- */
+
+.ustaz-profile-chat:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------
+   KEYBOARD FOCUS
+--------------------------------------------------------- */
+
+.ustaz-profile-save-button:focus-visible,
+.ustaz-profile-chat:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+  border-color: var(--bl-accent);
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   Both buttons remain exactly the same width/height.
+--------------------------------------------------------- */
+@media (max-width: 640px) {
+
+  .ustaz-card-save {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .ustaz-profile-save-button,
+  .ustaz-profile-chat {
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0 10px;
+    font-size: 0.9rem;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   SMALL MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 400px) {
+
+  .ustaz-card-save {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ustaz-profile-save-button,
+  .ustaz-profile-chat {
+    min-height: 48px;
+    padding: 0 7px;
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+
+  .ustaz-profile-save-button i,
+  .ustaz-profile-chat i {
+    font-size: 0.85rem;
+  }
+
+}
+/* ---------------------------------------------------------
+   FUTURE CONTENT AREA
+--------------------------------------------------------- */
+
+.ustaz-updates-section {
+  padding: 30px 32px;
+  border-radius: var(--bl-radius);
+  background: var(--bl-surface);
+  border: 1px dashed var(--bl-border);
+  text-align: center;
+  color: var(--bl-muted);
+  margin-bottom: 22px;
+}
+
+.ustaz-updates-heading {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--bl-text);
+}
+
+.ustaz-updates-placeholder {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.ustaz-profile-footer {
+  margin-top: 4px;
+  text-align: center;
+  color: var(--bl-muted);
+  font-size: 0.82rem;
+}
+
+/* ---------------------------------------------------------
+   FOCUS STATES (keyboard accessibility)
+--------------------------------------------------------- */
+
+.ustaz-back-button:focus-visible,
+.ustaz-theme-button:focus-visible,
+.ustaz-profile-retry:focus-visible,
+.ustaz-profile-save-button:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-profile-audio:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+}
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ustaz-profile-loading-spinner {
+    animation-duration: 1.6s;
+  }
+
+  .ustaz-back-button,
+  .ustaz-profile-save-button,
+  body {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE — TABLET
+--------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .ustaz-profile-main {
+    width: min(100% - 28px, 880px);
+  }
+
+  .ustaz-card-section {
+    padding: 24px 26px;
+  }
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE — MOBILE
+   Identity stacks: photo above name/role/meta.
+   Stats become a 2-column grid; the 3rd tile spans full width.
+--------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .ustaz-profile-topbar-inner,
+  .ustaz-profile-main {
+    width: min(100% - 22px, 1180px);
+  }
+
+  .ustaz-profile-main {
+    padding-top: 20px;
+  }
+
+  .ustaz-card-section {
+    padding: 20px 21px;
+  }
+
+  .ustaz-identity-row {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ustaz-profile-avatar {
+    width: 96px;
+    height: 96px;
+  }
+
+  .ustaz-profile-name {
+    font-size: 1.9rem;
+  }
+
+  .ustaz-maincard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ustaz-maincard-stats .ustaz-stat-tile:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .ustaz-profile-save-button {
+    width: 100%;
+  }
+
+  .ustaz-profile-page-brand {
+    display: none;
+  }
+
+  .ustaz-profile-topbar-inner {
+    justify-content: space-between;
+  }
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE — SMALL MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 400px) {
+  .ustaz-profile-topbar-inner {
+    min-height: 64px;
+  }
+
+  .ustaz-back-button {
+    padding: 9px 12px;
+    gap: 7px;
+  }
+
+  .ustaz-theme-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .ustaz-profile-main {
+    padding: 16px 0 50px;
+  }
+
+  .ustaz-card-section {
+    padding: 16px;
+  }
+
+  .ustaz-profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-width: 3px;
+  }
+
+  .ustaz-profile-avatar-initials {
+    font-size: 24px;
+  }
+
+  .ustaz-profile-name {
+    font-size: 1.55rem;
+  }
+
+  .ustaz-profile-role {
+    font-size: 0.8rem;
+  }
+
+  .ustaz-profile-field {
+    padding: 7px 11px;
+    font-size: 0.82rem;
+  }
+
+  .ustaz-stat-tile {
+    padding: 12px;
+  }
+
+  .ustaz-stat-tile strong {
+    font-size: 1.02rem;
+  }
+
+  .ustaz-updates-section {
+    padding: 22px 16px;
+  }
+}
+
+/* =========================================================
+   PUBLIC USTAZ PROFILE — AVATAR IMAGE FIX
+========================================================= */
+
+#ustazProfileAvatar {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+  min-height: 96px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ustazProfileAvatar #ustazProfileInitials {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ustazProfileAvatar #ustazProfileImage {
+  position: absolute !important;
+  inset: 0 !important;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+
+  z-index: 2 !important;
+
+  object-fit: cover !important;
+  object-position: center center !important;
+
+  border-radius: inherit !important;
+}

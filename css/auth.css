@@ -1,0 +1,915 @@
+/* =========================================================
+   BARAKALINK
+   AUTHENTICATION
+========================================================= */
+
+
+/* =========================================================
+   AUTH OVERLAY
+========================================================= */
+
+.auth-overlay {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    300;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  padding:
+    1rem;
+
+  background:
+    rgba(18,14,9,.66);
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+
+.auth-overlay.open {
+
+  opacity:
+    1;
+
+  visibility:
+    visible;
+}
+
+
+.auth-box {
+
+  width:
+    min(
+      100%,
+      480px
+    );
+
+  max-height:
+    min(
+      92dvh,
+      760px
+    );
+
+  overflow-y:
+    auto;
+
+  padding:
+    clamp(
+      1.3rem,
+      4vw,
+      2rem
+    );
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    clamp(
+      20px,
+      4vw,
+      30px
+    );
+
+  background:
+    var(--page-bg);
+
+  box-shadow:
+    0 40px 100px -25px
+    rgba(0,0,0,.48);
+
+  transform:
+    translateY(14px)
+    scale(.97);
+
+  transition:
+    transform .28s ease;
+}
+
+
+.auth-overlay.open .auth-box {
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.auth-header {
+
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+}
+
+
+.auth-header h2 {
+
+  color:
+    var(--text);
+
+  font-size:
+    1.7rem;
+}
+
+
+.auth-subtitle {
+
+  margin-top:
+    .35rem;
+
+  color:
+    var(--text-muted);
+
+  font-size:
+    .82rem;
+}
+
+
+.close-auth {
+
+  width:
+    38px;
+
+  height:
+    38px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  flex:
+    0 0 auto;
+
+  border:
+    0;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(28,23,18,.06);
+
+  color:
+    var(--text-muted);
+}
+
+
+.dark-theme .close-auth {
+
+  background:
+    rgba(248,240,225,.06);
+}
+
+
+.close-auth:hover {
+
+  color:
+    var(--gold-deep);
+
+  background:
+    rgba(168,117,27,.10);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.auth-form {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    .9rem;
+
+  margin-top:
+    1.5rem;
+}
+
+
+.auth-field {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    .4rem;
+}
+
+
+.auth-field label {
+
+  color:
+    var(--text);
+
+  font-size:
+    .77rem;
+
+  font-weight:
+    800;
+}
+
+
+.auth-input,
+.auth-select {
+
+  width:
+    100%;
+
+  min-height:
+    48px;
+
+  padding:
+    .7rem .9rem;
+
+  border:
+    1.5px solid
+    var(--border);
+
+  border-radius:
+    12px;
+
+  outline:
+    none;
+
+  background:
+    var(--surface);
+
+  color:
+    var(--text);
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+
+.auth-input::placeholder {
+
+  color:
+    var(--text-muted);
+}
+
+
+.auth-input:focus,
+.auth-select:focus {
+
+  border-color:
+    var(--gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(168,117,27,.12);
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+.phone-group {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    72px 1fr;
+
+  gap:
+    .55rem;
+}
+
+
+.phone-code {
+
+  min-height:
+    48px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    1.5px solid
+    var(--border);
+
+  border-radius:
+    12px;
+
+  background:
+    var(--surface-muted);
+
+  color:
+    var(--gold-deep);
+
+  font-size:
+    .82rem;
+
+  font-weight:
+    800;
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+.name-row {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap:
+    .65rem;
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-wrapper {
+
+  position:
+    relative;
+}
+
+
+.password-wrapper .auth-input {
+
+  padding-right:
+    3rem;
+}
+
+
+.password-toggle {
+
+  position:
+    absolute;
+
+  right:
+    .45rem;
+
+  top:
+    50%;
+
+  transform:
+    translateY(-50%);
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  border:
+    0;
+
+  border-radius:
+    50%;
+
+  background:
+    transparent;
+
+  color:
+    var(--text-muted);
+}
+
+
+.password-toggle:hover {
+
+  background:
+    rgba(168,117,27,.08);
+
+  color:
+    var(--gold-deep);
+}
+
+
+/* =========================================================
+   ROLES
+========================================================= */
+
+.role-options {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap:
+    .7rem;
+}
+
+
+.role-option {
+
+  position:
+    relative;
+
+  display:
+    block;
+
+  padding:
+    1rem;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    16px;
+
+  background:
+    var(--surface);
+
+  cursor:
+    pointer;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    transform .2s ease;
+}
+
+
+.role-option:hover {
+
+  transform:
+    translateY(-1px);
+}
+
+
+.role-option.active {
+
+  border-color:
+    var(--gold);
+
+  background:
+    rgba(168,117,27,.07);
+}
+
+
+.role-option input {
+
+  position:
+    absolute;
+
+  opacity:
+    0;
+
+  pointer-events:
+    none;
+}
+
+
+.role-option i {
+
+  color:
+    var(--gold);
+
+  font-size:
+    1rem;
+}
+
+
+.role-option strong {
+
+  display:
+    block;
+
+  margin-top:
+    .45rem;
+
+  color:
+    var(--text);
+
+  font-size:
+    .82rem;
+}
+
+
+.role-option span {
+
+  display:
+    block;
+
+  margin-top:
+    .2rem;
+
+  color:
+    var(--text-muted);
+
+  font-size:
+    .68rem;
+}
+
+
+/* =========================================================
+   USTAZ EXTRA
+========================================================= */
+
+.ustaz-extra {
+
+  display:
+    none;
+
+  flex-direction:
+    column;
+
+  gap:
+    .9rem;
+}
+
+
+.ustaz-extra.visible {
+
+  display:
+    flex;
+}
+
+
+/* =========================================================
+   AUTH FINEPRINT
+========================================================= */
+
+.auth-fineprint {
+
+  color:
+    var(--text-muted);
+
+  text-align:
+    center;
+
+  font-size:
+    .67rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =========================================================
+   AUTH SWITCH
+========================================================= */
+
+.auth-switch {
+
+  margin-top:
+    1.1rem;
+
+  color:
+    var(--text-muted);
+
+  text-align:
+    center;
+
+  font-size:
+    .78rem;
+}
+
+
+.auth-switch button {
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    var(--gold-deep);
+
+  font-weight:
+    800;
+}
+
+
+/* =========================================================
+   OTP
+========================================================= */
+
+.otp-section {
+
+  display:
+    none;
+}
+
+
+.otp-section.active {
+
+  display:
+    block;
+}
+
+
+.otp-center {
+
+  padding-top:
+    1rem;
+
+  text-align:
+    center;
+}
+
+
+.otp-icon {
+
+  width:
+    64px;
+
+  height:
+    64px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  margin-inline:
+    auto;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(168,117,27,.10);
+
+  color:
+    var(--gold);
+
+  font-size:
+    1.3rem;
+}
+
+
+.otp-center h3 {
+
+  margin-top:
+    1rem;
+
+  font-size:
+    1.5rem;
+}
+
+
+.otp-center p {
+
+  margin-top:
+    .45rem;
+
+  color:
+    var(--text-muted);
+
+  font-size:
+    .79rem;
+}
+
+
+.otp-input {
+
+  width:
+    100%;
+
+  min-height:
+    58px;
+
+  margin-top:
+    1.3rem;
+
+  border:
+    1.5px solid
+    var(--border);
+
+  border-radius:
+    14px;
+
+  outline:
+    none;
+
+  background:
+    var(--surface);
+
+  color:
+    var(--text);
+
+  text-align:
+    center;
+
+  letter-spacing:
+    .45rem;
+
+  font-size:
+    1.35rem;
+
+  font-weight:
+    800;
+}
+
+
+.otp-input:focus {
+
+  border-color:
+    var(--gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(168,117,27,.11);
+}
+
+
+.resend {
+
+  margin-top:
+    1rem;
+
+  color:
+    var(--text-muted);
+
+  font-size:
+    .75rem;
+}
+
+
+.resend button {
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    var(--gold-deep);
+
+  font-weight:
+    800;
+}
+
+
+/* =========================================================
+   FORM MESSAGES
+========================================================= */
+
+.form-error {
+
+  min-height:
+    1em;
+
+  color:
+    var(--danger);
+
+  font-size:
+    .70rem;
+}
+
+
+.form-status {
+
+  min-height:
+    1em;
+
+  color:
+    var(--gold-deep);
+
+  text-align:
+    center;
+
+  font-size:
+    .75rem;
+
+  font-weight:
+    700;
+}
+/* =========================================================
+   BARAKALINK — AUTH MODAL SCROLLBAR
+   Thumb only — no arrows, no rail/track
+========================================================= */
+
+/* Firefox */
+.auth-box,
+.auth-form {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.auth-box::-webkit-scrollbar,
+.auth-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+
+/* Completely remove the track / railway */
+
+.auth-box::-webkit-scrollbar-track,
+.auth-form::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+
+
+/* Remove top and bottom arrows */
+
+.auth-box::-webkit-scrollbar-button,
+.auth-form::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+
+/* Remove any corner */
+
+.auth-box::-webkit-scrollbar-corner,
+.auth-form::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+/* Moving scrollbar thumb only */
+
+.auth-box::-webkit-scrollbar-thumb,
+.auth-form::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border: none;
+  border-radius: 999px;
+}
+
+
+/* Hover */
+
+.auth-box::-webkit-scrollbar-thumb:hover,
+.auth-form::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-light);
+}

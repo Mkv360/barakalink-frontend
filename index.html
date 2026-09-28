@@ -1,0 +1,3235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<title>BarakaLink — Find Trusted Quran Teachers Near You</title>
+
+<meta
+  name="description"
+  content="BarakaLink connects parents and students with trusted Quran teachers near them. Find qualified Ustaz and Ustaza for Quran Basic, Tajweed, Hifz, Tafseer and Hadith."
+>
+
+<meta
+  name="theme-color"
+  content="#FBF7EE"
+  id="themeColorMeta"
+>
+
+<meta name="color-scheme" content="light dark">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/variables.css">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/teachers.css">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css"> 
+<!--<link rel="stylesheet" href="css/style.css">-->
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<header
+  class="site-nav"
+  id="siteNav"
+>
+
+  <a
+    href="#home"
+    class="logo"
+    aria-label="BarakaLink home"
+  >
+
+    <svg
+      class="logo-mark"
+      viewBox="0 0 40 40"
+      fill="none"
+      aria-hidden="true"
+    >
+
+      <circle
+        cx="20"
+        cy="20"
+        r="13.5"
+        stroke="currentColor"
+        stroke-width="1.7"
+      />
+
+      <circle
+        cx="20"
+        cy="6"
+        r="2.7"
+        fill="currentColor"
+      />
+
+      <circle
+        cx="34"
+        cy="20"
+        r="2.3"
+        fill="white"
+        stroke="currentColor"
+        stroke-width="1.6"
+      />
+
+      <circle
+        cx="20"
+        cy="34"
+        r="2.3"
+        fill="white"
+        stroke="currentColor"
+        stroke-width="1.6"
+      />
+
+      <circle
+        cx="6"
+        cy="20"
+        r="2.3"
+        fill="white"
+        stroke="currentColor"
+        stroke-width="1.6"
+      />
+
+    </svg>
+
+    <span>
+      BarakaLink
+    </span>
+
+  </a>
+
+
+  <nav aria-label="Primary navigation">
+
+    <ul class="nav-links">
+
+      <li>
+        <a href="#home">
+          Home
+        </a>
+      </li>
+
+      <li>
+        <a href="#study-fields">
+          Study Fields
+        </a>
+      </li>
+
+      <li>
+        <a href="#how-it-works">
+          How It Works
+        </a>
+      </li>
+
+      <li>
+        <a href="#about">
+          About
+        </a>
+      </li>
+
+      <li>
+        <a href="#contact">
+          Contact
+        </a>
+      </li>
+
+    </ul>
+
+  </nav>
+
+
+  <div class="nav-actions">
+
+
+    <!-- LANGUAGE -->
+
+    <div class="language-wrap">
+
+      <button
+        type="button"
+        class="icon-button"
+        id="languageButton"
+        aria-label="Change language"
+        aria-expanded="false"
+      >
+
+        <i class="fa-solid fa-globe"></i>
+
+      </button>
+
+
+      <div
+        class="language-menu"
+        id="languageMenu"
+      >
+
+        <button
+          type="button"
+          data-language="en"
+        >
+          English
+        </button>
+
+        <button
+          type="button"
+          data-language="am"
+        >
+          Amharic
+        </button>
+
+        <button
+          type="button"
+          data-language="om"
+        >
+          Afaan Oromoo
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- THEME -->
+
+    <button
+      type="button"
+      class="icon-button"
+      id="themeToggle"
+      aria-label="Switch to dark theme"
+    >
+
+      <i class="fa-solid fa-moon"></i>
+
+    </button>
+
+
+    <!-- LOGIN -->
+
+    <button
+      type="button"
+      class="btn btn-outline"
+      data-auth="login"
+    >
+      Login
+    </button>
+
+
+    <!-- SIGNUP -->
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-auth="signup"
+    >
+      Sign Up
+    </button>
+
+
+    <!-- MOBILE -->
+
+    <button
+      type="button"
+      class="mobile-toggle"
+      id="mobileToggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+
+      <span></span>
+
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     MOBILE NAVIGATION
+========================================================= -->
+
+<div
+  class="mobile-navigation"
+  id="mobileNavigation"
+>
+
+  <ul class="mobile-navigation-links">
+
+    <li>
+      <a href="#home">
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a href="#study-fields">
+        Study Fields
+      </a>
+    </li>
+
+    <li>
+      <a href="#how-it-works">
+        How It Works
+      </a>
+    </li>
+
+    <li>
+      <a href="#about">
+        About
+      </a>
+    </li>
+
+    <li>
+      <a href="#contact">
+        Contact
+      </a>
+    </li>
+
+  </ul>
+
+
+  <div class="mobile-navigation-actions">
+
+    <button
+      type="button"
+      class="btn btn-outline btn-block"
+      data-auth="login"
+    >
+      Login
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary btn-block"
+      data-auth="signup"
+    >
+      Sign Up
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main id="home">
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+  <div class="container hero-grid">
+
+
+    <div class="hero-copy">
+
+
+      <div class="hero-badge">
+
+        <i class="fa-solid fa-sparkles"></i>
+
+        Trusted Quran learning, closer to you
+
+      </div>
+
+
+      <h1 class="hero-title">
+
+        Find a trusted
+        <span>Quran teacher</span>
+        near you.
+
+      </h1>
+
+
+      <p class="hero-description">
+
+        BarakaLink makes it easier for parents and students
+        to discover qualified Ustaz and Ustaza nearby,
+        choose the right study field, and start learning
+        with confidence.
+
+      </p>
+
+
+      <div class="hero-actions">
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-auth="signup-parent"
+        >
+
+          Find Ustaz Near You
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+
+        <a
+          href="#study-fields"
+          class="btn btn-outline"
+        >
+
+          Explore Study Fields
+
+        </a>
+
+      </div>
+
+
+      <div class="hero-trust">
+
+        <div
+          class="trust-avatars"
+          aria-hidden="true"
+        >
+
+          <span class="trust-avatar">A</span>
+          <span class="trust-avatar">M</span>
+          <span class="trust-avatar">S</span>
+          <span class="trust-avatar">Y</span>
+
+        </div>
+
+        <p>
+          Trusted by students and families
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- HERO VISUAL -->
+
+    <div
+      class="hero-visual"
+      aria-hidden="true"
+    >
+
+      <div class="hero-glow"></div>
+
+
+      <div class="teacher-card">
+
+
+        <div class="teacher-card-header">
+
+          <h3>
+            Recommended Ustaz
+          </h3>
+
+          <span class="verified-label">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Verified
+
+          </span>
+
+        </div>
+
+
+        <div class="teacher-profile">
+
+          <div class="teacher-avatar-large">
+            A
+          </div>
+
+
+          <div class="teacher-details">
+
+            <h3>
+              Ustaz Ahmed
+            </h3>
+
+            <p>
+              Quran & Tajweed Teacher
+            </p>
+
+            <div class="teacher-rating">
+
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+
+              4.9
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="teacher-meta">
+
+
+          <div class="meta-box">
+
+            <strong>
+              Experience
+            </strong>
+
+            <span>
+              8+ years
+            </span>
+
+          </div>
+
+
+          <div class="meta-box">
+
+            <strong>
+              Location
+            </strong>
+
+            <span>
+              Bole, Addis Ababa
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="subject-pills">
+
+          <span class="subject-pill">
+            Quran Basic
+          </span>
+
+          <span class="subject-pill">
+            Tajweed
+          </span>
+
+          <span class="subject-pill">
+            Hifz
+          </span>
+
+        </div>
+
+
+        <div class="teacher-card-footer">
+
+          <span>
+            Available for new students
+          </span>
+
+          <strong>
+            View Profile →
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="search-card">
+
+        <small>
+          FIND A TEACHER
+        </small>
+
+        <strong>
+          Quran Tajweed
+        </strong>
+
+        <div class="search-location">
+
+          <i class="fa-solid fa-location-dot"></i>
+
+          Bole, Addis Ababa
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     DISCOVERY
+========================================================= -->
+
+<section class="section discovery">
+
+  <div class="container">
+
+
+    <div class="section-heading">
+
+      <h2>
+        Start your search.
+      </h2>
+
+      <p>
+        Search for the right teacher based on
+        subject, gender, or location.
+      </p>
+
+    </div>
+
+
+    <div class="discovery-box">
+
+<div class="search-input">
+
+  <label
+    class="sr-only"
+    for="teacherSearch"
+  >
+    Search teachers
+  </label>
+
+  <i
+    class="fa-solid fa-magnifying-glass"
+    aria-hidden="true"
+  ></i>
+
+  <input
+    type="search"
+    id="teacherSearch"
+    name="teacherSearch"
+    placeholder="Search Ustaz, subject, or Quran field..."
+    autocomplete="off"
+  >
+
+</div>
+
+
+ <label
+  class="sr-only"
+  for="teacherLocation"
+>
+  Choose location
+</label>
+
+<select
+  class="location-select"
+  id="teacherLocation"
+  name="location"
+>
+
+        <option value="">
+          All Locations
+        </option>
+
+        <option value="bole">
+          Bole
+        </option>
+
+        <option value="yeka">
+          Yeka
+        </option>
+
+        <option value="kirkos">
+          Kirkos
+        </option>
+
+        <option value="arada">
+          Arada
+        </option>
+
+        <option value="lideta">
+          Lideta
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="discovery-filters">
+
+      <button
+        type="button"
+        class="filter-chip active"
+      >
+        All
+      </button>
+
+      <button
+        type="button"
+        class="filter-chip"
+      >
+        Male Ustaz
+      </button>
+
+      <button
+        type="button"
+        class="filter-chip"
+      >
+        Female Ustaza
+      </button>
+
+      <button
+        type="button"
+        class="filter-chip"
+      >
+        Hifz
+      </button>
+
+      <button
+        type="button"
+        class="filter-chip"
+      >
+        Tajweed
+      </button>
+
+      <button
+        type="button"
+        class="filter-chip"
+      >
+        Quran Basic
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     POPULAR USTAZ / USTAZA
+========================================================= -->
+
+<section
+  class="section popular-teachers"
+  id="popular-teachers"
+>
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <h2>
+        Popular Quran teachers.
+      </h2>
+
+      <p>
+        Discover some of the teachers students
+        and families are interested in learning from.
+      </p>
+
+    </div>
+
+
+    <div class="popular-teacher-grid">
+
+
+      <!-- TEACHER 1 -->
+
+      <article class="popular-teacher-card">
+
+        <div class="popular-teacher-image male">
+
+          <span>
+            UA
+          </span>
+
+          <div class="popular-verified">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Verified
+
+          </div>
+
+        </div>
+
+
+        <div class="popular-teacher-content">
+
+          <div class="popular-teacher-top">
+
+            <div>
+
+              <h3>
+                Ustaz Ahmed
+              </h3>
+
+          
+            </div>
+
+
+            <div class="popular-rating">
+
+              <i class="fa-solid fa-star"></i>
+
+              4.9
+
+            </div>
+
+          </div>
+
+
+          <div class="popular-location">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Bole, Addis Ababa
+
+          </div>
+
+
+          <div class="popular-tags">
+
+            <span>
+              Quran Basic
+            </span>
+
+            <span>
+              Tajweed
+            </span>
+
+            <span>
+              Hifz
+            </span>
+
+          </div>
+
+
+          <div class="popular-teacher-footer">
+
+            <span>
+              8+ years experience
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-primary popular-view-btn"
+              data-auth="signup-parent"
+            >
+
+              View Profile
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- TEACHER 2 -->
+
+      <article class="popular-teacher-card">
+
+        <div class="popular-teacher-image female">
+
+          <span>
+            UM
+          </span>
+
+          <div class="popular-verified">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Verified
+
+          </div>
+
+        </div>
+
+
+        <div class="popular-teacher-content">
+
+          <div class="popular-teacher-top">
+
+            <div>
+
+              <h3>
+                Ustaza Maryam
+              </h3>
+
+
+            </div>
+
+
+            <div class="popular-rating">
+
+              <i class="fa-solid fa-star"></i>
+
+              5.0
+
+            </div>
+
+          </div>
+
+
+          <div class="popular-location">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Yeka, Addis Ababa
+
+          </div>
+
+
+          <div class="popular-tags">
+
+            <span>
+              Quran Basic
+            </span>
+
+            <span>
+              Tajweed
+            </span>
+
+          </div>
+
+
+          <div class="popular-teacher-footer">
+
+            <span>
+              6+ years experience
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-primary popular-view-btn"
+              data-auth="signup-parent"
+            >
+
+              View Profile
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- TEACHER 3 -->
+
+      <article class="popular-teacher-card">
+
+        <div class="popular-teacher-image male">
+
+          <span>
+            UO
+          </span>
+
+          <div class="popular-verified">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Verified
+
+          </div>
+
+        </div>
+
+
+        <div class="popular-teacher-content">
+
+          <div class="popular-teacher-top">
+
+            <div>
+
+              <h3>
+                Ustaz Omar
+              </h3>
+
+
+            </div>
+
+
+            <div class="popular-rating">
+
+              <i class="fa-solid fa-star"></i>
+
+              4.8
+
+            </div>
+
+          </div>
+
+
+          <div class="popular-location">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Kirkos, Addis Ababa
+
+          </div>
+
+
+          <div class="popular-tags">
+
+            <span>
+              Hifz
+            </span>
+
+            <span>
+              Tajweed
+            </span>
+
+          </div>
+
+
+          <div class="popular-teacher-footer">
+
+            <span>
+              10+ years experience
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-primary popular-view-btn"
+              data-auth="signup-parent"
+            >
+
+              View Profile
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- TEACHER 4 -->
+
+      <article class="popular-teacher-card">
+
+        <div class="popular-teacher-image female">
+
+          <span>
+            AA
+          </span>
+
+          <div class="popular-verified">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Verified
+
+          </div>
+
+        </div>
+
+
+        <div class="popular-teacher-content">
+
+          <div class="popular-teacher-top">
+
+            <div>
+
+              <h3>
+                Ustaza Aisha
+              </h3>
+
+            </div>
+
+
+            <div class="popular-rating">
+
+              <i class="fa-solid fa-star"></i>
+
+              4.9
+
+            </div>
+
+          </div>
+
+
+          <div class="popular-location">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Arada, Addis Ababa
+
+          </div>
+
+
+          <div class="popular-tags">
+
+            <span>
+              Quran Basic
+            </span>
+
+            <span>
+              Tafseer
+            </span>
+
+          </div>
+
+
+          <div class="popular-teacher-footer">
+
+            <span>
+              7+ years experience
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-primary popular-view-btn"
+              data-auth="signup-parent"
+            >
+
+              View Profile
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+
+    <div class="popular-teachers-action">
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        data-auth="signup-parent"
+      >
+
+        Explore All Teachers
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- =========================================================
+     STUDY FIELDS
+========================================================= -->
+
+<section
+  class="section"
+  id="study-fields"
+>
+
+  <div class="container">
+
+
+    <div class="section-heading center">
+
+      <h2>
+        Learn the way that works for you.
+      </h2>
+
+      <p>
+        Explore structured Islamic learning fields
+        with teachers who can guide you step by step.
+      </p>
+
+    </div>
+
+
+    <div class="fields-grid">
+
+
+      <article class="field-card">
+
+        <div class="field-icon">
+
+          <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+        <h3>
+          Quran Basic
+        </h3>
+
+        <p>
+          Learn Arabic letters, pronunciation,
+          reading basics, and build a strong
+          foundation for your Quran journey.
+        </p>
+
+      </article>
+
+
+      <article class="field-card">
+
+        <div class="field-icon">
+
+          <i class="fa-solid fa-headphones"></i>
+
+        </div>
+
+        <h3>
+          Quran Tajweed
+        </h3>
+
+        <p>
+          Improve pronunciation and learn
+          the rules of Tajweed for accurate
+          and beautiful recitation.
+        </p>
+
+      </article>
+
+
+      <article class="field-card">
+
+        <div class="field-icon">
+
+          <i class="fa-solid fa-brain"></i>
+
+        </div>
+
+        <h3>
+          Hifz
+        </h3>
+
+        <p>
+          Memorize the Quran through structured
+          lessons, revision, consistency,
+          and personal guidance.
+        </p>
+
+      </article>
+
+
+      <article class="field-card">
+
+        <div class="field-icon">
+
+          <i class="fa-solid fa-book-quran"></i>
+
+        </div>
+
+        <h3>
+          Tafseer
+        </h3>
+
+        <p>
+          Understand Quranic verses and their
+          meanings through accessible,
+          guided study.
+        </p>
+
+      </article>
+
+
+      <article class="field-card">
+
+        <div class="field-icon">
+
+          <i class="fa-solid fa-mosque"></i>
+
+        </div>
+
+        <h3>
+          Hadith
+        </h3>
+
+        <p>
+          Study authentic teachings of the
+          Prophet Muhammad ﷺ and their
+          practical guidance for everyday life.
+        </p>
+
+      </article>
+<article class="field-card">
+
+  <div class="field-icon">
+
+    <i class="fa-solid fa-hands-praying"></i>
+
+  </div>
+
+  <h3>
+    Tarbiyah
+  </h3>
+
+  <p>
+    Build strong Islamic character, manners,
+    faith, and positive daily habits through
+    guided learning.
+  </p>
+
+</article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section
+  class="section how"
+  id="how-it-works"
+>
+
+  <div class="container">
+
+
+    <div class="section-heading">
+
+      <h2>
+        Finding the right teacher
+        should be simple.
+      </h2>
+
+      <p>
+        BarakaLink gives parents and students
+        a straightforward way to discover,
+        compare, and connect with Quran teachers.
+      </p>
+
+    </div>
+
+
+    <div class="steps">
+
+
+      <article class="step">
+
+        <div class="step-number">
+          01
+        </div>
+
+        <h3>
+          Tell us what you need
+        </h3>
+
+        <p>
+          Choose your study field,
+          preferred teacher gender,
+          and location.
+        </p>
+
+      </article>
+
+
+      <article class="step">
+
+        <div class="step-number">
+          02
+        </div>
+
+        <h3>
+          Discover teachers
+        </h3>
+
+        <p>
+          Browse teachers who match
+          your learning needs and location.
+        </p>
+
+      </article>
+
+
+      <article class="step">
+
+        <div class="step-number">
+          03
+        </div>
+
+        <h3>
+          Start learning
+        </h3>
+
+        <p>
+          Connect with your chosen teacher
+          and begin your Quran learning journey.
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ABOUT / WHY
+========================================================= -->
+
+<section
+  class="section"
+  id="about"
+>
+
+  <div class="container why-grid">
+
+
+    <div class="why-visual">
+
+      <div class="why-circle">
+
+
+        <div class="why-core">
+          BarakaLink
+        </div>
+
+
+        <div class="orbit orbit-1">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+
+        <div class="orbit orbit-2">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+
+        <div class="orbit orbit-3">
+          <i class="fa-solid fa-book-quran"></i>
+        </div>
+
+        <div class="orbit orbit-4">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="orbit orbit-5">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+
+        <div class="orbit orbit-6">
+          <i class="fa-solid fa-mosque"></i>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+
+      <div class="section-heading">
+
+        <h2>
+          Technology that supports
+          Islamic learning.
+        </h2>
+
+        <p>
+          We believe finding a good Quran teacher
+          should not depend on who happens to live
+          next door or who someone happens to know.
+        </p>
+
+      </div>
+
+
+      <div class="benefit-list">
+
+
+        <div class="benefit-item">
+
+          <div class="benefit-icon">
+
+            <i class="fa-solid fa-user-shield"></i>
+
+          </div>
+
+          <div>
+
+            <h3>
+              Trusted teacher discovery
+            </h3>
+
+            <p>
+              Make it easier for students and parents
+              to find teachers suited to their needs.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+          <div class="benefit-icon">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+          </div>
+
+          <div>
+
+            <h3>
+              Search by location
+            </h3>
+
+            <p>
+              Discover teachers in your sub-city
+              and surrounding area.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+          <div class="benefit-icon">
+
+            <i class="fa-solid fa-book-quran"></i>
+
+          </div>
+
+          <div>
+
+            <h3>
+              Multiple study fields
+            </h3>
+
+            <p>
+              From Quran Basic and Tajweed to
+              Hifz, Tafseer, and Hadith.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="benefit-item">
+
+          <div class="benefit-icon">
+
+            <i class="fa-solid fa-mobile-screen-button"></i>
+
+          </div>
+
+          <div>
+
+            <h3>
+              Built for everyday use
+            </h3>
+
+            <p>
+              A simple experience that works naturally
+              on phones, tablets, and desktops.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     AUDIENCE
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <div class="section-heading center">
+
+      <h2>
+        BarakaLink is for both sides of the journey.
+      </h2>
+
+      <p>
+        Whether you're looking for a teacher
+        or ready to teach, there's a place for you.
+      </p>
+
+    </div>
+
+
+    <div class="audience-grid">
+
+
+      <article class="audience-card parent">
+
+        <h3>
+          Looking for a Quran teacher?
+        </h3>
+
+        <p>
+          Create your account as a parent or student,
+          explore teachers near you, and find the
+          learning support that fits your needs.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-auth="signup-parent"
+        >
+
+          Find a Teacher
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+      </article>
+
+
+      <article class="audience-card teacher">
+
+        <h3>
+          Are you a Quran teacher?
+        </h3>
+
+        <p>
+          Join BarakaLink as an Ustaz or Ustaza
+          and make your teaching available to
+          students and families searching for guidance.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-auth="signup-ustaz"
+        >
+
+          Join as Ustaz / Ustaza
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     COMMUNITY
+========================================================= -->
+
+<section class="section community">
+
+  <div class="container">
+
+
+    <div class="section-heading center">
+
+      <h2>
+        A growing learning community.
+      </h2>
+
+      <p>
+        BarakaLink is built around connecting
+        people who value Quran learning and guidance.
+      </p>
+
+    </div>
+
+
+    <div class="community-stats">
+
+
+      <div class="stat">
+
+        <strong>
+          5K+
+        </strong>
+
+        <span>
+          Students & Families
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          200+
+        </strong>
+
+        <span>
+          Quran Teachers
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          10+
+        </strong>
+
+        <span>
+          Learning Programs
+        </span>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     BLOG
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <div class="section-heading center">
+
+      <h2>
+        Islamic learning & guidance.
+      </h2>
+
+      <p>
+        Helpful content for students,
+        parents, and Quran teachers.
+      </p>
+
+    </div>
+
+
+    <div class="blog-grid">
+
+
+      <a
+        href="#"
+        class="blog-card"
+      >
+
+        <span class="blog-category">
+          Parents
+        </span>
+
+        <h3>
+          How to Choose the Right Quran Teacher
+          for Your Child
+        </h3>
+
+        <p>
+          Important qualities parents should consider
+          when selecting a Quran teacher.
+        </p>
+
+        <span class="blog-link">
+
+          Read More
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </span>
+
+      </a>
+
+
+      <a
+        href="#"
+        class="blog-card"
+      >
+
+        <span class="blog-category">
+          Tajweed
+        </span>
+
+        <h3>
+          5 Common Tajweed Mistakes
+          Students Make
+        </h3>
+
+        <p>
+          Simple ways to improve pronunciation
+          and build better recitation habits.
+        </p>
+
+        <span class="blog-link">
+
+          Read More
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </span>
+
+      </a>
+
+
+      <a
+        href="#"
+        class="blog-card"
+      >
+
+        <span class="blog-category">
+          Learning
+        </span>
+
+        <h3>
+          Why One-on-One Quran Learning
+          Can Make a Difference
+        </h3>
+
+        <p>
+          Explore how personalized guidance can
+          help students stay consistent.
+        </p>
+
+        <span class="blog-link">
+
+          Read More
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </span>
+
+      </a>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section
+  class="section contact"
+  id="contact"
+>
+
+  <div class="container">
+
+    <div class="section-heading center">
+
+      <h2>
+        We're here to help.
+      </h2>
+
+      <p>
+        Have a question about BarakaLink?
+        Send us a message and our team will
+        get back to you.
+      </p>
+
+    </div>
+
+
+    <div class="contact-layout">
+
+
+      <!-- CONTACT INFORMATION -->
+
+      <div class="contact-information">
+
+        <h3>
+          Get in touch.
+        </h3>
+
+        <p>
+          Whether you have a question about
+          finding a teacher, joining as an Ustaz,
+          or using BarakaLink, we're here to help.
+        </p>
+
+
+        <div class="contact-items">
+
+
+          <div class="contact-item">
+
+            <div class="contact-item-icon">
+
+              <i class="fa-solid fa-envelope"></i>
+
+            </div>
+
+            <div>
+
+              <strong>
+                Email
+              </strong>
+
+              <span>
+                support@barakalink.com
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="contact-item">
+
+            <div class="contact-item-icon">
+
+              <i class="fa-solid fa-phone"></i>
+
+            </div>
+
+            <div>
+
+              <strong>
+                Phone
+              </strong>
+
+              <span>
+                +251 912 345 678
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="contact-item">
+
+            <div class="contact-item-icon">
+
+              <i class="fa-solid fa-location-dot"></i>
+
+            </div>
+
+            <div>
+
+              <strong>
+                Location
+              </strong>
+
+              <span>
+                Addis Ababa, Ethiopia
+              </span>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- SEND MESSAGE -->
+
+      <div class="contact-form-wrapper">
+
+        <h3>
+          Send us a message.
+        </h3>
+
+        <p>
+          Tell us how we can help you.
+        </p>
+
+
+        <form
+          id="contactForm"
+          class="contact-form"
+          novalidate
+        >
+
+
+          <div class="contact-form-row">
+
+
+            <div class="contact-field">
+
+              <label for="contactFirstName">
+                First Name
+              </label>
+
+              <input
+                type="text"
+                id="contactFirstName"
+                name="firstName"
+                class="contact-input"
+                placeholder="Your first name"
+                autocomplete="given-name"
+                required
+              >
+
+            </div>
+
+
+            <div class="contact-field">
+
+              <label for="contactLastName">
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                id="contactLastName"
+                name="lastName"
+                class="contact-input"
+                placeholder="Your last name"
+                autocomplete="family-name"
+                required
+              >
+
+            </div>
+
+
+          </div>
+
+
+          <div class="contact-field">
+
+            <label for="contactPhone">
+              Phone Number
+            </label>
+
+            <div class="contact-phone">
+
+              <span>
+                +251
+              </span>
+
+              <input
+                type="tel"
+                id="contactPhone"
+                name="phone"
+                class="contact-input"
+                placeholder="912 345 678"
+                autocomplete="tel"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="contact-field">
+
+            <label for="contactMessage">
+              Message
+            </label>
+
+            <textarea
+              id="contactMessage"
+              name="message"
+              class="contact-input contact-textarea"
+              placeholder="How can we help you?"
+              rows="6"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <p
+            id="contactStatus"
+            class="contact-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+          >
+
+            Send Message
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+          </button>
+
+
+          <p class="contact-login-note">
+
+            You need a BarakaLink account
+            to send a message.
+
+          </p>
+
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL CTA
+========================================================= -->
+
+<section class="final-cta">
+
+  <div class="container final-cta-inner">
+
+
+    <h2>
+      Your Quran learning journey
+      starts with the right connection.
+    </h2>
+
+
+    <p>
+      Find a trusted teacher, choose your path,
+      and start learning with BarakaLink.
+    </p>
+
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-auth="signup"
+    >
+
+      Join BarakaLink
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+    </button>
+
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+  <div class="container footer-top">
+
+
+    <div class="footer-brand">
+
+
+      <a
+        href="#home"
+        class="logo footer-logo"
+      >
+
+        <svg
+          class="logo-mark"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
+
+          <circle
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+
+          <circle
+            cx="20"
+            cy="6"
+            r="2.7"
+            fill="currentColor"
+          />
+
+          <circle
+            cx="34"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="20"
+            cy="34"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="6"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+        </svg>
+
+        <span>
+          BarakaLink
+        </span>
+
+      </a>
+
+
+      <p>
+        Connecting students and families
+        with trusted Quran teachers,
+        one learning journey at a time.
+      </p>
+
+
+      <div class="footer-social">
+
+        <a
+          href="#"
+          aria-label="Facebook"
+        >
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="Telegram"
+        >
+          <i class="fa-brands fa-telegram"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="Instagram"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="TikTok"
+        >
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        Explore
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#home">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a href="#study-fields">
+            Study Fields
+          </a>
+        </li>
+
+        <li>
+          <a href="#how-it-works">
+            How It Works
+          </a>
+        </li>
+
+        <li>
+          <a href="#about">
+            About
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        For You
+      </h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="#"
+            data-auth="signup-parent"
+          >
+            Find a Teacher
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#"
+            data-auth="signup-ustaz"
+          >
+            Become a Teacher
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Help Center
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Community Guidelines
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        Legal
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#">
+            Privacy Policy
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Terms of Service
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Safety
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="container footer-bottom">
+
+    <span>
+      © 2026 BarakaLink. All rights reserved.
+    </span>
+
+    <span>
+      Built to make Quran learning easier to find.
+    </span>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AUTH MODAL
+========================================================= -->
+
+<div
+  class="auth-overlay"
+  id="authOverlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="authTitle"
+  aria-hidden="true"
+>
+
+
+  <div class="auth-box">
+
+
+    <div class="auth-header">
+
+
+      <div>
+
+        <h2 id="authTitle">
+          Welcome Back
+        </h2>
+
+        <p
+          class="auth-subtitle"
+          id="authSubtitle"
+        >
+          Log in to your BarakaLink account.
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="close-auth"
+        id="closeAuth"
+        aria-label="Close authentication"
+      >
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGIN FORM
+    ====================================================== -->
+
+    <form
+      class="auth-form"
+      id="loginForm"
+      novalidate
+    >
+
+
+      <div class="auth-field">
+
+        <label for="loginPhone">
+          Phone Number
+        </label>
+
+
+        <div class="phone-group">
+
+          <span class="phone-code">
+            +251
+          </span>
+
+          <input
+            class="auth-input"
+            id="loginPhone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="912 345 678"
+          >
+
+        </div>
+
+
+        <span
+          class="form-error"
+          id="loginPhoneError"
+        ></span>
+
+      </div>
+
+
+      <div class="auth-field">
+
+        <label for="loginPassword">
+          Password
+        </label>
+
+
+        <div class="password-wrapper">
+
+          <input
+            class="auth-input"
+            id="loginPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+          >
+
+
+          <button
+            type="button"
+            class="password-toggle"
+            data-password="loginPassword"
+            aria-label="Show password"
+          >
+
+            <i class="fa-solid fa-eye"></i>
+
+          </button>
+
+        </div>
+
+
+        <span
+          class="form-error"
+          id="loginPasswordError"
+        ></span>
+
+      </div>
+
+
+      <div style="
+        display:flex;
+        justify-content:flex-end;
+      ">
+
+ <div class="forgot-password-row">
+
+  <button
+    type="button"
+    id="forgotPasswordButton"
+  >
+    Forgot password?
+  </button>
+
+</div>
+
+      </div>
+
+
+      <p
+        class="form-status"
+        id="loginStatus"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+      >
+
+        Sign In
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+      </button>
+
+
+    </form>
+
+
+    <!-- =====================================================
+         SIGNUP FORM
+    ====================================================== -->
+
+    <form
+      class="auth-form"
+      id="signupForm"
+      novalidate
+      style="display:none;"
+    >
+
+
+      <!-- ROLE -->
+<div class="auth-field">
+
+  <span id="roleLabel" class="sr-only">
+    I want to sign up as
+  </span>
+
+  <div
+    class="role-options"
+    role="radiogroup"
+    aria-labelledby="roleLabel"
+  >
+
+       
+<label class="role-option active" data-role="parent">
+
+  <input
+    type="radio"
+    name="role"
+    value="parent"
+    checked
+  >
+
+  <i class="fa-solid fa-user"></i>
+
+  <strong>
+    Parent / Student
+  </strong>
+
+  <span>
+    Find Quran teachers
+  </span>
+
+</label>
+
+
+
+
+          <label
+            class="role-option"
+            data-role="ustaz"
+          >
+
+            <input
+              type="radio"
+              name="role"
+              value="ustaz"
+            >
+
+            <i class="fa-solid fa-chalkboard-user"></i>
+
+            <strong>
+              Ustaz / Ustaza
+            </strong>
+
+            <span>
+              Teach Quran
+            </span>
+
+          </label>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- NAME -->
+<div class="auth-field">
+
+  <label for="firstName">
+    Full Name
+  </label>
+
+  <div class="name-row">
+
+    <input
+      class="auth-input"
+      id="firstName"
+      type="text"
+      autocomplete="given-name"
+      placeholder="First Name"
+    >
+
+    <input
+      class="auth-input"
+      id="lastName"
+      type="text"
+      autocomplete="family-name"
+      placeholder="Last Name"
+    >
+
+  </div>
+
+  <span
+    class="form-error"
+    id="nameError"
+  ></span>
+
+</div>
+
+
+      <!-- PHONE -->
+
+      <div class="auth-field">
+
+        <label for="signupPhone">
+          Phone Number
+        </label>
+
+
+        <div class="phone-group">
+
+          <span class="phone-code">
+            +251
+          </span>
+
+          <input
+            class="auth-input"
+            id="signupPhone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="912 345 678"
+          >
+
+        </div>
+
+
+        <span
+          class="form-error"
+          id="signupPhoneError"
+        ></span>
+
+      </div>
+
+
+      <!-- SUBCITY -->
+
+      <div class="auth-field">
+
+        <label for="subcity">
+          Sub-City
+        </label>
+
+
+        <select
+          class="auth-select"
+          id="subcity"
+        >
+
+          <option value="">
+            Select Sub-City
+          </option>
+
+          <option value="bole">
+            Bole
+          </option>
+
+          <option value="yeka">
+            Yeka
+          </option>
+
+          <option value="kirkos">
+            Kirkos
+          </option>
+
+          <option value="arada">
+            Arada
+          </option>
+
+          <option value="lideta">
+            Lideta
+          </option>
+
+          <option value="nifas-silk">
+            Nifas Silk
+          </option>
+
+          <option value="kolfe">
+            Kolfe Keranio
+          </option>
+
+          <option value="akaki">
+            Akaki Kaliti
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- AREA -->
+
+      <div class="auth-field">
+
+        <label for="area">
+          Area
+        </label>
+
+
+        <select
+          class="auth-select"
+          id="area"
+        >
+
+          <option value="">
+            Select Area
+          </option>
+
+        </select>
+
+      </div>
+
+<!-- NEAREST MOSQUE -->
+
+<div class="auth-field">
+
+  <label for="nearestMosque">
+    Nearest Mosque
+  </label>
+
+  <input
+    class="auth-input"
+    id="nearestMosque"
+    type="text"
+    autocomplete="off"
+    placeholder="Enter your nearest mosque"
+  >
+
+  <span
+    class="form-error"
+    id="nearestMosqueError"
+  ></span>
+
+</div>
+      <!-- USTAZ EXTRA -->
+
+      <div
+        class="ustaz-extra"
+        id="ustazExtra"
+      >
+
+
+        <div class="auth-field">
+
+          <label for="experience">
+            Years of Teaching Experience
+          </label>
+
+          <input
+            class="auth-input"
+            id="experience"
+            type="number"
+            min="0"
+            max="60"
+            inputmode="numeric"
+            placeholder="Example: 5"
+          >
+
+        </div>
+
+
+        <div class="auth-field">
+
+          <label for="gender">
+            Gender
+          </label>
+
+
+          <select
+            class="auth-select"
+            id="gender"
+          >
+
+            <option value="">
+              Select Gender
+            </option>
+
+            <option value="male">
+              Male
+            </option>
+
+            <option value="female">
+              Female
+            </option>
+
+          </select>
+
+        </div>
+<div class="auth-field">
+
+  <span
+    class="auth-field-label"
+    id="studyFieldsLabel"
+  >
+    Study Fields
+  </span>
+
+  <div
+    class="role-options study-field-options"
+    role="group"
+    aria-labelledby="studyFieldsLabel"
+  >
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="quran-basic"
+      >
+
+      <i class="fa-solid fa-book-open"></i>
+
+      <strong>
+        Quran Basic
+      </strong>
+
+    </label>
+
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tajweed"
+      >
+
+      <i class="fa-solid fa-headphones"></i>
+
+      <strong>
+        Tajweed
+      </strong>
+
+    </label>
+
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="hifz"
+      >
+
+      <i class="fa-solid fa-brain"></i>
+
+      <strong>
+        Hifz
+      </strong>
+
+    </label>
+
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tafseer"
+      >
+
+      <i class="fa-solid fa-book-quran"></i>
+
+      <strong>
+        Tafseer
+      </strong>
+
+    </label>
+
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="hadith"
+      >
+
+      <i class="fa-solid fa-mosque"></i>
+
+      <strong>
+        Hadith
+      </strong>
+
+    </label>
+
+
+    <label class="role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tarbiyah"
+      >
+
+      <i class="fa-solid fa-hands-praying"></i>
+
+      <strong>
+        Tarbiyah
+      </strong>
+
+    </label>
+
+  </div>
+
+</div>
+
+      </div>
+
+
+      <!-- PASSWORD -->
+
+      <div class="auth-field">
+
+        <label for="signupPassword">
+          Password
+        </label>
+
+
+        <div class="password-wrapper">
+
+          <input
+            class="auth-input"
+            id="signupPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+          >
+
+
+          <button
+            type="button"
+            class="password-toggle"
+            data-password="signupPassword"
+            aria-label="Show password"
+          >
+
+            <i class="fa-solid fa-eye"></i>
+
+          </button>
+
+
+        </div>
+
+
+        <span
+          class="form-error"
+          id="signupPasswordError"
+        ></span>
+
+      </div>
+
+
+      <!-- CONFIRM -->
+
+      <div class="auth-field">
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+
+        <div class="password-wrapper">
+
+          <input
+            class="auth-input"
+            id="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Confirm your password"
+          >
+
+
+          <button
+            type="button"
+            class="password-toggle"
+            data-password="confirmPassword"
+            aria-label="Show password"
+          >
+
+            <i class="fa-solid fa-eye"></i>
+
+          </button>
+
+
+        </div>
+
+
+        <span
+          class="form-error"
+          id="confirmError"
+        ></span>
+
+      </div>
+
+
+      <p
+        class="form-status"
+        id="signupStatus"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+      >
+
+        Create Account
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+      </button>
+
+
+      <p class="auth-fineprint">
+
+        By creating an account, you agree to
+        BarakaLink's Terms of Service and Privacy Policy.
+
+      </p>
+
+
+    </form>
+
+
+<!-- =====================================================
+     TELEGRAM VERIFICATION
+====================================================== -->
+<section
+  class="otp-section telegram-auth-section"
+  id="otpSection"
+  aria-labelledby="telegramAuthTitle"
+>
+
+  <div class="otp-center telegram-auth-center">
+
+    <div class="otp-icon telegram-auth-icon">
+      <i class="fa-brands fa-telegram"></i>
+    </div>
+
+    <h3 id="telegramAuthTitle">
+      Verify with Telegram
+    </h3>
+
+    <p>
+      Connect your Telegram account to securely
+      verify your identity and continue.
+    </p>
+
+    <button
+      type="button"
+      class="btn btn-primary btn-block"
+      id="verifyOtpBtn"
+    >
+      <i class="fa-brands fa-telegram"></i>
+      Continue with Telegram
+    </button>
+
+    <p
+      class="form-error"
+      id="otpError"
+      role="alert"
+      aria-live="polite"
+    ></p>
+
+    <p class="telegram-auth-note">
+      Telegram verification replaces SMS verification
+      for BarakaLink registration and password recovery.
+    </p>
+
+  </div>
+
+</section>
+
+    <!-- SWITCH -->
+
+    <p
+      class="auth-switch"
+      id="authSwitch"
+    >
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <button
+        type="button"
+        id="switchAuth"
+      >
+        Create one
+      </button>
+
+    </p>
+
+
+  </div>
+
+</div>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="js/telegram-app.js"></script>
+<script src="js/api.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+/* =========================================================
+   BARAKALINK — INBOX / PARENT ↔ USTAZ CHAT
+   Scoped to the inbox page so existing dashboard CSS is untouched.
+========================================================= */
+
+:root {
+  --bl-inbox-bg: var(--bg, #f6f8f7);
+  --bl-inbox-surface: var(--surface, #ffffff);
+  --bl-inbox-surface-2: var(--surface-2, #f0f3f1);
+  --bl-inbox-border: var(--border, rgba(20, 40, 30, 0.12));
+  --bl-inbox-text: var(--text, #16231c);
+  --bl-inbox-muted: var(--muted, #6f7c74);
+  --bl-inbox-accent: var(--accent, #b48a3c);
+  --bl-inbox-accent-dark: var(--accent-dark, #8c692e);
+  --bl-inbox-danger: #b94d4d;
+  --bl-inbox-shadow: 0 16px 44px rgba(15, 30, 22, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bl-inbox-bg);
+  color: var(--bl-inbox-text);
+}
+
+.inbox-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.inbox-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 10px clamp(14px, 3vw, 30px);
+  background: color-mix(in srgb, var(--bl-inbox-surface) 94%, transparent);
+  border-bottom: 1px solid var(--bl-inbox-border);
+  backdrop-filter: blur(12px);
+}
+
+.inbox-back,
+.inbox-icon-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--bl-inbox-border);
+  border-radius: 12px;
+  background: var(--bl-inbox-surface);
+  color: var(--bl-inbox-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.inbox-back:hover,
+.inbox-icon-button:hover {
+  border-color: color-mix(in srgb, var(--bl-inbox-accent) 55%, var(--bl-inbox-border));
+}
+
+.inbox-title-wrap {
+  min-width: 0;
+  flex: 1;
+}
+
+.inbox-title-wrap h1 {
+  margin: 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.2;
+}
+
+.inbox-title-wrap p {
+  margin: 3px 0 0;
+  color: var(--bl-inbox-muted);
+  font-size: 0.76rem;
+}
+
+.inbox-shell {
+  width: min(1320px, calc(100% - 28px));
+  min-height: calc(100vh - 82px);
+  margin: 18px auto;
+  display: grid;
+  grid-template-columns: minmax(270px, 340px) minmax(0, 1fr);
+  background: var(--bl-inbox-surface);
+  border: 1px solid var(--bl-inbox-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--bl-inbox-shadow);
+}
+
+.inbox-sidebar {
+  min-width: 0;
+  border-right: 1px solid var(--bl-inbox-border);
+  background: var(--bl-inbox-surface);
+}
+
+.inbox-sidebar-head {
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid var(--bl-inbox-border);
+}
+
+.inbox-sidebar-head h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.inbox-sidebar-head span {
+  display: block;
+  margin-top: 4px;
+  color: var(--bl-inbox-muted);
+  font-size: 0.72rem;
+}
+
+.inbox-conversation-list {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+}
+
+.inbox-conversation {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 13px 14px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--bl-inbox-border) 75%, transparent);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.inbox-conversation:hover {
+  background: var(--bl-inbox-surface-2);
+}
+
+.inbox-conversation.is-selected {
+  background: color-mix(in srgb, var(--bl-inbox-accent) 10%, var(--bl-inbox-surface));
+}
+
+.inbox-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 auto;
+  background: var(--bl-inbox-surface-2);
+  border: 1px solid var(--bl-inbox-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--bl-inbox-accent-dark);
+}
+
+.inbox-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.inbox-conversation-main {
+  min-width: 0;
+}
+
+.inbox-conversation-name {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inbox-conversation-preview {
+  margin-top: 4px;
+  color: var(--bl-inbox-muted);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inbox-conversation-meta {
+  min-width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.inbox-conversation-time {
+  color: var(--bl-inbox-muted);
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+
+.inbox-unread {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bl-inbox-accent);
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.inbox-chat {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.inbox-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--bl-inbox-border);
+}
+
+.inbox-chat-header-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.inbox-chat-header-copy h2 {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.inbox-chat-header-copy span {
+  display: block;
+  margin-top: 3px;
+  color: var(--bl-inbox-muted);
+  font-size: 0.7rem;
+}
+
+.inbox-messages {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px clamp(14px, 4vw, 28px);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--bl-inbox-accent) 5%, transparent), transparent 34%),
+    var(--bl-inbox-bg);
+}
+
+.inbox-message-row {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.inbox-message-row.is-me {
+  justify-content: flex-end;
+}
+
+.inbox-message-row.is-them {
+  justify-content: flex-start;
+}
+
+.inbox-message-bubble {
+  max-width: min(76%, 620px);
+  padding: 10px 13px;
+  border-radius: 16px;
+  border: 1px solid var(--bl-inbox-border);
+  background: var(--bl-inbox-surface);
+  box-shadow: 0 5px 18px rgba(20, 32, 25, 0.04);
+}
+
+.inbox-message-row.is-me .inbox-message-bubble {
+  background: color-mix(in srgb, var(--bl-inbox-accent) 14%, var(--bl-inbox-surface));
+  border-bottom-right-radius: 5px;
+}
+
+.inbox-message-row.is-them .inbox-message-bubble {
+  border-bottom-left-radius: 5px;
+}
+
+.inbox-message-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.inbox-message-time {
+  margin-top: 5px;
+  color: var(--bl-inbox-muted);
+  font-size: 0.62rem;
+  text-align: right;
+}
+
+.inbox-empty-state {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+  color: var(--bl-inbox-muted);
+  font-size: 0.8rem;
+}
+
+.inbox-empty-state strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--bl-inbox-text);
+  font-size: 0.94rem;
+}
+
+.inbox-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 13px 14px;
+  border-top: 1px solid var(--bl-inbox-border);
+  background: var(--bl-inbox-surface);
+}
+
+.inbox-composer textarea {
+  width: 100%;
+  min-height: 46px;
+  max-height: 150px;
+  resize: vertical;
+  padding: 11px 13px;
+  border: 1px solid var(--bl-inbox-border);
+  border-radius: 13px;
+  outline: none;
+  background: var(--bl-inbox-bg);
+  color: var(--bl-inbox-text);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.inbox-composer textarea:focus {
+  border-color: color-mix(in srgb, var(--bl-inbox-accent) 65%, var(--bl-inbox-border));
+}
+
+.inbox-send-button {
+  min-width: 92px;
+  min-height: 46px;
+  align-self: end;
+  border: 0;
+  border-radius: 13px;
+  background: var(--bl-inbox-accent);
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.inbox-send-button:hover:not(:disabled) {
+  background: var(--bl-inbox-accent-dark);
+}
+
+.inbox-send-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.inbox-error {
+  margin: 12px 14px 0;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--bl-inbox-danger) 35%, var(--bl-inbox-border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--bl-inbox-danger) 7%, var(--bl-inbox-surface));
+  color: var(--bl-inbox-danger);
+  font-size: 0.74rem;
+}
+
+.inbox-mobile-back {
+  display: none;
+}
+
+.inbox-screen-reader {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (max-width: 820px) {
+  .inbox-shell {
+    width: 100%;
+    min-height: calc(100vh - 64px);
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .inbox-sidebar,
+  .inbox-chat {
+    min-height: calc(100vh - 64px);
+  }
+
+  .inbox-sidebar {
+    border-right: 0;
+  }
+
+  .inbox-chat {
+    display: none;
+  }
+
+  .inbox-shell.is-chat-open .inbox-sidebar {
+    display: none;
+  }
+
+  .inbox-shell.is-chat-open .inbox-chat {
+    display: grid;
+  }
+
+  .inbox-mobile-back {
+    display: inline-flex;
+  }
+
+  .inbox-conversation-list {
+    max-height: calc(100vh - 130px);
+  }
+}
+
+@media (max-width: 520px) {
+  .inbox-topbar {
+    padding-inline: 10px;
+  }
+
+  .inbox-shell {
+    min-height: calc(100vh - 60px);
+  }
+
+  .inbox-chat-header {
+    padding-inline: 12px;
+  }
+
+  .inbox-message-bubble {
+    max-width: 86%;
+  }
+
+  .inbox-composer {
+    grid-template-columns: 1fr;
+  }
+
+  .inbox-send-button {
+    width: 100%;
+  }
+}
