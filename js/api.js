@@ -1,10 +1,16 @@
 /**
  * BarakaLink
  * Frontend API client
+ *
+ * Environment behavior:
+ * - Local frontend (localhost / 127.0.0.1) → local backend
+ * - GitHub Pages / Telegram → public HTTPS backend
+ *
+ * Optional override:
+ *   window.BARAKALINK_API_BASE
  */
 
 "use strict";
-
 
 (function () {
 
@@ -12,9 +18,64 @@
      CONFIGURATION
   ======================================================= */
 
+  const LOCAL_API_BASE =
+    "http://localhost:5000/api";
+
+
+  /*
+    IMPORTANT:
+    Replace this with your REAL public HTTPS backend.
+
+    Example:
+      https://api.example.com/api
+
+    Do NOT put your Telegram bot token here.
+  */
+
+  const PUBLIC_API_BASE =
+    "https://YOUR-PUBLIC-API-DOMAIN/api";
+
+
+  /* =======================================================
+     ENVIRONMENT DETECTION
+  ======================================================= */
+
+  const hostname =
+    window.location.hostname;
+
+
+  const isLocalFrontend =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1";
+
+
+  /*
+    Manual override takes priority.
+    Useful later for special testing.
+  */
+
   const API_BASE =
     window.BARAKALINK_API_BASE ||
-    "http://localhost:5000/api";
+    (
+      isLocalFrontend
+        ? LOCAL_API_BASE
+        : PUBLIC_API_BASE
+    );
+
+
+  /* =======================================================
+     DEBUG
+  ======================================================= */
+
+  console.info(
+    "[BarakaLink API]",
+    isLocalFrontend
+      ? "LOCAL"
+      : "PUBLIC",
+    "→",
+    API_BASE
+  );
 
 
   /* =======================================================
@@ -69,9 +130,14 @@
   ) {
 
     const headers = {
+      Accept: "application/json",
       ...(options.headers || {})
     };
 
+
+    /*
+      JSON body
+    */
 
     if (
       options.body &&
@@ -83,6 +149,10 @@
 
     }
 
+
+    /*
+      Authentication token
+    */
 
     const token =
       getToken();
@@ -96,9 +166,21 @@
     }
 
 
+    /*
+      Normalize the path so:
+        "/auth/login"
+      works correctly.
+    */
+
+    const normalizedPath =
+      path.startsWith("/")
+        ? path
+        : `/${path}`;
+
+
     const response =
       await fetch(
-        `${API_BASE}${path}`,
+        `${API_BASE}${normalizedPath}`,
         {
           ...options,
           headers
@@ -118,11 +200,17 @@
 
       data = {
         success: false,
-        message: "Invalid server response."
+        message:
+          "Invalid server response."
       };
 
     }
 
+
+    /*
+      Convert HTTP errors into
+      normal JavaScript errors.
+    */
 
     if (!response.ok) {
 
@@ -182,7 +270,8 @@
       path,
       {
         method: "POST",
-        body: JSON.stringify(body)
+        body:
+          JSON.stringify(body)
       }
     );
 
@@ -202,7 +291,8 @@
       path,
       {
         method: "PUT",
-        body: JSON.stringify(body)
+        body:
+          JSON.stringify(body)
       }
     );
 
@@ -222,7 +312,8 @@
       path,
       {
         method: "PATCH",
-        body: JSON.stringify(body)
+        body:
+          JSON.stringify(body)
       }
     );
 
