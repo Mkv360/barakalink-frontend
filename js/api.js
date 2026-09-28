@@ -2,12 +2,12 @@
  * BarakaLink
  * Frontend API client
  *
- * Environment behavior:
- * - Local frontend (localhost / 127.0.0.1) → local backend
- * - GitHub Pages / Telegram → public HTTPS backend
+ * Testing setup:
+ * - Local frontend → http://localhost:5000/api
+ * - GitHub Pages frontend → http://localhost:5000/api
  *
- * Optional override:
- *   window.BARAKALINK_API_BASE
+ * This is for testing GitHub Pages + Telegram Desktop
+ * against the BarakaLink backend running on this PC.
  */
 
 "use strict";
@@ -18,50 +18,9 @@
      CONFIGURATION
   ======================================================= */
 
-  const LOCAL_API_BASE =
-    "http://localhost:5000/api";
-
-
-  /*
-    IMPORTANT:
-    Replace this with your REAL public HTTPS backend.
-
-    Example:
-      https://api.example.com/api
-
-    Do NOT put your Telegram bot token here.
-  */
-
-  const PUBLIC_API_BASE =
-    "https://YOUR-PUBLIC-API-DOMAIN/api";
-
-
-  /* =======================================================
-     ENVIRONMENT DETECTION
-  ======================================================= */
-
-  const hostname =
-    window.location.hostname;
-
-
-  const isLocalFrontend =
-    hostname === "localhost" ||
-    hostname === "127.0.0.1" ||
-    hostname === "::1";
-
-
-  /*
-    Manual override takes priority.
-    Useful later for special testing.
-  */
-
   const API_BASE =
     window.BARAKALINK_API_BASE ||
-    (
-      isLocalFrontend
-        ? LOCAL_API_BASE
-        : PUBLIC_API_BASE
-    );
+    "http://localhost:5000/api";
 
 
   /* =======================================================
@@ -69,11 +28,7 @@
   ======================================================= */
 
   console.info(
-    "[BarakaLink API]",
-    isLocalFrontend
-      ? "LOCAL"
-      : "PUBLIC",
-    "→",
+    "[BarakaLink API] →",
     API_BASE
   );
 
@@ -167,9 +122,7 @@
 
 
     /*
-      Normalize the path so:
-        "/auth/login"
-      works correctly.
+      Normalize path
     */
 
     const normalizedPath =
@@ -178,15 +131,40 @@
         : `/${path}`;
 
 
-    const response =
-      await fetch(
-        `${API_BASE}${normalizedPath}`,
-        {
-          ...options,
-          headers
-        }
+    /* =====================================================
+       FETCH
+    ===================================================== */
+
+    let response;
+
+    try {
+
+      response =
+        await fetch(
+          `${API_BASE}${normalizedPath}`,
+          {
+            ...options,
+            headers
+          }
+        );
+
+    } catch (error) {
+
+      console.error(
+        "[BarakaLink API] Network error:",
+        error
       );
 
+      throw new Error(
+        "Unable to connect to the BarakaLink server."
+      );
+
+    }
+
+
+    /* =====================================================
+       RESPONSE
+    ===================================================== */
 
     let data;
 
@@ -207,10 +185,9 @@
     }
 
 
-    /*
-      Convert HTTP errors into
-      normal JavaScript errors.
-    */
+    /* =====================================================
+       HTTP ERROR
+    ===================================================== */
 
     if (!response.ok) {
 
