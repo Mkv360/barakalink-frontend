@@ -1,17 +1,18 @@
 /* =========================================================
    BARAKALINK — RESPONSIVE
+   Mobile / Tablet / Telegram WebView
 ========================================================= */
 
 
 /* =========================================================
+   LARGE TABLET / SMALL DESKTOP
    1050px
 ========================================================= */
 
 @media (max-width: 1050px) {
 
   .nav-links {
-    gap:
-      1.2rem;
+    gap: 1.2rem;
   }
 
   .fields-grid {
@@ -28,61 +29,54 @@
     grid-template-columns:
       repeat(2, minmax(0, 1fr));
   }
+
 }
 
 
 /* =========================================================
+   TABLET
    900px
 ========================================================= */
 
 @media (max-width: 900px) {
 
   .nav-links {
-    display:
-      none;
+    display: none;
   }
 
-  .site-nav
-  > .nav-actions
-  > .btn-outline {
-    display:
-      none;
+  .site-nav > .nav-actions > .btn-outline {
+    display: none;
   }
 
   .mobile-toggle {
-    display:
-      grid;
+    display: grid;
   }
 
   .hero-grid {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
   .hero-copy {
-    max-width:
-      760px;
+    max-width: 760px;
   }
 
   .hero-visual {
-    min-height:
-      450px;
+    width: 100%;
+    min-height: 450px;
   }
 
   .why-grid {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
   .why-visual {
-    order:
-      2;
+    order: 2;
   }
 
   .steps {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
+
 }
 
 
@@ -93,9 +87,9 @@
 @media (max-width: 800px) {
 
   .contact-layout {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
+
 }
 
 
@@ -105,12 +99,89 @@
 
 @media (max-width: 768px) {
 
-  /* Hide signup button beside mobile menu */
+  .nav-actions {
+    gap: .35rem;
+  }
 
   .nav-actions .btn {
-    display:
-      none;
+    display: none;
   }
+
+  .site-nav {
+    padding-top:
+      max(.7rem, env(safe-area-inset-top));
+
+    padding-left:
+      max(1rem, env(safe-area-inset-left));
+
+    padding-right:
+      max(1rem, env(safe-area-inset-right));
+  }
+
+  .container {
+    padding-inline:
+      1rem;
+  }
+
+  .section {
+    padding-block:
+      3.5rem;
+  }
+
+  .hero {
+    padding-top:
+      2rem;
+  }
+
+  .hero-grid {
+    gap: 2.5rem;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero-title {
+    font-size:
+      clamp(2.15rem, 9vw, 3.4rem);
+
+    line-height:
+      1.05;
+  }
+
+  .hero-description {
+    font-size:
+      .95rem;
+
+    line-height:
+      1.6;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+  }
+
+  .hero-actions .btn {
+    min-width: 0;
+  }
+
+  .hero-visual {
+    min-height:
+      390px;
+
+    width: 100%;
+  }
+
+  .why-visual {
+    width: 100%;
+  }
+
+  .why-circle {
+    margin-inline: auto;
+    max-width: 100%;
+  }
+
 }
 
 
@@ -121,70 +192,51 @@
 @media (max-width: 720px) {
 
   .discovery-box {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
-  /* ---------------------------------------------------------
-     STUDY FIELDS
-     2 cards per row
-  --------------------------------------------------------- */
+  .discovery-filters {
+    gap: .55rem;
+  }
+
+  .filter-chip {
+    max-width: 100%;
+  }
 
   .fields-grid {
     grid-template-columns:
       repeat(2, minmax(0, 1fr));
 
-    gap:
-      .9rem;
+    gap: .85rem;
   }
-
-  /* ---------------------------------------------------------
-     OTHER GRIDS
-  --------------------------------------------------------- */
 
   .audience-grid,
   .blog-grid,
   .contact-grid {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
-  /* ---------------------------------------------------------
-     COMMUNITY
-  --------------------------------------------------------- */
-
   .community-stats {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
   .stat + .stat {
-
-    border-left:
-      0;
+    border-left: 0;
 
     border-top:
-      1px solid
-      var(--border);
+      1px solid var(--border);
   }
 
-  /* ---------------------------------------------------------
-     FOOTER
-  --------------------------------------------------------- */
-
   .footer-top {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
   .footer-bottom {
-
-    flex-direction:
-      column;
-
-    align-items:
-      flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
   }
+
 }
 
 
@@ -195,650 +247,166 @@
 @media (max-width: 600px) {
 
   /* =======================================================
-     POPULAR QURAN TEACHERS
-     2 cards per row
+     CONTAINER / SECTIONS
   ======================================================= */
 
-  .popular-teacher-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:
-      .8rem;
+  .container {
+    padding-inline:
+      .9rem;
   }
 
-  /* -------------------------------------------------------
-     Teacher card
-     Near-square without clipping content.
-  ------------------------------------------------------- */
-
-  .teacher-card {
-    width:
-      100%;
-
-    min-width:
-      0;
-
-    max-width:
-      none;
-
-    height:
-      auto;
-
-    min-height:
-      0;
-
-    transform:
-      none;
-  }
-
-  /* -------------------------------------------------------
-     Teacher image
-  ------------------------------------------------------- */
-
-  .popular-teacher-image {
-    height:
-      125px;
-
-    min-height:
-      0;
-  }
-
-  /* -------------------------------------------------------
-     Teacher body
-  ------------------------------------------------------- */
-
-  .teacher-card-body {
-    padding:
-      .6rem;
-  }
-
-  /* -------------------------------------------------------
-     Teacher name
-  ------------------------------------------------------- */
-
-  .teacher-card-body h3 {
-    margin:
-      0 0 .25rem;
-
-    font-size:
-      .78rem;
-
-    line-height:
-      1.15;
-
-    font-weight:
-      700;
-  }
-
-  /* -------------------------------------------------------
-     General teacher information
-  ------------------------------------------------------- */
-
-  .teacher-card-body p {
-    margin:
-      0;
-
-    font-size:
-      .64rem;
-
-    line-height:
-      1.25;
-  }
-
-  /* -------------------------------------------------------
-     Study tags
-  ------------------------------------------------------- */
-
-  .teacher-card .study-fields,
-  .teacher-card .teacher-fields,
-  .teacher-card .teacher-studies,
-  .teacher-card .study-tags {
-    font-size:
-      .58rem;
-
-    line-height:
-      1.2;
-  }
-
-  /* -------------------------------------------------------
-     Rating
-  ------------------------------------------------------- */
-
-  .teacher-card .rating,
-  .teacher-card .teacher-rating {
-    font-size:
-      .62rem;
-  }
-
-  /* -------------------------------------------------------
-     Location
-  ------------------------------------------------------- */
-
-  .teacher-card .location,
-  .teacher-card .teacher-location {
-    font-size:
-      .61rem;
-
-    line-height:
-      1.2;
-  }
-
-  /* -------------------------------------------------------
-     Experience
-  ------------------------------------------------------- */
-
-  .teacher-card .experience,
-  .teacher-card .teacher-experience {
-    font-size:
-      .6rem;
-
-    line-height:
-      1.2;
-  }
-
-  /* -------------------------------------------------------
-     Footer
-  ------------------------------------------------------- */
-
-  .teacher-card-footer {
-    padding:
-      .45rem .6rem;
-
-    gap:
-      .3rem;
-  }
-
-  /* -------------------------------------------------------
-     View Profile
-  ------------------------------------------------------- */
-
-  .teacher-card .btn,
-  .teacher-card-footer .btn,
-  .teacher-card-footer a,
-  .teacher-card-footer button {
-    font-size:
-      .62rem;
-
-    line-height:
-      1;
-
-    white-space:
-      nowrap;
+  .section {
+    padding-block:
+      3rem;
   }
 
 
   /* =======================================================
-     QURAN STUDY FIELD CARDS
-     2 per row
+     NAVIGATION
   ======================================================= */
-
-  .fields-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:
-      .8rem;
-  }
-
-  .field-card {
-    width:
-      100%;
-
-    min-width:
-      0;
-
-    height:
-      175px;
-
-    min-height:
-      175px;
-
-    padding:
-      .8rem;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    align-items:
-      center;
-
-    justify-content:
-      flex-start;
-
-    text-align:
-      center;
-
-    overflow:
-      visible;
-  }
-
-  /* -------------------------------------------------------
-     Study field icon
-  ------------------------------------------------------- */
-
-  .field-card i {
-    flex:
-      0 0 auto;
-
-    display:
-      block;
-
-    font-size:
-      1.35rem;
-
-    margin:
-      0 0 .45rem;
-  }
-
-  /* -------------------------------------------------------
-     Study field title
-  ------------------------------------------------------- */
-
-  .field-card h3 {
-    flex:
-      0 0 auto;
-
-    margin:
-      0 0 .35rem;
-
-    font-size:
-      .82rem;
-
-    line-height:
-      1.15;
-  }
-
-  /* -------------------------------------------------------
-     Study field description
-  ------------------------------------------------------- */
-
-  .field-card p {
-    flex:
-      0 0 auto;
-
-    margin:
-      0;
-
-    font-size:
-      .66rem;
-
-    line-height:
-      1.3;
-  }
-
-  /* -------------------------------------------------------
-     Study field View button
-  ------------------------------------------------------- */
-
-  .field-card .btn,
-  .field-card a,
-  .field-card button {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    flex:
-      0 0 auto;
-
-    margin-top:
-      .55rem;
-
-    font-size:
-      .65rem;
-
-    line-height:
-      1;
-
-    white-space:
-      nowrap;
-
-    visibility:
-      visible;
-
-    opacity:
-      1;
-  }
-
-
-  /* =======================================================
-     SECTION HEADINGS
-  ======================================================= */
-
-  .section-heading h2 {
-    font-size:
-      1.35rem;
-
-    line-height:
-      1.2;
-  }
-
-  .section-heading p {
-    font-size:
-      .78rem;
-
-    line-height:
-      1.4;
-  }
-
-  /* Popular Quran Teachers specifically */
-
-  .popular-teachers .section-heading h2 {
-    font-size:
-      1.35rem;
-  }
-
-  .popular-teachers .section-heading p {
-    font-size:
-      .76rem;
-
-    line-height:
-      1.35;
-  }
-
-  /* Study fields specifically */
-
-  .study-fields .section-heading h2 {
-    font-size:
-      1.35rem;
-  }
-
-  .study-fields .section-heading p {
-    font-size:
-      .76rem;
-
-    line-height:
-      1.35;
-  }
-}
-
-
-/* =========================================================
-   550px
-========================================================= */
-
-@media (max-width: 550px) {
-
-  .contact-form-row {
-    grid-template-columns:
-      1fr;
-  }
-
-  .contact-information,
-  .contact-form-wrapper {
-    padding:
-      1.35rem;
-  }
-}
-
-
-/* =========================================================
-   520px
-========================================================= */
-
-@media (max-width: 520px) {
 
   .site-nav {
-    padding-inline:
-      1rem;
-  }
+    min-height:
+      58px;
 
-  .nav-actions {
-    gap:
-      .2rem;
+    padding-inline:
+      .85rem;
   }
 
   .logo {
     font-size:
-      1.2rem;
+      1.15rem;
+
+    gap:
+      .45rem;
+
+    min-width:
+      0;
+  }
+
+  .logo span {
+    white-space:
+      nowrap;
   }
 
   .logo-mark {
     width:
-      30px;
+      29px;
 
     height:
-      30px;
+      29px;
+
+    flex:
+      0 0 auto;
   }
 
-  /* -------------------------------------------------------
-     Hero
-  ------------------------------------------------------- */
+  .nav-actions {
+    flex:
+      0 0 auto;
+
+    gap:
+      .25rem;
+  }
+
+  .icon-button,
+  .mobile-toggle {
+    width:
+      38px;
+
+    height:
+      38px;
+  }
+
+
+  /* =======================================================
+     HERO
+  ======================================================= */
+
+  .hero {
+    padding-top:
+      1.4rem;
+  }
+
+  .hero-grid {
+    gap:
+      2rem;
+  }
+
+  .hero-badge {
+    display:
+      inline-flex;
+
+    max-width:
+      100%;
+
+    font-size:
+      .7rem;
+
+    line-height:
+      1.25;
+
+    padding:
+      .45rem .65rem;
+
+    white-space:
+      normal;
+  }
+
+  .hero-title {
+    font-size:
+      clamp(2rem, 10vw, 2.8rem);
+
+    line-height:
+      1.04;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .hero-description {
+    font-size:
+      .88rem;
+
+    line-height:
+      1.55;
+
+    max-width:
+      100%;
+  }
 
   .hero-actions {
+    width:
+      100%;
+
     flex-direction:
       column;
+
+    align-items:
+      stretch;
+
+    gap:
+      .65rem;
   }
 
   .hero-actions .btn {
     width:
       100%;
+
+    justify-content:
+      center;
   }
 
   .hero-trust {
-    align-items:
-      flex-start;
-  }
-
-
-  /* =======================================================
-     STUDY FIELD CARDS
-  ======================================================= */
-
-  .fields-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+    flex-wrap:
+      wrap;
 
     gap:
-      .7rem;
+      .6rem;
   }
 
-  .field-card {
-    height:
-      165px;
-
-    min-height:
-      165px;
-
-    padding:
-      .7rem;
-  }
-
-  .field-card i {
-    font-size:
-      1.25rem;
-
-    margin-bottom:
-      .4rem;
-  }
-
-  .field-card h3 {
-    font-size:
-      .76rem;
-
-    line-height:
-      1.1;
-
-    margin-bottom:
-      .3rem;
-  }
-
-  .field-card p {
-    font-size:
-      .61rem;
-
-    line-height:
-      1.23;
-  }
-
-  .field-card .btn,
-  .field-card a,
-  .field-card button {
-    margin-top:
-      .45rem;
-
-    font-size:
-      .62rem;
-
-    padding:
-      .4rem .6rem;
-  }
-
-
-  /* =======================================================
-     TEACHER CARDS
-  ======================================================= */
-
-  .popular-teacher-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:
-      .7rem;
-  }
-
-  .teacher-card {
-    width:
-      100%;
-
-    height:
-      auto;
-  }
-
-  .popular-teacher-image {
-    height:
-      118px;
-  }
-
-  .teacher-card-body {
-    padding:
-      .5rem;
-  }
-
-  /* Smaller Ustaz name */
-
-  .teacher-card-body h3 {
-    font-size:
-      .7rem;
-
-    line-height:
-      1.1;
-
-    margin-bottom:
-      .2rem;
-  }
-
-  /* Smaller text */
-
-  .teacher-card-body p {
-    font-size:
-      .59rem;
-
-    line-height:
-      1.2;
-  }
-
-  /* Study tags */
-
-  .teacher-card .study-fields,
-  .teacher-card .teacher-fields,
-  .teacher-card .teacher-studies,
-  .teacher-card .study-tags {
-    font-size:
-      .55rem;
-
-    line-height:
-      1.15;
-  }
-
-  /* Rating */
-
-  .teacher-card .rating,
-  .teacher-card .teacher-rating {
-    font-size:
-      .58rem;
-  }
-
-  /* Location */
-
-  .teacher-card .location,
-  .teacher-card .teacher-location {
-    font-size:
-      .57rem;
-
-    line-height:
-      1.15;
-  }
-
-  /* Experience */
-
-  .teacher-card .experience,
-  .teacher-card .teacher-experience {
-    font-size:
-      .56rem;
-
-    line-height:
-      1.15;
-  }
-
-  .teacher-card-footer {
-    padding:
-      .4rem .5rem;
-  }
-
-  .teacher-card .btn,
-  .teacher-card-footer .btn,
-  .teacher-card-footer a,
-  .teacher-card-footer button {
-    font-size:
-      .58rem;
-
-    padding:
-      .4rem .55rem;
-  }
-
-
-  /* =======================================================
-     SECTION HEADINGS
-  ======================================================= */
-
-  .section-heading h2 {
-    font-size:
-      1.25rem;
-
-    line-height:
-      1.18;
-  }
-
-  .section-heading p {
+  .hero-trust p {
     font-size:
       .72rem;
-
-    line-height:
-      1.32;
-  }
-
-  .popular-teachers .section-heading h2,
-  .study-fields .section-heading h2 {
-    font-size:
-      1.25rem;
-  }
-
-  .popular-teachers .section-heading p,
-  .study-fields .section-heading p {
-    font-size:
-      .7rem;
-
-    line-height:
-      1.3;
   }
 
 
@@ -846,70 +414,355 @@
      HERO VISUAL
   ======================================================= */
 
-  .search-card {
-    left:
-      2%;
-
-    bottom:
-      15px;
-
-    width:
-      190px;
-  }
-
   .hero-visual {
-    min-height:
-      410px;
-  }
-
-  .why-circle {
     width:
-      280px;
+      100%;
 
-    height:
-      280px;
-  }
+    min-height:
+      370px;
 
-
-  /* =======================================================
-     AUTH
-  ======================================================= */
-
-  .name-row,
-  .role-options {
-    grid-template-columns:
-      1fr;
-  }
-
-  .auth-box {
-    max-height:
-      94dvh;
-
-    padding:
-      1.15rem;
-
-    border-radius:
-      22px;
-  }
-
-  .teacher-card-footer {
-    align-items:
-      flex-start;
+    display:
+      flex;
 
     flex-direction:
       column;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      1rem;
   }
-}
 
+  .teacher-card {
+    width:
+      min(100%, 360px);
 
-/* =========================================================
-   420px
-========================================================= */
+    max-width:
+      100%;
 
-@media (max-width: 420px) {
+    min-width:
+      0;
+
+    height:
+      auto;
+
+    transform:
+      none !important;
+
+    margin-inline:
+      auto;
+  }
+
+  .teacher-profile {
+    min-width:
+      0;
+  }
+
+  .teacher-details {
+    min-width:
+      0;
+  }
+
+  .teacher-details h3 {
+    overflow-wrap:
+      anywhere;
+  }
+
+  .teacher-meta {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .meta-box {
+    min-width:
+      0;
+  }
+
+  .meta-box strong,
+  .meta-box span {
+    overflow-wrap:
+      anywhere;
+  }
+
+  .search-card {
+    position:
+      relative;
+
+    left:
+      auto;
+
+    right:
+      auto;
+
+    top:
+      auto;
+
+    bottom:
+      auto;
+
+    width:
+      min(100%, 240px);
+
+    margin-inline:
+      auto;
+  }
+
 
   /* =======================================================
-     STUDY FIELD CARDS
+     SECTION HEADINGS
+  ======================================================= */
+
+  .section-heading {
+    margin-bottom:
+      2rem;
+  }
+
+  .section-heading h2 {
+    font-size:
+      clamp(1.45rem, 6vw, 2rem);
+
+    line-height:
+      1.15;
+  }
+
+  .section-heading p {
+    font-size:
+      .82rem;
+
+    line-height:
+      1.45;
+  }
+
+
+  /* =======================================================
+     DISCOVERY
+  ======================================================= */
+
+  .discovery-box {
+    gap:
+      .7rem;
+  }
+
+  .search-input,
+  .location-select {
+    width:
+      100%;
+
+    min-width:
+      0;
+  }
+
+  .discovery-filters {
+    display:
+      flex;
+
+    flex-wrap:
+      nowrap;
+
+    overflow-x:
+      auto;
+
+    padding-bottom:
+      .35rem;
+
+    scrollbar-width:
+      none;
+
+    -webkit-overflow-scrolling:
+      touch;
+  }
+
+  .discovery-filters::-webkit-scrollbar {
+    display:
+      none;
+  }
+
+  .filter-chip {
+    flex:
+      0 0 auto;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* =======================================================
+     POPULAR TEACHERS
+     USE ACTUAL INDEX.HTML CLASSES
+  ======================================================= */
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .8rem;
+  }
+
+  .popular-teacher-card {
+    min-width:
+      0;
+
+    overflow:
+      hidden;
+
+    border-radius:
+      16px;
+  }
+
+  .popular-teacher-image {
+    width:
+      100%;
+
+    height:
+      145px;
+
+    min-height:
+      145px;
+  }
+
+  .popular-teacher-content {
+    min-width:
+      0;
+
+    padding:
+      .75rem;
+  }
+
+  .popular-teacher-top {
+    gap:
+      .4rem;
+
+    align-items:
+      flex-start;
+  }
+
+  .popular-teacher-top h3 {
+    font-size:
+      .88rem;
+
+    line-height:
+      1.15;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .popular-rating {
+    flex:
+      0 0 auto;
+
+    font-size:
+      .7rem;
+
+    white-space:
+      nowrap;
+  }
+
+  .popular-location {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    gap:
+      .3rem;
+
+    font-size:
+      .68rem;
+
+    line-height:
+      1.25;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .popular-tags {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      .3rem;
+  }
+
+  .popular-tags span {
+    font-size:
+      .6rem;
+
+    line-height:
+      1.1;
+
+    padding:
+      .32rem .45rem;
+
+    max-width:
+      100%;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .popular-teacher-footer {
+    gap:
+      .55rem;
+
+    align-items:
+      flex-start;
+  }
+
+  .popular-teacher-footer > span {
+    font-size:
+      .62rem;
+
+    line-height:
+      1.2;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .popular-view-btn {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    justify-content:
+      center;
+
+    white-space:
+      nowrap;
+
+    font-size:
+      .66rem;
+  }
+
+  .popular-teachers-action {
+    margin-top:
+      1.25rem;
+  }
+
+  .popular-teachers-action .btn {
+    width:
+      100%;
+
+    justify-content:
+      center;
+  }
+
+
+  /* =======================================================
+     STUDY FIELDS
   ======================================================= */
 
   .fields-grid {
@@ -917,15 +770,754 @@
       repeat(2, minmax(0, 1fr));
 
     gap:
-      .55rem;
+      .75rem;
   }
 
   .field-card {
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    min-height:
+      170px;
+
+    height:
+      auto;
+
+    padding:
+      .8rem;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      center;
+
+    text-align:
+      center;
+
+    overflow:
+      hidden;
+  }
+
+  .field-icon {
+    flex:
+      0 0 auto;
+  }
+
+  .field-card i {
+    font-size:
+      1.3rem;
+
+    margin-bottom:
+      .4rem;
+  }
+
+  .field-card h3 {
+    font-size:
+      .8rem;
+
+    line-height:
+      1.15;
+
+    margin-bottom:
+      .35rem;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .field-card p {
+    font-size:
+      .64rem;
+
+    line-height:
+      1.3;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+
+  /* =======================================================
+     STEPS
+  ======================================================= */
+
+  .steps {
+    gap:
+      1rem;
+  }
+
+  .step {
+    min-width:
+      0;
+  }
+
+  .step h3 {
+    font-size:
+      1rem;
+
+    line-height:
+      1.2;
+  }
+
+  .step p {
+    font-size:
+      .78rem;
+
+    line-height:
+      1.4;
+  }
+
+
+  /* =======================================================
+     WHY / ABOUT
+  ======================================================= */
+
+  .why-circle {
+    width:
+      min(290px, 82vw);
+
+    height:
+      min(290px, 82vw);
+  }
+
+  .benefit-item {
+    min-width:
+      0;
+  }
+
+  .benefit-item p {
+    font-size:
+      .76rem;
+
+    line-height:
+      1.4;
+  }
+
+
+  /* =======================================================
+     AUDIENCE
+  ======================================================= */
+
+  .audience-card {
+    min-width:
+      0;
+  }
+
+  .audience-card h3 {
+    font-size:
+      1.15rem;
+
+    line-height:
+      1.2;
+  }
+
+  .audience-card p {
+    font-size:
+      .78rem;
+
+    line-height:
+      1.45;
+  }
+
+  .audience-card .btn {
+    width:
+      100%;
+
+    justify-content:
+      center;
+  }
+
+
+  /* =======================================================
+     BLOG
+  ======================================================= */
+
+  .blog-card {
+    min-width:
+      0;
+  }
+
+  .blog-card h3 {
+    font-size:
+      1rem;
+
+    line-height:
+      1.25;
+
+    overflow-wrap:
+      anywhere;
+  }
+
+  .blog-card p {
+    font-size:
+      .75rem;
+
+    line-height:
+      1.4;
+  }
+
+
+  /* =======================================================
+     CONTACT
+  ======================================================= */
+
+  .contact-layout {
+    grid-template-columns:
+      1fr;
+  }
+
+  .contact-information,
+  .contact-form-wrapper {
+    padding:
+      1.15rem;
+  }
+
+  .contact-form-row {
+    grid-template-columns:
+      1fr;
+  }
+
+  .contact-input,
+  .contact-phone {
+    width:
+      100%;
+
+    min-width:
+      0;
+  }
+
+
+  /* =======================================================
+     FINAL CTA
+  ======================================================= */
+
+  .final-cta-inner {
+    padding-inline:
+      1rem;
+  }
+
+  .final-cta h2 {
+    font-size:
+      clamp(1.5rem, 7vw, 2rem);
+
+    line-height:
+      1.15;
+  }
+
+  .final-cta p {
+    font-size:
+      .78rem;
+
+    line-height:
+      1.4;
+  }
+
+  .final-cta .btn {
+    width:
+      100%;
+
+    justify-content:
+      center;
+  }
+
+
+  /* =======================================================
+     FOOTER
+  ======================================================= */
+
+  .footer-top {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      1.8rem;
+  }
+
+  .footer-bottom {
+    gap:
+      .4rem;
+
+    padding-bottom:
+      max(1rem, env(safe-area-inset-bottom));
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   460px
+========================================================= */
+
+@media (max-width: 460px) {
+
+  .container {
+    padding-inline:
+      .8rem;
+  }
+
+  .section {
+    padding-block:
+      2.7rem;
+  }
+
+
+  /* =======================================================
+     NAV
+  ======================================================= */
+
+  .site-nav {
+    padding-inline:
+      .7rem;
+  }
+
+  .logo {
+    font-size:
+      1.05rem;
+  }
+
+  .logo-mark {
+    width:
+      27px;
+
+    height:
+      27px;
+  }
+
+
+  /* =======================================================
+     HERO
+  ======================================================= */
+
+  .hero-title {
+    font-size:
+      clamp(1.9rem, 10.5vw, 2.45rem);
+  }
+
+  .hero-description {
+    font-size:
+      .84rem;
+  }
+
+  .hero-visual {
+    min-height:
+      350px;
+  }
+
+  .teacher-card {
+    width:
+      100%;
+
+    max-width:
+      350px;
+  }
+
+  .teacher-card-header {
+    gap:
+      .45rem;
+  }
+
+  .teacher-card-header h3 {
+    font-size:
+      .82rem;
+
+    line-height:
+      1.2;
+  }
+
+  .verified-label {
+    font-size:
+      .63rem;
+
+    white-space:
+      nowrap;
+  }
+
+  .teacher-profile {
+    gap:
+      .55rem;
+  }
+
+  .teacher-avatar-large {
+    width:
+      48px;
+
+    height:
+      48px;
+
+    flex:
+      0 0 48px;
+  }
+
+  .teacher-details h3 {
+    font-size:
+      .85rem;
+
+    line-height:
+      1.15;
+  }
+
+  .teacher-details p {
+    font-size:
+      .66rem;
+
+    line-height:
+      1.25;
+  }
+
+  .teacher-rating {
+    font-size:
+      .63rem;
+  }
+
+  .teacher-meta {
+    gap:
+      .45rem;
+  }
+
+  .meta-box {
+    padding:
+      .5rem;
+  }
+
+  .meta-box strong {
+    font-size:
+      .6rem;
+  }
+
+  .meta-box span {
+    font-size:
+      .63rem;
+  }
+
+  .subject-pills {
+    gap:
+      .3rem;
+  }
+
+  .subject-pill {
+    font-size:
+      .59rem;
+
+    padding:
+      .3rem .42rem;
+  }
+
+  .teacher-card-footer {
+    gap:
+      .4rem;
+  }
+
+  .teacher-card-footer > span,
+  .teacher-card-footer > strong {
+    font-size:
+      .61rem;
+
+    line-height:
+      1.2;
+  }
+
+  .search-card {
+    width:
+      205px;
+
+    padding:
+      .7rem;
+  }
+
+
+  /* =======================================================
+     POPULAR TEACHERS
+     One card per row on narrow phones
+  ======================================================= */
+
+  .popular-teacher-grid {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      1rem;
+  }
+
+  .popular-teacher-card {
+    width:
+      100%;
+  }
+
+  .popular-teacher-image {
+    height:
+      175px;
+
+    min-height:
+      175px;
+  }
+
+  .popular-teacher-content {
+    padding:
+      .9rem;
+  }
+
+  .popular-teacher-top h3 {
+    font-size:
+      .95rem;
+  }
+
+  .popular-location {
+    font-size:
+      .72rem;
+  }
+
+  .popular-tags span {
+    font-size:
+      .62rem;
+  }
+
+  .popular-teacher-footer {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+  }
+
+  .popular-view-btn {
+    width:
+      100%;
+  }
+
+
+  /* =======================================================
+     STUDY FIELDS
+  ======================================================= */
+
+  .fields-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      .6rem;
+  }
+
+  .field-card {
+    min-height:
+      160px;
+
+    padding:
+      .7rem;
+  }
+
+  .field-card i {
+    font-size:
+      1.2rem;
+  }
+
+  .field-card h3 {
+    font-size:
+      .74rem;
+  }
+
+  .field-card p {
+    font-size:
+      .59rem;
+
+    line-height:
+      1.25;
+  }
+
+
+  /* =======================================================
+     AUTH MODAL
+  ======================================================= */
+
+  .auth-overlay {
+    padding:
+      .5rem;
+
+    padding-top:
+      max(.5rem, env(safe-area-inset-top));
+
+    padding-bottom:
+      max(.5rem, env(safe-area-inset-bottom));
+
+    align-items:
+      flex-end;
+  }
+
+  .auth-box {
+    width:
+      100%;
+
+    max-width:
+      none;
+
+    max-height:
+      94dvh;
+
+    overflow-y:
+      auto;
+
+    -webkit-overflow-scrolling:
+      touch;
+
+    padding:
+      1rem;
+
+    border-radius:
+      20px 20px 14px 14px;
+  }
+
+  .auth-header {
+    gap:
+      .6rem;
+  }
+
+  .auth-header h2 {
+    font-size:
+      1.35rem;
+  }
+
+  .auth-subtitle {
+    font-size:
+      .72rem;
+
+    line-height:
+      1.35;
+  }
+
+  .name-row {
+    grid-template-columns:
+      1fr;
+  }
+
+  .role-options {
+    grid-template-columns:
+      1fr;
+  }
+
+  .study-field-options {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  /* =======================================================
+     MOBILE NAVIGATION
+  ======================================================= */
+
+  .mobile-navigation {
+    max-height:
+      calc(
+        100dvh -
+        58px -
+        env(safe-area-inset-top)
+      );
+
+    overflow-y:
+      auto;
+
+    -webkit-overflow-scrolling:
+      touch;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   390px
+========================================================= */
+
+@media (max-width: 390px) {
+
+  .container {
+    padding-inline:
+      .7rem;
+  }
+
+
+  .hero-title {
+    font-size:
+      1.85rem;
+  }
+
+  .hero-description {
+    font-size:
+      .8rem;
+  }
+
+  .hero-visual {
+    min-height:
+      330px;
+  }
+
+  .teacher-card {
+    max-width:
+      100%;
+  }
+
+
+  /* =======================================================
+     POPULAR TEACHERS
+  ======================================================= */
+
+  .popular-teacher-image {
     height:
       155px;
 
     min-height:
       155px;
+  }
+
+  .popular-teacher-content {
+    padding:
+      .78rem;
+  }
+
+  .popular-teacher-top h3 {
+    font-size:
+      .88rem;
+  }
+
+  .popular-rating {
+    font-size:
+      .64rem;
+  }
+
+  .popular-location {
+    font-size:
+      .67rem;
+  }
+
+  .popular-tags span {
+    font-size:
+      .59rem;
+  }
+
+  .popular-teacher-footer > span {
+    font-size:
+      .59rem;
+  }
+
+
+  /* =======================================================
+     STUDY FIELDS
+  ======================================================= */
+
+  .fields-grid {
+    gap:
+      .5rem;
+  }
+
+  .field-card {
+    min-height:
+      150px;
 
     padding:
       .6rem;
@@ -933,18 +1525,15 @@
 
   .field-card i {
     font-size:
-      1.15rem;
+      1.05rem;
 
     margin-bottom:
-      .3rem;
+      .25rem;
   }
 
   .field-card h3 {
     font-size:
-      .69rem;
-
-    line-height:
-      1.08;
+      .68rem;
   }
 
   .field-card p {
@@ -955,123 +1544,6 @@
       1.18;
   }
 
-  .field-card .btn,
-  .field-card a,
-  .field-card button {
-    margin-top:
-      .35rem;
-
-    font-size:
-      .57rem;
-
-    padding:
-      .38rem .55rem;
-
-    display:
-      inline-flex;
-
-    visibility:
-      visible;
-
-    opacity:
-      1;
-  }
-
-
-  /* =======================================================
-     TEACHER CARDS
-  ======================================================= */
-
-  .popular-teacher-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:
-      .55rem;
-  }
-
-  .popular-teacher-image {
-    height:
-      108px;
-  }
-
-  .teacher-card-body {
-    padding:
-      .42rem;
-  }
-
-  /* Very small teacher name */
-
-  .teacher-card-body h3 {
-    font-size:
-      .64rem;
-
-    line-height:
-      1.08;
-
-    margin-bottom:
-      .18rem;
-  }
-
-  .teacher-card-body p {
-    font-size:
-      .54rem;
-
-    line-height:
-      1.16;
-  }
-
-  .teacher-card .study-fields,
-  .teacher-card .teacher-fields,
-  .teacher-card .teacher-studies,
-  .teacher-card .study-tags {
-    font-size:
-      .5rem;
-
-    line-height:
-      1.1;
-  }
-
-  .teacher-card .rating,
-  .teacher-card .teacher-rating {
-    font-size:
-      .53rem;
-  }
-
-  .teacher-card .location,
-  .teacher-card .teacher-location {
-    font-size:
-      .52rem;
-
-    line-height:
-      1.1;
-  }
-
-  .teacher-card .experience,
-  .teacher-card .teacher-experience {
-    font-size:
-      .51rem;
-
-    line-height:
-      1.1;
-  }
-
-  .teacher-card-footer {
-    padding:
-      .32rem .42rem;
-  }
-
-  .teacher-card .btn,
-  .teacher-card-footer .btn,
-  .teacher-card-footer a,
-  .teacher-card-footer button {
-    font-size:
-      .54rem;
-
-    padding:
-      .37rem .5rem;
-  }
-
 
   /* =======================================================
      SECTION HEADINGS
@@ -1079,67 +1551,90 @@
 
   .section-heading h2 {
     font-size:
-      1.12rem;
-
-    line-height:
-      1.15;
+      1.2rem;
   }
 
   .section-heading p {
     font-size:
-      .67rem;
+      .68rem;
 
     line-height:
-      1.28;
-  }
-
-  .popular-teachers .section-heading h2,
-  .study-fields .section-heading h2 {
-    font-size:
-      1.12rem;
-  }
-
-  .popular-teachers .section-heading p,
-  .study-fields .section-heading p {
-    font-size:
-      .66rem;
-
-    line-height:
-      1.25;
+      1.3;
   }
 
 
   /* =======================================================
-     POPULAR TEACHERS VIEW BUTTON
+     AUTH
   ======================================================= */
 
-  .popular-teacher-footer {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
+  .auth-box {
+    padding:
+      .85rem;
   }
 
-  .popular-view-btn {
-    display:
-      inline-flex;
+}
 
-    width:
-      100%;
 
-    visibility:
-      visible;
+/* =========================================================
+   ULTRA SMALL
+   360px
+========================================================= */
 
-    opacity:
-      1;
+@media (max-width: 360px) {
 
+  .logo span {
     font-size:
-      .62rem;
+      .98rem;
   }
+
+  .logo-mark {
+    width:
+      25px;
+
+    height:
+      25px;
+  }
+
+  .icon-button,
+  .mobile-toggle {
+    width:
+      35px;
+
+    height:
+      35px;
+  }
+
+  .hero-title {
+    font-size:
+      1.7rem;
+  }
+
+  .field-card {
+    min-height:
+      145px;
+  }
+
+  .field-card p {
+    font-size:
+      .52rem;
+  }
+
+}
+
+
+/* =========================================================
+   TELEGRAM / MOBILE SAFE AREA
+========================================================= */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+
+  body {
+
+    padding-bottom:
+      env(safe-area-inset-bottom);
+
+  }
+
 }
 
 
@@ -1149,17 +1644,21 @@
 
 @media (prefers-reduced-motion: reduce) {
 
+  html {
+    scroll-behavior:
+      auto !important;
+  }
+
   *,
   *::before,
   *::after {
-
-    scroll-behavior:
-      auto !important;
 
     animation:
       none !important;
 
     transition:
       none !important;
+
   }
+
 }
