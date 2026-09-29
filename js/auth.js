@@ -1,25 +1,24 @@
-
 /**
  * BarakaLink
  * Authentication
  *
  * Handles:
- * - Login
+ * - Login with phone OR email (one identifier field)
  * - Parent / Student registration
  * - Ustaz / Ustaza registration
  * - Role selection
  * - Study field selection
  * - Location selection
  * - Password visibility
- * - Telegram verification
+ * - Registration method choice:
+ *     A) Phone  → Telegram verification
+ *     B) Email → Email OTP → Account creation
  * - Forgot password entry point
  */
 
 "use strict";
 
-
 (function () {
-
 
   /* =======================================================
      ELEMENT REFERENCES
@@ -28,36 +27,30 @@
   const body =
     document.body;
 
-
   const authOverlay =
     document.getElementById(
       "authOverlay"
     );
-
 
   const authTitle =
     document.getElementById(
       "authTitle"
     );
 
-
   const authSubtitle =
     document.getElementById(
       "authSubtitle"
     );
-
 
   const closeAuth =
     document.getElementById(
       "closeAuth"
     );
 
-
   const loginForm =
     document.getElementById(
       "loginForm"
     );
-
 
   const signupForm =
     document.getElementById(
@@ -65,17 +58,19 @@
     );
 
 
+  /* =======================================================
+     TELEGRAM SECTION
+  ======================================================= */
+
   const telegramSection =
     document.getElementById(
       "otpSection"
     );
 
-
   const telegramButton =
     document.getElementById(
       "verifyOtpBtn"
     );
-
 
   const telegramError =
     document.getElementById(
@@ -83,17 +78,54 @@
     );
 
 
+  /* =======================================================
+     EMAIL OTP SECTION
+  ======================================================= */
+
+  const emailOtpSection =
+    document.getElementById(
+      "emailOtpSection"
+    );
+
+  const emailOtpInput =
+    document.getElementById(
+      "emailOtp"
+    );
+
+  const verifyEmailOtpButton =
+    document.getElementById(
+      "verifyEmailOtpBtn"
+    );
+
+  const resendEmailOtpButton =
+    document.getElementById(
+      "resendEmailOtpBtn"
+    );
+
+  const emailOtpBackButton =
+    document.getElementById(
+      "emailOtpBackBtn"
+    );
+
+  const emailOtpError =
+    document.getElementById(
+      "emailOtpError"
+    );
+
+
+  /* =======================================================
+     AUTH SWITCH
+  ======================================================= */
+
   const authSwitch =
     document.getElementById(
       "authSwitch"
     );
 
-
   const switchAuth =
     document.getElementById(
       "switchAuth"
     );
-
 
   const switchText =
     document.getElementById(
@@ -101,10 +133,9 @@
     );
 
 
-  /* -------------------------------------------------------
-     ROLE OPTIONS ONLY
-     Do not include study-field cards here.
-  ------------------------------------------------------- */
+  /* =======================================================
+     ROLE OPTIONS
+  ======================================================= */
 
   const roleOptions =
     document.querySelectorAll(
@@ -112,9 +143,20 @@
     );
 
 
-  /* -------------------------------------------------------
+  /* =======================================================
+     REGISTRATION METHOD OPTIONS
+     (Phone + Telegram  /  Email + Email OTP)
+  ======================================================= */
+
+  const methodOptions =
+    document.querySelectorAll(
+      '.role-option[data-method]'
+    );
+
+
+  /* =======================================================
      STUDY FIELD CHECKBOXES
-  ------------------------------------------------------- */
+  ======================================================= */
 
   const studyFieldInputs =
     document.querySelectorAll(
@@ -133,10 +175,24 @@
       "subcity"
     );
 
-
   const area =
     document.getElementById(
       "area"
+    );
+
+
+  /* =======================================================
+     EMAIL INPUTS / ERRORS
+  ======================================================= */
+
+  const signupEmail =
+    document.getElementById(
+      "signupEmail"
+    );
+
+  const signupEmailField =
+    document.getElementById(
+      "signupEmailField"
     );
 
 
@@ -149,9 +205,7 @@
     !loginForm ||
     !signupForm
   ) {
-
     return;
-
   }
 
 
@@ -165,6 +219,26 @@
 
   let pendingRegistration =
     null;
+
+
+  /*
+    Temporary email verification state.
+    The OTP itself is never stored here — it is only read
+    from the input when the user presses "Verify Email".
+  */
+
+  let emailVerification = {
+
+    verificationId:
+      null,
+
+    email:
+      null,
+
+    verified:
+      false
+
+  };
 
 
   /* =======================================================
@@ -231,9 +305,7 @@
      HELPERS
   ======================================================= */
 
-  function getElement(
-    id
-  ) {
+  function getElement(id) {
 
     return document.getElementById(
       id
@@ -250,7 +322,6 @@
     const element =
       getElement(id);
 
-
     if (element) {
 
       element.textContent =
@@ -261,9 +332,7 @@
   }
 
 
-  function clearText(
-    ...ids
-  ) {
+  function clearText(...ids) {
 
     ids.forEach(
       function (id) {
@@ -278,102 +347,210 @@
 
   }
 
-function normalizePhone(
-  value
-) {
 
-  let phone =
-    String(value || "")
-      .trim()
-      .replace(
-        /\D/g,
-        ""
-      );
+  function normalizePhone(value) {
 
-
-  /*
-    Convert 00XXXXXXXXXXXX
-    to international format.
-  */
-
-  if (
-    phone.startsWith("00")
-  ) {
-
-    phone =
-      phone.slice(2);
-
-  }
+    let phone =
+      String(value || "")
+        .trim()
+        .replace(
+          /\D/g,
+          ""
+        );
 
 
-  /*
-    Already international:
-      2519XXXXXXXX
-      2517XXXXXXXX
-  */
+    if (
+      phone.startsWith("00")
+    ) {
 
-  if (
-    phone.startsWith("2519") ||
-    phone.startsWith("2517")
-  ) {
+      phone =
+        phone.slice(2);
+
+    }
+
+
+    if (
+      phone.startsWith("2519") ||
+      phone.startsWith("2517")
+    ) {
+
+      return phone;
+
+    }
+
+
+    if (
+      phone.startsWith("09") &&
+      phone.length === 10
+    ) {
+
+      return `251${phone.slice(1)}`;
+
+    }
+
+
+    if (
+      phone.startsWith("07") &&
+      phone.length === 10
+    ) {
+
+      return `251${phone.slice(1)}`;
+
+    }
+
+
+    if (
+      (
+        phone.startsWith("9") ||
+        phone.startsWith("7")
+      ) &&
+      phone.length === 9
+    ) {
+
+      return `251${phone}`;
+
+    }
+
 
     return phone;
 
   }
 
 
-  /*
-    Local Ethio Telecom:
-      09XXXXXXXX
-  */
+  function isValidEmail(value) {
 
-  if (
-    phone.startsWith("09") &&
-    phone.length === 10
-  ) {
+    const email =
+      String(value || "")
+        .trim()
+        .toLowerCase();
 
-    return `251${phone.slice(1)}`;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      email
+    );
+
+  }
+
+
+  function normalizeEmail(value) {
+
+    return String(value || "")
+      .trim()
+      .toLowerCase();
+
+  }
+
+
+  function isEmailIdentifier(value) {
+
+    return String(value || "")
+      .includes("@");
 
   }
 
 
   /*
-    Local Safaricom:
-      07XXXXXXXX
+    Disables a button and swaps its content while a
+    request is running, then restores the original
+    content afterwards.
   */
 
-  if (
-    phone.startsWith("07") &&
-    phone.length === 10
+  function setButtonBusy(
+    button,
+    busy,
+    busyHtml
   ) {
 
-    return `251${phone.slice(1)}`;
+    if (!button) {
+      return;
+    }
+
+
+    if (busy) {
+
+      if (
+        button.dataset.originalHtml ===
+        undefined
+      ) {
+
+        button.dataset.originalHtml =
+          button.innerHTML;
+
+      }
+
+
+      button.disabled =
+        true;
+
+
+      button.innerHTML =
+        busyHtml;
+
+      return;
+
+    }
+
+
+    button.disabled =
+      false;
+
+
+    if (
+      button.dataset.originalHtml !==
+      undefined
+    ) {
+
+      button.innerHTML =
+        button.dataset.originalHtml;
+
+
+      delete button.dataset.originalHtml;
+
+    }
 
   }
 
 
-  /*
-    Without the leading zero:
-      9XXXXXXXX
-      7XXXXXXXX
-  */
+  function resetEmailVerification() {
 
-  if (
-    (
-      phone.startsWith("9") ||
-      phone.startsWith("7")
-    ) &&
-    phone.length === 9
-  ) {
+    emailVerification = {
 
-    return `251${phone}`;
+      verificationId:
+        null,
+
+      email:
+        null,
+
+      verified:
+        false
+
+    };
+
+
+    if (emailOtpInput) {
+
+      emailOtpInput.value =
+        "";
+
+    }
 
   }
 
 
-  return phone;
+  function createSessionExpiredError() {
 
-}
+    const error =
+      new Error(
+        "Your email verification session has expired. Please start signup again."
+      );
+
+    error.sessionExpired =
+      true;
+
+    return error;
+
+  }
+
+
   /* =======================================================
      ROLE
   ======================================================= */
@@ -385,7 +562,6 @@ function normalizePhone(
         'input[name="role"]:checked'
       );
 
-
     return selected
       ? selected.value
       : "parent";
@@ -393,9 +569,7 @@ function normalizePhone(
   }
 
 
-  function setRole(
-    role
-  ) {
+  function setRole(role) {
 
     roleOptions.forEach(
       function (option) {
@@ -405,19 +579,15 @@ function normalizePhone(
             'input[type="radio"]'
           );
 
-
         if (!radio) {
           return;
         }
 
-
         const active =
           radio.value === role;
 
-
         radio.checked =
           active;
-
 
         option.classList.toggle(
           "active",
@@ -428,9 +598,7 @@ function normalizePhone(
     );
 
 
-    if (
-      ustazExtra
-    ) {
+    if (ustazExtra) {
 
       ustazExtra.classList.toggle(
         "visible",
@@ -442,10 +610,9 @@ function normalizePhone(
   }
 
 
-  /* -------------------------------------------------------
+  /* =======================================================
      ROLE CARD EVENTS
-     Only role cards are handled here.
-  ------------------------------------------------------- */
+  ======================================================= */
 
   roleOptions.forEach(
     function (option) {
@@ -459,13 +626,119 @@ function normalizePhone(
               'input[type="radio"]'
             );
 
-
           if (!radio) {
             return;
           }
 
-
           setRole(
+            radio.value
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     REGISTRATION METHOD
+     -------------------------------------------------------
+    phone → Phone + Telegram flow
+   email → Email OTP → direct account creation
+  ======================================================= */
+
+  function getRegistrationMethod() {
+
+    const selected =
+      document.querySelector(
+        'input[name="registrationMethod"]:checked'
+      );
+
+    return selected &&
+      selected.value === "email"
+      ? "email"
+      : "phone";
+
+  }
+
+
+  function setRegistrationMethod(method) {
+
+    const useEmail =
+      method === "email";
+
+
+    methodOptions.forEach(
+      function (option) {
+
+        const radio =
+          option.querySelector(
+            'input[type="radio"]'
+          );
+
+        if (!radio) {
+          return;
+        }
+
+        const active =
+          radio.value ===
+          (
+            useEmail
+              ? "email"
+              : "phone"
+          );
+
+        radio.checked =
+          active;
+
+        option.classList.toggle(
+          "active",
+          active
+        );
+
+      }
+    );
+
+
+    if (signupEmailField) {
+
+      signupEmailField.style.display =
+        useEmail
+          ? ""
+          : "none";
+
+    }
+
+
+    if (!useEmail) {
+
+      clearText(
+        "signupEmailError"
+      );
+
+    }
+
+  }
+
+
+  methodOptions.forEach(
+    function (option) {
+
+      const radio =
+        option.querySelector(
+          'input[type="radio"]'
+        );
+
+      if (!radio) {
+        return;
+      }
+
+      radio.addEventListener(
+        "change",
+        function () {
+
+          setRegistrationMethod(
             radio.value
           );
 
@@ -488,7 +761,6 @@ function normalizePhone(
           ".role-option"
         );
 
-
       if (!option) {
         return;
       }
@@ -504,21 +776,11 @@ function normalizePhone(
       }
 
 
-      /*
-        The checkbox remains the source of truth.
-        The card's active class simply mirrors it.
-      */
-
       input.addEventListener(
         "change",
         syncStudyFieldState
       );
 
-
-      /*
-        Initialize the visual state correctly
-        when the modal/page first loads.
-      */
 
       syncStudyFieldState();
 
@@ -612,7 +874,6 @@ function normalizePhone(
                 button.dataset.password
               );
 
-
             if (!input) {
               return;
             }
@@ -625,7 +886,8 @@ function normalizePhone(
 
 
             const shouldShow =
-              input.type === "password";
+              input.type ===
+              "password";
 
 
             input.type =
@@ -659,17 +921,190 @@ function normalizePhone(
 
 
   /* =======================================================
+     EMAIL OTP UI
+  ======================================================= */
+
+  function showEmailOtpStep() {
+
+    signupForm.style.display =
+      "none";
+
+    loginForm.style.display =
+      "none";
+
+    hideTelegramStep();
+
+
+    if (authSwitch) {
+
+      authSwitch.style.display =
+        "none";
+
+    }
+
+
+    if (emailOtpSection) {
+
+      emailOtpSection.classList.add(
+        "active"
+      );
+
+      emailOtpSection.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+    }
+
+
+    if (emailOtpError) {
+
+      emailOtpError.textContent =
+        "";
+
+    }
+
+
+    if (emailOtpInput) {
+
+      emailOtpInput.value =
+        "";
+
+    }
+
+
+    authTitle.textContent =
+      "Verify Your Email";
+
+
+    authSubtitle.textContent =
+      `Enter the verification code sent to ${emailVerification.email}.`;
+
+
+    setTimeout(
+      function () {
+
+        if (emailOtpInput) {
+
+          emailOtpInput.focus();
+
+        }
+
+      },
+      50
+    );
+
+  }
+
+
+  function hideEmailOtpStep() {
+
+    if (emailOtpSection) {
+
+      emailOtpSection.classList.remove(
+        "active"
+      );
+
+      emailOtpSection.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+
+
+    if (emailOtpError) {
+
+      emailOtpError.textContent =
+        "";
+
+    }
+
+  }
+
+
+  /* =======================================================
+     TELEGRAM UI
+  ======================================================= */
+
+  function showTelegramStep() {
+
+    signupForm.style.display =
+      "none";
+
+    loginForm.style.display =
+      "none";
+
+
+    hideEmailOtpStep();
+
+
+    if (authSwitch) {
+
+      authSwitch.style.display =
+        "none";
+
+    }
+
+
+    if (telegramSection) {
+
+      telegramSection.classList.add(
+        "active"
+      );
+
+    }
+
+
+    authTitle.textContent =
+      "Verify with Telegram";
+
+
+    authSubtitle.textContent =
+      "Connect your Telegram account to securely verify your identity.";
+
+  }
+
+
+  function hideTelegramStep() {
+
+    if (telegramSection) {
+
+      telegramSection.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    if (telegramError) {
+
+      telegramError.textContent =
+        "";
+
+    }
+
+  }
+
+
+  /* =======================================================
      AUTH MODAL OPEN
   ======================================================= */
 
-  function openAuth(
-    mode
-  ) {
+  function openAuth(mode) {
 
     currentAuth =
       mode;
 
 
+    pendingRegistration =
+      null;
+
+
+    resetEmailVerification();
+
+
+    hideEmailOtpStep();
     hideTelegramStep();
 
 
@@ -753,9 +1188,7 @@ function normalizePhone(
               );
 
 
-        if (
-          focusTarget
-        ) {
+        if (focusTarget) {
 
           focusTarget.focus();
 
@@ -790,12 +1223,11 @@ function normalizePhone(
       "none";
 
 
+    hideEmailOtpStep();
     hideTelegramStep();
 
 
-    if (
-      authSwitch
-    ) {
+    if (authSwitch) {
 
       authSwitch.style.display =
         "block";
@@ -803,9 +1235,7 @@ function normalizePhone(
     }
 
 
-    if (
-      switchText
-    ) {
+    if (switchText) {
 
       switchText.textContent =
         "Don't have an account?";
@@ -813,9 +1243,7 @@ function normalizePhone(
     }
 
 
-    if (
-      switchAuth
-    ) {
+    if (switchAuth) {
 
       switchAuth.textContent =
         "Create one";
@@ -847,12 +1275,11 @@ function normalizePhone(
       "flex";
 
 
+    hideEmailOtpStep();
     hideTelegramStep();
 
 
-    if (
-      authSwitch
-    ) {
+    if (authSwitch) {
 
       authSwitch.style.display =
         "block";
@@ -860,9 +1287,7 @@ function normalizePhone(
     }
 
 
-    if (
-      switchText
-    ) {
+    if (switchText) {
 
       switchText.textContent =
         "Already have an account?";
@@ -870,9 +1295,7 @@ function normalizePhone(
     }
 
 
-    if (
-      switchAuth
-    ) {
+    if (switchAuth) {
 
       switchAuth.textContent =
         "Log in";
@@ -904,18 +1327,20 @@ function normalizePhone(
     );
 
 
+    hideEmailOtpStep();
     hideTelegramStep();
 
 
     pendingRegistration =
       null;
 
+
+    resetEmailVerification();
+
   }
 
 
-  if (
-    closeAuth
-  ) {
+  if (closeAuth) {
 
     closeAuth.addEventListener(
       "click",
@@ -1006,9 +1431,7 @@ function normalizePhone(
      LOGIN ↔ SIGNUP
   ======================================================= */
 
-  if (
-    switchAuth
-  ) {
+  if (switchAuth) {
 
     switchAuth.addEventListener(
       "click",
@@ -1038,11 +1461,14 @@ function normalizePhone(
 
   /* =======================================================
      COLLECT PARENT DATA
+     -------------------------------------------------------
+     `email` is only included when the user chose the
+     Email + OTP + Telegram method.
   ======================================================= */
 
   function collectParentData() {
 
-    return {
+    const data = {
 
       role:
         "parent",
@@ -1073,10 +1499,12 @@ function normalizePhone(
         getElement(
           "area"
         )?.value || "",
-nearestMosque:
-  getElement(
-    "nearestMosque"
-  )?.value.trim() || "",
+
+      nearestMosque:
+        getElement(
+          "nearestMosque"
+        )?.value.trim() || "",
+
       password:
         getElement(
           "signupPassword"
@@ -1088,6 +1516,24 @@ nearestMosque:
         )?.value || ""
 
     };
+
+
+    if (
+      getRegistrationMethod() ===
+      "email"
+    ) {
+
+      data.email =
+        normalizeEmail(
+          getElement(
+            "signupEmail"
+          )?.value || ""
+        );
+
+    }
+
+
+    return data;
 
   }
 
@@ -1147,18 +1593,25 @@ nearestMosque:
      VALIDATION
   ======================================================= */
 
-  function validateRegistration(
-    data
-  ) {
+  function validateRegistration(data) {
 
     clearText(
-  "nameError",
-  "signupPhoneError",
-  "signupPasswordError",
-  "confirmError",
-  "nearestMosqueError",
-  "signupStatus"
-);
+
+      "nameError",
+
+      "signupEmailError",
+
+      "signupPhoneError",
+
+      "signupPasswordError",
+
+      "confirmError",
+
+      "nearestMosqueError",
+
+      "signupStatus"
+
+    );
 
 
     let valid =
@@ -1166,7 +1619,7 @@ nearestMosque:
 
 
     /* ---------------------------------------------------
-       Name
+       NAME
     --------------------------------------------------- */
 
     if (
@@ -1179,7 +1632,6 @@ nearestMosque:
         "Enter your first and last name."
       );
 
-
       valid =
         false;
 
@@ -1187,20 +1639,61 @@ nearestMosque:
 
 
     /* ---------------------------------------------------
-       Phone
+       EMAIL
+       (only when registering with Email + OTP + Telegram)
     --------------------------------------------------- */
-if (
-  !/^251[79]\d{8}$/.test(
-    data.phone
-  )
-) {
+
+    if (
+      getRegistrationMethod() ===
+      "email"
+    ) {
+
+      if (!data.email) {
+
+        setText(
+          "signupEmailError",
+          "Enter your email address."
+        );
+
+        valid =
+          false;
+
+      }
+
+      else if (
+        !isValidEmail(
+          data.email
+        )
+      ) {
+
+        setText(
+          "signupEmailError",
+          "Enter a valid email address."
+        );
+
+        valid =
+          false;
+
+      }
+
+    }
+
+
+    /* ---------------------------------------------------
+       PHONE
+    --------------------------------------------------- */
+
+    if (
+      !/^251[79]\d{8}$/.test(
+        data.phone
+      )
+    ) {
 
       setText(
         "signupPhoneError",
         "Enter a valid Ethiopian phone number."
       );
 
-
       valid =
         false;
 
@@ -1208,55 +1701,56 @@ if (
 
 
     /* ---------------------------------------------------
-       Location
+       LOCATION
     --------------------------------------------------- */
 
-    if (
-      !data.subcity
-    ) {
+    if (!data.subcity) {
 
       setText(
         "signupStatus",
         "Please select your sub-city."
       );
 
-
       valid =
         false;
 
     }
 
 
-    if (
-      !data.area
-    ) {
+    if (!data.area) {
 
       setText(
         "signupStatus",
         "Please select your area."
       );
 
+      valid =
+        false;
+
+    }
+
+
+    /* ---------------------------------------------------
+       MOSQUE
+    --------------------------------------------------- */
+
+    if (
+      !data.nearestMosque
+    ) {
+
+      setText(
+        "nearestMosqueError",
+        "Enter the name of your nearest mosque."
+      );
 
       valid =
         false;
 
     }
 
-if (
-  !data.nearestMosque
-) {
 
-  setText(
-    "nearestMosqueError",
-    "Enter the name of your nearest mosque."
-  );
-
-  valid =
-    false;
-
-}
     /* ---------------------------------------------------
-       Password
+       PASSWORD
     --------------------------------------------------- */
 
     if (
@@ -1267,7 +1761,6 @@ if (
         "signupPasswordError",
         "Password must be at least 8 characters."
       );
-
 
       valid =
         false;
@@ -1285,7 +1778,6 @@ if (
         "Passwords do not match."
       );
 
-
       valid =
         false;
 
@@ -1293,7 +1785,7 @@ if (
 
 
     /* ---------------------------------------------------
-       Ustaz requirements
+       USTAZ REQUIREMENTS
     --------------------------------------------------- */
 
     if (
@@ -1313,22 +1805,18 @@ if (
           "Enter valid teaching experience."
         );
 
-
         valid =
           false;
 
       }
 
 
-      if (
-        !data.gender
-      ) {
+      if (!data.gender) {
 
         setText(
           "signupStatus",
           "Please select your gender."
         );
-
 
         valid =
           false;
@@ -1346,7 +1834,6 @@ if (
           "Select at least one study field."
         );
 
-
         valid =
           false;
 
@@ -1361,12 +1848,339 @@ if (
 
 
   /* =======================================================
-     START TELEGRAM REGISTRATION
+     EMAIL VERIFICATION — REQUEST A CODE
+     POST /auth/register/email/start
   ======================================================= */
 
-  async function beginTelegramRegistration(
-    data
+  async function requestEmailCode(email) {
+
+    if (
+      !window.BarakaLinkAPI
+    ) {
+
+      throw new Error(
+        "BarakaLink API is not available."
+      );
+
+    }
+
+
+    const response =
+      await window.BarakaLinkAPI.post(
+        "/auth/register/email/start",
+        {
+          email
+        }
+      );
+
+
+    if (
+      !response ||
+      !response.success
+    ) {
+
+      throw new Error(
+        response?.message ||
+        "Unable to send email verification code."
+      );
+
+    }
+
+
+    const verificationId =
+      response.data?.verificationId;
+
+
+    if (!verificationId) {
+
+      throw new Error(
+        "The server did not return an email verification ID."
+      );
+
+    }
+
+
+    emailVerification = {
+
+      verificationId,
+
+      email,
+
+      verified:
+        false
+
+    };
+
+  }
+
+
+  /* =======================================================
+     EMAIL VERIFICATION — START (PATH B)
+  ======================================================= */
+
+  async function beginEmailRegistration(data) {
+
+    await requestEmailCode(
+      data.email
+    );
+
+
+    pendingRegistration = {
+
+      ...data
+
+    };
+
+
+    showEmailOtpStep();
+
+  }
+
+
+  /* =======================================================
+     EMAIL VERIFICATION — CHECK THE CODE
+     POST /auth/register/email/verify
+  ======================================================= */
+
+  async function verifyEmailCode() {
+
+    if (
+      !pendingRegistration ||
+      !emailVerification.verificationId ||
+      !emailVerification.email
+    ) {
+
+      throw createSessionExpiredError();
+
+    }
+
+
+    const otp =
+      String(
+        emailOtpInput?.value || ""
+      )
+      .trim();
+
+
+    if (
+      !/^\d{6}$/.test(
+        otp
+      )
+    ) {
+
+      throw new Error(
+        "Enter the 6-digit email verification code."
+      );
+
+    }
+
+
+    const response =
+      await window.BarakaLinkAPI.post(
+        "/auth/register/email/verify",
+        {
+          verificationId:
+            emailVerification.verificationId,
+
+          email:
+            emailVerification.email,
+
+          otp
+        }
+      );
+
+
+    /*
+      Accepts both:
+        { success: true }
+        { success: true, data: { verified: true } }
+    */
+
+    const verified =
+      Boolean(
+        response &&
+        response.success === true &&
+        response.data?.verified !== false
+      );
+
+
+    if (!verified) {
+
+      throw new Error(
+        response?.message ||
+        "Email verification failed."
+      );
+
+    }
+
+
+    emailVerification.verified =
+      true;
+
+
+    if (emailOtpInput) {
+
+      emailOtpInput.value =
+        "";
+
+    }
+
+  }
+
+/* =======================================================
+   COMPLETE EMAIL REGISTRATION
+   -------------------------------------------------------
+   Email → OTP → Account
+
+   IMPORTANT:
+   This function does NOT call Telegram.
+   ======================================================= */
+
+async function completeEmailRegistration(data) {
+
+  if (!window.BarakaLinkAPI) {
+
+    throw new Error(
+      "BarakaLink API is not available."
+    );
+
+  }
+
+
+  if (
+    !emailVerification.verificationId ||
+    !emailVerification.email ||
+    !emailVerification.verified
   ) {
+
+    throw createSessionExpiredError();
+
+  }
+
+
+  const response =
+    await window.BarakaLinkAPI.post(
+      "/auth/register/email/complete",
+      {
+
+        ...data,
+
+        email:
+          emailVerification.email,
+
+        emailVerificationId:
+          emailVerification.verificationId
+
+      }
+    );
+
+
+  if (
+    !response ||
+    !response.success
+  ) {
+
+    throw new Error(
+      response?.message ||
+      "Unable to create your account."
+    );
+
+  }
+
+
+  const token =
+    response.data?.token;
+
+
+  if (!token) {
+
+    throw new Error(
+      "The server did not return an authentication token."
+    );
+
+  }
+
+
+  /*
+    Email registration is now fully authenticated.
+    No Telegram callback is required.
+  */
+
+  window.BarakaLinkAPI.setToken(
+    token
+  );
+
+
+  const user =
+    response.data?.user;
+
+
+  /*
+    Newly registered accounts go to the
+    role-specific profile completion page.
+  */
+
+  if (
+    user?.role === "ustaz"
+  ) {
+
+    window.location.replace(
+      "ustaz-profile-completion.html"
+    );
+
+    return;
+
+  }
+
+
+  window.location.replace(
+    "profile-completion.html"
+  );
+
+}
+  /* =======================================================
+     BACK TO THE SIGNUP FORM
+  ======================================================= */
+
+  function returnToSignup(message) {
+
+    resetEmailVerification();
+
+
+    pendingRegistration =
+      null;
+
+
+    showSignup();
+
+
+    clearText(
+      "signupStatus"
+    );
+
+
+    if (message) {
+
+      setText(
+        "signupStatus",
+        message
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     START TELEGRAM REGISTRATION
+     -------------------------------------------------------
+     Shared by both registration paths.
+
+     Path A: `data` has no emailVerificationId.
+     Path B: `data` includes emailVerificationId.
+  ======================================================= */
+
+  async function beginTelegramRegistration(data) {
 
     if (
       !window.BarakaLinkAPI
@@ -1380,10 +2194,21 @@ if (
 
 
     /*
-      The backend stores this registration
-      temporarily and returns a Telegram
-      authorization URL.
+      Never continue an email registration
+      whose email has not been verified.
     */
+
+    if (
+      data.emailVerificationId &&
+      !emailVerification.verified
+    ) {
+
+      throw new Error(
+        "Please verify your email before continuing."
+      );
+
+    }
+
 
     const response =
       await window.BarakaLinkAPI.post(
@@ -1409,30 +2234,16 @@ if (
       ...data,
 
       challengeId:
-        response.data.challengeId
+        response.data?.challengeId
 
     };
 
 
-    /*
-      Backend should return something like:
-
-      {
-        success: true,
-        data: {
-          challengeId: "...",
-          authorizationUrl: "..."
-        }
-      }
-    */
-
     const authorizationUrl =
-      response.data.authorizationUrl;
+      response.data?.authorizationUrl;
 
 
-    if (
-      !authorizationUrl
-    ) {
+    if (!authorizationUrl) {
 
       throw new Error(
         "Telegram authorization URL was not returned."
@@ -1444,86 +2255,8 @@ if (
     showTelegramStep();
 
 
-    /*
-      Open Telegram authorization.
-    */
-
     window.location.href =
       authorizationUrl;
-
-  }
-
-
-  /* =======================================================
-     SHOW TELEGRAM
-  ======================================================= */
-
-  function showTelegramStep() {
-
-    signupForm.style.display =
-      "none";
-
-
-    loginForm.style.display =
-      "none";
-
-
-    if (
-      authSwitch
-    ) {
-
-      authSwitch.style.display =
-        "none";
-
-    }
-
-
-    if (
-      telegramSection
-    ) {
-
-      telegramSection.classList.add(
-        "active"
-      );
-
-    }
-
-
-    authTitle.textContent =
-      "Verify with Telegram";
-
-
-    authSubtitle.textContent =
-      "Connect your Telegram account to securely verify your identity.";
-
-  }
-
-
-  /* =======================================================
-     HIDE TELEGRAM
-  ======================================================= */
-
-  function hideTelegramStep() {
-
-    if (
-      telegramSection
-    ) {
-
-      telegramSection.classList.remove(
-        "active"
-      );
-
-    }
-
-
-    if (
-      telegramError
-    ) {
-
-      telegramError.textContent =
-        "";
-
-    }
 
   }
 
@@ -1566,39 +2299,152 @@ if (
         );
 
 
+      /* -------------------------------------------------
+         PATH A
+         Phone → Telegram
+         (unchanged behavior)
+      ------------------------------------------------- */
+
       if (
-        signupButton
+        getRegistrationMethod() !==
+        "email"
       ) {
 
-        signupButton.disabled =
-          true;
-
-
-        signupButton.dataset.originalText =
-          signupButton.innerHTML;
-
-
-        signupButton.innerHTML =
+        setButtonBusy(
+          signupButton,
+          true,
           `
-          Starting Telegram verification
-          <i class="fa-brands fa-telegram"></i>
-          `;
+          Continuing
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          `
+        );
+
+
+        try {
+
+          await beginTelegramRegistration(
+            data
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Registration error:",
+            error
+          );
+
+
+          setText(
+            "signupStatus",
+            error.message ||
+            "Unable to start registration."
+          );
+
+        } finally {
+
+          setButtonBusy(
+            signupButton,
+            false
+          );
+
+        }
+
+        return;
 
       }
+/* -------------------------------------------------
+   PATH B
+   Email → OTP → Account
+
+   IMPORTANT:
+   No Telegram is used here.
+------------------------------------------------- */
+
+const sameVerifiedEmail =
+  emailVerification.verified &&
+  emailVerification.email ===
+    data.email;
+
+
+if (sameVerifiedEmail) {
+
+  setButtonBusy(
+    signupButton,
+    true,
+    `
+    Creating account
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    `
+  );
+
+
+  try {
+
+    await completeEmailRegistration(
+      data
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Email registration completion error:",
+      error
+    );
+
+
+    if (
+      error.sessionExpired ||
+      error.status === 410
+    ) {
+
+      returnToSignup(
+        error.message
+      );
+
+    }
+
+    else {
+
+      setText(
+        "signupStatus",
+        error.message ||
+        "Unable to create your account."
+      );
+
+    }
+
+  } finally {
+
+    setButtonBusy(
+      signupButton,
+      false
+    );
+
+  }
+
+  return;
+
+}
+      setButtonBusy(
+        signupButton,
+        true,
+        `
+        Sending email code
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        `
+      );
 
 
       try {
 
-        await beginTelegramRegistration(
+        await beginEmailRegistration(
           data
         );
 
-      } catch (
-        error
-      ) {
+      } catch (error) {
 
         console.error(
-          "Registration error:",
+          "Email registration error:",
           error
         );
 
@@ -1606,22 +2452,15 @@ if (
         setText(
           "signupStatus",
           error.message ||
-          "Unable to start registration."
+          "Unable to start email verification."
         );
 
+      } finally {
 
-        if (
-          signupButton
-        ) {
-
-          signupButton.disabled =
-            false;
-
-
-          signupButton.innerHTML =
-            signupButton.dataset.originalText;
-
-        }
+        setButtonBusy(
+          signupButton,
+          false
+        );
 
       }
 
@@ -1630,11 +2469,371 @@ if (
 
 
   /* =======================================================
-     TELEGRAM BUTTON
+     EMAIL OTP INPUT
+  ======================================================= */
 
-     This is used mainly for a return/retry
-     situation. Normally beginTelegramRegistration()
-     redirects directly to Telegram.
+  if (emailOtpInput) {
+
+    /*
+      Digits only, maximum 6.
+    */
+
+    emailOtpInput.addEventListener(
+      "input",
+      function () {
+
+        const digits =
+          emailOtpInput.value
+            .replace(
+              /\D/g,
+              ""
+            )
+            .slice(
+              0,
+              6
+            );
+
+
+        if (
+          emailOtpInput.value !==
+          digits
+        ) {
+
+          emailOtpInput.value =
+            digits;
+
+        }
+
+      }
+    );
+
+
+    emailOtpInput.addEventListener(
+      "keydown",
+      function (event) {
+
+        if (
+          event.key !== "Enter"
+        ) {
+
+          return;
+
+        }
+
+
+        event.preventDefault();
+
+
+        if (
+          verifyEmailOtpButton &&
+          !verifyEmailOtpButton.disabled
+        ) {
+
+          verifyEmailOtpButton.click();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     EMAIL OTP BUTTON
+  ======================================================= */
+
+  if (
+    verifyEmailOtpButton
+  ) {
+
+    verifyEmailOtpButton.addEventListener(
+      "click",
+      async function () {
+
+        if (
+          emailOtpError
+        ) {
+
+          emailOtpError.textContent =
+            "";
+
+        }
+
+
+        setButtonBusy(
+          verifyEmailOtpButton,
+          true,
+          `
+          Verifying
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          `
+        );
+
+
+        /*
+          1) Check the code with the backend
+        */
+
+        try {
+
+          await verifyEmailCode();
+
+        } catch (error) {
+
+          console.error(
+            "Email OTP verification error:",
+            error
+          );
+
+
+          if (
+            error.sessionExpired
+          ) {
+
+            returnToSignup(
+              error.message
+            );
+
+          }
+
+          else if (
+            emailOtpError
+          ) {
+
+            emailOtpError.textContent =
+              error.message ||
+              "Unable to verify your email.";
+
+
+            if (emailOtpInput) {
+
+              emailOtpInput.focus();
+
+            }
+
+          }
+
+
+          setButtonBusy(
+            verifyEmailOtpButton,
+            false
+          );
+
+          return;
+
+        }
+
+
+/*
+  2) Email verified → create the account directly.
+
+  IMPORTANT:
+  No Telegram registration starts here.
+*/
+
+try {
+
+  await completeEmailRegistration(
+    pendingRegistration
+  );
+
+} catch (error) {
+
+  console.error(
+    "Email registration completion error:",
+    error
+  );
+
+
+  /*
+    410 means the verification session
+    is no longer valid.
+  */
+
+  if (
+    error.status === 410 ||
+    error.sessionExpired
+  ) {
+
+    resetEmailVerification();
+
+
+    returnToSignup(
+      error.message ||
+      "Your email verification session has expired. Please start again."
+    );
+
+  }
+
+  else {
+
+    /*
+      Keep the verified email state so the
+      user can fix another registration field
+      without repeating OTP verification.
+    */
+
+    showSignup();
+
+
+    setText(
+      "signupStatus",
+      error.message ||
+      "Unable to create your account."
+    );
+
+  }
+
+} finally {
+
+  setButtonBusy(
+    verifyEmailOtpButton,
+    false
+  );
+
+}
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     EMAIL OTP — RESEND
+  ======================================================= */
+
+  if (
+    resendEmailOtpButton
+  ) {
+
+    resendEmailOtpButton.addEventListener(
+      "click",
+      async function () {
+
+        if (
+          emailOtpError
+        ) {
+
+          emailOtpError.textContent =
+            "";
+
+        }
+
+
+        setButtonBusy(
+          resendEmailOtpButton,
+          true,
+          `
+          Sending
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          `
+        );
+
+
+        try {
+
+          if (
+            !pendingRegistration ||
+            !emailVerification.email
+          ) {
+
+            throw createSessionExpiredError();
+
+          }
+
+
+          await requestEmailCode(
+            emailVerification.email
+          );
+
+
+          showEmailOtpStep();
+
+
+          authSubtitle.textContent =
+            `A new verification code was sent to ${emailVerification.email}.`;
+
+        } catch (error) {
+
+          console.error(
+            "Email OTP resend error:",
+            error
+          );
+
+
+          if (
+            error.sessionExpired
+          ) {
+
+            returnToSignup(
+              error.message
+            );
+
+          }
+
+          else if (
+            emailOtpError
+          ) {
+
+            emailOtpError.textContent =
+              error.message ||
+              "Unable to resend the verification code.";
+
+          }
+
+        } finally {
+
+          setButtonBusy(
+            resendEmailOtpButton,
+            false
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     EMAIL OTP — CHANGE EMAIL / GO BACK
+  ======================================================= */
+
+  if (
+    emailOtpBackButton
+  ) {
+
+    emailOtpBackButton.addEventListener(
+      "click",
+      function () {
+
+        returnToSignup();
+
+
+        setTimeout(
+          function () {
+
+            if (signupEmail) {
+
+              signupEmail.focus();
+
+            }
+
+          },
+          50
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     TELEGRAM BUTTON
   ======================================================= */
 
   if (
@@ -1694,9 +2893,7 @@ if (
             response?.data?.authorizationUrl;
 
 
-          if (
-            !authorizationUrl
-          ) {
+          if (!authorizationUrl) {
 
             throw new Error(
               "Telegram authorization URL was not returned."
@@ -1708,9 +2905,7 @@ if (
           window.location.href =
             authorizationUrl;
 
-        } catch (
-          error
-        ) {
+        } catch (error) {
 
           telegramError.textContent =
             error.message ||
@@ -1737,6 +2932,13 @@ if (
 
   /* =======================================================
      LOGIN
+     -------------------------------------------------------
+     Accepts:
+       - Ethiopian phone number
+       - Email address
+
+     Sends:
+       { identifier, password }
   ======================================================= */
 
   loginForm.addEventListener(
@@ -1753,7 +2955,7 @@ if (
       );
 
 
-      const phoneInput =
+      const identifierInput =
         getElement(
           "loginPhone"
         );
@@ -1765,10 +2967,11 @@ if (
         );
 
 
-      const phone =
-        normalizePhone(
-          phoneInput?.value || ""
-        );
+      const identifier =
+        String(
+          identifierInput?.value || ""
+        )
+        .trim();
 
 
       const password =
@@ -1779,17 +2982,12 @@ if (
         true;
 
 
-     if (
-  !/^251[79]\d{8}$/.test(
-    phone
-  )
-) {
+      if (!identifier) {
 
         setText(
           "loginPhoneError",
-          "Enter a valid Ethiopian phone number."
+          "Enter your email or phone number."
         );
-
 
         valid =
           false;
@@ -1797,15 +2995,64 @@ if (
       }
 
 
-      if (
-        !password
+      else if (
+        isEmailIdentifier(
+          identifier
+        )
       ) {
+
+        if (
+          !isValidEmail(
+            identifier
+          )
+        ) {
+
+          setText(
+            "loginPhoneError",
+            "Enter a valid email address."
+          );
+
+          valid =
+            false;
+
+        }
+
+      }
+
+
+      else {
+
+        const phone =
+          normalizePhone(
+            identifier
+          );
+
+
+        if (
+          !/^251[79]\d{8}$/.test(
+            phone
+          )
+        ) {
+
+          setText(
+            "loginPhoneError",
+            "Enter a valid email or Ethiopian phone number."
+          );
+
+          valid =
+            false;
+
+        }
+
+      }
+
+
+      if (!password) {
 
         setText(
           "loginPasswordError",
           "Enter your password."
         );
-
 
         valid =
           false;
@@ -1814,7 +3061,9 @@ if (
 
 
       if (!valid) {
+
         return;
+
       }
 
 
@@ -1824,9 +3073,7 @@ if (
         );
 
 
-      if (
-        loginButton
-      ) {
+      if (loginButton) {
 
         loginButton.disabled =
           true;
@@ -1836,11 +3083,25 @@ if (
 
       try {
 
+        const normalizedIdentifier =
+          isEmailIdentifier(
+            identifier
+          )
+            ? normalizeEmail(
+                identifier
+              )
+            : normalizePhone(
+                identifier
+              );
+
+
         const response =
           await window.BarakaLinkAPI.post(
             "/auth/login",
             {
-              phone,
+              identifier:
+                normalizedIdentifier,
+
               password
             }
           );
@@ -1862,9 +3123,7 @@ if (
           response.data?.token;
 
 
-        if (
-          !token
-        ) {
+        if (!token) {
 
           throw new Error(
             "The server did not return an authentication token."
@@ -1882,11 +3141,6 @@ if (
           response.data?.user;
 
 
-        /*
-          Dashboard selection is based on
-          the authenticated role.
-        */
-
         if (
           user?.role === "ustaz"
         ) {
@@ -1894,16 +3148,16 @@ if (
           window.location.href =
             "dashboard/teacher.html";
 
-        } else {
+        }
+
+        else {
 
           window.location.href =
             "dashboard/student.html";
 
         }
 
-      } catch (
-        error
-      ) {
+      } catch (error) {
 
         console.error(
           "Login error:",
@@ -1918,9 +3172,7 @@ if (
         );
 
 
-        if (
-          loginButton
-        ) {
+        if (loginButton) {
 
           loginButton.disabled =
             false;
@@ -1965,11 +3217,11 @@ if (
   ======================================================= */
 
   /*
-     Telegram redirects back to:
+    Telegram redirects back to:
 
-     auth-callback.html?ticket=...
+    auth-callback.html?ticket=...
 
-     That page is handled by auth-callback.js.
+    That page is handled by auth-callback.js.
   */
 
 
