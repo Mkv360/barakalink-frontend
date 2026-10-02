@@ -35,6 +35,11 @@
     languages: [],
     availability: [],
     qualifications: [],
+    profileTrust: {
+      qualificationSubmitted: false,
+      identityVerified: false,
+      subscriptionActive: false,
+    },
     section: "home",
     loading: false,
     initialized: false,
@@ -591,6 +596,20 @@
     return value !== null && typeof value === "object";
   }
 
+  function readBooleanField(sources, ...keys) {
+    for (const source of sources) {
+      if (!isObject(source)) continue;
+
+      for (const key of keys) {
+        if (typeof source[key] === "boolean") {
+          return source[key];
+        }
+      }
+    }
+
+    return false;
+  }
+
   function unwrapApiPayload(payload) {
     if (payload === null || payload === undefined) return payload;
 
@@ -715,6 +734,35 @@
       normalizeQualification
     );
 
+    const trustSources = [
+      data?.profileTrust,
+      data,
+      data?.user,
+      data?.teacherProfile,
+      rootObject?.profileTrust,
+      rootObject,
+      rootObject?.user,
+      teacher,
+    ];
+
+    const profileTrust = {
+      qualificationSubmitted: readBooleanField(
+        trustSources,
+        "qualificationSubmitted",
+        "qualification_submitted"
+      ),
+      identityVerified: readBooleanField(
+        trustSources,
+        "identityVerified",
+        "identity_verified"
+      ),
+      subscriptionActive: readBooleanField(
+        trustSources,
+        "subscriptionActive",
+        "subscription_active"
+      ),
+    };
+
     return {
       user,
       teacher,
@@ -722,6 +770,7 @@
       languages,
       availability,
       qualifications,
+      profileTrust,
     };
   }
 
@@ -847,6 +896,11 @@
       state.languages = profile.languages;
       state.availability = profile.availability;
       state.qualifications = profile.qualifications;
+      state.profileTrust = profile.profileTrust || {
+        qualificationSubmitted: false,
+        identityVerified: false,
+        subscriptionActive: false,
+      };
 
       console.info(
         "[BarakaLink][Ustaz Dashboard][profile-normalization] Profile normalized.",
@@ -1571,9 +1625,83 @@
      DASHBOARD RENDER
   ========================================================= */
 
+  function renderProfileTrust() {
+    const card = $("ustazProfileTrustCard");
+    const badge = $("ustazProfileTrustBadge");
+    const title = $("ustazProfileTrustTitle");
+    const description = $("ustazProfileTrustDescription");
+    const details = $("ustazProfileTrustDetails");
+    const icon = $("ustazProfileTrustIcon");
+
+    if (!card || !badge || !title || !description || !details || !icon) {
+      return;
+    }
+
+    const qualificationSubmitted =
+      state.profileTrust?.qualificationSubmitted === true;
+
+    const identityVerified =
+      state.profileTrust?.identityVerified === true;
+
+    let trustState = "none";
+
+    if (qualificationSubmitted && identityVerified) {
+      trustState = "trusted";
+    } else if (qualificationSubmitted) {
+      trustState = "credentials";
+    } else if (identityVerified) {
+      trustState = "identity";
+    }
+
+    const content = {
+      none: {
+        icon: "fa-solid fa-shield-halved",
+        badge: "",
+        title: "Strengthen your profile",
+        description:
+          "Verification is optional. You can strengthen your profile by submitting credentials and/or completing identity verification.",
+      },
+
+      credentials: {
+        icon: "fa-solid fa-file-circle-check",
+        badge: "Credentials Submitted",
+        title: "Credentials submitted",
+        description:
+          "Your qualification documents have been submitted. Completing live identity verification can strengthen the profile.",
+      },
+
+      identity: {
+        icon: "fa-solid fa-user-check",
+        badge: "Identity Verified",
+        title: "Identity verified",
+        description:
+          "Your live identity check is complete. You can add qualification documents to reach Trusted Profile.",
+      },
+
+      trusted: {
+        icon: "fa-solid fa-shield-check",
+        badge: "Trusted Profile",
+        title: "Trusted profile",
+        description:
+          "Your profile has completed both qualification submission and live identity verification steps.",
+      },
+    }[trustState];
+
+    card.dataset.trustState = trustState;
+    icon.className = content.icon;
+
+    badge.hidden = trustState === "none";
+    badge.textContent = content.badge;
+
+    title.textContent = content.title;
+    description.textContent = content.description;
+    details.hidden = trustState !== "trusted";
+  }
+
   function renderDashboard() {
     renderAccountDetails();
     renderSummary();
+    renderProfileTrust();
     renderSubjects();
     renderLanguages();
     renderAvailability();
