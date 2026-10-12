@@ -57,7 +57,7 @@
   */
 const PUBLIC_API_BASE =
   window.BARAKALINK_PUBLIC_API_BASE ||
-  "https://observations-vintage-doctors-mercury.trycloudflare.com/api";
+  "https://recently-reg-conditioning-instances.trycloudflare.com/api";
   /* =======================================================
      HELPERS
   ======================================================= */
