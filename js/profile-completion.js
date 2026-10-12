@@ -83,10 +83,12 @@
    * this pair (or set window.BARAKALINK_API_BASE before this script loads)
    * and add the new frontend origin to the backend CORS allow-list.
    */
+
 const PUBLIC_API_BY_FRONTEND_HOST = Object.freeze({
-  "nose-plymouth-fiscal-specifics.trycloudflare.com":
-    "https://observations-vintage-doctors-mercury.trycloudflare.com/api"
+  "mkv360.github.io":
+    "https://recently-reg-conditioning-instances.trycloudflare.com/api"
 });
+
 
   function isLoopbackHost(hostname) {
     return hostname === "localhost" || hostname === "127.0.0.1";
