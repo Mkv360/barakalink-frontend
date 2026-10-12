@@ -1,0 +1,63 @@
+/* Append these rules to the bottom of frontend/css/inbox.css. */
+
+/* Keep each conversation-list avatar fixed and prevent image stretching. */
+.inbox-conversation > .inbox-avatar {
+  position: relative;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  flex: 0 0 44px !important;
+  align-self: start;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.inbox-conversation > .inbox-avatar img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* The header uses the existing avatar element directly (no nested avatar). */
+.inbox-chat-header #inboxChatAvatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  flex: 0 0 44px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.inbox-chat-header #inboxChatAvatar img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover;
+  border-radius: inherit;
+}

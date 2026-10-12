@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Identity Verification — BarakaLink</title>
+
+  <meta
+    name="description"
+    content="Optional BarakaLink Ustaz live identity verification."
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+<link rel="stylesheet" href="../../css/ustaz-identity-verification.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+</head>
+
+<body class="identity-verification-page-body">
+  <main class="identity-verification-page" id="identityVerificationPage">
+    <section class="identity-verification-shell" aria-labelledby="identityVerificationTitle">
+      <header class="identity-verification-header">
+        <a
+          class="identity-verification-back"
+          href="javascript:history.back()"
+          aria-label="Go back"
+        >
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          <span>Back</span>
+        </a>
+
+        <div class="identity-verification-brand" aria-label="BarakaLink">
+          <span class="identity-verification-brand-mark" aria-hidden="true">
+            <i class="fa-solid fa-shield-heart"></i>
+          </span>
+          <span>BarakaLink</span>
+        </div>
+      </header>
+
+      <div class="identity-verification-card">
+        <div class="identity-verification-hero-icon" aria-hidden="true">
+          <span class="identity-verification-hero-ring"></span>
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <span class="identity-verification-eyebrow">Optional verification</span>
+
+        <h1 id="identityVerificationTitle">
+          Verify your identity
+        </h1>
+
+        <p class="identity-verification-lead">
+          Complete a quick live camera check to show that you are a real person
+          and that your live face matches your existing BarakaLink profile photo.
+        </p>
+
+        <div class="identity-verification-time-note">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          <span>It usually takes only a couple of minutes.</span>
+        </div>
+
+        <div class="identity-verification-advantages">
+          <h2>Why verify?</h2>
+
+          <div class="identity-verification-advantage-list">
+            <article class="identity-verification-advantage">
+              <span class="identity-verification-advantage-icon identity-verification-advantage-icon-green" aria-hidden="true">
+                <i class="fa-solid fa-user-check"></i>
+              </span>
+              <div>
+                <strong>Stronger trust signal</strong>
+                <p>
+                  Your profile can show an <strong>Identity Verified</strong> trust state
+                  once the server confirms the check passed.
+                </p>
+              </div>
+            </article>
+
+            <article class="identity-verification-advantage">
+              <span class="identity-verification-advantage-icon identity-verification-advantage-icon-gold" aria-hidden="true">
+                <i class="fa-solid fa-eye"></i>
+              </span>
+              <div>
+                <strong>May improve profile visibility</strong>
+                <p>
+                  Verified identity is intended to become a stronger discovery signal
+                  when BarakaLink's future visibility system is enabled.
+                </p>
+              </div>
+            </article>
+
+            <article class="identity-verification-advantage">
+              <span class="identity-verification-advantage-icon identity-verification-advantage-icon-blue" aria-hidden="true">
+                <i class="fa-solid fa-people-arrows"></i>
+              </span>
+              <div>
+                <strong>More confidence for families</strong>
+                <p>
+                  The check helps confirm that the live person is the same person represented
+                  by the profile photo.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="identity-verification-notice">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <p>
+            Verification is <strong>optional</strong>. It is not required to register,
+            log in, complete your profile, use the Ustaz dashboard, or appear on BarakaLink.
+          </p>
+        </div>
+
+        <div class="identity-verification-limits">
+          <h2>What this verification means</h2>
+          <ul>
+            <li>It checks for a live person during the verification session.</li>
+            <li>It compares the live verification reference with your existing profile photo.</li>
+            <li>It does not independently verify your Islamic qualifications or teaching quality.</li>
+            <li>BarakaLink does not treat this check as a guarantee of teaching quality.</li>
+          </ul>
+        </div>
+
+        <div class="identity-verification-actions">
+          <button
+            type="button"
+            class="identity-verification-primary-button"
+            id="startIdentityVerificationButton"
+          >
+            <i class="fa-solid fa-camera" aria-hidden="true"></i>
+            <span>Start Verification</span>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </button>
+
+          <a
+            class="identity-verification-secondary-link"
+            href="javascript:history.back()"
+          >
+            Maybe later
+          </a>
+        </div>
+
+        <p class="identity-verification-disclaimer">
+          Your verification decision will be made by BarakaLink's secure verification service.
+          You cannot make yourself verified from the browser.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       ISOLATED VERIFICATION MODAL
+       Frontend-only shell. Provider/API integration comes later.
+  ====================================================== -->
+  <div
+    class="identity-verification-modal"
+    id="identityVerificationModal"
+    hidden
+    aria-hidden="true"
+  >
+    <div
+      class="identity-verification-modal-backdrop"
+      data-identity-verification-close
+    ></div>
+
+    <section
+      class="identity-verification-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="identityVerificationModalTitle"
+      aria-describedby="identityVerificationModalDescription"
+    >
+      <button
+        type="button"
+        class="identity-verification-modal-close"
+        id="identityVerificationModalClose"
+        aria-label="Close identity verification"
+        data-identity-verification-close
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <div class="identity-verification-modal-icon" aria-hidden="true">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <span class="identity-verification-eyebrow">Before you begin</span>
+
+      <h2 id="identityVerificationModalTitle">
+        Ready for your live identity check?
+      </h2>
+
+      <p id="identityVerificationModalDescription">
+        The check uses your camera to confirm that you are a live person and
+        compares the verification reference with your current BarakaLink profile photo.
+      </p>
+
+      <div class="identity-verification-modal-benefits">
+        <div class="identity-verification-modal-benefit">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          <span>About a couple of minutes</span>
+        </div>
+
+        <div class="identity-verification-modal-benefit">
+          <i class="fa-solid fa-user-check" aria-hidden="true"></i>
+          <span>Stronger identity trust signal</span>
+        </div>
+
+        <div class="identity-verification-modal-benefit">
+          <i class="fa-solid fa-eye" aria-hidden="true"></i>
+          <span>May help future profile discovery</span>
+        </div>
+      </div>
+
+      <div class="identity-verification-modal-note">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        <span>
+          This is optional. You can close this window and continue using BarakaLink normally.
+        </span>
+      </div>
+
+      <div class="identity-verification-modal-actions">
+        <button
+          type="button"
+          class="identity-verification-modal-secondary"
+          data-identity-verification-close
+        >
+          Not now
+        </button>
+
+        <button
+          type="button"
+          class="identity-verification-modal-primary"
+          id="identityVerificationModalStart"
+        >
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          Start Verification
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script src="../../js/identity/ustaz-identity-verification.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/*
+  BarakaLink Ustaz profile edit page: targeted fixes for the failed CSS checks.
+  Load this stylesheet AFTER profile-completion.css and profile-edit.css.
+*/
+
+/* The HTML hidden attribute must win over shared component display rules. */
+.ustaz-profile-edit-page [hidden] {
+  display: none !important;
+}
+
+/* Keep every edit-page descendant inside the viewport at narrow widths. */
+.ustaz-profile-edit-page,
+.ustaz-profile-edit-page *,
+.ustaz-profile-edit-page *::before,
+.ustaz-profile-edit-page *::after {
+  box-sizing: border-box;
+}
+
+.ustaz-profile-edit-page {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.ustaz-profile-edit-page .profile-edit-shell,
+.ustaz-profile-edit-page .ustaz-profile-edit-form,
+.ustaz-profile-edit-page .profile-edit-card,
+.ustaz-profile-edit-page .profile-edit-card-heading,
+.ustaz-profile-edit-page .profile-edit-grid,
+.ustaz-profile-edit-page .profile-edit-field,
+.ustaz-profile-edit-page .profile-edit-photo-layout,
+.ustaz-profile-edit-page .profile-edit-photo-actions,
+.ustaz-profile-edit-page .profile-edit-inline-actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-shell {
+  width: min(1050px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.ustaz-profile-edit-page .profile-edit-card {
+  width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-layout {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-preview {
+  flex: 0 0 100px;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-preview img {
+  display: block;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-actions strong,
+.ustaz-profile-edit-page .profile-edit-photo-actions p,
+.ustaz-profile-edit-page .profile-edit-field,
+.ustaz-profile-edit-page .profile-edit-card-heading > div {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* The JS toggles .is-selected; :has() also keeps the state correct immediately. */
+.ustaz-profile-edit-page label.profile-edit-choice.is-selected,
+.ustaz-profile-edit-page label.profile-edit-choice:has(input:checked) {
+  border-color: #9a7420 !important;
+  background: rgba(212, 175, 55, 0.13) !important;
+}
+
+/* Visible danger border for the field wrappers marked by showFieldError(). */
+.ustaz-profile-edit-page .profile-edit-field.has-error input:not([type="file"]),
+.ustaz-profile-edit-page .profile-edit-field.has-error select,
+.ustaz-profile-edit-page .profile-edit-field.has-error textarea,
+.ustaz-profile-edit-page .profile-edit-field input.is-invalid,
+.ustaz-profile-edit-page .profile-edit-field select.is-invalid,
+.ustaz-profile-edit-page .profile-edit-field textarea.is-invalid {
+  border-color: #b33d3d !important;
+  box-shadow: 0 0 0 3px rgba(179, 61, 61, 0.12) !important;
+}
+
+.ustaz-profile-edit-page .profile-edit-field.has-error .profile-edit-input-with-icon input,
+.ustaz-profile-edit-page .profile-edit-field.has-error .ustaz-readonly-wrap input {
+  border-color: #b33d3d !important;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .form-error:not(:empty) {
+  display: block;
+  color: #a43d3d;
+}
+
+.ustaz-profile-edit-page .profile-edit-field.has-error label {
+  color: inherit;
+}
+
+@media (max-width: 700px) {
+  .ustaz-profile-edit-page .profile-edit-shell {
+    width: calc(100% - 20px);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-card {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-photo-layout {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-photo-actions {
+    width: 100%;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-inline-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .ustaz-profile-edit-page .profile-edit-shell {
+    width: calc(100% - 16px);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-card {
+    padding: 12px;
+  }
+}

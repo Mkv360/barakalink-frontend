@@ -1,0 +1,292 @@
+/* =========================================================
+   BARAKALINK — USTAZ LIVE SELFIE CAMERA MODAL
+   Isolated styles; existing profile wizard styles remain untouched.
+========================================================= */
+
+.ustaz-selfie-camera-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text, #1C1712);
+  font-family: var(--font-body, "Plus Jakarta Sans", sans-serif);
+}
+
+.ustaz-selfie-camera-modal[hidden] {
+  display: none !important;
+}
+
+.ustaz-selfie-camera-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 15, 12, 0.72);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.ustaz-selfie-camera-dialog {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(100%, 720px);
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid rgba(168, 121, 37, 0.25);
+  border-radius: 24px;
+  background: var(--surface, #FFFFFF);
+  color: var(--text, #1C1712);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.32);
+}
+
+.ustaz-selfie-camera-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ustaz-selfie-camera-eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--gold, #A87925);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+}
+
+.ustaz-selfie-camera-header h2 {
+  margin: 0 0 8px;
+  color: var(--text, #1C1712);
+  font-family: var(--font-heading, "Fraunces", Georgia, serif);
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.18;
+}
+
+.ustaz-selfie-camera-header p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--text-soft, #4C4135);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.ustaz-selfie-camera-close {
+  display: inline-flex;
+  flex: 0 0 42px;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--surface-muted, #F1E8D6);
+  border-radius: 50%;
+  background: var(--surface-soft, #FFFDF8);
+  color: var(--text, #1C1712);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.ustaz-selfie-camera-close:hover {
+  border-color: var(--gold, #A87925);
+}
+
+.ustaz-selfie-camera-close:focus-visible,
+.ustaz-selfie-camera-actions button:focus-visible {
+  outline: 3px solid rgba(168, 121, 37, 0.55);
+  outline-offset: 3px;
+}
+
+.ustaz-selfie-camera-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 250px;
+  max-height: 54vh;
+  aspect-ratio: var(--ustaz-selfie-aspect, 4 / 3);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(168, 121, 37, 0.24);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(168, 121, 37, 0.16), transparent 47%),
+    #1C1712;
+}
+
+.ustaz-selfie-camera-stage video,
+.ustaz-selfie-camera-stage img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background: #1C1712;
+}
+
+.ustaz-selfie-camera-stage video[hidden],
+.ustaz-selfie-camera-stage img[hidden],
+.ustaz-selfie-camera-stage [hidden] {
+  display: none !important;
+}
+
+.ustaz-selfie-face-guide {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: clamp(150px, 32%, 245px);
+  height: 76%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed rgba(255, 255, 255, 0.92);
+  border-radius: 48% 48% 44% 44% / 42% 42% 54% 54%;
+  box-shadow: 0 0 0 999px rgba(14, 12, 10, 0.12);
+  pointer-events: none;
+}
+
+.ustaz-selfie-camera-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+.ustaz-selfie-camera-placeholder > i {
+  color: var(--gold, #C7A35B);
+  font-size: 2.3rem;
+}
+
+.ustaz-selfie-camera-placeholder[hidden] {
+  display: none !important;
+}
+
+.ustaz-selfie-camera-status {
+  margin: -4px 0 0;
+  color: var(--text-soft, #4C4135);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.ustaz-selfie-camera-status[data-state="error"] {
+  color: #A33126;
+}
+
+.ustaz-selfie-camera-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.ustaz-selfie-camera-actions button[hidden] {
+  display: none !important;
+}
+
+.ustaz-selfie-camera-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--surface-muted, #F1E8D6);
+  color: var(--text-muted, #7D7161);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.ustaz-selfie-camera-privacy > i {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--gold, #A87925);
+}
+
+@media (max-width: 600px) {
+  .ustaz-selfie-camera-modal {
+    align-items: center;
+    padding: 10px;
+  }
+
+  .ustaz-selfie-camera-dialog {
+    gap: 14px;
+    width: 100%;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 17px;
+    border-radius: 18px;
+  }
+
+  .ustaz-selfie-camera-header {
+    gap: 10px;
+  }
+
+  .ustaz-selfie-camera-header p {
+    font-size: 0.86rem;
+  }
+
+  .ustaz-selfie-camera-close {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .ustaz-selfie-camera-stage {
+    min-height: 240px;
+    max-height: 46vh;
+    border-radius: 14px;
+  }
+
+  .ustaz-selfie-face-guide {
+    width: 45%;
+    height: 76%;
+  }
+
+  .ustaz-selfie-camera-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .ustaz-selfie-camera-actions button {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding-inline: 10px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ustaz-selfie-camera-dialog {
+    animation: ustaz-selfie-modal-enter 160ms ease-out;
+  }
+
+  @keyframes ustaz-selfie-modal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(7px) scale(0.99);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}

@@ -33,6 +33,13 @@
     content="light dark"
   >
 
+  <!-- =========================================================
+       DEFAULT THEME BOOTSTRAP
+       Start in light mode once, then preserve choices made with
+       BarakaLink's existing theme toggle.
+  ========================================================== -->
+
+
 
   <!-- =========================================================
        FONTS
@@ -112,6 +119,25 @@
     href="../css/student-profile.css"
   >
 
+  <link
+    rel="stylesheet"
+    href="../css/inbox.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/style.css"
+  >
+<link rel="stylesheet" href="../css/student-notification.css">
+
+
+
+  <!-- =========================================================
+       BARAKALINK BRANDED LOADER STYLES
+  ========================================================== -->
+  <link rel="stylesheet" href="../css/student-loader.css">
+  <link rel="stylesheet" href="../css/student-help-settings.css">
+
 
   <!-- =========================================================
        FONT AWESOME
@@ -122,10 +148,68 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
   >
 
+  <!-- =========================================================
+       BARAKALINK BRANDED LOADER STYLES
+  ========================================================== -->
+
+
 </head>
 
 
 <body>
+
+
+  <!-- =========================================================
+       BARAKALINK BRANDED DASHBOARD LOADER
+  ========================================================== -->
+  <div
+    class="student-page-loading bl-loader-overlay is-visible"
+    id="studentPageLoading"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading your BarakaLink dashboard"
+    aria-hidden="false"
+  >
+    <div class="bl-loader-content">
+      <div class="bl-loader-logo-wrap">
+        <svg class="bl-loader-logo" viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="blLoaderHalo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#A8751B" stop-opacity=".58" />
+              <stop offset="55%" stop-color="#E7C989" stop-opacity=".24" />
+              <stop offset="100%" stop-color="#E7C989" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle cx="20" cy="20" r="13.5" stroke="currentColor" stroke-width="1.7" />
+          <circle class="bl-loader-sweep" cx="20" cy="20" r="13.5" stroke-width="1.7" stroke-linecap="round" />
+          <circle cx="20" cy="6" r="2.7" fill="currentColor" />
+          <circle class="bl-loader-dot-hollow" cx="34" cy="20" r="2.3" stroke="currentColor" stroke-width="1.6" />
+          <circle class="bl-loader-dot-hollow" cx="20" cy="34" r="2.3" stroke="currentColor" stroke-width="1.6" />
+          <circle class="bl-loader-dot-hollow" cx="6" cy="20" r="2.3" stroke="currentColor" stroke-width="1.6" />
+          <g class="bl-loader-lit bl-loader-lit-1"><circle cx="20" cy="6" r="7" fill="url(#blLoaderHalo)" /><circle class="bl-loader-core" cx="20" cy="6" r="2.7" /></g>
+          <g class="bl-loader-lit bl-loader-lit-2"><circle cx="34" cy="20" r="7" fill="url(#blLoaderHalo)" /><circle class="bl-loader-core" cx="34" cy="20" r="2.3" /></g>
+          <g class="bl-loader-lit bl-loader-lit-3"><circle cx="20" cy="34" r="7" fill="url(#blLoaderHalo)" /><circle class="bl-loader-core" cx="20" cy="34" r="2.3" /></g>
+          <g class="bl-loader-lit bl-loader-lit-4"><circle cx="6" cy="20" r="7" fill="url(#blLoaderHalo)" /><circle class="bl-loader-core" cx="6" cy="20" r="2.3" /></g>
+        </svg>
+      </div>
+      <div class="bl-loader-copy">
+        <p class="bl-loader-wordmark" aria-hidden="true">BarakaLink</p>
+        <div class="bl-loader-messages" aria-hidden="true">
+          <p class="bl-loader-message is-active">Preparing your learning space…</p>
+          <p class="bl-loader-message">Bringing your dashboard together…</p>
+          <p class="bl-loader-message">Making your next learning step easier…</p>
+          <p class="bl-loader-message">A little patience, a lot of barakah…</p>
+        </div>
+        <div class="bl-loader-line" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <span class="bl-loader-sr">Loading your BarakaLink dashboard…</span>
+  </div>
+
+  <!-- Branded loader controller: keep immediately after loader markup. -->
+  <script src="../js/student-loader.js"></script>
+
+
 
 
   <!-- =========================================================
@@ -164,11 +248,11 @@
 
       <div class="student-sidebar-header">
 
-        <a
-          href="../index.html"
-          class="student-logo"
-          aria-label="BarakaLink home"
-        >
+      <a
+  href="./student.html"
+  class="student-logo"
+  aria-label="BarakaLink dashboard home"
+>
 
           <svg
             class="student-logo-mark"
@@ -448,22 +532,94 @@
 
           </a>
 
+<a
+  href="#messages"
+  class="student-nav-link"
+  data-section="messages"
+>
+  <span class="student-nav-icon">
+    <i class="fa-regular fa-message"></i>
+  </span>
 
-          <a
-            href="#learning"
-            class="student-nav-link"
-            data-section="learning"
-          >
+  <span>
+    Messages
+  </span>
 
-            <span class="student-nav-icon">
-              <i class="fa-solid fa-book-open-reader"></i>
-            </span>
+  <span
+    class="student-nav-badge"
+    id="studentMessagesBadge"
+    hidden
+  >
+    0
+  </span>
+</a>
 
-            <span>
-              My Learning
-            </span>
 
-          </a>
+          <div class="student-nav-item-with-subnav">
+
+            <a
+              href="#learning"
+              class="student-nav-link"
+              data-section="learning"
+            >
+
+              <span class="student-nav-icon">
+                <i class="fa-solid fa-book-open-reader"></i>
+              </span>
+
+              <span>
+                My Learning
+              </span>
+
+            </a>
+
+
+            <div
+              class="student-learning-sidebar-subnav"
+              aria-label="My Learning sections"
+            >
+
+              <a
+                href="#learning-overview"
+                class="student-learning-sidebar-link active"
+                data-learning-target="learning-overview"
+              >
+                <i
+                  class="fa-solid fa-table-cells-large"
+                  aria-hidden="true"
+                ></i>
+                <span>Overview</span>
+              </a>
+
+
+              <a
+                href="#learning-requests"
+                class="student-learning-sidebar-link"
+                data-learning-target="learning-requests"
+              >
+                <i
+                  class="fa-regular fa-paper-plane"
+                  aria-hidden="true"
+                ></i>
+                <span>Learning Requests</span>
+              </a>
+
+
+              <a
+                href="#active-learning"
+                class="student-learning-sidebar-link"
+                data-learning-target="active-learning"
+              >
+                <i
+                  class="fa-solid fa-chalkboard-user"
+                  aria-hidden="true"
+                ></i>
+                <span>Active Learning</span>
+              </a>
+
+            </div>
+
+          </div>
 
 
           <a
@@ -488,7 +644,7 @@
         <div class="student-nav-group">
 
           <span class="student-nav-label">
-            Explore
+            Explore & Learn
           </span>
 
 
@@ -521,6 +677,234 @@
 
             <span>
               Study Fields
+            </span>
+
+          </a>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Nearby Mosques"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </span>
+
+            <span>
+              Nearby Mosques
+            </span>
+
+            
+
+          </a>
+
+        </div>
+
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Baraka
+          </span>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Baraka Feed"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-rss"></i>
+            </span>
+
+            <span>
+              Baraka Feed
+            </span>
+
+            
+          </a>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Baraka AI"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </span>
+
+            <span>
+              Baraka AI
+            </span>
+
+          </a>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Baraka Store"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-store"></i>
+            </span>
+
+            <span>
+              Baraka Store
+            </span>
+
+
+          </a>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Barakah Shelf"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-book"></i>
+            </span>
+
+            <span>
+              Barakah Books
+            </span>
+
+
+          </a>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Baraka Events"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-calendar-days"></i>
+            </span>
+
+            <span>
+              Baraka Events
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Community
+          </span>
+
+
+          <a
+            href="#"
+            class="student-nav-link student-nav-coming-soon"
+            data-coming-soon="Community"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-people-group"></i>
+            </span>
+
+            <span>
+              Community
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Support
+          </span>
+
+
+          <a
+            href="#support"
+            class="student-nav-link"
+            data-section="support"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-heart"></i>
+            </span>
+
+            <span>
+              Support Baraka
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <div class="student-nav-group">
+
+          <span class="student-nav-label">
+            Help &amp; Settings
+          </span>
+
+
+          <a
+            href="#report"
+            class="student-nav-link"
+            data-section="report"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-regular fa-comment-dots"></i>
+            </span>
+
+            <span>
+              Report &amp; Feedback
+            </span>
+
+          </a>
+
+
+          <a
+            href="#help"
+            class="student-nav-link"
+            data-section="help"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-regular fa-circle-question"></i>
+            </span>
+
+            <span>
+              Help &amp; Contact
+            </span>
+
+          </a>
+
+
+          <a
+            href="#settings"
+            class="student-nav-link"
+            data-section="settings"
+          >
+
+            <span class="student-nav-icon">
+              <i class="fa-solid fa-gear"></i>
+            </span>
+
+            <span>
+              Settings
             </span>
 
           </a>
@@ -775,22 +1159,6 @@
           aria-live="polite"
         >
 
-          <div
-            class="student-page-loading"
-            id="studentPageLoading"
-            hidden
-          >
-
-            <div class="student-page-loading-spinner">
-              <i class="fa-solid fa-circle-notch fa-spin"></i>
-            </div>
-
-            <span>
-              Loading your BarakaLink dashboard...
-            </span>
-
-          </div>
-
 
           <div
             class="student-page-error"
@@ -927,10 +1295,9 @@
               </div>
 
               <div class="student-summary-copy">
-
-                <span>
-                  Your location
-                </span>
+<span>
+  Your location:
+</span>
 
                 <strong id="studentLocation">
                   Not set
@@ -1273,6 +1640,290 @@
         </section>
 
 
+<!-- ===================================================
+     MESSAGES
+==================================================== -->
+
+<section
+  class="student-section"
+  id="messages"
+  data-section-panel="messages"
+  hidden
+>
+
+  <div class="student-section-intro">
+
+    <div>
+
+      <span class="student-panel-eyebrow">
+        Communication
+      </span>
+
+      <h1>
+        Messages
+      </h1>
+
+      <p>
+        Communicate with your Ustaz or Ustaza in one place.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="student-messages-layout">
+
+
+    <!-- ===============================================
+         CONVERSATION LIST
+    ================================================ -->
+
+    <article class="student-panel student-conversation-panel">
+
+      <div class="student-panel-header">
+
+        <div>
+
+          <span class="student-panel-eyebrow">
+            Conversations
+          </span>
+
+          <h2>
+            Your messages
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="student-panel-link"
+          id="studentMessagesRefresh"
+        >
+          <i
+            class="fa-solid fa-rotate-right"
+            aria-hidden="true"
+          ></i>
+
+          Refresh
+        </button>
+
+      </div>
+
+
+      <div
+        class="student-conversation-list"
+        id="studentConversationList"
+      >
+
+        <!-- Loading -->
+
+        <div
+          class="student-conversation-state"
+          id="studentConversationLoading"
+          hidden
+        >
+
+          <span class="student-conversation-state-icon">
+            <i
+              class="fa-solid fa-circle-notch fa-spin"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <strong>
+            Loading conversations...
+          </strong>
+
+        </div>
+
+
+        <!-- Empty -->
+
+        <div
+          class="student-conversation-state"
+          id="studentConversationEmpty"
+        >
+
+          <span class="student-conversation-state-icon">
+            <i
+              class="fa-regular fa-comments"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <strong>
+            No conversations yet
+          </strong>
+
+          <p>
+            When you start communicating with an Ustaz or Ustaza,
+            your conversations will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ===============================================
+         CHAT WINDOW
+    ================================================ -->
+
+    <article
+      class="student-panel student-chat-panel"
+      id="studentChatPanel"
+    >
+
+
+      <!-- No conversation selected -->
+
+      <div
+        class="student-chat-empty"
+        id="studentChatEmpty"
+      >
+
+        <div class="student-chat-empty-icon">
+          <i
+            class="fa-regular fa-comment-dots"
+            aria-hidden="true"
+          ></i>
+        </div>
+
+        <h3>
+          Select a conversation
+        </h3>
+
+        <p>
+          Choose an Ustaz or Ustaza from your conversations
+          to view your messages.
+        </p>
+
+      </div>
+
+
+      <!-- Active conversation -->
+
+      <div
+        class="student-chat"
+        id="studentChat"
+        hidden
+      >
+
+
+        <!-- CHAT HEADER -->
+
+        <header class="student-chat-header">
+
+          <div
+            class="student-chat-avatar"
+            id="studentChatAvatar"
+          >
+
+            <span id="studentChatAvatarInitials">
+              BL
+            </span>
+
+            <img
+              id="studentChatAvatarImage"
+              src=""
+              alt=""
+              hidden
+            >
+
+          </div>
+
+
+          <div class="student-chat-heading">
+
+            <strong
+              id="studentChatName"
+            >
+              Ustaz
+            </strong>
+
+            <span
+              id="studentChatRole"
+            >
+              Ustaz
+            </span>
+
+          </div>
+
+        </header>
+
+
+        <!-- MESSAGES -->
+
+        <div
+          class="student-chat-messages"
+          id="studentChatMessages"
+          aria-live="polite"
+        >
+
+        </div>
+
+
+        <!-- COMPOSER -->
+
+        <form
+          class="student-chat-composer"
+          id="studentMessageForm"
+          novalidate
+        >
+
+          <div class="student-chat-input-wrap">
+
+            <textarea
+              id="studentMessageInput"
+              name="message"
+              rows="1"
+              maxlength="2000"
+              placeholder="Write a message..."
+              autocomplete="off"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="studentMessageSend"
+          >
+
+            <i
+              class="fa-solid fa-paper-plane"
+              aria-hidden="true"
+            ></i>
+
+            <span>
+              Send
+            </span>
+
+          </button>
+
+        </form>
+
+
+        <div
+          class="student-chat-status"
+          id="studentMessageStatus"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
         <!-- ===================================================
              FIND TEACHERS SECTION
         ==================================================== -->
@@ -1558,179 +2209,391 @@
         <!-- ===================================================
              MY LEARNING
         ==================================================== -->
+<!-- ===================================================
+     MY LEARNING
+==================================================== -->
 
-        <section
-          class="student-section"
-          id="learning"
-          data-section-panel="learning"
+<section
+  class="student-section"
+  id="learning"
+  data-section-panel="learning"
+  hidden
+>
+
+
+  <!-- =================================================
+       OVERVIEW
+       STATUS / HIGHLIGHTS ONLY
+  ================================================== -->
+
+  <div
+    class="student-learning-subview"
+    id="learning-overview"
+  >
+
+    <div class="student-section-intro">
+
+      <div>
+
+        <span class="student-panel-eyebrow">
+          Learning
+        </span>
+
+        <h1>
+          My Learning
+        </h1>
+
+        <p>
+          Keep track of your learning journey with BarakaLink.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- LEARNING STATUS HIGHLIGHTS -->
+
+    <div class="student-learning-grid">
+
+
+      <!-- GETTING STARTED -->
+
+      <article
+        class="student-learning-card student-learning-card-featured"
+      >
+
+        <div class="student-learning-card-top">
+
+          <span class="student-learning-icon">
+            <i class="fa-solid fa-book-quran"></i>
+          </span>
+
+          <span class="student-learning-status">
+            Getting started
+          </span>
+
+        </div>
+
+
+        <h2>
+          Your Quran learning journey
+        </h2>
+
+
+        <p>
+          Find an Ustaz or Ustaza who matches your study interests
+          and begin building your learning routine.
+        </p>
+
+
+        <a
+          href="#teachers"
+          class="student-card-action"
+          data-section-link="teachers"
+        >
+          Find a teacher
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </article>
+
+
+      <!-- LESSONS -->
+
+      <article class="student-learning-card">
+
+        <span class="student-learning-icon">
+          <i class="fa-solid fa-calendar-check"></i>
+        </span>
+
+        <strong>
+          Lessons
+        </strong>
+
+        <span
+          class="student-learning-number"
+          id="studentLessonCount"
+        >
+          0
+        </span>
+
+        <small>
+          Active lesson records
+        </small>
+
+      </article>
+
+
+      <!-- PROGRESS -->
+
+      <article class="student-learning-card">
+
+        <span class="student-learning-icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </span>
+
+        <strong>
+          Progress
+        </strong>
+
+        <span
+          class="student-learning-number"
+          id="studentLearningProgress"
+        >
+          —
+        </span>
+
+        <small>
+          Learning progress
+        </small>
+
+      </article>
+
+
+      <!-- REQUEST STATUS -->
+
+      <article class="student-learning-card">
+
+        <span class="student-learning-icon">
+          <i class="fa-regular fa-paper-plane"></i>
+        </span>
+
+        <strong>
+          Requests
+        </strong>
+
+        <span
+          class="student-learning-number"
+          id="studentLearningRequestCount"
+          hidden
+        >
+          0
+        </span>
+
+        <small>
+          Learning requests
+        </small>
+
+      </article>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================
+       LEARNING REQUESTS
+       REQUESTS ONLY
+  ================================================== -->
+
+  <div
+    class="student-learning-subview"
+    id="learning-requests"
+    hidden
+  >
+
+    <div class="student-section-intro">
+
+      <div>
+
+        <span class="student-panel-eyebrow">
+          Requests
+        </span>
+
+        <h1>
+          Learning Requests
+        </h1>
+
+        <p>
+          View the learning requests you have sent to Ustaz and Ustaza.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <article class="student-panel">
+
+      <div class="student-learning-request-section">
+
+
+        <div class="student-learning-subheading">
+
+          <div>
+
+            <span class="student-panel-eyebrow">
+              Your learning
+            </span>
+
+            <h3>
+              Learning requests
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- REQUEST LIST -->
+
+        <div
+          class="student-learning-requests"
+          id="studentLearningRequests"
+          hidden
+        ></div>
+
+
+        <!-- REQUEST EMPTY STATE -->
+
+        <div
+          class="student-learning-requests-empty"
+          id="studentLearningRequestsEmpty"
           hidden
         >
 
+          <div class="student-empty-icon">
 
-          <div class="student-section-intro">
-
-            <div>
-
-              <span class="student-panel-eyebrow">
-                Learning
-              </span>
-
-              <h1>
-                My Learning
-              </h1>
-
-              <p>
-                Keep track of your learning journey with BarakaLink.
-              </p>
-
-            </div>
+            <i
+              class="fa-regular fa-paper-plane"
+              aria-hidden="true"
+            ></i>
 
           </div>
 
 
-          <!-- LEARNING OVERVIEW -->
-
-          <div class="student-learning-grid">
-
-
-            <article class="student-learning-card student-learning-card-featured">
-
-              <div class="student-learning-card-top">
-
-                <span class="student-learning-icon">
-                  <i class="fa-solid fa-book-quran"></i>
-                </span>
-
-                <span class="student-learning-status">
-                  Getting started
-                </span>
-
-              </div>
+          <h3>
+            No learning requests
+          </h3>
 
 
-              <h2>
-                Your Quran learning journey
-              </h2>
+          <p>
+            Learning requests you send to Ustaz and Ustaza
+            will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
 
 
-              <p>
-                Find an Ustaz or Ustaza who matches your study interests
-                and begin building your learning routine.
-              </p>
+
+  <!-- =================================================
+       ACTIVE LEARNING
+       ACTIVE LEARNINGS ONLY
+  ================================================== -->
+
+  <div
+    class="student-learning-subview"
+    id="active-learning"
+    hidden
+  >
+
+    <div class="student-section-intro">
+
+      <div>
+
+        <span class="student-panel-eyebrow">
+          Active learning
+        </span>
+
+        <h1>
+          Active Learning
+        </h1>
+
+        <p>
+          View your current teachers and active learning connections.
+        </p>
+
+      </div>
+
+    </div>
 
 
-              <a
-                href="#teachers"
-                class="student-card-action"
-                data-section-link="teachers"
-              >
-                Find a teacher
-                <i class="fa-solid fa-arrow-right"></i>
-              </a>
-
-            </article>
+    <article class="student-panel">
 
 
-            <article class="student-learning-card">
-
-              <span class="student-learning-icon">
-                <i class="fa-solid fa-calendar-check"></i>
-              </span>
-
-              <strong>
-                Lessons
-              </strong>
-
-              <span
-                class="student-learning-number"
-                id="studentLessonCount"
-              >
-                0
-              </span>
-
-              <small>
-                Active lesson records
-              </small>
-
-            </article>
+      <div class="student-learning-active-section">
 
 
-            <article class="student-learning-card">
+        <div class="student-learning-subheading">
 
-              <span class="student-learning-icon">
-                <i class="fa-solid fa-chart-line"></i>
-              </span>
+          <div>
 
-              <strong>
-                Progress
-              </strong>
+            <span class="student-panel-eyebrow">
+              Your teacher
+            </span>
 
-              <span
-                class="student-learning-number"
-                id="studentLearningProgress"
-              >
-                —
-              </span>
+            <h3>
+              Active learning
+            </h3>
 
-              <small>
-                Learning progress
-              </small>
+          </div>
 
-            </article>
+        </div>
+
+
+        <!-- NO ACTIVE CONNECTION -->
+
+        <div
+          class="student-current-teacher-empty"
+          id="studentLearningEmptyState"
+        >
+
+          <div class="student-empty-icon">
+
+            <i
+              class="fa-solid fa-chalkboard-user"
+              aria-hidden="true"
+            ></i>
 
           </div>
 
 
-          <!-- CURRENT TEACHER -->
-
-          <article class="student-panel student-current-teacher-panel">
-
-            <div class="student-panel-header">
-
-              <div>
-
-                <span class="student-panel-eyebrow">
-                  Your teacher
-                </span>
-
-                <h2>
-                  Current learning connection
-                </h2>
-
-              </div>
-
-            </div>
+          <h3>
+            No active learning connection yet
+          </h3>
 
 
-            <div class="student-current-teacher-empty">
+          <p>
+            Your active teachers and learning plans will appear here
+            once a learning request has been accepted.
+          </p>
 
-              <div class="student-empty-icon">
-                <i class="fa-solid fa-chalkboard-user"></i>
-              </div>
 
-              <h3>
-                No teacher selected yet
-              </h3>
+          <a
+            href="#teachers"
+            class="btn btn-primary"
+            data-section-link="teachers"
+          >
+            Find an Ustaz
+          </a>
 
-              <p>
-                Your selected teacher and learning information
-                will appear here once a learning connection is created.
-              </p>
+        </div>
 
-              <a
-                href="#teachers"
-                class="btn btn-primary"
-                data-section-link="teachers"
-              >
-                Find an Ustaz
-              </a>
 
-            </div>
+        <!-- ACTIVE CONNECTION LIST -->
 
-          </article>
+        <div
+          id="studentLearningConnections"
+          class="student-learning-connections"
+          hidden
+        ></div>
 
-        </section>
+      </div>
 
+    </article>
+
+  </div>
+
+
+</section>
 
         <!-- ===================================================
              SAVED TEACHERS
@@ -2107,79 +2970,2117 @@
 
 
 
+
+        <!-- ===================================================
+             SUPPORT BARAKA
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="support"
+          data-section-panel="support"
+          hidden
+        >
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Support Baraka
+              </span>
+
+              <h1>
+                Help BarakaLink grow
+              </h1>
+
+              <p>
+                BarakaLink is being built to make trusted Quran learning
+                easier to find and easier to access. Your support helps us
+                keep improving the platform and prepare the next generation
+                of Baraka features.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="student-support-page-grid">
+
+
+            <article class="student-panel student-support-story-panel">
+
+              <div class="student-support-heart" aria-hidden="true">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+
+              <span class="student-panel-eyebrow">
+                A small contribution
+              </span>
+
+              <h2>
+                Helps us keep building
+              </h2>
+
+              <p>
+                There is no pressure to give. Choose an amount that feels
+                comfortable, or simply come back later. Every contribution
+                is treated as support for the work behind BarakaLink.
+              </p>
+
+              <div class="student-support-points">
+
+                <div>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>Improve the platform for families and teachers.</span>
+                </div>
+
+                <div>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>Build useful Islamic learning features.</span>
+                </div>
+
+                <div>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>Keep the experience simple and accessible.</span>
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <article class="student-panel student-support-payment-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Contribution
+                  </span>
+
+                  <h2>
+                    Choose your amount
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="student-support-amounts"
+                role="group"
+                aria-label="Support amount"
+              >
+
+                <button
+                  type="button"
+                  class="student-support-amount"
+                  data-support-amount="50"
+                >
+                  50 ETB
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-amount"
+                  data-support-amount="100"
+                >
+                  100 ETB
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-amount"
+                  data-support-amount="250"
+                >
+                  250 ETB
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-amount"
+                  data-support-amount="500"
+                >
+                  500 ETB
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-amount"
+                  data-support-amount="custom"
+                >
+                  Custom
+                </button>
+
+              </div>
+
+
+              <div class="student-support-custom-wrap" id="studentSupportCustomWrap" hidden>
+
+                <label for="studentSupportCustomAmount">
+                  Custom amount
+                </label>
+
+                <div class="student-support-custom-input">
+
+                  <input
+                    id="studentSupportCustomAmount"
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="Enter amount"
+                    aria-label="Custom support amount in Ethiopian birr"
+                  >
+
+                  <span>
+                    ETB
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="student-support-payment-label">
+                Payment method
+              </div>
+
+
+              <div
+                class="student-support-payment-methods"
+                role="group"
+                aria-label="Payment method"
+              >
+
+                <button
+                  type="button"
+                  class="student-support-payment-method"
+                  data-support-payment="chapa"
+                >
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>Chapa</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-payment-method"
+                  data-support-payment="telebirr"
+                >
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                  <span>Telebirr</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-payment-method"
+                  data-support-payment="cbebirr"
+                >
+                  <i class="fa-solid fa-building-columns"></i>
+                  <span>CBE Birr</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="student-support-payment-method"
+                  data-support-payment="bank"
+                >
+                  <i class="fa-solid fa-building-columns"></i>
+                  <span>Bank transfer</span>
+                </button>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="btn btn-primary student-support-pay-button"
+                id="studentSupportPayButton"
+              >
+                <i class="fa-solid fa-heart"></i>
+                Continue
+              </button>
+
+
+              <div
+                class="student-support-payment-status"
+                id="studentSupportPaymentStatus"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+
+
+              <p class="student-support-payment-note">
+                Payment details are presented before any charge.
+                Your selection can be changed at any time.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <article class="student-panel student-support-thanks-panel">
+
+            <div class="student-panel-header">
+
+              <div>
+
+                <span class="student-panel-eyebrow">
+                  Thank you
+                </span>
+
+                <h2>
+                  Supporting the work matters
+                </h2>
+
+              </div>
+
+            </div>
+
+            <p>
+              Whether you contribute today or simply keep using BarakaLink,
+              thank you for being part of what we are building.
+            </p>
+
+          </article>
+
+        </section>
+
+        <!-- ===================================================
+             REPORT & FEEDBACK
+
+             The forms in this section and in Help & Contact are
+             front-end only. They are not connected to any
+             BarakaLink endpoint, so submitting one tells the
+             person plainly that nothing was sent. To connect a
+             form later, set its data-submit-endpoint to the API
+             path that should receive the POST.
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="report"
+          data-section-panel="report"
+          hidden
+        >
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Help us improve
+              </span>
+
+              <h1>
+                Report &amp; Feedback
+              </h1>
+
+              <p>
+                Something not working the way you expect, or something you
+                would love to see? Tell us here. Every note helps make
+                BarakaLink better for families and teachers.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="student-form-grid">
+
+
+            <!-- PROBLEM -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Something not right
+                  </span>
+
+                  <h2>
+                    Tell us about a problem
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <form
+                class="student-form"
+                id="studentReportForm"
+                data-student-form
+                data-submit-endpoint=""
+                novalidate
+              >
+
+                <div class="student-field">
+
+                  <label for="studentReportCategory">
+                    What is this about?
+                  </label>
+
+                  <select
+                    id="studentReportCategory"
+                    name="category"
+                    required
+                    data-required
+                    data-error="Please choose the topic that fits best."
+                    aria-describedby="studentReportCategoryError"
+                  >
+                    <option value="">Choose a topic</option>
+                    <option value="technical">Technical issue</option>
+                    <option value="account_profile">Account or profile problem</option>
+                    <option value="ustaz_student">Ustaz or student issue</option>
+                    <option value="messaging">Messaging problem</option>
+                    <option value="safety_trust">Safety or trust concern</option>
+                    <option value="other">Other</option>
+                  </select>
+
+                  <small
+                    class="student-field-error"
+                    id="studentReportCategoryError"
+                  ></small>
+
+                </div>
+
+
+                <div class="student-field">
+
+                  <label for="studentReportSubject">
+                    Subject
+                  </label>
+
+                  <input
+                    type="text"
+                    id="studentReportSubject"
+                    name="subject"
+                    maxlength="120"
+                    autocomplete="off"
+                    placeholder="A short summary"
+                    required
+                    data-required
+                    data-error="Please add a short subject."
+                    aria-describedby="studentReportSubjectError"
+                  >
+
+                  <small
+                    class="student-field-error"
+                    id="studentReportSubjectError"
+                  ></small>
+
+                </div>
+
+
+                <div class="student-field">
+
+                  <label for="studentReportDescription">
+                    What happened?
+                  </label>
+
+                  <textarea
+                    id="studentReportDescription"
+                    name="description"
+                    rows="5"
+                    maxlength="2000"
+                    required
+                    data-required
+                    data-error="Please tell us a little about what happened."
+                    aria-describedby="studentReportDescriptionHint studentReportDescriptionError"
+                  ></textarea>
+
+                  <small
+                    class="student-field-hint"
+                    id="studentReportDescriptionHint"
+                  >
+                    What happened, and what did you expect? A few
+                    sentences is plenty.
+                  </small>
+
+                  <small
+                    class="student-field-error"
+                    id="studentReportDescriptionError"
+                  ></small>
+
+                  <small
+                    class="student-field-count"
+                    data-counter-for="studentReportDescription"
+                  >0 / 2000</small>
+
+                </div>
+
+
+                <div class="student-field">
+
+                  <label for="studentReportDetails">
+                    Anything else that might help? (optional)
+                  </label>
+
+                  <textarea
+                    id="studentReportDetails"
+                    name="details"
+                    rows="3"
+                    maxlength="1000"
+                    aria-describedby="studentReportDetailsHint"
+                  ></textarea>
+
+                  <small
+                    class="student-field-hint"
+                    id="studentReportDetailsHint"
+                  >
+                    For example the page you were on, your device or
+                    browser, or the steps to repeat it. Please don't
+                    include passwords.
+                  </small>
+
+                  <small
+                    class="student-field-count"
+                    data-counter-for="studentReportDetails"
+                  >0 / 1000</small>
+
+                </div>
+
+
+                <div class="student-form-footer">
+
+                  <div class="student-form-actions">
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      <i
+                        class="fa-solid fa-paper-plane"
+                        aria-hidden="true"
+                      ></i>
+                      Send report
+                    </button>
+
+                  </div>
+
+                  <div
+                    class="student-form-status"
+                    role="status"
+                    aria-live="polite"
+                  ></div>
+
+                </div>
+
+              </form>
+
+
+              <p class="student-form-note">
+
+                <i
+                  class="fa-solid fa-circle-info"
+                  aria-hidden="true"
+                ></i>
+
+                <span>
+                  Concerned about a specific Ustaz or Ustaza? You can
+                  also use Report on their profile. If someone is in
+                  immediate danger, please contact your local emergency
+                  services first.
+                </span>
+
+              </p>
+
+            </article>
+
+
+            <!-- FEEDBACK -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Share the good
+                  </span>
+
+                  <h2>
+                    Share feedback or an idea
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <form
+                class="student-form"
+                id="studentFeedbackForm"
+                data-student-form
+                data-submit-endpoint=""
+                novalidate
+              >
+
+                <div
+                  class="student-field"
+                  id="studentFeedbackKind"
+                  role="radiogroup"
+                  aria-labelledby="studentFeedbackKindLabel"
+                  aria-describedby="studentFeedbackKindError"
+                  data-required
+                  data-error="Please choose what you would like to share."
+                >
+
+                  <span
+                    class="student-field-label"
+                    id="studentFeedbackKindLabel"
+                  >
+                    What would you like to share?
+                  </span>
+
+                  <div class="student-choice-group">
+
+                    <label class="student-choice">
+                      <input
+                        type="radio"
+                        name="kind"
+                        value="appreciation"
+                      >
+                      <span>Something I like</span>
+                    </label>
+
+                    <label class="student-choice">
+                      <input
+                        type="radio"
+                        name="kind"
+                        value="idea"
+                      >
+                      <span>An idea</span>
+                    </label>
+
+                    <label class="student-choice">
+                      <input
+                        type="radio"
+                        name="kind"
+                        value="general"
+                      >
+                      <span>Something else</span>
+                    </label>
+
+                  </div>
+
+                  <small
+                    class="student-field-error"
+                    id="studentFeedbackKindError"
+                  ></small>
+
+                </div>
+
+
+                <div class="student-field">
+
+                  <label for="studentFeedbackMessage">
+                    Your message
+                  </label>
+
+                  <textarea
+                    id="studentFeedbackMessage"
+                    name="message"
+                    rows="6"
+                    maxlength="1500"
+                    required
+                    data-required
+                    data-error="Please write a few words for us."
+                    aria-describedby="studentFeedbackMessageHint studentFeedbackMessageError"
+                  ></textarea>
+
+                  <small
+                    class="student-field-hint"
+                    id="studentFeedbackMessageHint"
+                  >
+                    Tell us what is working well, or what would make
+                    BarakaLink better for you.
+                  </small>
+
+                  <small
+                    class="student-field-error"
+                    id="studentFeedbackMessageError"
+                  ></small>
+
+                  <small
+                    class="student-field-count"
+                    data-counter-for="studentFeedbackMessage"
+                  >0 / 1500</small>
+
+                </div>
+
+
+                <div class="student-form-footer">
+
+                  <div class="student-form-actions">
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      <i
+                        class="fa-solid fa-paper-plane"
+                        aria-hidden="true"
+                      ></i>
+                      Send feedback
+                    </button>
+
+                  </div>
+
+                  <div
+                    class="student-form-status"
+                    role="status"
+                    aria-live="polite"
+                  ></div>
+
+                </div>
+
+              </form>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             HELP & CONTACT
+
+             Separate from the "Support Baraka" section above,
+             which is about contributing to BarakaLink. This one
+             is for questions and quick answers.
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="help"
+          data-section-panel="help"
+          hidden
+        >
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Help &amp; contact
+              </span>
+
+              <h1>
+                How can we help?
+              </h1>
+
+              <p>
+                Ask a question, find a quick answer, or let us know
+                about a problem.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="student-stack">
+
+
+            <!-- WHICH ONE DO I NEED -->
+
+            <div class="student-route-grid">
+
+              <article class="student-panel student-route-card">
+
+                <span
+                  class="student-route-icon"
+                  aria-hidden="true"
+                >
+                  <i class="fa-regular fa-circle-question"></i>
+                </span>
+
+                <h2>
+                  Ask a question
+                </h2>
+
+                <p>
+                  Not sure how something works, or need a hand using
+                  BarakaLink? Send us your question in the form below.
+                </p>
+
+              </article>
+
+
+              <article class="student-panel student-route-card">
+
+                <span
+                  class="student-route-icon"
+                  aria-hidden="true"
+                >
+                  <i class="fa-regular fa-comment-dots"></i>
+                </span>
+
+                <h2>
+                  Report a problem or share feedback
+                </h2>
+
+                <p>
+                  For something that is not working, a safety or trust
+                  concern, or an idea to improve BarakaLink, use
+                  Report &amp; Feedback instead.
+                </p>
+
+                <a
+                  href="#report"
+                  class="btn btn-outline"
+                  data-section-link="report"
+                >
+                  Go to Report &amp; Feedback
+                  <i
+                    class="fa-solid fa-arrow-right"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+
+              </article>
+
+            </div>
+
+
+            <!-- ASK A QUESTION -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Questions
+                  </span>
+
+                  <h2>
+                    Ask BarakaLink
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <form
+                class="student-form"
+                id="studentContactForm"
+                data-student-form
+                data-submit-endpoint=""
+                novalidate
+              >
+
+                <div class="student-field">
+
+                  <label for="studentContactTopic">
+                    What do you need help with?
+                  </label>
+
+                  <select
+                    id="studentContactTopic"
+                    name="topic"
+                    required
+                    data-required
+                    data-error="Please choose a topic."
+                    aria-describedby="studentContactTopicError"
+                  >
+                    <option value="">Choose a topic</option>
+                    <option value="using_barakalink">Using BarakaLink</option>
+                    <option value="finding_ustaz">Finding an Ustaz or Ustaza</option>
+                    <option value="learning_requests">Learning requests</option>
+                    <option value="messages">Messages</option>
+                    <option value="account_profile">My account or profile</option>
+                    <option value="other">Something else</option>
+                  </select>
+
+                  <small
+                    class="student-field-error"
+                    id="studentContactTopicError"
+                  ></small>
+
+                </div>
+
+
+                <div class="student-field">
+
+                  <label for="studentContactMessage">
+                    Your question
+                  </label>
+
+                  <textarea
+                    id="studentContactMessage"
+                    name="message"
+                    rows="5"
+                    maxlength="2000"
+                    required
+                    data-required
+                    data-error="Please write your question."
+                    aria-describedby="studentContactMessageError"
+                  ></textarea>
+
+                  <small
+                    class="student-field-error"
+                    id="studentContactMessageError"
+                  ></small>
+
+                  <small
+                    class="student-field-count"
+                    data-counter-for="studentContactMessage"
+                  >0 / 2000</small>
+
+                </div>
+
+
+                <div class="student-form-footer">
+
+                  <div class="student-form-actions">
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      <i
+                        class="fa-solid fa-paper-plane"
+                        aria-hidden="true"
+                      ></i>
+                      Send question
+                    </button>
+
+                  </div>
+
+                  <div
+                    class="student-form-status"
+                    role="status"
+                    aria-live="polite"
+                  ></div>
+
+                </div>
+
+              </form>
+
+            </article>
+
+
+            <!-- FAQ -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Quick answers
+                  </span>
+
+                  <h2>
+                    Frequently asked questions
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <div class="student-faq" id="studentFaq">
+
+                <details class="student-faq-item">
+                  <summary>What is BarakaLink?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      BarakaLink makes trusted Quran learning easier to
+                      find. Parents and students can discover Ustaz and
+                      Ustaza, save the teachers they like, send learning
+                      requests and communicate with them, all in one
+                      place.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>How do I find an Ustaz or Ustaza?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Open
+                      <a href="#teachers" data-section-link="teachers">Find Ustaz</a>.
+                      Teachers are suggested using your study interests,
+                      your preferred teacher gender and your registered
+                      location, with nearby teachers shown first. You can
+                      filter by Ustaz, Ustaza or your study fields,
+                      search by name or study field, and save teachers to
+                      look at again later.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>Is BarakaLink for online or in-person learning?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      That depends on the individual Ustaz or Ustaza.
+                      BarakaLink shows nearby teachers first, but how and
+                      where lessons happen is something to check on their
+                      profile and confirm with them before you begin.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>How do I request to learn from an Ustaz?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Find a teacher in
+                      <a href="#teachers" data-section-link="teachers">Find Ustaz</a>
+                      and send them a learning request. Requests you have
+                      sent are listed under My Learning, and you can
+                      cancel one if your plans change.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>What happens after an Ustaz accepts my request?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Once a request is accepted, the Ustaz or Ustaza
+                      appears under Active Learning in My Learning, which
+                      lists your current teachers and learning
+                      connections. You can communicate with them from
+                      Messages.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>How does messaging work?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Messages is where you talk with your Ustaz or
+                      Ustaza in one place. Choose a conversation to read
+                      it and write a reply. While a Parent account is
+                      still under review you can browse profiles, but
+                      messaging is unavailable until BarakaLink approves
+                      the profile.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>What do the profile trust and verification indicators mean?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Trust indicators show verification steps that have
+                      been completed on a profile, such as submitting
+                      credentials or verifying identity. They are
+                      optional, so not every profile shows one, and they
+                      do not by themselves guarantee teaching quality or
+                      qualification. Please read them alongside the rest
+                      of the profile.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>How do I report a problem or safety concern?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Open
+                      <a href="#report" data-section-link="report">Report &amp; Feedback</a>,
+                      choose the topic that fits, including Safety or
+                      trust concern, and describe what happened. To
+                      report a specific Ustaz or Ustaza you can also use
+                      Report from the actions menu on their profile. If
+                      someone is in immediate danger, please contact your
+                      local emergency services first.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="student-faq-item">
+                  <summary>How do I contact BarakaLink Support?</summary>
+                  <div class="student-faq-answer">
+                    <p>
+                      Use the Ask BarakaLink form on this page for
+                      questions about using BarakaLink. For problems,
+                      safety concerns and ideas, use
+                      <a href="#report" data-section-link="report">Report &amp; Feedback</a>
+                      instead.
+                    </p>
+                  </div>
+                </details>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             SETTINGS
+
+             Only controls that already work elsewhere on this
+             page are offered here. Nothing below saves anything
+             new, and nothing pretends to.
+        ==================================================== -->
+
+        <section
+          class="student-section"
+          id="settings"
+          data-section-panel="settings"
+          hidden
+        >
+
+          <div class="student-section-intro">
+
+            <div>
+
+              <span class="student-panel-eyebrow">
+                Preferences
+              </span>
+
+              <h1>
+                Settings
+              </h1>
+
+              <p>
+                Manage your profile, how BarakaLink looks, and your
+                account.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="student-stack">
+
+
+            <!-- PROFILE -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Profile
+                  </span>
+
+                  <h2>
+                    Your profile
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="student-settings-list">
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>Profile and preferences</strong>
+                    <p>
+                      Update your details, study interests, Islamic
+                      topics and teacher preference.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <a
+                      href="profile.html"
+                      class="btn btn-outline"
+                    >
+                      <i
+                        class="fa-regular fa-pen-to-square"
+                        aria-hidden="true"
+                      ></i>
+                      Edit profile
+                    </a>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Notifications
+                  </span>
+
+                  <h2>
+                    Staying up to date
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="student-settings-list">
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>In-app notifications</strong>
+                    <p>
+                      Learning and teacher updates appear under the
+                      bell in the top bar.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <span class="student-settings-pill">On</span>
+                  </div>
+
+                </div>
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>Message alerts</strong>
+                    <p>
+                      A count appears next to Messages in the menu when
+                      you have unread messages.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <span class="student-settings-pill">On</span>
+                  </div>
+
+                </div>
+
+                <p class="student-settings-note">
+                  Choosing which notifications you receive isn't
+                  available yet.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <!-- APPEARANCE -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Appearance
+                  </span>
+
+                  <h2>
+                    Theme
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="student-settings-list">
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>Light or dark</strong>
+                    <p>
+                      This is the same control as the theme button in
+                      the top bar.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <button
+                      type="button"
+                      class="btn btn-outline"
+                      id="studentSettingsThemeButton"
+                    >
+                      <i
+                        class="fa-solid fa-circle-half-stroke"
+                        aria-hidden="true"
+                      ></i>
+                      <span id="studentSettingsThemeLabel">Switch theme</span>
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <!-- LANGUAGE -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Language
+                  </span>
+
+                  <h2>
+                    Display language
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="student-settings-list">
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>Dashboard language</strong>
+                    <p>
+                      BarakaLink is shown in English. Other languages
+                      aren't available yet.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <span class="student-settings-pill">English</span>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <!-- SECURITY & ACCOUNT -->
+
+            <article class="student-panel">
+
+              <div class="student-panel-header">
+
+                <div>
+
+                  <span class="student-panel-eyebrow">
+                    Security &amp; account
+                  </span>
+
+                  <h2>
+                    Your account
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="student-settings-list">
+
+                <div class="student-settings-row">
+
+                  <div class="student-settings-copy">
+                    <strong>Log out</strong>
+                    <p>
+                      Sign out of BarakaLink on this device.
+                    </p>
+                  </div>
+
+                  <div class="student-settings-control">
+                    <button
+                      type="button"
+                      class="btn btn-outline"
+                      id="studentSettingsLogout"
+                    >
+                      <i
+                        class="fa-solid fa-arrow-right-from-bracket"
+                        aria-hidden="true"
+                      ></i>
+                      Log out
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
       </main>
 
 
-      <!-- =====================================================
-           FOOTER
-      ====================================================== -->
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 
-      <footer class="student-footer">
+<footer class="footer">
 
-        <div class="student-footer-inner">
-
-          <div>
-
-            <strong>
-              BarakaLink
-            </strong>
-
-            <span>
-              Making Quran learning easier to find.
-            </span>
-
-          </div>
+  <div class="container footer-top">
 
 
-          <div class="student-footer-links">
-
-            <a href="../index.html">
-              Home
-            </a>
-
-          </div>
+    <div class="footer-brand">
 
 
-          <span class="student-footer-copy">
-            © 2026 BarakaLink. All rights reserved.
-          </span>
+      <a
+        href="#home"
+        class="logo footer-logo"
+      >
 
-        </div>
+        <svg
+          class="logo-mark"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
 
-      </footer>
+          <circle
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+
+          <circle
+            cx="20"
+            cy="6"
+            r="2.7"
+            fill="currentColor"
+          />
+
+          <circle
+            cx="34"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="20"
+            cy="34"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="6"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+        </svg>
+
+        <span>
+          BarakaLink
+        </span>
+
+      </a>
+
+
+      <p>
+        Connecting students and families
+        with trusted Quran teachers,
+        one learning journey at a time.
+      </p>
+
+
+      <div class="footer-social">
+
+        <a
+          href="#"
+          aria-label="Facebook"
+        >
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="Telegram"
+        >
+          <i class="fa-brands fa-telegram"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="Instagram"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+
+        <a
+          href="#"
+          aria-label="TikTok"
+        >
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        Explore
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#home">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a href="#study-fields">
+            Study Fields
+          </a>
+        </li>
+
+        <li>
+          <a href="#how-it-works">
+            How It Works
+          </a>
+        </li>
+
+        <li>
+          <a href="#about">
+            About
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        For You
+      </h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="#"
+            data-auth="signup-parent"
+          >
+            Find a Teacher
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#"
+            data-auth="signup-ustaz"
+          >
+            Become a Teacher
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Help Center
+          </a>
+        </li>
+<li>
+  <a href="legal.html#community-guidelines">
+    Community Guidelines
+  </a>
+</li>
+
+      </ul>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        Legal
+      </h4>
+
+      <ul>
+<li>
+  <a href="legal.html#privacy">
+    Privacy Policy
+  </a>
+</li>
+
+<li>
+  <a href="legal.html#terms">
+    Terms of Service
+  </a>
+</li>
+
+<li>
+  <a href="legal.html#safety">
+    Safety
+  </a>
+</li>
+
+      </ul>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="container footer-bottom">
+
+    <span>
+      © 2026 BarakaLink. All rights reserved.
+    </span>
+
+    <span>
+      Built to make Quran learning easier to find.
+    </span>
+
+  </div>
+
+</footer>
+
 
     </div>
 
   </div>
+<!-- =========================================================
+     LEARNING REQUEST CANCELLATION MODAL
+========================================================== -->
 
+<div
+  class="student-learning-cancel-modal"
+  id="studentLearningCancelModal"
+  hidden
+  aria-hidden="true"
+>
+
+  <div
+    class="student-learning-cancel-backdrop"
+    data-learning-cancel-close
+  ></div>
+
+
+  <div
+    class="student-learning-cancel-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="studentLearningCancelTitle"
+    aria-describedby="studentLearningCancelDescription"
+  >
+
+    <button
+      type="button"
+      class="student-learning-cancel-close"
+      id="studentLearningCancelClose"
+      aria-label="Close"
+    >
+      <i
+        class="fa-solid fa-xmark"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+
+    <div
+      class="student-learning-cancel-icon"
+      aria-hidden="true"
+    >
+      <i class="fa-regular fa-circle-xmark"></i>
+    </div>
+
+
+    <span class="student-panel-eyebrow">
+      Cancel request
+    </span>
+
+
+    <h2 id="studentLearningCancelTitle">
+      Why are you canceling this request?
+    </h2>
+
+
+    <p id="studentLearningCancelDescription">
+      Please tell us why you want to cancel this learning request.
+    </p>
+
+
+    <form
+      id="studentLearningCancelForm"
+      novalidate
+    >
+
+      <div
+        class="student-learning-cancel-reasons"
+        role="radiogroup"
+        aria-label="Cancellation reason"
+      >
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="long_wait"
+          >
+
+          <span>
+            Long wait for Ustaz response
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="plans_changed"
+          >
+
+          <span>
+            My plans have changed
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="another_teacher"
+          >
+
+          <span>
+            I found another Ustaz/Ustaza
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="no_longer_needed"
+          >
+
+          <span>
+            I no longer need this learning request
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="schedule"
+          >
+
+          <span>
+            The proposed schedule does not work for me
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="terms_or_price"
+          >
+
+          <span>
+            The lesson terms or price do not work for me
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="communication"
+          >
+
+          <span>
+            I had difficulty communicating with the Ustaz/Ustaza
+          </span>
+
+        </label>
+
+
+        <label class="student-learning-cancel-option">
+
+          <input
+            type="radio"
+            name="cancel_reason"
+            value="other"
+          >
+
+          <span>
+            Other
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- OTHER REASON -->
+
+      <div
+        class="student-learning-cancel-other"
+        id="studentLearningCancelOther"
+        hidden
+      >
+
+        <label
+          for="studentLearningCancelOtherText"
+        >
+          Tell us what happened
+        </label>
+
+
+        <textarea
+          id="studentLearningCancelOtherText"
+          name="cancel_reason_text"
+          rows="4"
+          maxlength="1000"
+          placeholder="Please explain the issue..."
+        ></textarea>
+
+
+        <small>
+          Please provide a short explanation.
+        </small>
+
+      </div>
+
+
+      <!-- ERROR -->
+
+      <div
+        class="student-learning-cancel-error"
+        id="studentLearningCancelError"
+        role="alert"
+        hidden
+      ></div>
+
+
+      <!-- ACTIONS -->
+
+      <div class="student-learning-cancel-actions">
+
+        <button
+          type="button"
+          class="btn btn-outline"
+          id="studentLearningCancelKeep"
+        >
+          Keep request
+        </button>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary student-learning-cancel-submit"
+          id="studentLearningCancelSubmit"
+        >
+          <i
+            class="fa-regular fa-circle-xmark"
+            aria-hidden="true"
+          ></i>
+
+          Cancel request
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
 
   <!-- =========================================================
        MOBILE NAVIGATION SCRIPT FALLBACK
   ========================================================== -->
 
-  <script>
-    window.BARAKALINK_PAGE = "student";
-  </script>
 
 
   <!-- =========================================================
        SHARED API
   ========================================================== -->
+<script src="../js/api.js" defer></script>
+<script type="module" src="../js/student-init.js"></script>
 
-  <script
-    defer
-    src="../js/api.js"
-  ></script>
+<script
+  defer
+  src="../js/learning-subnav.js"
+></script>
+
 
 
   <!-- =========================================================
-       STUDENT DASHBOARD JS
+       SUPPORT BARAKA FLOAT
   ========================================================== -->
 
-  <script
-    defer
-    src="../js/student.js"
-  ></script>
+  <aside
+    class="student-support-float"
+    id="studentSupportFloat"
+    hidden
+    aria-label="Support BarakaLink"
+  >
+
+    <button
+      type="button"
+      class="student-support-float-close"
+      id="studentSupportFloatClose"
+      aria-label="Close support message"
+    >
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+
+    <div class="student-support-float-icon" aria-hidden="true">
+      <i class="fa-solid fa-heart"></i>
+    </div>
+
+    <div class="student-support-float-copy">
+
+      <span class="student-panel-eyebrow">
+        Support Baraka
+      </span>
+
+      <strong>
+        Help us keep building
+      </strong>
+
+      <p>
+        A small contribution helps us continue improving BarakaLink.
+      </p>
+
+      <div class="student-support-float-actions">
+
+        <a
+          href="#support"
+          class="btn btn-primary"
+          data-section-link="support"
+          id="studentSupportFloatSupport"
+        >
+          Support Baraka
+        </a>
+
+        <button
+          type="button"
+          class="student-support-float-later"
+          id="studentSupportFloatLater"
+        >
+          Maybe later
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================================================
+       COMING SOON MODAL
+  ========================================================== -->
+
+  <div
+    class="student-coming-soon-modal"
+    id="studentComingSoonModal"
+    hidden
+    aria-hidden="true"
+  >
+
+    <div
+      class="student-coming-soon-backdrop"
+      data-coming-soon-close
+    ></div>
+
+    <div
+      class="student-coming-soon-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="studentComingSoonTitle"
+      aria-describedby="studentComingSoonDescription"
+    >
+
+      <button
+        type="button"
+        class="student-coming-soon-close"
+        id="studentComingSoonClose"
+        aria-label="Close"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <div class="student-coming-soon-icon" aria-hidden="true">
+        <i class="fa-solid fa-hourglass-half"></i>
+      </div>
+
+      <span class="student-panel-eyebrow">
+        Coming soon
+      </span>
+
+      <h2 id="studentComingSoonTitle">
+        This Baraka feature is on the way
+      </h2>
+
+      <p id="studentComingSoonDescription">
+        We are preparing this feature for the next BarakaLink release.
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="studentComingSoonDone"
+      >
+        Got it
+      </button>
+
+    </div>
+
+  </div>
+<!-- =====================================================
+     PARENT REVIEW CHAT BLOCKED MODAL
+====================================================== -->
+<div
+  class="ustaz-modal"
+  id="ustazParentChatReviewModal"
+  hidden
+>
+  <div
+    class="ustaz-modal-backdrop"
+    data-parent-chat-review-close
+  ></div>
+
+  <div
+    class="ustaz-modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ustazParentChatReviewTitle"
+    aria-describedby="ustazParentChatReviewDescription"
+  >
+
+    <button
+      type="button"
+      class="ustaz-modal-close"
+      id="ustazParentChatReviewClose"
+      aria-label="Close"
+    >
+      <i
+        class="fa-solid fa-xmark"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <div
+      class="ustaz-modal-icon"
+      aria-hidden="true"
+    >
+      <i class="fa-solid fa-clock"></i>
+    </div>
+
+    <h2
+      class="ustaz-modal-title"
+      id="ustazParentChatReviewTitle"
+    >
+      Messaging is unavailable
+    </h2>
+
+    <p
+      class="ustaz-modal-description"
+      id="ustazParentChatReviewDescription"
+    >
+      Your Parent account is still under review. You can browse Ustaz and Ustaza profiles, but messaging is unavailable until BarakaLink approves your profile.
+    </p>
+
+    <div class="ustaz-modal-actions">
+
+      <button
+        type="button"
+        class="ustaz-modal-button ustaz-modal-button-primary"
+        id="ustazParentChatReviewDone"
+      >
+        Got it
+      </button>
+
+    </div>
+
+  </div>
+</div>
+  <!-- =========================================================
+       REPORT & FEEDBACK / HELP & CONTACT / SETTINGS BEHAVIOUR
+
+       Front-end behaviour only. No endpoint is assumed:
+       a form is posted only when its data-submit-endpoint is
+       filled in; otherwise the person is told that nothing
+       was sent.
+  ========================================================== -->
+
 
 </body>
 

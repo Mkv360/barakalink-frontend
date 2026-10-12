@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <title>Edit Your Ustaz Profile — BarakaLink</title>
+
+  <meta
+    name="description"
+    content="Edit your BarakaLink Ustaz teaching profile, location, experience, qualifications, recitation, languages, pricing, and lesson setup."
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+  >
+
+  <meta
+    name="theme-color"
+    content="#FBF7EE"
+    id="themeColorMeta"
+  >
+
+  <meta
+    name="color-scheme"
+    content="light dark"
+  >
+
+
+  <!-- =========================================================
+       FONTS
+  ========================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,0,400;1,0,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =========================================================
+       SHARED CSS
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="css/variables.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/base.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/components.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/dashboard.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/responsive.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/student-profile.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/profile-edit.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/profile-completion.css"
+  >
+
+
+  <!-- =========================================================
+       FONT AWESOME
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================================
+       PAGE
+  ========================================================== -->
+
+  <main
+    class="profile-edit-page ustaz-profile-edit-page"
+    id="profileEditPage"
+  >
+
+    <div class="profile-edit-shell">
+
+
+      <!-- =======================================================
+           HEADER
+      ======================================================== -->
+
+      <header class="profile-edit-header">
+
+        <a
+          href="dashboard/teacher.html"
+          class="profile-edit-back"
+          id="ustazBackToDashboard"
+        >
+
+          <i
+            class="fa-solid fa-arrow-left"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Back to dashboard
+          </span>
+
+        </a>
+
+
+        <div class="profile-edit-brand">
+
+          <span
+            class="profile-edit-brand-mark"
+            aria-hidden="true"
+          >
+            <i class="fa-solid fa-link"></i>
+          </span>
+
+          <span>
+            BarakaLink
+          </span>
+
+        </div>
+
+
+        <div class="ustaz-profile-edit-header-actions">
+
+          <button
+            type="button"
+            class="icon-button"
+            id="themeToggle"
+            aria-label="Switch to dark theme"
+          >
+            <i
+              class="fa-solid fa-moon"
+              aria-hidden="true"
+            ></i>
+          </button>
+
+
+          <button
+            type="button"
+            class="btn btn-outline"
+            id="logoutButton"
+          >
+            Logout
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- =======================================================
+           HERO
+      ======================================================== -->
+
+      <section class="profile-edit-hero">
+
+        <div>
+
+          <span class="profile-edit-eyebrow">
+            Ustaz / Ustaza
+          </span>
+
+          <h1>
+            Edit your teaching profile
+          </h1>
+
+          <p>
+            Keep your teaching information, location, qualifications,
+            recitation, availability, and lesson details up to date.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           GLOBAL STATUS
+      ======================================================== -->
+
+      <p
+        class="profile-edit-status form-status"
+        id="profileStatus"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+
+      <!-- =======================================================
+           SINGLE EDIT FORM
+      ======================================================== -->
+
+      <form
+        id="ustazProfileCompletionForm"
+        class="ustaz-profile-edit-form"
+        method="post"
+        enctype="multipart/form-data"
+        novalidate
+      >
+
+
+        <!-- =====================================================
+             PROFILE PHOTO
+        ====================================================== -->
+
+        <section class="profile-edit-card profile-edit-photo-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Profile photo
+              </span>
+
+              <h2>
+                Your photo
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="profile-edit-photo-layout">
+
+
+            <div
+              class="profile-edit-photo-preview"
+              id="profilePhotoPreviewWrapper"
+            >
+
+              <span id="profilePhotoPlaceholder">
+
+                <i
+                  class="fa-solid fa-user"
+                  aria-hidden="true"
+                ></i>
+
+              </span>
+
+              <img
+                id="profilePhotoPreview"
+                src=""
+                alt="Your profile photo"
+                hidden
+              >
+
+            </div>
+
+
+            <div class="profile-edit-photo-actions">
+
+              <strong id="profilePhotoName">
+                Profile photo
+              </strong>
+
+              <p>
+                Use a clear JPG, PNG, or WebP image. Maximum size:
+                5 MB.
+              </p>
+
+
+              <div class="profile-edit-inline-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="profilePhotoChangeButton"
+                >
+
+                  <i
+                    class="fa-solid fa-camera"
+                    aria-hidden="true"
+                  ></i>
+
+                  Change photo
+
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="profilePhotoRemoveButton"
+                  hidden
+                >
+
+                  <i
+                    class="fa-regular fa-trash-can"
+                    aria-hidden="true"
+                  ></i>
+
+                  Remove
+
+                </button>
+
+              </div>
+
+
+              <input
+                id="profilePhoto"
+                name="profilePhoto"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+              >
+
+            </div>
+
+          </div>
+
+
+          <span
+            class="form-error"
+            id="profilePhotoError"
+          ></span>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACCOUNT / REGISTRATION INFORMATION
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Verified account
+              </span>
+
+              <h2>
+                Registration information
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-locked-badge">
+
+
+              
+
+            </span>
+
+          </div>
+
+
+          <p class="ustaz-edit-section-description">
+            This information comes from your BarakaLink registration
+            and cannot be changed from this edit page.
+          </p>
+
+
+          <div class="profile-edit-grid">
+
+
+            <!-- ACCOUNT TYPE -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileRole">
+                Account type
+              </label>
+
+              <div class="ustaz-readonly-wrap">
+
+                <input
+                  id="profileRole"
+                  name="role"
+                  type="text"
+                  value="Ustaz / Ustaza"
+                  readonly
+                >
+
+
+              </div>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="profile-edit-field">
+
+              <label for="profilePhone">
+                Phone number
+              </label>
+
+              <div class="ustaz-readonly-wrap">
+
+                <div class="ustaz-phone-input">
+
+                  <span>
+                    +251
+                  </span>
+
+                  <input
+                    id="profilePhone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    readonly
+                  >
+
+                </div>
+
+
+              </div>
+
+
+              <span
+                class="profile-phone-verified"
+                id="profilePhoneVerified"
+              >
+
+                <i
+                  class="fa-solid fa-circle-check"
+                  aria-hidden="true"
+                ></i>
+
+                Telegram verified
+
+              </span>
+
+
+              <span
+                class="form-error"
+                id="profilePhoneError"
+              ></span>
+
+            </div>
+
+
+            <!-- FIRST NAME -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileFirstName">
+                First name
+              </label>
+
+              <div class="ustaz-readonly-wrap">
+
+                <input
+                  id="profileFirstName"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  maxlength="100"
+                  readonly
+                >
+
+              </div>
+
+            </div>
+
+
+            <!-- LAST NAME -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileLastName">
+                Last name
+              </label>
+
+              <div class="ustaz-readonly-wrap">
+
+                <input
+                  id="profileLastName"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  maxlength="100"
+                  readonly
+                >
+
+
+              </div>
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileGender">
+                Gender
+              </label>
+
+              <div class="ustaz-readonly-wrap">
+
+                <input
+                  id="profileGender"
+                  name="gender"
+                  type="text"
+                  readonly
+                >
+
+                
+
+              </div>
+
+            </div>
+
+
+            <!-- REGISTERED SUBJECTS -->
+<!-- TEACHING SUBJECTS -->
+
+<div class="profile-edit-field profile-edit-field-full">
+
+  <div class="profile-edit-field-heading-row">
+
+    <div>
+
+      <label>
+        Teaching subjects
+      </label>
+
+      <p class="profile-edit-field-help">
+        Select the subjects you currently teach on BarakaLink.
+        You can update these subjects whenever your teaching
+        focus changes.
+      </p>
+
+    </div>
+
+    <span class="ustaz-edit-editable-badge">
+
+    </span>
+
+  </div>
+
+
+  <div
+    class="profile-edit-choice-grid"
+    id="profileStudyFields"
+    role="group"
+    aria-label="Teaching subjects"
+  >
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="quran-basic"
+      >
+
+      <i
+        class="fa-solid fa-book-open"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Quran Basic
+      </strong>
+
+    </label>
+
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tajweed"
+      >
+
+      <i
+        class="fa-solid fa-headphones"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Tajweed
+      </strong>
+
+    </label>
+
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="hifz"
+      >
+
+      <i
+        class="fa-solid fa-brain"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Hifz
+      </strong>
+
+    </label>
+
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tafseer"
+      >
+
+      <i
+        class="fa-solid fa-book-quran"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Tafseer
+      </strong>
+
+    </label>
+
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="hadith"
+      >
+
+      <i
+        class="fa-solid fa-mosque"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Hadith
+      </strong>
+
+    </label>
+
+
+    <label class="profile-edit-choice role-option">
+
+      <input
+        type="checkbox"
+        name="studyFields"
+        value="tarbiyah"
+      >
+
+      <i
+        class="fa-solid fa-hands-praying"
+        aria-hidden="true"
+      ></i>
+
+      <strong>
+        Tarbiyah
+      </strong>
+
+    </label>
+
+  </div>
+
+
+  <span
+    class="form-error"
+    id="profileStudyFieldsError"
+  ></span>
+
+</div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TEACHING LOCATION
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Teaching location
+              </span>
+
+              <h2>
+                Where you teach
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <p class="ustaz-edit-section-description">
+            Keep your teaching area and nearest mosque updated so
+            students can discover you accurately.
+          </p>
+
+
+          <div class="profile-edit-grid">
+
+
+            <!-- SUBCITY -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileSubcity">
+                Sub-city
+              </label>
+
+              <select
+                id="profileSubcity"
+                name="subcity"
+                required
+              >
+
+                <option value="">
+                  Select Sub-City
+                </option>
+
+                <option value="bole">
+                  Bole
+                </option>
+
+                <option value="yeka">
+                  Yeka
+                </option>
+
+                <option value="kirkos">
+                  Kirkos
+                </option>
+
+                <option value="arada">
+                  Arada
+                </option>
+
+                <option value="lideta">
+                  Lideta
+                </option>
+
+                <option value="nifas-silk">
+                  Nifas Silk
+                </option>
+
+                <option value="kolfe">
+                  Kolfe
+                </option>
+
+                <option value="akaki">
+                  Akaki
+                </option>
+
+              </select>
+
+
+              <span
+                class="form-error"
+                id="profileLocationError"
+              ></span>
+
+            </div>
+
+
+            <!-- AREA -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileArea">
+                Area
+              </label>
+
+              <select
+                id="profileArea"
+                name="area"
+                disabled
+              >
+
+                <option value="">
+                  Select Sub-City first
+                </option>
+
+              </select>
+
+
+              <span
+                class="form-error"
+                id="profileAreaError"
+              ></span>
+
+            </div>
+
+
+            <!-- MOSQUE -->
+
+            <div class="profile-edit-field profile-edit-field-full">
+
+              <label for="profileNearestMosque">
+                Nearest mosque
+              </label>
+
+              <div class="profile-edit-input-with-icon">
+
+                <i
+                  class="fa-solid fa-mosque"
+                  aria-hidden="true"
+                ></i>
+
+                <input
+                  id="profileNearestMosque"
+                  name="nearestMosque"
+                  type="text"
+                  maxlength="150"
+                  placeholder="Enter the name of your nearest mosque"
+                  required
+                >
+
+              </div>
+
+
+              <span
+                class="form-error"
+                id="profileMosqueError"
+              ></span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TEACHING EXPERIENCE
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Teaching experience
+              </span>
+
+              <h2>
+                Your experience
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <p class="ustaz-edit-section-description">
+            Update the number of years you have been teaching.
+          </p>
+
+
+          <div class="profile-edit-grid">
+
+            <div class="profile-edit-field">
+
+              <label for="profileExperience">
+                Years of teaching experience
+              </label>
+
+              <div class="profile-edit-input-with-icon">
+
+                <i
+                  class="fa-solid fa-clock-rotate-left"
+                  aria-hidden="true"
+                ></i>
+
+                <input
+                  id="profileExperience"
+                  name="experience"
+                  type="number"
+                  min="0"
+                  max="60"
+                  step="1"
+                  inputmode="numeric"
+                  placeholder="Example: 5"
+                >
+
+              </div>
+
+
+              <div class="profile-edit-field-help">
+                Enter the total number of years you have taught.
+              </div>
+
+
+              <span
+                class="form-error"
+                id="profileExperienceError"
+              ></span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PERSONAL INTRODUCTION
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                About you
+              </span>
+
+              <h2>
+                Personal introduction
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <div class="profile-edit-grid">
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileDateOfBirth">
+
+                Date of birth
+
+                <span class="required-mark">
+                  *
+                </span>
+
+              </label>
+
+              <input
+                id="profileDateOfBirth"
+                name="dateOfBirth"
+                type="date"
+                autocomplete="bday"
+                required
+              >
+
+
+              <span class="form-help">
+                Enter your actual date of birth.
+              </span>
+
+
+              <span
+                class="form-error"
+                id="profileDateOfBirthError"
+              ></span>
+
+            </div>
+
+
+            <!-- BIO -->
+
+            <div class="profile-edit-field profile-edit-field-full">
+
+              <label for="profileBio">
+
+                Bio / About me
+
+                <span class="required-mark">
+                  *
+                </span>
+
+              </label>
+
+
+              <textarea
+                id="profileBio"
+                name="bio"
+                rows="6"
+                maxlength="1500"
+                placeholder="Tell students about yourself, your Islamic studies, teaching experience, and what they can expect from your lessons."
+                required
+              ></textarea>
+
+
+              <div class="profile-edit-field-meta">
+
+                <span>
+                  Teacher introduction
+                </span>
+
+                <span>
+
+                  <strong id="profileBioCount">
+                    0
+                  </strong>
+
+                  / 1500
+
+                </span>
+
+              </div>
+
+
+              <span
+                class="form-error"
+                id="profileBioError"
+              ></span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             QUALIFICATIONS
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Teaching credentials
+              </span>
+
+              <h2>
+                Qualifications
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <p class="profile-edit-field-help">
+            Add or update your Islamic studies qualifications,
+            institute history, specialization, and supporting
+            certificates.
+          </p>
+
+
+          <div
+            id="qualificationList"
+            class="ustaz-qualification-list"
+          >
+
+            <div
+              class="ustaz-qualification-item profile-edit-qualification-item"
+              data-qualification-item
+            >
+
+              <div class="ustaz-qualification-header">
+
+                <strong>
+                  Qualification 1
+                </strong>
+
+              </div>
+
+
+              <div class="profile-edit-grid">
+
+
+                <!-- TITLE -->
+
+                <div class="profile-edit-field profile-edit-field-full">
+
+                  <label>
+                    Qualification
+                  </label>
+
+                  <input
+                    class="auth-input"
+                    type="text"
+                    name="qualifications[0][title]"
+                    maxlength="150"
+                    placeholder="Qualification or Islamic studies program"
+                  >
+
+                </div>
+
+
+                <!-- INSTITUTION -->
+
+                <div class="profile-edit-field">
+
+                  <label>
+                    Institution
+                  </label>
+
+                  <input
+                    class="auth-input"
+                    type="text"
+                    name="qualifications[0][institution]"
+                    maxlength="150"
+                    placeholder="Institution / Madrasa / Institute"
+                  >
+
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="profile-edit-field">
+
+                  <label>
+                    Year completed
+                  </label>
+
+                  <input
+                    class="auth-input"
+                    type="number"
+                    name="qualifications[0][year]"
+                    min="1900"
+                    max="2100"
+                    inputmode="numeric"
+                    placeholder="Year"
+                  >
+
+                </div>
+
+
+                <!-- SPECIALIZATION -->
+
+                <div class="profile-edit-field profile-edit-field-full">
+
+                  <label>
+                    Specialization
+                  </label>
+
+                  <input
+                    class="auth-input"
+                    type="text"
+                    name="qualifications[0][specialization]"
+                    maxlength="150"
+                    placeholder="Specialization"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <!-- CERTIFICATE -->
+
+              <label class="file-input-label ustaz-qualification-upload">
+
+                <span>
+
+                  <i
+                    class="fa-solid fa-file-arrow-up"
+                    aria-hidden="true"
+                  ></i>
+
+                  Supporting certificate
+
+                </span>
+
+                <input
+                  type="file"
+                  name="qualificationCertificates[]"
+                  accept=".pdf,image/jpeg,image/png,image/webp"
+                >
+
+              </label>
+
+
+              <span
+                class="form-error"
+                data-qualification-error
+              ></span>
+
+            </div>
+
+          </div>
+
+
+          <div class="profile-edit-inline-actions">
+
+            <button
+              type="button"
+              class="btn btn-outline"
+              id="addQualification"
+            >
+
+              <i
+                class="fa-solid fa-plus"
+                aria-hidden="true"
+              ></i>
+
+              Add another qualification
+
+            </button>
+
+          </div>
+
+
+          <span
+            class="form-error"
+            id="profileQualificationError"
+          ></span>
+
+        </section>
+
+
+        <!-- =====================================================
+             LANGUAGES
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Communication
+              </span>
+
+              <h2>
+                Languages
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+        
+
+            </span>
+
+          </div>
+
+
+          <p class="profile-edit-field-help">
+            Select the languages you can confidently use for
+            teaching and communication.
+          </p>
+
+
+          <div
+            class="profile-edit-choice-grid"
+            id="profileLanguages"
+            role="group"
+            aria-label="Languages spoken"
+          >
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="amharic"
+              >
+
+              <span>
+                Amharic
+              </span>
+
+            </label>
+
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="afaan-oromo"
+              >
+
+              <span>
+                Afaan Oromoo
+              </span>
+
+            </label>
+
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="tigrinya"
+              >
+
+              <span>
+                Tigrinya
+              </span>
+
+            </label>
+
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="somali"
+              >
+
+              <span>
+                Somali
+              </span>
+
+            </label>
+
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="arabic"
+              >
+
+              <span>
+                Arabic
+              </span>
+
+            </label>
+
+
+            <label class="profile-edit-choice role-option">
+
+              <input
+                type="checkbox"
+                name="languages"
+                value="english"
+              >
+
+              <span>
+                English
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <span
+            class="form-error"
+            id="profileLanguagesError"
+          ></span>
+
+        </section>
+
+
+        <!-- =====================================================
+             RECITATION
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Qur'an recitation
+              </span>
+
+              <h2>
+                Recitation sample
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <p class="profile-edit-field-help">
+            Replace your current Qur'an recitation sample or record
+            a new one directly from your device.
+          </p>
+
+
+          <div
+            class="profile-completion-card profile-edit-recitation-card"
+            id="profileRecitationCard"
+          >
+
+            <div class="profile-completion-icon">
+
+              <i
+                class="fa-solid fa-microphone"
+                aria-hidden="true"
+              ></i>
+
+            </div>
+
+
+            <div class="profile-edit-recitation-content">
+
+              <strong>
+                Qur'an recitation
+              </strong>
+
+
+              <p id="profileRecitationStatus">
+                No recitation recorded yet.
+              </p>
+
+
+              <div class="profile-edit-inline-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="profileRecitationRecordButton"
+                >
+
+                  <i
+                    class="fa-solid fa-microphone"
+                    aria-hidden="true"
+                  ></i>
+
+                  Start recording
+
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="profileRecitationStopButton"
+                  hidden
+                >
+
+                  <i
+                    class="fa-solid fa-stop"
+                    aria-hidden="true"
+                  ></i>
+
+                  Stop recording
+
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  id="profileRecitationRemoveButton"
+                  hidden
+                >
+
+                  <i
+                    class="fa-regular fa-trash-can"
+                    aria-hidden="true"
+                  ></i>
+
+                  Remove
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="profileRecitationPreview"
+            class="profile-completion-card ustaz-recitation-preview"
+            hidden
+          >
+
+            <div class="profile-completion-icon">
+
+              <i
+                class="fa-solid fa-headphones"
+                aria-hidden="true"
+              ></i>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Recitation preview
+              </strong>
+
+
+              <audio
+                id="profileRecitationPlayer"
+                controls
+                preload="metadata"
+              ></audio>
+
+            </div>
+
+          </div>
+
+
+          <span class="form-help">
+            A clear recording is recommended.
+          </span>
+
+
+          <span
+            class="form-error"
+            id="profileRecitationError"
+          ></span>
+
+        </section>
+
+
+        <!-- =====================================================
+             RECITATION DETAILS
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Recitation details
+              </span>
+
+              <h2>
+                Sample information
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+            </span>
+
+          </div>
+
+
+          <div class="profile-edit-grid">
+
+
+            <!-- TITLE -->
+
+            <div class="profile-edit-field profile-edit-field-full">
+
+              <label for="profileRecitationTitle">
+                Recitation sample title
+              </label>
+
+              <input
+                id="profileRecitationTitle"
+                name="recitationTitle"
+                type="text"
+                maxlength="120"
+                placeholder="Example: Surah Al-Fatiha"
+              >
+
+              <span
+                class="form-error"
+                id="profileRecitationTitleError"
+              ></span>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="profile-edit-field profile-edit-field-full">
+
+              <label for="profileRecitationDescription">
+                Recitation description
+              </label>
+
+              <textarea
+                id="profileRecitationDescription"
+                name="recitationDescription"
+                rows="4"
+                maxlength="500"
+                placeholder="Optional description of your recitation sample."
+              ></textarea>
+
+              <span
+                class="form-error"
+                id="profileRecitationDescriptionError"
+              ></span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TEACHING APPROACH
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Teaching style
+              </span>
+
+              <h2>
+                Teaching approach
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+
+            </span>
+
+          </div>
+
+
+          <div class="profile-edit-field">
+
+            <label for="profileTeachingApproach">
+              How you teach
+            </label>
+
+            <textarea
+              id="profileTeachingApproach"
+              name="teachingApproach"
+              rows="6"
+              maxlength="1000"
+              placeholder="Describe your teaching style, lesson structure, and how you help students improve."
+            ></textarea>
+
+
+            <span
+              class="form-error"
+              id="profileTeachingApproachError"
+            ></span>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LESSON SETUP
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Lesson setup
+              </span>
+
+              <h2>
+                Pricing &amp; teaching format
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-editable-badge">
+
+              
+
+            </span>
+
+          </div>
+
+
+          <div class="profile-edit-grid">
+
+
+            <!-- RATE -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileHourlyRate">
+
+                Price per hour
+
+                <span class="required-mark">
+                  *
+                </span>
+
+              </label>
+
+
+              <div class="profile-edit-input-with-icon">
+
+                <span class="ustaz-input-prefix">
+                  ETB
+                </span>
+
+
+                <input
+                  id="profileHourlyRate"
+                  name="hourlyRate"
+                  type="number"
+                  min="0"
+                  step="1"
+                  inputmode="decimal"
+                  placeholder="Price per hour"
+                  required
+                >
+
+              </div>
+
+
+              <span
+                class="form-error"
+                id="profileHourlyRateError"
+              ></span>
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="profile-edit-field">
+
+              <label for="profileLessonDuration">
+                Standard lesson duration
+              </label>
+
+
+              <select
+                id="profileLessonDuration"
+                name="lessonDuration"
+              >
+
+                <option value="">
+                  Select duration
+                </option>
+
+                <option value="30">
+                  30 minutes
+                </option>
+
+                <option value="45">
+                  45 minutes
+                </option>
+
+                <option value="60">
+                  60 minutes
+                </option>
+
+                <option value="90">
+                  90 minutes
+                </option>
+
+                <option value="120">
+                  120 minutes
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- LESSON FORMAT -->
+
+            <div class="profile-edit-field profile-edit-field-full">
+
+              <label>
+                Lesson format
+              </label>
+
+
+              <div
+                class="profile-edit-choice-grid"
+                id="profileLessonFormatOptions"
+              >
+
+                <label class="profile-edit-choice">
+
+                  <input
+                    type="radio"
+                    name="lessonFormat"
+                    value="online"
+                  >
+
+                  <span>
+                    Online
+                  </span>
+
+                </label>
+
+
+                <label class="profile-edit-choice">
+
+                  <input
+                    type="radio"
+                    name="lessonFormat"
+                    value="in-person"
+                  >
+
+                  <span>
+                    In person
+                  </span>
+
+                </label>
+
+
+                <label class="profile-edit-choice">
+
+                  <input
+                    type="radio"
+                    name="lessonFormat"
+                    value="both"
+                  >
+
+                  <span>
+                    Online &amp; in person
+                  </span>
+
+                </label>
+
+              </div>
+
+
+              <span
+                class="form-error"
+                id="profileLessonFormatError"
+              ></span>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             IDENTITY VERIFICATION
+        ====================================================== -->
+
+        <section class="profile-edit-card">
+
+          <div class="profile-edit-card-heading">
+
+            <div>
+
+              <span class="profile-edit-card-eyebrow">
+                Identity verification
+              </span>
+
+              <h2>
+                Fayda verification
+              </h2>
+
+            </div>
+
+            <span class="ustaz-edit-locked-badge">
+
+              <i
+                class="fa-solid fa-shield-halved"
+                aria-hidden="true"
+              ></i>
+
+              Private
+
+            </span>
+
+          </div>
+
+
+          <div class="ustaz-security-card">
+
+            <span class="ustaz-security-icon">
+
+
+            </span>
+
+
+            <div>
+
+              <strong>
+                Identity information is protected
+              </strong>
+
+              <p>
+                Your Fayda National ID is private and is not displayed
+                on your public teacher profile. You do not need to
+                re-enter it during normal profile editing.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Compatibility hook -->
+
+          <input
+            id="profileFaydaId"
+            name="faydaNationalId"
+            type="hidden"
+            value=""
+          >
+
+
+          <span
+            class="form-error"
+            id="profileFaydaIdError"
+          ></span>
+
+        </section>
+
+
+        <!-- =====================================================
+             INFORMATION NOTE
+        ====================================================== -->
+
+        <div class="profile-form-note ustaz-profile-note">
+
+          <i
+            class="fa-solid fa-circle-info"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Your verified registration information stays protected.
+            Everything else on this page can be updated and saved
+            together as one profile.
+          </span>
+
+        </div>
+
+
+        <!-- =====================================================
+             FORM ACTIONS
+        ====================================================== -->
+
+        <div class="profile-edit-actions profile-form-actions">
+
+
+          <!-- CANCEL -->
+
+          <a
+            href="dashboard/teacher.html"
+            class="btn btn-outline"
+            id="profileCancelButton"
+          >
+
+            <i
+              class="fa-solid fa-xmark"
+              aria-hidden="true"
+            ></i>
+
+            Cancel
+
+          </a>
+
+
+          <span class="ustaz-profile-actions-spacer"></span>
+
+
+          <!-- SAVE -->
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="profileSaveButton"
+          >
+
+            <span id="profileSaveButtonText">
+              Save profile
+            </span>
+
+            <i
+              class="fa-solid fa-check"
+              id="profileSaveButtonIcon"
+              aria-hidden="true"
+            ></i>
+
+          </button>
+
+        </div>
+
+
+        <!-- =====================================================
+             SAVE NOTE
+        ====================================================== -->
+
+        <p
+          class="profile-form-note"
+          id="profileCompletionNote"
+        >
+
+          Your changes are saved to your BarakaLink teaching profile.
+
+        </p>
+
+
+      </form>
+
+
+      <!-- =======================================================
+           FOOTER
+      ======================================================== -->
+
+      <footer class="footer">
+
+        <div class="container footer-bottom">
+
+          <span>
+            © 2026 BarakaLink. All rights reserved.
+          </span>
+
+          <span>
+            Built to make Quran learning easier to find.
+          </span>
+
+        </div>
+
+      </footer>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script>
+    window.BARAKALINK_USTAZ_PROFILE_MODE = "edit";
+  </script>
+
+  <script
+    src="js/api.js?v=20260929-2"
+    defer
+  ></script>
+
+  <script
+    src="js/ustaz-profile-edit.js?v=20260929-2"
+    defer
+  ></script>
+
+  <script
+    src="js/theme.js?v=20260929-2"
+    defer
+  ></script>
+
+
+</body>
+
+</html>

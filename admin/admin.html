@@ -1,0 +1,902 @@
+<!Doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf7ee" id="adminThemeColorMeta">
+  <title>Admin Dashboard — BarakaLink</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin-profile-view.css">
+    <link rel="stylesheet" href="../css/admin-mobile-card-layout.css">
+     <link rel="stylesheet" href="../css/admin-mobile-responsive-overrides.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-mark" aria-hidden="true">
+          <i class="fa-solid fa-mosque"></i>
+        </div>
+        <div>
+          <strong>BarakaLink</strong>
+          <span>Administration</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <button type="button" class="admin-nav-item is-active" data-admin-section="dashboard">
+          <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          <span>Dashboard</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-section="notifications">
+          <i class="fa-regular fa-bell" aria-hidden="true"></i>
+          <span>Notifications</span>
+          <span class="admin-nav-count" id="adminNotificationsNavBadge" hidden>0</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-section="users">
+          <i class="fa-solid fa-users" aria-hidden="true"></i>
+          <span>Users</span>
+          <span class="admin-nav-count" id="adminUsersNavBadge" hidden>0</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-section="ustaz">
+          <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+          <span>Ustaz Profiles</span>
+          <span class="admin-nav-count" id="adminUstazNavBadge" hidden>0</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-section="reports">
+          <i class="fa-regular fa-flag" aria-hidden="true"></i>
+          <span>Reports</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-section="support">
+          <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+          <span>Support</span>
+          <span class="admin-nav-count" id="adminSupportNavBadge" hidden>0</span>
+        </button>
+        
+<button
+  type="button"
+  class="admin-nav-item"
+  data-admin-section="mosques"
+>
+  <i class="fa-solid fa-mosque" aria-hidden="true"></i>
+  <span>Mosques</span>
+</button>
+
+        <button type="button" class="admin-nav-item" data-admin-section="audit">
+          <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+          <span>Audit Log</span>
+        </button>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-security-note">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+          <span>Admin actions are protected by the server.</span>
+        </div>
+        <button type="button" class="admin-logout" id="adminLogoutButton">
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+          <span>Sign out</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" class="admin-menu-button" id="adminMenuButton" aria-label="Open admin menu" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          </button>
+          <div>
+            <p class="admin-eyebrow">BarakaLink Admin</p>
+            <h1 id="adminPageTitle">Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="admin-topbar-right">
+          <div class="admin-health-pill" id="adminHealthPill" data-state="checking">
+            <span class="admin-health-dot" aria-hidden="true"></span>
+            <span id="adminHealthText">Checking system</span>
+          </div>
+          <div class="admin-notification-wrap" id="adminNotificationWrap">
+            <button type="button" class="admin-icon-button admin-notification-button" id="adminNotificationButton" aria-label="Open notifications" aria-expanded="false" aria-controls="adminNotificationPopover">
+              <i class="fa-regular fa-bell" aria-hidden="true"></i>
+              <span class="admin-notification-count" id="adminNotificationBadge" hidden>0</span>
+            </button>
+            <section class="admin-notification-popover" id="adminNotificationPopover" aria-label="Recent notifications" hidden>
+              <div class="admin-notification-popover-header">
+                <div>
+                  <strong>Notifications</strong>
+                  <span id="adminNotificationPopoverSummary">You're all caught up.</span>
+                </div>
+                <button type="button" class="admin-notification-text-button" id="adminNotificationPopoverMarkRead">Mark all read</button>
+              </div>
+              <p class="admin-notification-status" id="adminNotificationPopoverStatus" role="status" aria-live="polite"></p>
+              <div class="admin-notifications-list admin-notifications-list-compact" id="adminNotificationPopoverList">
+                <p class="admin-notifications-empty">Loading notifications…</p>
+              </div>
+              <div class="admin-notification-popover-footer">
+                <button type="button" class="admin-notification-view-all" id="adminNotificationViewAll">View all notifications</button>
+              </div>
+            </section>
+          </div>
+          <button type="button" class="admin-icon-button" id="adminThemeToggle" aria-label="Switch theme">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+          <div class="admin-user-chip">
+            <div class="admin-user-avatar" id="adminUserInitials">A</div>
+            <div>
+              <strong id="adminUserName">Admin</strong>
+              <span>Administrator</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="admin-content" id="adminContent">
+        <div class="admin-alert" id="adminAlert" hidden role="status" aria-live="polite"></div>
+
+        <section class="admin-section is-visible" data-admin-panel="dashboard">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Overview</p>
+              <h2>Platform at a glance</h2>
+              <p>Monitor users and Ustaz availability from one place.</p>
+            </div>
+            <button type="button" class="admin-secondary-button" id="adminRefreshButton">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="admin-stat-grid">
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+              <div>
+                <span>Total users</span>
+                <strong id="statTotalUsers">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-house-user" aria-hidden="true"></i></div>
+              <div>
+                <span>Parents</span>
+                <strong id="statParents">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-user-tie" aria-hidden="true"></i></div>
+              <div>
+                <span>Ustaz</span>
+                <strong id="statUstaz">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+              <div>
+                <span>Active users</span>
+                <strong id="statActiveUsers">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-user-slash" aria-hidden="true"></i></div>
+              <div>
+                <span>Suspended</span>
+                <strong id="statSuspendedUsers">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card">
+              <div class="admin-stat-icon"><i class="fa-solid fa-id-card" aria-hidden="true"></i></div>
+              <div>
+                <span>Ustaz profiles</span>
+                <strong id="statUstazProfiles">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card admin-stat-card-available">
+              <div class="admin-stat-icon"><i class="fa-solid fa-toggle-on" aria-hidden="true"></i></div>
+              <div>
+                <span>Available Ustaz</span>
+                <strong id="statAvailableUstaz">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card admin-stat-card-unavailable">
+              <div class="admin-stat-icon"><i class="fa-solid fa-toggle-off" aria-hidden="true"></i></div>
+              <div>
+                <span>Not available</span>
+                <strong id="statUnavailableUstaz">—</strong>
+              </div>
+            </article>
+            <article class="admin-stat-card admin-stat-card-review">
+              <div class="admin-stat-icon"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></div>
+              <div>
+                <span>Pending Ustaz reviews</span>
+                <strong id="statPendingUstazReviews">—</strong>
+              </div>
+            </article>
+          </div>
+
+          <div class="admin-grid-2">
+            <article class="admin-panel-card">
+              <div class="admin-panel-heading">
+                <div>
+                  <h3>Recent registrations</h3>
+                  <p>Latest accounts created on BarakaLink.</p>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Profile</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentUsersBody">
+                    <tr><td colspan="4" class="admin-table-empty">Loading registrations…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="admin-panel-card">
+              <div class="admin-panel-heading">
+                <div>
+                  <h3>Marketplace status</h3>
+                  <p>Current Ustaz availability signal.</p>
+                </div>
+              </div>
+              <div class="admin-availability-summary">
+                <div class="admin-availability-row">
+                  <span><span class="status-dot status-dot-green"></span>Available</span>
+                  <strong id="marketAvailable">—</strong>
+                </div>
+                <div class="admin-availability-row">
+                  <span><span class="status-dot status-dot-red"></span>Not available</span>
+                  <strong id="marketUnavailable">—</strong>
+                </div>
+                <div class="admin-availability-row">
+                  <span><span class="status-dot status-dot-neutral"></span>Active + available</span>
+                  <strong id="marketActiveAvailable">—</strong>
+                </div>
+              </div>
+
+              <div class="admin-module-placeholder">
+                <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                <div>
+                  <strong>Moderation modules come next</strong>
+                  <span>Users, Ustaz profiles, reports, support and audit logs will use this same admin shell.</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="admin-section" data-admin-panel="notifications">
+          <div class="admin-section-heading admin-notifications-heading">
+            <div>
+              <p class="admin-eyebrow">Activity</p>
+              <h2>Notifications</h2>
+              <p>New Parent registrations, Ustaz registrations, contact messages, and Parent support submissions appear here.</p>
+            </div>
+            <div class="admin-notification-actions">
+              <button type="button" class="admin-secondary-button" id="adminNotificationsRefreshButton">
+                <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                <span>Refresh</span>
+              </button>
+              <button type="button" class="admin-primary-button" id="adminNotificationsMarkReadButton">
+                <i class="fa-solid fa-check-double" aria-hidden="true"></i>
+                <span>Mark all as read</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-notification-stat-grid">
+            <article class="admin-notification-stat-card">
+              <span class="admin-notification-stat-icon is-support"><i class="fa-regular fa-envelope" aria-hidden="true"></i></span>
+              <div><span>Support submissions</span><strong id="adminNotificationsSupportCount">0</strong></div>
+            </article>
+            <article class="admin-notification-stat-card">
+              <span class="admin-notification-stat-icon is-parent"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span>
+              <div><span>New Parent registrations</span><strong id="adminNotificationsParentsCount">0</strong></div>
+            </article>
+            <article class="admin-notification-stat-card">
+              <span class="admin-notification-stat-icon is-ustaz"><i class="fa-solid fa-user-tie" aria-hidden="true"></i></span>
+              <div><span>New Ustaz registrations</span><strong id="adminNotificationsUstazCount">0</strong></div>
+            </article>
+          </div>
+          <p class="admin-notification-status admin-notification-page-status" id="adminNotificationsStatus" role="status" aria-live="polite"></p>
+          <article class="admin-panel-card admin-notifications-panel-card">
+            <div class="admin-panel-heading">
+              <div>
+                <h3>Recent activity</h3>
+                <p>Click a notification to open the related Admin section.</p>
+              </div>
+            </div>
+            <div class="admin-notifications-list" id="adminNotificationsList">
+              <p class="admin-notifications-empty">Loading notifications…</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="admin-section" data-admin-panel="users">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Management</p>
+              <h2>Users</h2>
+              <p>Search accounts, review details, and safely suspend or reactivate Parent/Ustaz accounts.</p>
+            </div>
+            <button type="button" class="admin-secondary-button" id="adminUsersRefreshButton">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="admin-user-toolbar">
+            <label class="admin-search-field">
+              <span class="sr-only">Search users</span>
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input id="adminUsersSearch" type="search" autocomplete="off" placeholder="Search name, email, or phone">
+            </label>
+            <label class="admin-filter-field">
+              <span>Role</span>
+              <select id="adminUsersRoleFilter">
+                <option value="all">All roles</option>
+                <option value="parent">Parent</option>
+                <option value="ustaz">Ustaz</option>
+              </select>
+            </label>
+            <label class="admin-filter-field">
+              <span>Status</span>
+              <select id="adminUsersStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
+              </select>
+            </label>
+          </div>
+
+          <article class="admin-panel-card admin-users-panel">
+            <div class="admin-panel-heading">
+              <div>
+                <h3>Application users</h3>
+                <p id="adminUsersResultSummary">Loading users…</p>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table admin-users-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Profile</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersBody">
+                  <tr><td colspan="5" class="admin-table-empty">Loading users…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="admin-pagination" id="adminUsersPagination" hidden>
+              <button type="button" class="admin-secondary-button" id="adminUsersPrevButton">Previous</button>
+              <span id="adminUsersPageLabel">Page 1</span>
+              <button type="button" class="admin-secondary-button" id="adminUsersNextButton">Next</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="admin-section" data-admin-panel="ustaz">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Moderation</p>
+              <h2>Ustaz Profiles</h2>
+              <p>Review profile completeness, availability, qualifications and identity-verification state.</p>
+            </div>
+            <button type="button" class="admin-secondary-button" id="adminUstazRefreshButton">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="admin-filter-row admin-ustaz-filters">
+            <label class="admin-filter-field admin-search-field">
+              <span>Search Ustaz</span>
+              <input id="adminUstazSearch" type="search" autocomplete="off" placeholder="Search name, email, phone, area">
+            </label>
+            <label class="admin-filter-field">
+              <span>Account status</span>
+              <select id="adminUstazStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </label>
+            <label class="admin-filter-field">
+              <span>Profile review</span>
+              <select id="adminUstazVerificationFilter">
+                <option value="all">All review states</option>
+                <option value="pending">Pending review</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="admin-table-wrap admin-ustaz-table-wrap">
+            <table class="admin-table admin-ustaz-table">
+              <thead>
+                <tr>
+                  <th>Ustaz</th>
+                  <th>Profile</th>
+                  <th>Availability</th>
+                  <th>Review</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUstazBody">
+                <tr><td colspan="6" class="admin-table-empty">Loading Ustaz profiles…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="admin-pagination" id="adminUstazPagination">
+            <span id="adminUstazResultSummary">0 Ustaz profiles</span>
+            <div class="admin-pagination-actions">
+              <button type="button" class="admin-secondary-button" id="adminUstazPrevButton">Previous</button>
+              <span id="adminUstazPageLabel">Page 1</span>
+              <button type="button" class="admin-secondary-button" id="adminUstazNextButton">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-section" data-admin-panel="reports">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Safety</p>
+              <h2>Reports</h2>
+              <p>The report schema was not present in the supplied project files, so no fake report data is shown.</p>
+            </div>
+          </div>
+          <div class="admin-coming-soon-card">
+            <i class="fa-regular fa-flag" aria-hidden="true"></i>
+            <h3>Reports module is waiting for its backend schema</h3>
+            <p>Once the current reports table/route is provided, this module will be wired to real data.</p>
+          </div>
+        </section>
+
+        <section class="admin-section" data-admin-panel="support">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Support inbox</p>
+              <h2>Support inbox</h2>
+              <p>Review messages from the public landing page and the Parent dashboard, including reports, feedback, and support questions. Open a submission to review its details and update its status.</p>
+            </div>
+            <button type="button" class="admin-secondary-button" id="adminContactsRefreshButton">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              <span>Refresh messages</span>
+            </button>
+          </div>
+
+          <div class="admin-contact-stats">
+            <article class="admin-contact-stat-card">
+              <span>Total messages</span>
+              <strong id="adminContactCountTotal">0</strong>
+            </article>
+            <article class="admin-contact-stat-card is-new">
+              <span>New</span>
+              <strong id="adminContactCountNew">0</strong>
+            </article>
+            <article class="admin-contact-stat-card is-progress">
+              <span>In progress</span>
+              <strong id="adminContactCountInProgress">0</strong>
+            </article>
+            <article class="admin-contact-stat-card is-resolved">
+              <span>Resolved</span>
+              <strong id="adminContactCountResolved">0</strong>
+            </article>
+          </div>
+
+          <article class="admin-panel-card admin-contact-panel">
+            <div class="admin-contact-toolbar">
+              <label class="admin-contact-search-label" for="adminContactSearch">
+                <span>Search messages</span>
+                <input type="search" id="adminContactSearch" placeholder="Name, phone, subject, message, type, or user ID" autocomplete="off" maxlength="100">
+              </label>
+              <label class="admin-contact-filter-label" for="adminContactStatusFilter">
+                <span>Status</span>
+                <select id="adminContactStatusFilter">
+                  <option value="all">All messages</option>
+                  <option value="new">New</option>
+                  <option value="in_progress">In progress</option>
+                  <option value="resolved">Resolved</option>
+                </select>
+              </label>
+            </div>
+            <p class="admin-contact-feedback" id="adminContactsFeedback" role="status" aria-live="polite"></p>
+            <div class="admin-table-wrap">
+              <table class="admin-table admin-contact-table">
+                <thead>
+                  <tr>
+                    <th>Sender</th>
+                    <th>Phone</th>
+                    <th>Message</th>
+                    <th>Received</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adminContactsBody">
+                  <tr><td colspan="6" class="admin-table-empty">Open Support to load contact messages.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="admin-contact-pagination">
+              <span id="adminContactsPaginationText">No messages loaded.</span>
+              <div>
+                <button type="button" class="admin-secondary-button" id="adminContactsPrevButton" disabled>Previous</button>
+                <button type="button" class="admin-secondary-button" id="adminContactsNextButton" disabled>Next</button>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="admin-section admin-mosques-section" data-admin-panel="mosques">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Community locations</p>
+              <h2>Mosques</h2>
+              <p>
+                Review mosque names, areas, and sub-cities submitted by
+                Parents and Ustazs in their profiles. Names are shown as
+                submitted and have not been verified.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="admin-secondary-button"
+              id="adminMosquesRefreshButton"
+            >
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+              Refresh
+            </button>
+          </div>
+
+          <p
+            id="adminMosquesFeedback"
+            class="admin-mosques-feedback"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+          <div class="admin-filter-row admin-mosques-filters">
+            <label class="admin-search-field">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input
+                type="search"
+                id="adminMosquesSearch"
+                placeholder="Search mosque, area, or sub-city"
+                aria-label="Search mosque, area, or sub-city"
+                autocomplete="off"
+                maxlength="150"
+              >
+            </label>
+
+            <label class="admin-filter-field">
+              <span>Sub-city</span>
+              <select id="adminMosquesSubcityFilter">
+                <option value="all">All sub-cities</option>
+              </select>
+            </label>
+
+            <label class="admin-filter-field">
+              <span>Area</span>
+              <select id="adminMosquesAreaFilter">
+                <option value="all">All areas</option>
+              </select>
+            </label>
+
+            <label class="admin-filter-field">
+              <span>Submission type</span>
+              <select id="adminMosquesTypeFilter">
+                <option value="all">All submissions</option>
+                <option value="parent">Parent submissions</option>
+                <option value="ustaz">Ustaz submissions</option>
+              </select>
+            </label>
+
+            <div class="admin-mosques-actions">
+              <button
+                type="button"
+                class="admin-secondary-button"
+                id="adminMosquesClearButton"
+                disabled
+              >
+                <i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i>
+                Clear filters
+              </button>
+              <button
+                type="button"
+                class="admin-primary-button"
+                id="adminMosquesExportButton"
+                disabled
+              >
+                <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
+                Export CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-contact-stats admin-mosques-stats">
+            <article class="admin-contact-stat-card">
+              <span>Mosque/location entries</span>
+              <strong id="adminMosquesStatEntries">—</strong>
+            </article>
+            <article class="admin-contact-stat-card">
+              <span>Parent associations</span>
+              <strong id="adminMosquesStatParents">—</strong>
+            </article>
+            <article class="admin-contact-stat-card">
+              <span>Ustaz associations</span>
+              <strong id="adminMosquesStatUstazs">—</strong>
+            </article>
+            <article class="admin-contact-stat-card">
+              <span>Distinct users (all entries)</span>
+              <strong id="adminMosquesStatDistinct">—</strong>
+            </article>
+          </div>
+
+          <p
+            id="adminMosquesResultSummary"
+            class="admin-mosques-summary"
+          ></p>
+
+          <div class="admin-panel-card">
+            <div class="admin-table-wrap" id="adminMosquesTableWrap">
+              <table class="admin-table admin-mosques-table">
+                <thead>
+                  <tr>
+                    <th scope="col" aria-sort="ascending">
+                      <button type="button" class="admin-mosques-sort is-active" data-mosque-sort="subcity">
+                        <span>Sub-city</span>
+                        <i class="fa-solid fa-sort-up admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                    <th scope="col" aria-sort="none">
+                      <button type="button" class="admin-mosques-sort" data-mosque-sort="area">
+                        <span>Area</span>
+                        <i class="fa-solid fa-sort admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                    <th scope="col" aria-sort="none">
+                      <button type="button" class="admin-mosques-sort" data-mosque-sort="mosqueName">
+                        <span>Mosque name</span>
+                        <i class="fa-solid fa-sort admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                    <th scope="col" aria-sort="none">
+                      <button type="button" class="admin-mosques-sort" data-mosque-sort="parentCount">
+                        <span>Parents</span>
+                        <i class="fa-solid fa-sort admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                    <th scope="col" aria-sort="none">
+                      <button type="button" class="admin-mosques-sort" data-mosque-sort="ustazCount">
+                        <span>Ustazs</span>
+                        <i class="fa-solid fa-sort admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                    <th scope="col" aria-sort="none">
+                      <button type="button" class="admin-mosques-sort" data-mosque-sort="totalUsers">
+                        <span>Total users</span>
+                        <i class="fa-solid fa-sort admin-mosques-sort-icon" aria-hidden="true"></i>
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="adminMosquesBody">
+                  <tr>
+                    <td colspan="6" class="admin-table-empty">
+                      Open Mosques to load submitted locations.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="admin-pagination admin-mosques-pagination" id="adminMosquesPagination" hidden>
+              <span id="adminMosquesPaginationInfo" role="status" aria-live="polite"></span>
+              <div class="admin-mosques-pagination-controls">
+                <label class="admin-filter-field admin-mosques-page-size">
+                  <span>Rows per page</span>
+                  <select id="adminMosquesPageSize">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </label>
+                <div class="admin-pagination-actions admin-mosques-pager">
+                  <button type="button" class="admin-secondary-button" id="adminMosquesPrevButton">Previous</button>
+                  <span class="admin-mosques-page-buttons" id="adminMosquesPageButtons"></span>
+                  <button type="button" class="admin-secondary-button" id="adminMosquesNextButton">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-section" data-admin-panel="audit">
+          <div class="admin-section-heading">
+            <div>
+              <p class="admin-eyebrow">Security</p>
+              <h2>Audit Log</h2>
+              <p>Admin activity logging will be introduced before destructive moderation actions are added.</p>
+            </div>
+          </div>
+          <div class="admin-coming-soon-card">
+            <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+            <h3>Audit logging is not connected yet</h3>
+            <p>The first moderation action will not be exposed until there is a durable audit record.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+
+      <div class="admin-modal" id="adminUstazModal" hidden>
+        <div class="admin-modal-backdrop" data-admin-ustaz-modal-close></div>
+        <section class="admin-modal-card admin-ustaz-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminUstazModalTitle">
+          <button type="button" class="admin-modal-close" id="adminUstazModalClose" aria-label="Close Ustaz profile">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <div class="admin-ustaz-modal-header">
+            <div class="admin-ustaz-modal-avatar" id="adminUstazModalAvatar" aria-hidden="true">U</div>
+            <div>
+              <p class="admin-eyebrow">Ustaz profile review</p>
+              <h2 id="adminUstazModalTitle">Ustaz</h2>
+              <span id="adminUstazModalSubtitle">Profile details</span>
+            </div>
+          </div>
+
+          <div class="admin-ustaz-review-status" id="adminUstazReviewStatus"></div>
+
+          <div class="admin-ustaz-detail-sections" id="adminUstazDetailSections"></div>
+
+          <div class="admin-modal-actions admin-ustaz-modal-actions">
+            <button type="button" class="admin-primary-button" id="adminUstazApproveButton" hidden>Approve profile</button>
+            <button type="button" class="admin-danger-button" id="adminUstazRejectButton" hidden>Reject profile</button>
+            <a class="admin-secondary-button" id="adminUstazPublicProfileButton" href="#" target="_blank" rel="noopener">View public profile</a>
+          </div>
+        </section>
+      </div>
+
+      <div class="admin-modal" id="adminDocumentPreviewModal" hidden>
+        <div class="admin-modal-backdrop" data-admin-document-modal-close></div>
+        <section class="admin-modal-card admin-document-preview-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminDocumentPreviewTitle">
+          <button type="button" class="admin-modal-close" id="adminDocumentPreviewClose" aria-label="Close document preview">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <p class="admin-eyebrow">Document preview</p>
+          <h2 id="adminDocumentPreviewTitle">Document</h2>
+          <div class="admin-document-preview-stage">
+            <img id="adminDocumentPreviewImage" alt="Document preview" hidden>
+            <iframe id="adminDocumentPreviewFrame" title="Document preview" hidden></iframe>
+            <div class="admin-document-preview-fallback" id="adminDocumentPreviewFallback" hidden>
+              <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+              <p>This file cannot be previewed in the embedded viewer.</p>
+            </div>
+          </div>
+          <div class="admin-modal-actions">
+            <a class="admin-secondary-button" id="adminDocumentPreviewExternal" href="#" target="_blank" rel="noopener">Open in new tab</a>
+          </div>
+        </section>
+      </div>
+
+      <div class="admin-modal" id="adminUserModal" hidden>
+        <div class="admin-modal-backdrop" data-admin-modal-close></div>
+        <section class="admin-modal-card admin-user-detail-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminUserModalTitle">
+          <button type="button" class="admin-modal-close" id="adminUserModalClose" aria-label="Close user details">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <div class="admin-ustaz-modal-header admin-user-modal-header">
+            <div class="admin-ustaz-modal-avatar admin-ustaz-modal-avatar-large" id="adminUserModalAvatar" aria-hidden="true">U</div>
+            <div>
+              <p class="admin-eyebrow" id="adminUserModalEyebrow">Account details</p>
+              <h2 id="adminUserModalTitle">User</h2>
+              <span id="adminUserModalSubtitle">Profile details</span>
+            </div>
+          </div>
+          <div class="admin-detail-grid" id="adminUserDetailGrid"></div>
+          <div class="admin-ustaz-detail-sections admin-user-profile-sections" id="adminUserProfileSections"></div>
+       <div class="admin-modal-actions">
+  <button
+    type="button"
+    class="admin-primary-button"
+    id="adminUserApproveButton"
+    hidden
+  >
+    Approve Parent
+  </button>
+
+  <button
+    type="button"
+    class="admin-danger-button"
+    id="adminUserRejectButton"
+    hidden
+  >
+    Reject Parent
+  </button>
+
+  <button
+    type="button"
+    class="admin-danger-button"
+    id="adminUserSuspendButton"
+    hidden
+  >
+    Suspend account
+  </button>
+
+  <button
+    type="button"
+    class="admin-primary-button"
+    id="adminUserReactivateButton"
+    hidden
+  >
+    Reactivate account
+  </button>
+</div>
+        </section>
+      </div>
+
+
+      <div class="admin-modal" id="adminContactModal" hidden>
+        <div class="admin-modal-backdrop" data-admin-contact-modal-close></div>
+        <section class="admin-modal-card admin-contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminContactModalTitle">
+          <button type="button" class="admin-modal-close" id="adminContactModalClose" aria-label="Close support submission">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <p class="admin-eyebrow" id="adminContactModalEyebrow">Support inbox</p>
+          <h2 id="adminContactModalTitle">Support submission</h2>
+          <div class="admin-contact-detail-meta" id="adminContactModalMeta"></div>
+          <div class="admin-contact-message-box" id="adminContactSubjectBox" hidden>
+            <h3>Subject</h3>
+            <p id="adminContactModalSubject"></p>
+          </div>
+          <div class="admin-contact-message-box">
+            <h3 id="adminContactMessageHeading">Message</h3>
+            <p id="adminContactModalMessage"></p>
+          </div>
+          <div class="admin-contact-message-box" id="adminContactDetailsBox" hidden>
+            <h3>Additional details</h3>
+            <p id="adminContactModalDetails"></p>
+          </div>
+          <form id="adminContactStatusForm" class="admin-contact-status-form">
+            <label for="adminContactDetailStatus">Message status</label>
+            <select id="adminContactDetailStatus" required>
+              <option value="new">New</option>
+              <option value="in_progress">In progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+            <div class="admin-modal-actions">
+              <a class="admin-secondary-button" id="adminContactCallLink" href="tel:+251" rel="nofollow">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i> Call sender
+              </a>
+              <button type="submit" class="admin-primary-button" id="adminContactSaveStatusButton">Save status</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+  <script defer src="../js/admin.js"></script>
+</body>
+</html>

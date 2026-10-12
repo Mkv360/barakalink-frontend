@@ -1,0 +1,177 @@
+/* =========================================================
+   USTAZ LEARNING REQUESTS
+   Additive styles for the existing Students section.
+========================================================= */
+
+.ustaz-learning-requests-panel {
+  min-width: 0;
+}
+
+.ustaz-learning-requests-count {
+  color: var(--ustaz-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ustaz-learning-request-list {
+  display: grid;
+  gap: 16px;
+}
+
+.ustaz-learning-request-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--ustaz-border);
+  border-radius: 18px;
+  background: var(--ustaz-surface);
+  box-shadow: var(--ustaz-shadow);
+  min-width: 0;
+}
+
+.ustaz-learning-request-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ustaz-learning-request-card-header h3 {
+  margin: 4px 0 0;
+  color: var(--ustaz-text);
+  font-size: 1.06rem;
+}
+
+.ustaz-learning-request-status {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid var(--ustaz-border);
+  border-radius: 999px;
+  background: var(--ustaz-primary-soft);
+  color: var(--ustaz-primary);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.ustaz-learning-request-status[data-status="accepted"] {
+  color: var(--ustaz-green);
+}
+
+.ustaz-learning-request-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: var(--ustaz-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ustaz-learning-request-details,
+.ustaz-learning-request-agreement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ustaz-learning-request-detail {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--ustaz-border);
+  border-radius: 12px;
+}
+
+.ustaz-learning-request-detail > span {
+  color: var(--ustaz-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.ustaz-learning-request-detail > strong {
+  color: var(--ustaz-text);
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+
+.ustaz-learning-request-agreement {
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ustaz-border);
+}
+
+.ustaz-learning-request-agreement-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ustaz-learning-request-agreement-heading strong {
+  color: var(--ustaz-text);
+}
+
+.ustaz-learning-request-message {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-left: 3px solid var(--ustaz-primary);
+  border-radius: 10px;
+  background: var(--ustaz-primary-soft);
+}
+
+.ustaz-learning-request-message > span {
+  color: var(--ustaz-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.ustaz-learning-request-message > p {
+  margin: 0;
+  color: var(--ustaz-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ustaz-learning-request-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 2px;
+}
+
+.ustaz-learning-request-action-status {
+  margin: 0;
+  color: var(--ustaz-muted);
+  font-size: 0.78rem;
+}
+
+.ustaz-learning-request-list + .ustaz-empty-panel,
+.ustaz-learning-request-list + .ustaz-empty-panel + .ustaz-empty-panel {
+  margin-top: 16px;
+}
+
+@media (max-width: 700px) {
+  .ustaz-learning-request-card-header,
+  .ustaz-learning-request-agreement-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ustaz-learning-request-details,
+  .ustaz-learning-request-agreement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ustaz-learning-request-actions {
+    flex-direction: column-reverse;
+  }
+
+  .ustaz-learning-request-actions .btn {
+    width: 100%;
+  }
+}

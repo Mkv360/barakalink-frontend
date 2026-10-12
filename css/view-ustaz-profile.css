@@ -553,25 +553,24 @@ body.dark-theme .ustaz-stat-tile {
   font-size: 0.88rem;
 }
 
-/* --- Save button, closing section of the card --- */
 /* ---------------------------------------------------------
-   PROFILE ACTIONS — SAVE + CHAT
-   Both buttons always use the same size.
+   PROFILE ACTIONS — SAVE + START LEARNING + CHAT
 --------------------------------------------------------- */
 
 .ustaz-card-save {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   background: var(--bl-surface-soft);
 }
 
 .ustaz-profile-save-button,
+.ustaz-profile-start-learning,
 .ustaz-profile-chat {
   width: 100%;
   min-width: 0;
   min-height: 52px;
-  padding: 0 22px;
+  padding: 0 18px;
 
   border: 1px solid var(--bl-border);
   border-radius: 13px;
@@ -595,6 +594,7 @@ body.dark-theme .ustaz-stat-tile {
     box-shadow 0.2s ease;
 }
 
+
 /* ---------------------------------------------------------
    SAVE
 --------------------------------------------------------- */
@@ -616,70 +616,103 @@ body.dark-theme .ustaz-stat-tile {
   color: var(--bl-accent-dark);
 }
 
+
 /* ---------------------------------------------------------
-   CHAT USTAZ
+   START LEARNING — PRIMARY ACTION
 --------------------------------------------------------- */
 
-.ustaz-profile-chat {
+.ustaz-profile-start-learning {
   background: var(--bl-accent);
   border-color: var(--bl-accent);
   color: #ffffff;
-  text-decoration: none;
 }
 
-.ustaz-profile-chat:hover {
+.ustaz-profile-start-learning:hover {
   transform: translateY(-1px);
   background: var(--bl-accent-dark);
   border-color: var(--bl-accent-dark);
   color: #ffffff;
-  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.12);
+  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.14);
 }
 
-.ustaz-profile-chat i,
-.ustaz-profile-save-button i {
+
+/* ---------------------------------------------------------
+   CHAT USTAZ — SECONDARY ACTION
+--------------------------------------------------------- */
+
+.ustaz-profile-chat {
+  background:rgba
+#f8b21c1f
+(183, 138, 44, 0.12);
+  border-color: var(--bl-border);
+  color: var(--bl-text);
+}
+
+.ustaz-profile-chat:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+  background: var(--bl-surface-soft);
+  color: var(--bl-text);
+  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.08);
+}
+
+
+/* ---------------------------------------------------------
+   ICONS
+--------------------------------------------------------- */
+
+.ustaz-profile-save-button i,
+.ustaz-profile-start-learning i,
+.ustaz-profile-chat i {
   font-size: 0.95rem;
   flex: 0 0 auto;
 }
 
+
 /* ---------------------------------------------------------
-   DISABLED CHAT
+   DISABLED CHAT / START LEARNING
 --------------------------------------------------------- */
 
-.ustaz-profile-chat:disabled {
+.ustaz-profile-chat:disabled,
+.ustaz-profile-start-learning:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
+
 /* ---------------------------------------------------------
    KEYBOARD FOCUS
 --------------------------------------------------------- */
 
 .ustaz-profile-save-button:focus-visible,
+.ustaz-profile-start-learning:focus-visible,
 .ustaz-profile-chat:focus-visible {
   outline: none;
   box-shadow: var(--bl-focus-ring);
   border-color: var(--bl-accent);
 }
 
+
 /* ---------------------------------------------------------
    MOBILE
-   Both buttons remain exactly the same width/height.
 --------------------------------------------------------- */
+
 @media (max-width: 640px) {
 
   .ustaz-card-save {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
   .ustaz-profile-save-button,
+  .ustaz-profile-start-learning,
   .ustaz-profile-chat {
     width: 100%;
     min-width: 0;
     min-height: 50px;
-    padding: 0 10px;
+    padding: 0 14px;
     font-size: 0.9rem;
   }
 
@@ -693,23 +726,61 @@ body.dark-theme .ustaz-stat-tile {
 @media (max-width: 400px) {
 
   .ustaz-card-save {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
   }
 
   .ustaz-profile-save-button,
+  .ustaz-profile-start-learning,
   .ustaz-profile-chat {
     min-height: 48px;
-    padding: 0 7px;
+    padding: 0 10px;
     font-size: 0.82rem;
     gap: 6px;
   }
 
   .ustaz-profile-save-button i,
+  .ustaz-profile-start-learning i,
   .ustaz-profile-chat i {
     font-size: 0.85rem;
   }
 
+}
+/* =========================================================
+   PROFILE ACTION BUTTONS
+   Center Chat + Save buttons
+========================================================= */
+
+.ustaz-card-save {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: center;
+}
+
+.ustaz-card-save .ustaz-profile-chat,
+.ustaz-card-save .ustaz-profile-save-button {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .ustaz-card-save {
+    flex-wrap: wrap;
+  }
+
+  .ustaz-card-save .ustaz-profile-chat,
+  .ustaz-card-save .ustaz-profile-save-button {
+    min-width: 140px;
+  }
 }
 /* ---------------------------------------------------------
    FUTURE CONTENT AREA
@@ -969,4 +1040,2116 @@ body.dark-theme .ustaz-stat-tile {
   object-position: center center !important;
 
   border-radius: inherit !important;
+}
+
+/* =========================================================
+   PUBLIC USTAZ PROFILE
+   QUALIFICATIONS
+   ---------------------------------------------------------
+   Matches the compact Ustaz-side qualification presentation.
+========================================================= */
+
+.ustaz-profile-qualifications-description {
+  margin: 0 0 18px;
+  color: var(--muted, #756e63);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   QUALIFICATION LIST
+========================================================= */
+
+.ustaz-profile-qualifications {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* =========================================================
+   QUALIFICATION CARD
+========================================================= */
+
+.ustaz-profile-qualification-card {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 14px 16px;
+
+  background: var(--surface, #fff);
+  border: 1px solid
+    var(--border, rgba(23, 19, 15, 0.09));
+
+  border-radius: 16px;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  overflow: hidden;
+}
+
+
+.ustaz-profile-qualification-card:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 24px
+      rgba(23, 19, 15, 0.07);
+
+  border-color:
+    rgba(184, 146, 58, 0.28);
+}
+
+
+/* =========================================================
+   TEXT SIDE
+========================================================= */
+
+.ustaz-profile-qualification-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+.ustaz-profile-qualification-copy h3 {
+  margin: 0;
+
+  color: var(--text, #17130f);
+
+  font-size: 0.98rem;
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+.ustaz-profile-qualification-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+
+  color: var(--muted, #756e63);
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+
+.ustaz-profile-qualification-meta span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+.ustaz-profile-qualification-meta span + span::before {
+  content: "•";
+  margin-right: 12px;
+  opacity: 0.45;
+}
+
+
+/* =========================================================
+   CERTIFICATE THUMBNAIL
+========================================================= */
+
+.ustaz-profile-qualification-thumbnail {
+  position: relative;
+
+  width: 120px;
+  height: 84px;
+
+  flex: 0 0 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid
+    var(--border, rgba(23, 19, 15, 0.10));
+
+  border-radius: 12px;
+
+  background:
+    var(--surface-alt, #f7f3ea);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.ustaz-profile-qualification-thumbnail:hover {
+  transform: translateY(-1px);
+
+  border-color:
+    rgba(184, 146, 58, 0.48);
+
+  box-shadow:
+    0 7px 18px
+      rgba(23, 19, 15, 0.10);
+}
+
+
+.ustaz-profile-qualification-thumbnail:focus-visible {
+  outline: 2px solid
+    rgba(184, 146, 58, 0.85);
+
+  outline-offset: 3px;
+}
+
+
+.ustaz-profile-qualification-thumbnail img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   THUMBNAIL OVERLAY
+========================================================= */
+
+.ustaz-profile-qualification-expand {
+  position: absolute;
+
+  right: 7px;
+  bottom: 7px;
+
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background:
+    rgba(23, 19, 15, 0.78);
+
+  color: #fff;
+
+  font-size: 0.7rem;
+
+  opacity: 0;
+
+  transform: translateY(4px);
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.ustaz-profile-qualification-thumbnail:hover
+  .ustaz-profile-qualification-expand,
+.ustaz-profile-qualification-thumbnail:focus-visible
+  .ustaz-profile-qualification-expand {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   PDF PLACEHOLDER
+========================================================= */
+
+.ustaz-profile-qualification-pdf {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  color: #b3261e;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(179, 38, 30, 0.06),
+      rgba(179, 38, 30, 0.12)
+    );
+}
+
+
+.ustaz-profile-qualification-pdf i {
+  font-size: 1.65rem;
+}
+
+
+.ustaz-profile-qualification-pdf small {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+
+/* =========================================================
+   BROKEN IMAGE FALLBACK
+========================================================= */
+
+.ustaz-profile-qualification-thumbnail.is-broken {
+  cursor: default;
+}
+
+
+.ustaz-profile-qualification-broken {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  color: var(--muted, #756e63);
+}
+
+
+.ustaz-profile-qualification-broken i {
+  font-size: 1.1rem;
+}
+
+
+.ustaz-profile-qualification-broken small {
+  font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.ustaz-profile-qualification-empty {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 20px;
+
+  border: 1px dashed
+    var(--border, rgba(23, 19, 15, 0.14));
+
+  border-radius: 14px;
+
+  color: var(--muted, #756e63);
+
+  background:
+    var(--surface-alt, #f7f3ea);
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+
+.ustaz-profile-qualification-empty i {
+  font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   PUBLIC CERTIFICATE VIEWER
+========================================================= */
+
+.ustaz-public-certificate-viewer {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+}
+
+
+.ustaz-public-certificate-viewer[hidden] {
+  display: none;
+}
+
+
+.ustaz-public-certificate-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background:
+    rgba(10, 8, 6, 0.82);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+
+/* =========================================================
+   VIEWER DIALOG
+========================================================= */
+
+.ustaz-public-certificate-dialog {
+  position: relative;
+
+  z-index: 1;
+
+  width: min(1100px, 100%);
+  height: min(90vh, 900px);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    var(--surface, #fff);
+
+  color:
+    var(--text, #17130f);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 30px 90px
+      rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   VIEWER HEADER
+========================================================= */
+
+.ustaz-public-certificate-header {
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding: 14px 18px;
+
+  border-bottom:
+    1px solid
+    var(--border, rgba(23, 19, 15, 0.09));
+
+  box-sizing: border-box;
+}
+
+
+.ustaz-public-certificate-header > div {
+  min-width: 0;
+}
+
+
+.ustaz-public-certificate-header span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color:
+    var(--muted, #756e63);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.ustaz-public-certificate-header h2 {
+  margin: 0;
+
+  color:
+    var(--text, #17130f);
+
+  font-size: 1rem;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   VIEWER CLOSE BUTTON
+========================================================= */
+
+.ustaz-public-certificate-close {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid
+    var(--border, rgba(23, 19, 15, 0.10));
+
+  border-radius: 11px;
+
+  background:
+    var(--surface-alt, #f7f3ea);
+
+  color:
+    var(--text, #17130f);
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+
+.ustaz-public-certificate-close:hover {
+  transform: translateY(-1px);
+
+  border-color:
+    rgba(184, 146, 58, 0.40);
+}
+
+
+.ustaz-public-certificate-close:focus-visible {
+  outline: 2px solid
+    rgba(184, 146, 58, 0.85);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   VIEWER BODY
+========================================================= */
+
+.ustaz-public-certificate-body {
+  position: relative;
+
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px;
+
+  overflow: auto;
+
+  background:
+    var(--surface-alt, #f4f0e8);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FULL CERTIFICATE IMAGE
+========================================================= */
+
+.ustaz-public-certificate-image {
+  display: block;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 18px 50px
+      rgba(0, 0, 0, 0.16);
+
+  background: #fff;
+}
+
+
+/* =========================================================
+   PDF VIEWER
+========================================================= */
+
+.ustaz-public-certificate-pdf {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 600px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #fff;
+}
+
+
+/* =========================================================
+   VIEWER ERROR
+========================================================= */
+
+.ustaz-public-certificate-error {
+  width: min(420px, 100%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 34px 24px;
+
+  border-radius: 16px;
+
+  background:
+    var(--surface, #fff);
+
+  color:
+    var(--muted, #756e63);
+
+  text-align: center;
+
+  box-shadow:
+    0 12px 36px
+      rgba(0, 0, 0, 0.10);
+
+  box-sizing: border-box;
+}
+
+
+.ustaz-public-certificate-error i {
+  font-size: 1.6rem;
+}
+
+
+.ustaz-public-certificate-error strong {
+  color:
+    var(--text, #17130f);
+
+  font-size: 0.95rem;
+}
+
+
+.ustaz-public-certificate-error span {
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   PREVENT PAGE SCROLL WHILE VIEWER IS OPEN
+========================================================= */
+
+body.ustaz-public-certificate-open {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+body.dark-theme
+  .ustaz-profile-qualification-card {
+  background:
+    var(--surface, #211d18);
+
+  border-color:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+body.dark-theme
+  .ustaz-profile-qualification-thumbnail {
+  background:
+    var(--surface-alt, #181511);
+
+  border-color:
+    rgba(255, 255, 255, 0.09);
+}
+
+
+body.dark-theme
+  .ustaz-profile-qualification-empty {
+  background:
+    var(--surface-alt, #181511);
+
+  border-color:
+    rgba(255, 255, 255, 0.12);
+}
+
+
+body.dark-theme
+  .ustaz-public-certificate-body {
+  background:
+    #15120f;
+}
+
+
+body.dark-theme
+  .ustaz-public-certificate-close {
+  background:
+    var(--surface-alt, #181511);
+
+  border-color:
+    rgba(255, 255, 255, 0.09);
+}
+
+
+body.dark-theme
+  .ustaz-public-certificate-dialog {
+  border-color:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .ustaz-profile-qualification-card {
+    gap: 14px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+
+  .ustaz-profile-qualification-thumbnail {
+    width: 110px;
+    height: 76px;
+    flex-basis: 110px;
+    border-radius: 10px;
+  }
+
+
+  .ustaz-profile-qualification-copy h3 {
+    font-size: 0.93rem;
+  }
+
+
+  .ustaz-profile-qualification-meta {
+    font-size: 0.74rem;
+    gap: 4px 8px;
+  }
+
+
+  .ustaz-profile-qualification-meta span + span::before {
+    margin-right: 8px;
+  }
+
+
+  .ustaz-public-certificate-viewer {
+    padding: 12px;
+  }
+
+
+  .ustaz-public-certificate-dialog {
+    height: min(94vh, 900px);
+    border-radius: 16px;
+  }
+
+
+  .ustaz-public-certificate-header {
+    min-height: 64px;
+    padding: 12px 14px;
+  }
+
+
+  .ustaz-public-certificate-body {
+    padding: 10px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .ustaz-profile-qualification-card {
+    align-items: stretch;
+
+    gap: 12px;
+
+    padding: 11px;
+  }
+
+
+  .ustaz-profile-qualification-copy {
+    justify-content: center;
+  }
+
+
+  .ustaz-profile-qualification-thumbnail {
+    width: 96px;
+    height: 68px;
+    flex-basis: 96px;
+
+    border-radius: 9px;
+  }
+
+
+  .ustaz-profile-qualification-copy h3 {
+    font-size: 0.88rem;
+  }
+
+
+  .ustaz-profile-qualification-meta {
+    display: block;
+
+    font-size: 0.71rem;
+    line-height: 1.55;
+  }
+
+
+  .ustaz-profile-qualification-meta span {
+    display: block;
+  }
+
+
+  .ustaz-profile-qualification-meta span + span {
+    margin-top: 2px;
+  }
+
+
+  .ustaz-profile-qualification-meta span + span::before {
+    content: none;
+  }
+
+
+  .ustaz-profile-qualification-expand {
+    width: 24px;
+    height: 24px;
+
+    right: 5px;
+    bottom: 5px;
+  }
+
+
+  .ustaz-public-certificate-header h2 {
+    font-size: 0.9rem;
+  }
+
+
+  .ustaz-public-certificate-close {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+
+  .ustaz-public-certificate-pdf {
+    min-height: 70vh;
+  }
+
+}
+
+
+/* =========================================================================
+   =========================================================================
+   NEW — MORE-ACTIONS MENU, RATING SUMMARY, RATE / REPORT MODALS, TOAST
+   Everything above this line is the original stylesheet, unchanged.
+   Appended last on purpose: the media queries below must win ties against
+   the existing identity rules.
+   =========================================================================
+========================================================================= */
+
+:root {
+  --bl-danger: #b3261e;
+}
+
+body.dark-theme {
+  --bl-danger: #f2958d;
+}
+
+
+/* =========================================================
+   1. THREE-DOT BUTTON — TOP-RIGHT OF THE IDENTITY SECTION
+   The avatar is on the left, so the actions sit on the far right.
+   Absolutely positioned: nothing in the identity row moves.
+========================================================= */
+
+/* .ustaz-identity is already position: relative. Its overflow was
+   hidden, which would clip the menu where it drops below a short
+   identity block, so it is visible here. The decorative ::after circle
+   stays contained: it ends 160px down, inside the section, and
+   .ustaz-maincard (overflow: hidden) still clips its top/right edges. */
+.ustaz-identity {
+  overflow: visible;
+}
+
+.ustaz-profile-actions {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 5;
+}
+
+/* Keeps a long name / the location row from running under the button.
+   Only needed while the avatar and text sit side by side; on mobile the
+   avatar row is above the text, so the button never overlaps it. */
+@media (min-width: 641px) {
+  .ustaz-identity-heading {
+    padding-right: 44px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ustaz-profile-actions {
+    top: 18px;
+    right: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ustaz-profile-actions {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .ustaz-profile-actions {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+
+/* =========================================================
+   2. THREE-DOT BUTTON — HORIZONTAL DOTS
+   The HTML icon is fa-ellipsis-vertical; rotating it 90deg
+   gives • • • without touching the markup.
+========================================================= */
+
+.ustaz-profile-more-button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 50%;
+  background: var(--bl-surface);
+  color: var(--bl-text);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.ustaz-profile-more-button i {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+
+.ustaz-profile-more-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-profile-more-button[aria-expanded="true"] {
+  border-color: var(--bl-accent);
+  background: color-mix(in srgb, var(--bl-accent) 12%, var(--bl-surface));
+  color: var(--bl-accent-dark);
+}
+
+.ustaz-profile-more-button:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+  border-color: var(--bl-accent);
+}
+
+@media (max-width: 640px) {
+  /* 44px = comfortable touch target */
+  .ustaz-profile-more-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+
+/* =========================================================
+   MENU (popover under the button, right-aligned to it)
+========================================================= */
+
+.ustaz-profile-actions-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 6;
+
+  width: min(236px, calc(100vw - 32px));
+  padding: 6px;
+
+  display: grid;
+  gap: 2px;
+
+  background: var(--bl-surface);
+  border: 1px solid var(--bl-border);
+  border-radius: 16px;
+  box-shadow: var(--bl-shadow);
+}
+
+.ustaz-profile-actions-menu[hidden] {
+  display: none;
+}
+
+.ustaz-profile-actions-item {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--bl-text);
+
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.ustaz-profile-actions-item i {
+  width: 18px;
+  flex: 0 0 auto;
+  text-align: center;
+  color: var(--bl-accent);
+}
+
+.ustaz-profile-actions-item:hover {
+  background: var(--bl-surface-soft);
+}
+
+.ustaz-profile-actions-item:focus-visible {
+  outline: none;
+  background: var(--bl-surface-soft);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--bl-accent) 55%, transparent);
+}
+
+.ustaz-profile-actions-item-danger {
+  color: var(--bl-danger);
+}
+
+.ustaz-profile-actions-item-danger i {
+  color: var(--bl-danger);
+}
+
+
+/* =========================================================
+   3. RATING SUMMARY — VISUALLY BELOW LOCATION / MOSQUE
+   HTML order stays: name, role, rating, meta.
+   The heading becomes a column so `order` can put the meta row
+   before the rating row. Wrapping of the meta row is unchanged,
+   and the rating always sits below it in normal flow.
+========================================================= */
+
+.ustaz-identity-heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.ustaz-profile-meta {
+  order: 10;
+}
+
+.ustaz-profile-rating {
+  order: 20;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+.ustaz-profile-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.98rem;
+}
+
+/* Empty / inactive star */
+.ustaz-profile-rating-stars i {
+  color: var(--bl-muted);
+  opacity: 0.6;
+}
+
+/* Filled and half stars. Works whether the script swaps the icon
+   class (fa-solid) or adds is-filled / is-half. */
+.ustaz-profile-rating-stars i.fa-solid,
+.ustaz-profile-rating-stars i.is-filled,
+.ustaz-profile-rating-stars i.is-half {
+  color: var(--bl-accent);
+  opacity: 1;
+}
+
+.ustaz-profile-rating-stars i.is-filled,
+.ustaz-profile-rating-stars i.is-half {
+  font-weight: 900;
+}
+
+.ustaz-profile-rating-average {
+  color: var(--bl-text);
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.ustaz-profile-rating-count {
+  color: var(--bl-muted);
+  font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   MODALS (rate + report)
+========================================================= */
+
+.ustaz-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.ustaz-modal[hidden] {
+  display: none;
+}
+
+.ustaz-modal-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(10, 8, 6, 0.62);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.ustaz-modal-dialog {
+  position: relative;
+  z-index: 1;
+
+  width: min(440px, 100%);
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding: 28px;
+
+  background: var(--bl-surface);
+  color: var(--bl-text);
+  border: 1px solid var(--bl-border);
+  border-radius: var(--bl-radius);
+  box-shadow: var(--bl-shadow);
+}
+
+#ustazReportModal .ustaz-modal-dialog {
+  width: min(520px, 100%);
+}
+
+.ustaz-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 11px;
+  background: var(--bl-surface-soft);
+  color: var(--bl-text);
+
+  cursor: pointer;
+
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.ustaz-modal-close:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-modal-close:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-modal-title {
+  margin: 0 46px 8px 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.ustaz-modal-description {
+  margin: 0 0 22px;
+  color: var(--bl-muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+/* --- Status message (success / error), no alert() --- */
+
+.ustaz-modal-status {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 12px;
+  background: var(--bl-surface-soft);
+  color: var(--bl-text);
+
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ustaz-modal-status[hidden] {
+  display: none;
+}
+
+.ustaz-modal-status.is-success {
+  color: var(--bl-success);
+  background: color-mix(in srgb, var(--bl-success) 10%, var(--bl-surface));
+  border-color: color-mix(in srgb, var(--bl-success) 32%, transparent);
+}
+
+.ustaz-modal-status.is-error {
+  color: var(--bl-danger);
+  background: color-mix(in srgb, var(--bl-danger) 9%, var(--bl-surface));
+  border-color: color-mix(in srgb, var(--bl-danger) 32%, transparent);
+}
+
+/* --- Buttons --- */
+
+.ustaz-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.ustaz-modal-button {
+  min-height: 48px;
+  padding: 0 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 13px;
+
+  font-weight: 800;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ustaz-modal-button-secondary {
+  background: var(--bl-surface);
+  color: var(--bl-text);
+}
+
+.ustaz-modal-button-secondary:hover {
+  transform: translateY(-1px);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-modal-button-primary {
+  background: var(--bl-accent);
+  border-color: var(--bl-accent);
+  color: #ffffff;
+}
+
+.ustaz-modal-button-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--bl-accent-dark);
+  border-color: var(--bl-accent-dark);
+  box-shadow: 0 8px 20px rgba(44, 34, 20, 0.12);
+}
+
+.ustaz-modal-button:focus-visible {
+  outline: none;
+  box-shadow: var(--bl-focus-ring);
+  border-color: var(--bl-accent);
+}
+
+.ustaz-modal-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* =========================================================
+   RATE MODAL — STARS
+   Script contract: .is-active on every star up to the chosen
+   value, .is-preview while hovering/focusing, aria-checked="true"
+   on the chosen star. The solid glyph comes from font-weight 900
+   (Font Awesome Free uses one family; 400 = outline, 900 = solid).
+========================================================= */
+
+.ustaz-rate-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 10px;
+}
+
+.ustaz-rate-star {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--bl-muted);
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.ustaz-rate-star i {
+  display: inline-block;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.ustaz-rate-star.is-active,
+.ustaz-rate-star.is-preview {
+  color: var(--bl-accent);
+}
+
+.ustaz-rate-star.is-active i,
+.ustaz-rate-star.is-preview i {
+  font-weight: 900;
+}
+
+.ustaz-rate-star:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--bl-accent) 12%, transparent);
+  box-shadow: var(--bl-focus-ring);
+}
+
+@media (hover: hover) {
+  .ustaz-rate-star:hover {
+    transform: scale(1.08);
+  }
+}
+
+.ustaz-rate-selected {
+  min-height: 1.6em;
+  margin: 0;
+
+  text-align: center;
+  color: var(--bl-muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.ustaz-rate-selected.is-selected {
+  color: var(--bl-accent-dark);
+}
+
+
+/* =========================================================
+   REPORT MODAL — FORM
+========================================================= */
+
+.ustaz-report-form {
+  display: block;
+}
+
+.ustaz-modal-field + .ustaz-modal-field {
+  margin-top: 16px;
+}
+
+.ustaz-modal-label {
+  display: block;
+  margin-bottom: 7px;
+
+  font-size: 0.84rem;
+  font-weight: 750;
+  color: var(--bl-text);
+}
+
+.ustaz-modal-select,
+.ustaz-modal-textarea {
+  width: 100%;
+  padding: 12px 14px;
+
+  border: 1px solid var(--bl-border);
+  border-radius: 13px;
+  background: var(--bl-surface);
+  color: var(--bl-text);
+
+  /* 16px keeps iOS from zooming the page on focus */
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ustaz-modal-select {
+  min-height: 48px;
+}
+
+.ustaz-modal-textarea {
+  min-height: 130px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.ustaz-modal-textarea::placeholder {
+  color: var(--bl-muted);
+  opacity: 0.85;
+}
+
+.ustaz-modal-select:focus,
+.ustaz-modal-textarea:focus {
+  outline: none;
+  border-color: var(--bl-accent);
+  box-shadow: var(--bl-focus-ring);
+}
+
+.ustaz-modal-select[aria-invalid="true"],
+.ustaz-modal-textarea[aria-invalid="true"] {
+  border-color: var(--bl-danger);
+}
+
+body.dark-theme .ustaz-modal-select {
+  color-scheme: dark;
+}
+
+.ustaz-modal-counter {
+  margin-top: 6px;
+  text-align: right;
+  color: var(--bl-muted);
+  font-size: 0.76rem;
+}
+
+
+/* =========================================================
+   TOAST (non-blocking, e.g. "Profile link copied")
+========================================================= */
+
+.ustaz-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 1100;
+
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 18px;
+
+  border-radius: 14px;
+  background: var(--bl-text);
+  color: var(--bl-bg);
+  box-shadow: var(--bl-shadow);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+
+  animation: ustazToastIn 0.25s ease;
+}
+
+.ustaz-toast[hidden] {
+  display: none;
+}
+
+@keyframes ustazToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Page must not scroll behind an open modal */
+body.ustaz-modal-open {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   MODALS — MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+  .ustaz-modal {
+    padding: 12px;
+  }
+
+  .ustaz-modal-dialog {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 22px 20px;
+  }
+
+  .ustaz-modal-actions {
+    gap: 8px;
+  }
+
+  .ustaz-modal-actions .ustaz-modal-button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .ustaz-modal-actions .ustaz-modal-button {
+    padding: 0 8px;
+    font-size: 0.88rem;
+  }
+
+  .ustaz-rate-stars {
+    gap: 4px;
+  }
+
+  .ustaz-rate-star {
+    width: 46px;
+    height: 46px;
+  }
+
+  .ustaz-rate-star i {
+    font-size: 1.55rem;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .ustaz-toast {
+    animation: none;
+  }
+
+  .ustaz-profile-more-button,
+  .ustaz-profile-actions-item,
+  .ustaz-modal-close,
+  .ustaz-modal-button,
+  .ustaz-rate-star {
+    transition: none;
+  }
+}
+/* =========================================================
+   PUBLIC USTAZ PROFILE — TRUST INDICATOR
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   PROFILE NAME
+--------------------------------------------------------- */
+
+.ustaz-profile-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.1;
+}
+
+
+/* ---------------------------------------------------------
+   VERIFIED BADGE
+   Filled circle + white checkmark
+--------------------------------------------------------- */
+
+.ustaz-profile-name::after {
+  content: none;
+}
+
+
+/* =========================================================
+   CREDENTIALS SUBMITTED — BLUE
+========================================================= */
+
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="credentials"]
+) .ustaz-profile-name::after {
+
+  content: "✓";
+
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #3B82F6;
+  color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: translateY(1px) scale(1);
+
+  animation:
+    ustazTrustBadgePulseBlue
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   IDENTITY VERIFIED — GREEN
+========================================================= */
+
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="identity"]
+) .ustaz-profile-name::after {
+
+  content: "✓";
+
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #22C55E;
+  color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: translateY(1px) scale(1);
+
+  animation:
+    ustazTrustBadgePulseGreen
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   TRUSTED PROFILE — GOLD
+========================================================= */
+
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="trusted"]
+) .ustaz-profile-name::after {
+
+  content: "✓";
+
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #D4A72C;
+  color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: translateY(1px) scale(1);
+
+  animation:
+    ustazTrustBadgePulseGold
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   BADGE ANIMATIONS
+   Subtle scale + matching glow
+========================================================= */
+
+@keyframes ustazTrustBadgePulseBlue {
+
+  0%,
+  100% {
+    transform: translateY(1px) scale(1);
+    box-shadow:
+      0 0 0 0 rgba(59, 130, 246, 0);
+  }
+
+  50% {
+    transform: translateY(1px) scale(1.08);
+    box-shadow:
+      0 0 0 5px rgba(59, 130, 246, 0.14);
+  }
+}
+
+
+@keyframes ustazTrustBadgePulseGreen {
+
+  0%,
+  100% {
+    transform: translateY(1px) scale(1);
+    box-shadow:
+      0 0 0 0 rgba(34, 197, 94, 0);
+  }
+
+  50% {
+    transform: translateY(1px) scale(1.08);
+    box-shadow:
+      0 0 0 5px rgba(34, 197, 94, 0.14);
+  }
+}
+
+
+@keyframes ustazTrustBadgePulseGold {
+
+  0%,
+  100% {
+    transform: translateY(1px) scale(1);
+    box-shadow:
+      0 0 0 0 rgba(212, 167, 44, 0);
+  }
+
+  50% {
+    transform: translateY(1px) scale(1.08);
+    box-shadow:
+      0 0 0 5px rgba(212, 167, 44, 0.14);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   TRUST LABEL ROW
+--------------------------------------------------------- */
+
+.ustaz-public-trust {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin-top: 7px;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.ustaz-public-trust[hidden] {
+  display: none !important;
+}
+
+
+/* Old dot is no longer displayed here */
+.ustaz-public-trust-dot {
+  display: none !important;
+}
+
+
+/* =========================================================
+   CREDENTIALS SUBMITTED
+   Badge + icon + text = same blue
+========================================================= */
+
+.ustaz-public-trust[data-trust-state="credentials"] {
+  color: #3B82F6;
+}
+
+.ustaz-public-trust[data-trust-state="credentials"]
+.ustaz-public-trust-icon {
+  color: #3B82F6;
+}
+
+
+/* =========================================================
+   IDENTITY VERIFIED
+   Badge + icon + text = same green
+========================================================= */
+
+.ustaz-public-trust[data-trust-state="identity"] {
+  color: #22C55E;
+}
+
+.ustaz-public-trust[data-trust-state="identity"]
+.ustaz-public-trust-icon {
+  color: #22C55E;
+}
+
+
+/* =========================================================
+   TRUSTED PROFILE
+   Badge + icon + text = same gold
+========================================================= */
+
+.ustaz-public-trust[data-trust-state="trusted"] {
+  color: #D4A72C;
+}
+
+.ustaz-public-trust[data-trust-state="trusted"]
+.ustaz-public-trust-icon {
+  color: #D4A72C;
+}
+
+
+/* =========================================================
+   INFO BUTTON
+========================================================= */
+
+.ustaz-public-trust-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: currentColor;
+
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.ustaz-public-trust-info:hover,
+.ustaz-public-trust-info[aria-expanded="true"] {
+  opacity: 1;
+}
+
+.ustaz-public-trust-info:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   TRUST INFO TOOLTIP
+========================================================= */
+
+.ustaz-public-trust-info-text {
+  position: absolute;
+  z-index: 30;
+
+  left: 0;
+  top: calc(100% + 8px);
+
+  width: min(320px, calc(100vw - 32px));
+
+  padding: 11px 13px;
+
+  border: 1px solid var(
+    --bl-border,
+    rgba(29, 43, 38, 0.12)
+  );
+
+  border-radius: 10px;
+
+  background: var(--bl-surface, #ffffff);
+  color: var(--bl-text, #1d2b26);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.12);
+
+  font-size: 0.77rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.ustaz-public-trust-info-text[hidden] {
+  display: none !important;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   BADGE COLORS
+--------------------------------------------------------- */
+
+body.dark-theme
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="credentials"]
+) .ustaz-profile-name::after {
+  background: #60A5FA;
+}
+
+body.dark-theme
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="identity"]
+) .ustaz-profile-name::after {
+  background: #4ADE80;
+}
+
+body.dark-theme
+.ustaz-identity-heading:has(
+  .ustaz-public-trust[data-trust-state="trusted"]
+) .ustaz-profile-name::after {
+  background: #F0BE46;
+}
+
+
+/* ---------------------------------------------------------
+   LABEL + ICON COLORS
+--------------------------------------------------------- */
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="credentials"] {
+  color: #60A5FA;
+}
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="credentials"]
+.ustaz-public-trust-icon {
+  color: #60A5FA;
+}
+
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="identity"] {
+  color: #4ADE80;
+}
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="identity"]
+.ustaz-public-trust-icon {
+  color: #4ADE80;
+}
+
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="trusted"] {
+  color: #F0BE46;
+}
+
+body.dark-theme
+.ustaz-public-trust[data-trust-state="trusted"]
+.ustaz-public-trust-icon {
+  color: #F0BE46;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ustaz-profile-name::after {
+    animation: none !important;
+    transform: translateY(1px) scale(1) !important;
+    box-shadow: none !important;
+  }
+
+}
+.ustaz-public-availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.ustaz-public-availability-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+}
+
+.ustaz-public-availability.is-available {
+  color: #2f7b43;
+  background: #edf8ef;
+  border-color: #d6eedb;
+}
+
+.ustaz-public-availability.is-available
+.ustaz-public-availability-dot {
+  background: #63ad74;
+}
+
+.ustaz-public-availability.is-unavailable {
+  color: #a65353;
+  background: #fdf0f0;
+  border-color: #f2d6d6;
+}
+
+.ustaz-public-availability.is-unavailable
+.ustaz-public-availability-dot {
+  background: #cb7a7a;
+}
+
+.ustaz-profile-availability-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid #f1dddd;
+  border-radius: 12px;
+  background: #fff7f7;
+  color: #8f4b4b;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.ustaz-profile-availability-message i {
+  flex: 0 0 auto;
+  margin-top: 2px;
 }

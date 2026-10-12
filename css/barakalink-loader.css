@@ -1,0 +1,629 @@
+
+/* =========================================================
+   BARAKALINK — COMPLETE STANDALONE LOADER CSS
+   File: loader.css
+
+   Features:
+   - Full-screen responsive loading screen
+   - Existing BarakaLink brand colors
+   - Rotating golden ring
+   - Synchronized four-dot glow animation
+   - Animated loading messages
+   - Animated bottom loading line
+   - Mobile and reduced-motion support
+========================================================= */
+
+/* =========================================================
+   BASE PAGE RESET FOR STANDALONE TESTING
+========================================================= */
+
+html {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  font-family: var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+}
+
+/* =========================================================
+   LOADER ROOT
+========================================================= */
+
+#barakaLinkPageLoader {
+  --bl-loader-bg: var(--page-bg, #FBF7EE);
+  --bl-loader-fg: var(--text, #1C1712);
+  --bl-loader-muted: var(--text-muted, #7D7161);
+  --bl-loader-gold: var(--gold, #A8751B);
+  --bl-loader-gold-light: var(--gold-light, #E7C989);
+  --bl-loader-gold-soft: var(--gold-soft, #F5E6BF);
+
+  /* Shared animation timing */
+  --bl-loader-cycle: 2.8s;
+  --bl-loader-quarter-cycle: 0.7s;
+
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+
+  display: grid;
+  place-items: center;
+
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding:
+    max(24px, env(safe-area-inset-top))
+    22px
+    max(24px, env(safe-area-inset-bottom));
+
+  overflow: hidden;
+
+  color: var(--bl-loader-fg);
+
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      color-mix(
+        in srgb,
+        var(--bl-loader-gold-soft) 26%,
+        transparent
+      ),
+      transparent min(58vw, 440px)
+    ),
+    var(--bl-loader-bg);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 240ms ease,
+    visibility 0s linear 240ms;
+
+  isolation: isolate;
+}
+
+/* Visible state */
+
+#barakaLinkPageLoader.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity 240ms ease,
+    visibility 0s;
+}
+
+/* Fully hidden state */
+
+#barakaLinkPageLoader[hidden] {
+  display: none !important;
+}
+
+/* Leaving state */
+
+#barakaLinkPageLoader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* =========================================================
+   CENTRAL CONTENT LAYOUT
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-content {
+  display: grid;
+  justify-items: center;
+
+  gap: 22px;
+
+  width: min(100%, 420px);
+  text-align: center;
+}
+
+/* =========================================================
+   LOGO WRAPPER
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-logo-wrap {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 112px;
+  height: 112px;
+
+  color: var(--bl-loader-fg);
+
+  isolation: isolate;
+}
+
+/* Soft breathing golden halo behind the logo */
+
+#barakaLinkPageLoader .bl-loader-logo-wrap::before {
+  position: absolute;
+  z-index: -1;
+  inset: 4px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      color-mix(
+        in srgb,
+        var(--bl-loader-gold-light) 35%,
+        transparent
+      ),
+      transparent 72%
+    );
+
+  content: "";
+
+  animation:
+    bl-loader-halo-breathe 2.8s ease-in-out infinite;
+}
+
+/* =========================================================
+   SVG LOGO
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-logo {
+  display: block;
+
+  width: 84px;
+  height: 84px;
+
+  overflow: visible;
+
+  color: var(--bl-loader-fg);
+}
+
+/* =========================================================
+   GOLDEN HALO COLORS
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-halo-core {
+  stop-color: var(--bl-loader-gold);
+}
+
+#barakaLinkPageLoader .bl-loader-halo-mid,
+#barakaLinkPageLoader .bl-loader-halo-edge {
+  stop-color: var(--bl-loader-gold-light);
+}
+
+/* =========================================================
+   ROTATING GOLDEN RING
+
+   Ring cycle: 2.8 seconds
+   Rotation: clockwise, beginning at the top
+========================================================= */
+
+/* Rotating golden ring — align its leading head with the dots */
+#barakaLinkPageLoader .bl-loader-sweep {
+  fill: none;
+  stroke: var(--bl-loader-gold);
+
+  stroke-dasharray: 18 67;
+
+  /* Shift the dash so its leading head reaches the top dot first */
+  stroke-dashoffset: 18;
+
+  transform: rotate(-90deg);
+  transform-origin: 20px 20px;
+
+  animation:
+    bl-loader-ring-sweep
+    var(--bl-loader-cycle, 2.8s)
+    linear
+    infinite;
+
+  will-change: transform;
+}
+
+/* =========================================================
+   FOUR BASE LOGO DOTS
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-dot-hollow {
+  fill: var(--bl-loader-bg);
+}
+
+/* =========================================================
+   SYNCHRONIZED DOT GLOW ANIMATIONS
+
+   Intended order of contact:
+   Top    → 0.0 seconds
+   Right  → 0.7 seconds
+   Bottom → 1.4 seconds
+   Left   → 2.1 seconds
+
+   Each dot uses the same 2.8-second animation cycle.
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-lit {
+  opacity: 0;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation:
+    bl-loader-dot-pulse
+    var(--bl-loader-cycle)
+    linear
+    infinite;
+
+  will-change: opacity, transform;
+}
+
+/* Top dot */
+
+#barakaLinkPageLoader .bl-loader-lit-1 {
+  animation-delay: 0s;
+}
+
+/* Right dot */
+
+#barakaLinkPageLoader .bl-loader-lit-2 {
+  animation-delay: var(--bl-loader-quarter-cycle);
+}
+
+/* Bottom dot */
+
+#barakaLinkPageLoader .bl-loader-lit-3 {
+  animation-delay: 1.4s;
+}
+
+/* Left dot */
+
+#barakaLinkPageLoader .bl-loader-lit-4 {
+  animation-delay: 2.1s;
+}
+
+/* =========================================================
+   GLOWING DOT CORES
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-core {
+  fill: var(--bl-loader-gold);
+
+  filter:
+    drop-shadow(
+      0 0 2px var(--bl-loader-gold)
+    );
+}
+
+/* =========================================================
+   BRAND NAME AND LOADING COPY
+========================================================= */
+
+/* =========================================================
+   BARAKALINK LOADER — MESSAGE SWITCHING
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-copy {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+#barakaLinkPageLoader .bl-loader-messages {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 3.5em;
+  overflow: hidden;
+}
+
+#barakaLinkPageLoader .bl-loader-message {
+  grid-area: 1 / 1;
+
+  max-width: min(84vw, 350px);
+  margin: 0;
+
+  color: var(--bl-loader-muted);
+
+  font-family:
+    var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+
+  font-size: .94rem;
+  font-weight: 500;
+  line-height: 1.65;
+
+  text-wrap: balance;
+
+  opacity: 0;
+  transform: translateY(7px);
+
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+
+#barakaLinkPageLoader .bl-loader-message.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  #barakaLinkPageLoader .bl-loader-copy {
+    gap: 14px;
+  }
+
+  #barakaLinkPageLoader .bl-loader-message {
+    font-size: .9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #barakaLinkPageLoader .bl-loader-message {
+    transition: none !important;
+  }
+}
+
+/* BarakaLink wordmark */
+
+#barakaLinkPageLoader .bl-loader-wordmark {
+  margin: 0;
+
+  color: var(--bl-loader-fg);
+
+  font-family:
+    var(--font-display, "Fraunces", Georgia, serif);
+
+  font-size: clamp(1.8rem, 5vw, 2.15rem);
+  font-weight: 600;
+
+  letter-spacing: -.045em;
+  line-height: 1.1;
+}
+
+/* Message container */
+
+#barakaLinkPageLoader .bl-loader-messages {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  min-height: 3.4em;
+
+  overflow: hidden;
+}
+
+/* Individual loading messages */
+
+#barakaLinkPageLoader .bl-loader-message {
+  grid-area: 1 / 1;
+
+  max-width: min(84vw, 350px);
+  margin: 0;
+
+  color: var(--bl-loader-muted);
+
+  font-family:
+    var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+
+  font-size: .94rem;
+  font-weight: 500;
+  line-height: 1.65;
+
+  text-wrap: balance;
+
+  opacity: 0;
+  transform: translateY(7px);
+
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+/* Active message */
+
+#barakaLinkPageLoader .bl-loader-message.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   BOTTOM LOADING LINE
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-line {
+  position: relative;
+
+  width: 132px;
+  height: 3px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--bl-loader-gold) 17%,
+      transparent
+    );
+}
+
+#barakaLinkPageLoader .bl-loader-line span {
+  display: block;
+
+  width: 44%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--bl-loader-gold),
+      var(--bl-loader-gold-light)
+    );
+
+  transform: translateX(-120%);
+
+  animation:
+    bl-loader-line-move 1.7s ease-in-out infinite;
+}
+
+/* =========================================================
+   SCREEN-READER-ONLY TEXT
+========================================================= */
+
+#barakaLinkPageLoader .bl-loader-sr {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip: rect(0, 0, 0, 0) !important;
+
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* =========================================================
+   KEYFRAMES: RING ROTATION
+========================================================= */
+
+@keyframes bl-loader-ring-sweep {
+  from {
+    transform: rotate(-90deg);
+  }
+
+  to {
+    transform: rotate(270deg);
+  }
+}
+
+/* =========================================================
+   KEYFRAMES: DOT GLOW
+
+   The dot glows at the beginning of its phase, then fades.
+========================================================= */
+
+@keyframes bl-loader-dot-pulse {
+  0%, 3% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  8% {
+    opacity: .65;
+    transform: scale(1);
+  }
+
+  14%, 100% {
+    opacity: .08;
+    transform: scale(.88);
+  }
+}
+
+/* =========================================================
+   KEYFRAMES: BACKGROUND HALO
+========================================================= */
+
+@keyframes bl-loader-halo-breathe {
+  0%, 100% {
+    opacity: .55;
+    transform: scale(.94);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* =========================================================
+   KEYFRAMES: BOTTOM LOADING LINE
+========================================================= */
+
+@keyframes bl-loader-line-move {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  70%, 100% {
+    transform: translateX(300%);
+  }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+========================================================= */
+
+@media (max-width: 480px) {
+  #barakaLinkPageLoader .bl-loader-content {
+    gap: 19px;
+  }
+
+  #barakaLinkPageLoader .bl-loader-logo-wrap {
+    width: 100px;
+    height: 100px;
+  }
+
+  #barakaLinkPageLoader .bl-loader-logo {
+    width: 76px;
+    height: 76px;
+  }
+
+  #barakaLinkPageLoader .bl-loader-copy {
+    gap: 13px;
+  }
+
+  #barakaLinkPageLoader .bl-loader-message {
+    font-size: .9rem;
+  }
+}
+
+/* =========================================================
+   REDUCED-MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  #barakaLinkPageLoader,
+  #barakaLinkPageLoader .bl-loader-message {
+    transition: none !important;
+  }
+
+  #barakaLinkPageLoader .bl-loader-logo-wrap::before,
+  #barakaLinkPageLoader .bl-loader-sweep,
+  #barakaLinkPageLoader .bl-loader-lit,
+  #barakaLinkPageLoader .bl-loader-line span {
+    animation: none !important;
+  }
+
+  /* Keep a clear indication that the loader is active */
+
+  #barakaLinkPageLoader .bl-loader-lit-1 {
+    opacity: 1;
+  }
+
+  #barakaLinkPageLoader .bl-loader-lit-2,
+  #barakaLinkPageLoader .bl-loader-lit-3,
+  #barakaLinkPageLoader .bl-loader-lit-4 {
+    opacity: .22;
+  }
+
+  #barakaLinkPageLoader .bl-loader-line span {
+    width: 38%;
+    transform: translateX(80%);
+  }
+}

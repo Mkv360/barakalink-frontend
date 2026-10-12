@@ -1,0 +1,1043 @@
+/* =========================================================
+   BarakaLink — Legal page
+   css/legal.css
+
+   Loads after variables.css, base.css, components.css and
+   responsive.css. Designed as a long-form DOCUMENT layout:
+   compact hero, quiet sticky sidebar, dominant readable
+   content column, strict vertical rhythm.
+
+   Structure
+   1.  Page
+   2.  Header
+   3.  Hero
+   4.  Back link
+   5.  Main layout
+   6.  Desktop sidebar
+   7.  Mobile navigation
+   8.  Legal content
+   9.  Typography
+   10. Lists
+   11. Callouts
+   12. Footer
+   13. Tablet
+   14. Mobile
+   15. Small phones
+   16. Reduced motion
+   ========================================================= */
+
+
+/* =========================================================
+   1. PAGE
+   One set of tokens drives every proportion on the page.
+   Breakpoints below only re-assign these tokens.
+   ========================================================= */
+
+.legal-page {
+  --lg-shell: 70rem;                         /* shared width: header, hero, layout, footer */
+  --lg-gutter: 1.5rem;                       /* shared side padding */
+  --lg-header-h: 72px;                       /* sticky header height (anchor + sidebar offsets) */
+  --lg-sidebar-w: clamp(200px, 21vw, 232px);
+  --lg-col-gap: clamp(2rem, 4.5vw, 3.5rem);
+  --lg-section-gap: clamp(2.5rem, 4vw, 3.25rem);
+
+  --lg-body: 1.0625rem;                      /* paragraphs + list items (17px) */
+  --lg-callout: .9375rem;                    /* callouts + notes (15px) */
+  --lg-radius: .75rem;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--page-bg);
+}
+
+
+/* Header, hero, layout and footer share one width and one gutter,
+   so the logo, hero text, sidebar and footer text all start on the
+   same left edge. */
+
+.legal-nav-inner,
+.legal-hero-inner,
+.legal-layout,
+.legal-footer-inner,
+.legal-footer-bottom {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--lg-shell);
+  margin-inline: auto;
+  padding-inline: var(--lg-gutter);
+}
+
+
+/* =========================================================
+   2. HEADER
+   Logo + theme toggle only.
+   ========================================================= */
+
+.legal-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+
+  background: var(--page-bg);
+  border-bottom: 1px solid var(--border);
+
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.legal-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  min-height: var(--lg-header-h);
+}
+
+.legal-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+
+
+/* Logo: mark and wordmark stay on one horizontal line
+   (header and footer). */
+
+.legal-nav .logo,
+.legal-footer .logo {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .55rem;
+  white-space: nowrap;
+}
+
+.legal-nav .logo-mark,
+.legal-footer .logo-mark {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+}
+
+.legal-nav .logo > span,
+.legal-footer .logo > span {
+  display: inline-block;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   3. HERO
+   Compact and confident. The width limits sit on the text
+   itself (not on the container) so the hero's left edge
+   lines up with the sidebar and the footer.
+   ========================================================= */
+
+.legal-hero {
+  padding-block:
+    clamp(2.25rem, 4.5vw, 3.5rem)
+    clamp(2rem, 3.5vw, 2.75rem);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+
+  margin-bottom: .85rem;
+
+  color: var(--gold);
+
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.legal-eyebrow i {
+  font-size: .75rem;
+}
+
+.legal-hero h1 {
+  max-width: 20ch;
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.35rem + 2.4vw, 3.35rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.legal-hero p {
+  max-width: 38rem;
+  margin: 1.15rem 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.legal-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+
+  margin-top: 1.25rem;
+
+  color: var(--text-soft);
+
+  font-size: .85rem;
+  line-height: 1.4;
+}
+
+.legal-updated i {
+  color: var(--gold);
+}
+
+
+/* =========================================================
+   4. BACK LINK
+   Lives inside the hero, above the eyebrow.
+   ========================================================= */
+
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+
+  margin: 0 0 1rem;
+  padding: .35rem 0;
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+  font-weight: 700;
+  line-height: 1.2;
+
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.legal-back i {
+  font-size: .8rem;
+}
+
+.legal-back:hover {
+  color: var(--text);
+  transform: translateX(-3px);
+}
+
+.legal-back:focus-visible {
+  border-radius: .35rem;
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   5. MAIN LAYOUT
+   Two columns: small sidebar | dominant content.
+   Both columns start at the same top edge.
+   ========================================================= */
+
+.legal-layout {
+  display: grid;
+  grid-template-columns:
+    var(--lg-sidebar-w)
+    minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--lg-col-gap);
+
+  padding-block:
+    clamp(2.25rem, 4vw, 3.25rem)
+    5rem;
+}
+
+
+/* =========================================================
+   6. DESKTOP SIDEBAR
+   Quiet and secondary. Sticks below the header.
+   ========================================================= */
+
+.legal-sidebar {
+  position: sticky;
+  top: calc(var(--lg-header-h) + 1.5rem);
+
+  min-width: 0;
+}
+
+.legal-sidebar-card {
+  padding: .75rem;
+
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+
+  background: var(--card-bg);
+}
+
+.legal-sidebar-title {
+  padding: .2rem .6rem .65rem;
+
+  color: var(--text-muted);
+
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.legal-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.legal-sidebar a {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 40px;
+  padding: .55rem .7rem .55rem .95rem;
+
+  border-radius: .65rem;
+
+  color: var(--text-muted);
+
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.35;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+}
+
+.legal-sidebar a::before {
+  content: "";
+
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+
+  width: 3px;
+  border-radius: 999px;
+
+  background: transparent;
+
+  transition: background-color .2s ease;
+}
+
+.legal-sidebar a:hover {
+  background: var(--gold-soft);
+  color: var(--text);
+}
+
+.legal-sidebar a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Active section: subtle background, gold indicator, stronger text. */
+
+.legal-sidebar a.active {
+  background: var(--gold-soft);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.legal-sidebar a.active::before {
+  background: var(--gold);
+}
+
+
+/* =========================================================
+   7. MOBILE NAVIGATION
+   Collapsible "On this page" card. Hidden on desktop;
+   shown by the Tablet block below.
+   ========================================================= */
+
+.legal-mobile-nav {
+  display: none;
+}
+
+.legal-mobile-nav details {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+
+  background: var(--card-bg);
+}
+
+.legal-mobile-nav summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  min-height: 52px;
+  padding: .8rem 1rem;
+
+  color: var(--text);
+
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.3;
+
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.legal-mobile-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.legal-mobile-nav summary::after {
+  content: "\f078";
+
+  flex: 0 0 auto;
+
+  color: var(--text-muted);
+
+  font-family: "Font Awesome 6 Free";
+  font-size: .75rem;
+  font-weight: 900;
+
+  transition: transform .2s ease;
+}
+
+.legal-mobile-nav details[open] > summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-mobile-nav details[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+.legal-mobile-nav summary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+/* Every section link sits on its own row. */
+
+.legal-mobile-nav-links {
+  display: grid;
+  gap: .2rem;
+
+  padding: .5rem;
+}
+
+.legal-mobile-nav-links a {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 46px;
+  padding: .65rem .85rem .65rem 1.05rem;
+
+  border-radius: .65rem;
+
+  color: var(--text-muted);
+
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1.35;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+}
+
+.legal-mobile-nav-links a::before {
+  content: "";
+
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: .3rem;
+
+  width: 3px;
+  border-radius: 999px;
+
+  background: transparent;
+}
+
+.legal-mobile-nav-links a:active,
+.legal-mobile-nav-links a:focus-visible {
+  background: var(--gold-soft);
+  color: var(--text);
+}
+
+.legal-mobile-nav-links a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.legal-mobile-nav-links a.active {
+  background: var(--gold-soft);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.legal-mobile-nav-links a.active::before {
+  background: var(--gold);
+}
+
+
+/* =========================================================
+   8. LEGAL CONTENT
+   The dominant column. Its width IS the reading measure:
+   46rem is about 72–80 characters per line at 17px, so
+   paragraphs, lists and callouts all share one clean edge.
+   ========================================================= */
+
+.legal-content {
+  min-width: 0;
+  max-width: 46rem;
+
+  overflow-wrap: break-word;
+}
+
+.legal-section {
+  scroll-margin-top: calc(var(--lg-header-h) + 1.25rem);
+
+  margin-bottom: var(--lg-section-gap);
+  padding-bottom: var(--lg-section-gap);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  border-bottom: 0;
+}
+
+.legal-section-label {
+  display: block;
+
+  color: var(--gold);
+
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+
+/* ---------------------------------------------------------
+   Vertical rhythm
+   One flow system for every direct child of a section.
+   Spacing is set by what comes BEFORE an element, so
+   nothing doubles up and nothing collapses to zero.
+
+     label  ->  h2          tight (they read as one unit)
+     h2     ->  lead text   clear gap
+     p      ->  p           1.1rem  (about 1em)
+     p      ->  list        .85rem  (list belongs to its lead-in)
+     list   ->  p           1.4rem  (a new thought starts)
+     any    ->  h3          2.75rem (a new subsection starts)
+     h3     ->  content     .75rem  (heading hugs its text)
+     any    ->  callout     1.6rem
+   --------------------------------------------------------- */
+
+.legal-section > * {
+  margin: 0;
+}
+
+.legal-section > * + * {
+  margin-top: 1.1rem;
+}
+
+.legal-section > h2 {
+  margin-top: .6rem;
+}
+
+.legal-section > h2 + * {
+  margin-top: 1.4rem;
+}
+
+.legal-section > h3 {
+  margin-top: 2.75rem;
+}
+
+.legal-section > h3 + * {
+  margin-top: .75rem;
+}
+
+.legal-section > p + ul {
+  margin-top: .85rem;
+}
+
+.legal-section > ul + p {
+  margin-top: 1.4rem;
+}
+
+.legal-section > .legal-callout,
+.legal-section > .legal-note {
+  margin-top: 1.6rem;
+}
+
+.legal-section > .legal-callout + p,
+.legal-section > .legal-note + p {
+  margin-top: 1.6rem;
+}
+
+
+/* =========================================================
+   9. TYPOGRAPHY
+   h2 strong, h3 clearly subordinate, body comfortable.
+   Desktop scale: h1 ~50px · h2 ~36px · h3 19px · body 17px.
+   ========================================================= */
+
+.legal-section h2 {
+  color: var(--text);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.45rem + 1.1vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.legal-section h3 {
+  color: var(--text);
+
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+.legal-section p,
+.legal-section li {
+  color: var(--text-muted);
+
+  font-size: var(--lg-body);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.legal-section strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.legal-section a {
+  color: var(--gold);
+
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+
+/* =========================================================
+   10. LISTS
+   Same size as paragraphs, indented, easy to scan.
+   ========================================================= */
+
+.legal-section ul {
+  padding-left: 1.4rem;
+
+  list-style: disc;
+}
+
+.legal-section li {
+  margin: 0;
+  padding-left: .25rem;
+
+  line-height: 1.75;
+}
+
+.legal-section li + li {
+  margin-top: .55rem;
+}
+
+
+/* =========================================================
+   11. CALLOUTS
+   Subtle: small padding, clear gold left accent, one radius.
+   ========================================================= */
+
+.legal-callout {
+  padding: 1rem 1.15rem;
+
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--lg-radius);
+
+  background: var(--card-bg);
+}
+
+.legal-section .legal-callout p {
+  margin: 0;
+
+  font-size: var(--lg-callout);
+  line-height: 1.7;
+}
+
+.legal-section .legal-callout p + p {
+  margin-top: .5rem;
+}
+
+.legal-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: .8rem;
+
+  padding: .95rem 1.15rem;
+
+  border-radius: var(--lg-radius);
+
+  background: var(--gold-soft);
+}
+
+.legal-note i {
+  margin-top: .22rem;
+
+  color: var(--gold);
+
+  font-size: .95rem;
+}
+
+.legal-section .legal-note p {
+  margin: 0;
+
+  font-size: var(--lg-callout);
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   12. FOOTER
+   ========================================================= */
+
+.legal-footer {
+  border-top: 1px solid var(--border);
+
+  background: var(--card-bg);
+
+  overflow-wrap: break-word;
+}
+
+.legal-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+
+  padding-block: 2.25rem;
+}
+
+.legal-footer-brand {
+  display: grid;
+  gap: .65rem;
+
+  min-width: 0;
+}
+
+.legal-footer-brand p {
+  max-width: 26rem;
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+.legal-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .55rem 1.25rem;
+}
+
+.legal-footer-links a {
+  color: var(--text-muted);
+
+  font-size: .85rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.legal-footer-links a:hover {
+  color: var(--text);
+}
+
+/* Divider is drawn as a background so it lines up with the
+   text edges instead of running through the side gutters. */
+
+.legal-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .35rem 1.5rem;
+
+  padding-block: 1rem 1.4rem;
+
+  background:
+    linear-gradient(var(--border), var(--border))
+    center top / calc(100% - 2 * var(--lg-gutter)) 1px
+    no-repeat;
+
+  color: var(--text-muted);
+
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   13. TABLET (up to 900px)
+   Sidebar -> collapsible "On this page" card.
+   Single column, left-aligned with the hero, content keeps
+   its reading measure.
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .legal-page {
+    --lg-header-h: 68px;
+  }
+
+  .legal-layout {
+    display: block;
+
+    padding-block: 2rem 4rem;
+  }
+
+  .legal-sidebar {
+    display: none;
+  }
+
+  .legal-mobile-nav {
+    display: block;
+
+    max-width: 46rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .legal-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legal-footer-links {
+    justify-content: flex-start;
+  }
+
+}
+
+
+/* =========================================================
+   14. MOBILE (up to 640px)
+   Reach the legal content sooner; use the full width.
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+  .legal-page {
+    --lg-gutter: 1.125rem;
+    --lg-header-h: 64px;
+    --lg-section-gap: 2.5rem;
+    --lg-body: 1rem;
+    --lg-callout: .9rem;
+  }
+
+  /* Hero */
+
+  .legal-hero {
+    padding-block: 1.75rem;
+  }
+
+  .legal-back {
+    margin-bottom: .75rem;
+
+    font-size: .85rem;
+  }
+
+  .legal-eyebrow {
+    margin-bottom: .65rem;
+
+    font-size: .72rem;
+  }
+
+  .legal-hero h1 {
+    font-size: clamp(1.85rem, 7.4vw, 2.4rem);
+    line-height: 1.1;
+  }
+
+  .legal-hero p {
+    margin-top: 1rem;
+
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .legal-updated {
+    margin-top: 1rem;
+
+    font-size: .8rem;
+  }
+
+  /* Layout */
+
+  .legal-layout {
+    padding-block: 1.5rem 3.5rem;
+  }
+
+  .legal-mobile-nav {
+    margin-bottom: 1.75rem;
+  }
+
+  .legal-content {
+    max-width: none;
+  }
+
+  /* Rhythm + type */
+
+  .legal-section > h3 {
+    margin-top: 2.25rem;
+  }
+
+  .legal-section > ul + p,
+  .legal-section > .legal-callout + p,
+  .legal-section > .legal-note + p {
+    margin-top: 1.25rem;
+  }
+
+  .legal-section > .legal-callout,
+  .legal-section > .legal-note {
+    margin-top: 1.4rem;
+  }
+
+  .legal-section h3 {
+    font-size: 1.125rem;
+  }
+
+  .legal-section p,
+  .legal-section li {
+    line-height: 1.75;
+  }
+
+  .legal-section ul {
+    padding-left: 1.2rem;
+  }
+
+  .legal-callout {
+    padding: .9rem 1rem;
+  }
+
+  .legal-note {
+    gap: .7rem;
+
+    padding: .9rem 1rem;
+  }
+
+  /* Footer */
+
+  .legal-footer-inner {
+    padding-block: 2rem;
+  }
+
+  .legal-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}
+
+
+/* =========================================================
+   15. SMALL PHONES (up to 380px: 320 / 360 / 375)
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .legal-page {
+    --lg-gutter: 1rem;
+    --lg-body: .97rem;
+    --lg-callout: .88rem;
+  }
+
+  .legal-hero {
+    padding-block: 1.5rem;
+  }
+
+  .legal-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .legal-hero p {
+    font-size: .95rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.65rem;
+  }
+
+  .legal-section h3 {
+    font-size: 1.08rem;
+  }
+
+  .legal-footer-links {
+    gap: .5rem 1rem;
+  }
+
+}
+
+
+/* =========================================================
+   16. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .legal-back,
+  .legal-sidebar a,
+  .legal-sidebar a::before,
+  .legal-mobile-nav-links a,
+  .legal-mobile-nav summary::after {
+    transition: none;
+  }
+
+  .legal-back:hover {
+    transform: none;
+  }
+
+}

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#FBF7EE"
+    id="themeColorMeta"
+  >
+
+  <title>Start Learning — BarakaLink</title>
+
+  <meta
+    name="description"
+    content="Start a learning request with your selected BarakaLink Ustaz."
+  >
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <!-- Existing BarakaLink styling -->
+  <link
+    rel="stylesheet"
+    href="../css/student.css"
+  >
+
+  <!-- Dedicated Start Learning styling -->
+  <link
+    rel="stylesheet"
+    href="../css/start-learning.css"
+  >
+</head>
+
+<body>
+
+  <div class="start-learning-page">
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+    <header class="start-learning-topbar">
+
+      <div class="start-learning-topbar-inner">
+
+        <button
+          type="button"
+          class="start-learning-back-button"
+          id="startLearningBackButton"
+        >
+          <i
+            class="fa-solid fa-arrow-left"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Back to Ustaz Profile
+          </span>
+        </button>
+
+        <div
+          class="start-learning-brand"
+          aria-label="BarakaLink"
+        >
+          BarakaLink
+        </div>
+
+        <button
+          type="button"
+          class="start-learning-theme-button"
+          id="startLearningThemeToggle"
+          aria-label="Switch theme"
+        >
+          <i
+            class="fa-solid fa-moon"
+            aria-hidden="true"
+          ></i>
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+    <main class="start-learning-main">
+
+      <!-- =================================================
+           LOADING
+      ================================================== -->
+      <section
+        class="start-learning-loading"
+        id="startLearningLoading"
+        aria-live="polite"
+      >
+
+        <div class="start-learning-loading-spinner"></div>
+
+        <h1>
+          Preparing your learning request
+        </h1>
+
+        <p>
+          Please wait while we load the selected Ustaz.
+        </p>
+
+      </section>
+
+
+      <!-- =================================================
+           ERROR
+      ================================================== -->
+      <section
+        class="start-learning-error"
+        id="startLearningError"
+        hidden
+        aria-live="assertive"
+      >
+
+        <div class="start-learning-error-icon">
+          <i
+            class="fa-solid fa-circle-exclamation"
+            aria-hidden="true"
+          ></i>
+        </div>
+
+        <h1>
+          We couldn't start the learning request
+        </h1>
+
+        <p id="startLearningErrorMessage">
+          The learning request could not be prepared.
+        </p>
+
+        <button
+          type="button"
+          class="start-learning-retry"
+          id="startLearningRetry"
+        >
+          <i
+            class="fa-solid fa-rotate-right"
+            aria-hidden="true"
+          ></i>
+
+          Try again
+        </button>
+
+      </section>
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+      <div
+        class="start-learning-content"
+        id="startLearningContent"
+        hidden
+      >
+
+        <!-- =================================================
+             PAGE INTRO
+        ================================================== -->
+        <section class="start-learning-intro">
+
+          <span class="start-learning-eyebrow">
+            Start Learning
+          </span>
+
+          <h1>
+            Set up your learning request
+          </h1>
+
+          <p>
+            Choose what you want to study and who will be
+            learning. BarakaLink will calculate the approved
+            lesson price for you.
+          </p>
+
+        </section>
+
+
+        <!-- =================================================
+             SELECTED USTAZ
+        ================================================== -->
+        <section class="start-learning-card">
+
+          <div class="start-learning-section-heading">
+
+            <div class="start-learning-section-icon">
+              <i
+                class="fa-solid fa-user-graduate"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <h2>
+                Your selected Ustaz
+              </h2>
+
+              <p>
+                This is the teacher you selected.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="start-learning-teacher">
+
+            <div
+              class="start-learning-teacher-avatar"
+              id="startLearningTeacherAvatar"
+            >
+              <span id="startLearningTeacherInitials">
+                U
+              </span>
+
+              <img
+                id="startLearningTeacherImage"
+                src=""
+                alt=""
+                hidden
+              >
+            </div>
+
+
+            <div class="start-learning-teacher-info">
+
+              <h3 id="startLearningTeacherName">
+                Ustaz
+              </h3>
+
+              <p id="startLearningTeacherLocation">
+                Location not available
+              </p>
+
+              <div
+                class="start-learning-teacher-fields"
+                id="startLearningTeacherFields"
+              >
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LEARNING DETAILS
+        ================================================== -->
+        <section class="start-learning-card">
+
+          <div class="start-learning-section-heading">
+
+            <div class="start-learning-section-icon">
+              <i
+                class="fa-solid fa-book-open"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <h2>
+                Learning details
+              </h2>
+
+              <p>
+                Tell us what you want to arrange.
+              </p>
+            </div>
+
+          </div>
+
+
+          <!-- STUDY FIELD -->
+          <div class="start-learning-form-group">
+
+            <label
+              for="startLearningStudyField"
+            >
+              Study field
+            </label>
+
+            <select
+              id="startLearningStudyField"
+              name="studyFieldId"
+            >
+
+              <option value="">
+                Select a study field
+              </option>
+
+            </select>
+
+            <small>
+              Only subjects taught by this Ustaz will be available.
+            </small>
+
+          </div>
+
+
+          <!-- LEARNERS -->
+          <div class="start-learning-form-group">
+
+            <label>
+              Who will be learning?
+            </label>
+
+            <div
+              class="start-learning-learners"
+              id="startLearningLearners"
+            >
+              <!-- Learners will be rendered by JavaScript -->
+            </div>
+
+            <small>
+              You can select one or more of your children.
+            </small>
+
+          </div>
+
+
+          <!-- DURATION -->
+          <div class="start-learning-form-group">
+
+            <label
+              for="startLearningDuration"
+            >
+              Lesson duration
+            </label>
+
+            <select
+              id="startLearningDuration"
+              name="durationMinutes"
+            >
+
+              <option value="">
+                Select lesson duration
+              </option>
+
+              <option value="30">
+                30 minutes
+              </option>
+
+              <option value="45">
+                45 minutes
+              </option>
+
+              <option value="60">
+                60 minutes
+              </option>
+
+              <option value="90">
+                90 minutes
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- LESSON MODE -->
+          <div class="start-learning-form-group">
+
+            <label>
+              Lesson arrangement
+            </label>
+
+            <div
+              class="start-learning-choice-grid"
+              id="startLearningLessonMode"
+            >
+
+              <label class="start-learning-choice">
+
+                <input
+                  type="radio"
+                  name="lessonMode"
+                  value="individual"
+                  checked
+                >
+
+                <span class="start-learning-choice-content">
+
+                  <strong>
+                    Individual
+                  </strong>
+
+                  <small>
+                    The selected children learn individually.
+                  </small>
+
+                </span>
+
+              </label>
+
+
+              <label class="start-learning-choice">
+
+                <input
+                  type="radio"
+                  name="lessonMode"
+                  value="shared"
+                >
+
+                <span class="start-learning-choice-content">
+
+                  <strong>
+                    Shared
+                  </strong>
+
+                  <small>
+                    The selected children learn together.
+                  </small>
+
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <!-- LESSONS PER WEEK -->
+          <div class="start-learning-form-group">
+
+            <label
+              for="startLearningLessonsPerWeek"
+            >
+              Lessons per week
+            </label>
+
+            <select
+              id="startLearningLessonsPerWeek"
+              name="lessonsPerWeek"
+            >
+
+              <option value="">
+                Select lessons per week
+              </option>
+
+              <option value="1">
+                1 lesson per week
+              </option>
+
+              <option value="2">
+                2 lessons per week
+              </option>
+
+              <option value="3">
+                3 lessons per week
+              </option>
+
+              <option value="4">
+                4 lessons per week
+              </option>
+
+              <option value="5">
+                5 lessons per week
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- MESSAGE -->
+          <div class="start-learning-form-group">
+
+            <label
+              for="startLearningMessage"
+            >
+              Message to the Ustaz
+              <span class="start-learning-optional">
+                Optional
+              </span>
+            </label>
+
+            <textarea
+              id="startLearningMessage"
+              name="parentMessage"
+              rows="5"
+              maxlength="1000"
+              placeholder="Add any important information for the Ustaz..."
+            ></textarea>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRICE PREVIEW
+        ================================================== -->
+        <section
+          class="start-learning-card start-learning-price-card"
+          id="startLearningPriceCard"
+        >
+
+          <div class="start-learning-section-heading">
+
+            <div class="start-learning-section-icon">
+              <i
+                class="fa-solid fa-calculator"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <h2>
+                BarakaLink approved price
+              </h2>
+
+              <p>
+                Your price is calculated by BarakaLink.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="start-learning-price-empty"
+               id="startLearningPriceEmpty">
+
+            <i
+              class="fa-solid fa-receipt"
+              aria-hidden="true"
+            ></i>
+
+            <p>
+              Select your learning details to see the
+              approved price.
+            </p>
+
+          </div>
+
+
+          <div
+            class="start-learning-price-result"
+            id="startLearningPriceResult"
+            hidden
+          >
+
+            <div class="start-learning-price-row">
+
+              <span>
+                Approved lesson tariff
+              </span>
+
+              <strong id="startLearningApprovedTariff">
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="start-learning-price-row">
+
+              <span>
+                One lesson
+              </span>
+
+              <strong id="startLearningLessonAmount">
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="start-learning-price-row">
+
+              <span>
+                Per week
+              </span>
+
+              <strong id="startLearningWeeklyAmount">
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="start-learning-price-total">
+
+              <span>
+                Estimated 4-week amount
+              </span>
+
+              <strong id="startLearningFourWeekAmount">
+                —
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SUBMIT
+        ================================================== -->
+        <section class="start-learning-submit-section">
+
+          <div class="start-learning-submit-note">
+
+            <i
+              class="fa-solid fa-shield-halved"
+              aria-hidden="true"
+            ></i>
+
+            <p>
+              The learning price is calculated and
+              controlled by BarakaLink. The Ustaz cannot
+              change the approved tariff.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="start-learning-submit-button"
+            id="startLearningSubmitButton"
+            disabled
+          >
+
+            <i
+              class="fa-solid fa-paper-plane"
+              aria-hidden="true"
+            ></i>
+
+            <span>
+              Send Learning Request
+            </span>
+
+          </button>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- Shared API helper -->
+  <script src="../js/api.js"></script>
+
+  <!-- Start Learning logic -->
+  <script src="../js/start-learning.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <title>Login / Sign Up — BarakaLink</title>
+
+  <meta
+    name="description"
+    content="Login or create your BarakaLink account to find Quran teachers or join as an Ustaz or Ustaza."
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+  >
+
+  <meta
+    name="theme-color"
+    content="#FBF7EE"
+    id="themeColorMeta"
+  >
+
+  <meta
+    name="color-scheme"
+    content="light dark"
+  >
+
+
+  <!-- =========================================================
+       FONTS
+  ========================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =========================================================
+       BARAKALINK SHARED CSS
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="css/variables.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/base.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/components.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/auth.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/responsive.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/login.css"
+  >
+
+
+  <!-- =========================================================
+       ICONS
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+</head>
+
+
+<body class="login-page-body">
+
+
+<!-- =========================================================
+     LOGIN / SIGNUP PAGE
+========================================================= -->
+
+<main class="login-page">
+
+  <div class="login-shell">
+
+
+    <!-- =======================================================
+         LEFT BRAND PANEL
+    ======================================================== -->
+
+    <section class="login-brand-panel">
+
+
+      <!-- LOGO -->
+
+      <a
+        href="index.html"
+        class="logo login-logo"
+        aria-label="BarakaLink home"
+      >
+
+        <svg
+          class="logo-mark"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
+
+          <circle
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+
+          <circle
+            cx="20"
+            cy="6"
+            r="2.7"
+            fill="currentColor"
+          />
+
+          <circle
+            cx="34"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="20"
+            cy="34"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            cx="6"
+            cy="20"
+            r="2.3"
+            fill="white"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+        </svg>
+
+        <span>
+          BarakaLink
+        </span>
+
+      </a>
+
+
+      <!-- BRAND CONTENT -->
+
+      <div class="login-brand-content">
+
+        <span class="login-eyebrow">
+          Quran learning, closer to you.
+        </span>
+
+
+        <h1>
+          Find the right
+          Quran learning connection.
+        </h1>
+
+
+        <p>
+          Whether you are looking for a Quran teacher
+          or ready to teach, BarakaLink connects you
+          with the right learning community.
+        </p>
+
+
+        <div class="login-study-list">
+
+          <span>
+            <i class="fa-solid fa-book-open"></i>
+            Quran Basic
+          </span>
+
+          <span>
+            <i class="fa-solid fa-headphones"></i>
+            Tajweed
+          </span>
+
+          <span>
+            <i class="fa-solid fa-brain"></i>
+            Hifz
+          </span>
+
+          <span>
+            <i class="fa-solid fa-book-quran"></i>
+            Tafseer
+          </span>
+
+          <span>
+            <i class="fa-solid fa-mosque"></i>
+            Hadith
+          </span>
+
+          <span>
+            <i class="fa-solid fa-hands-praying"></i>
+            Tarbiyah
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="login-brand-footer">
+
+        <span>
+          <i class="fa-solid fa-shield-halved"></i>
+          Secure account access
+        </span>
+
+        <span>
+          © 2026 BarakaLink
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         RIGHT AUTH PANEL
+    ======================================================== -->
+
+    <section class="login-form-panel">
+
+
+      <!-- TOP -->
+
+      <div class="login-topbar">
+
+        <a
+          href="index.html"
+          class="login-back-link"
+        >
+
+          <i class="fa-solid fa-arrow-left"></i>
+
+          Back to BarakaLink
+
+        </a>
+
+
+        <button
+          type="button"
+          class="icon-button"
+          id="themeToggle"
+          aria-label="Switch to dark theme"
+        >
+
+          <i class="fa-solid fa-moon"></i>
+
+        </button>
+
+      </div>
+
+
+      <!-- AUTH CARD -->
+
+      <div class="login-card">
+
+
+        <!-- ===================================================
+             AUTH HEADER
+        ==================================================== -->
+
+        <div class="login-card-heading">
+
+          <div class="login-card-icon">
+
+            <i
+              class="fa-solid fa-right-to-bracket"
+              id="authHeadingIcon"
+            ></i>
+
+          </div>
+
+
+          <span
+            class="login-card-label"
+            id="authModeLabel"
+          >
+            YOUR ACCOUNT
+          </span>
+
+
+          <h2 id="authTitle">
+           Continue Your Journey
+          </h2>
+
+
+          <p id="authSubtitle">
+            Log in to your BarakaLink account.
+          </p>
+
+        </div>
+
+
+        <!-- ===================================================
+             LOGIN FORM
+        ==================================================== -->
+
+        <form
+          id="loginForm"
+          class="login-form auth-form"
+          novalidate
+        >
+
+
+          <!-- EMAIL / PHONE -->
+
+          <div class="auth-field">
+
+            <label for="loginPhone">
+              Email or Phone Number
+            </label>
+
+
+            <input
+              class="auth-input"
+              id="loginPhone"
+              name="identifier"
+              type="text"
+              autocomplete="username"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+              placeholder="Email or 912 345 678"
+              aria-describedby="loginPhoneError"
+              required
+            >
+
+
+            <span
+              class="form-error"
+              id="loginPhoneError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="auth-field">
+
+            <label for="loginPassword">
+              Password
+            </label>
+
+
+            <div class="password-wrapper">
+
+              <input
+                class="auth-input"
+                id="loginPassword"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                aria-describedby="loginPasswordError"
+                required
+              >
+
+
+              <button
+                type="button"
+                class="password-toggle"
+                data-password="loginPassword"
+                aria-label="Show password"
+              >
+
+                <i class="fa-solid fa-eye"></i>
+
+              </button>
+
+            </div>
+
+
+            <span
+              class="form-error"
+              id="loginPasswordError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- FORGOT -->
+
+          <div class="login-forgot-row">
+
+            <button
+              type="button"
+              id="forgotPasswordButton"
+              class="login-forgot-button"
+            >
+              Forgot password?
+            </button>
+
+          </div>
+
+
+          <!-- STATUS -->
+
+          <p
+            class="form-status login-status"
+            id="loginStatus"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+
+          <!-- LOGIN -->
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block login-submit"
+            id="loginSubmitButton"
+          >
+
+            <span class="login-submit-text">
+              Sign In
+            </span>
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+          </button>
+
+        </form>
+
+
+        <!-- ===================================================
+             SIGNUP FORM
+        ==================================================== -->
+
+        <form
+          id="signupForm"
+          class="auth-form signup-form"
+          novalidate
+          style="display:none;"
+        >
+
+
+          <!-- =================================================
+               ROLE
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <span
+              id="roleLabel"
+              class="auth-field-label"
+            >
+              I want to sign up as
+            </span>
+
+
+            <div
+              class="role-options"
+              role="radiogroup"
+              aria-labelledby="roleLabel"
+            >
+
+
+              <!-- PARENT -->
+
+              <label
+                class="role-option active"
+                data-role="parent"
+              >
+
+                <input
+                  type="radio"
+                  name="role"
+                  value="parent"
+                  checked
+                >
+
+                <i class="fa-solid fa-user"></i>
+
+                <strong>
+                  Parent / Student
+                </strong>
+
+                <span>
+                  Find Quran teachers
+                </span>
+
+              </label>
+
+
+              <!-- USTAZ -->
+
+              <label
+                class="role-option"
+                data-role="ustaz"
+              >
+
+                <input
+                  type="radio"
+                  name="role"
+                  value="ustaz"
+                >
+
+                <i class="fa-solid fa-chalkboard-user"></i>
+
+                <strong>
+                  Ustaz / Ustaza
+                </strong>
+
+                <span>
+                  Teach Quran
+                </span>
+
+              </label>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================================
+               NAME
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="firstName">
+              Full Name
+            </label>
+
+
+            <div class="name-row">
+
+              <input
+                class="auth-input"
+                id="firstName"
+                name="firstName"
+                type="text"
+                autocomplete="given-name"
+                placeholder="First Name"
+                required
+              >
+
+
+              <input
+                class="auth-input"
+                id="lastName"
+                name="lastName"
+                type="text"
+                autocomplete="family-name"
+                placeholder="Last Name"
+                required
+              >
+
+            </div>
+
+
+            <span
+              class="form-error"
+              id="nameError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- =================================================
+               PHONE
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="signupPhone">
+              Phone Number
+            </label>
+
+
+            <div class="phone-group">
+
+              <span class="phone-code">
+                +251
+              </span>
+
+
+              <input
+                class="auth-input"
+                id="signupPhone"
+                name="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="912 345 678"
+                required
+              >
+
+            </div>
+
+
+            <span
+              class="form-error"
+              id="signupPhoneError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- =================================================
+               REGISTRATION METHOD
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <span
+              class="auth-field-label"
+              id="registrationMethodLabel"
+            >
+              Verify your account with
+            </span>
+
+
+            <div
+              class="role-options"
+              role="radiogroup"
+              aria-labelledby="registrationMethodLabel"
+            >
+
+
+              <!-- PHONE + TELEGRAM -->
+
+              <label
+                class="role-option active"
+                data-method="phone"
+              >
+
+                <input
+                  type="radio"
+                  name="registrationMethod"
+                  value="phone"
+                  checked
+                >
+
+                <i class="fa-solid fa-mobile-screen-button"></i>
+
+                <strong>
+                  Phone + Telegram
+                </strong>
+
+                <span>
+                  Verify through Telegram
+                </span>
+
+              </label>
+
+
+              <!-- EMAIL + OTP -->
+
+              <label
+                class="role-option"
+                data-method="email"
+              >
+
+                <input
+                  type="radio"
+                  name="registrationMethod"
+                  value="email"
+                >
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <strong>
+                  Email + OTP
+                </strong>
+
+                <span>
+                  Verify your email
+                </span>
+
+              </label>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================================
+               EMAIL
+          ================================================== -->
+
+          <div
+            class="auth-field"
+            id="signupEmailField"
+            style="display:none;"
+          >
+
+            <label for="signupEmail">
+              Email Address
+            </label>
+
+
+            <input
+              class="auth-input"
+              id="signupEmail"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+              placeholder="Enter your email address"
+            >
+
+
+            <span
+              class="form-error"
+              id="signupEmailError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- =================================================
+               SUBCITY
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="subcity">
+              Sub-City
+            </label>
+
+
+            <select
+              class="auth-select"
+              id="subcity"
+              name="subcity"
+              required
+            >
+
+              <option value="">
+                Select Sub-City
+              </option>
+
+              <option value="bole">
+                Bole
+              </option>
+
+              <option value="yeka">
+                Yeka
+              </option>
+
+              <option value="kirkos">
+                Kirkos
+              </option>
+
+              <option value="arada">
+                Arada
+              </option>
+
+              <option value="lideta">
+                Lideta
+              </option>
+
+              <option value="nifas-silk">
+                Nifas Silk
+              </option>
+
+              <option value="kolfe">
+                Kolfe Keranio
+              </option>
+
+              <option value="akaki">
+                Akaki Kaliti
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- =================================================
+               AREA
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="area">
+              Area
+            </label>
+
+
+            <select
+              class="auth-select"
+              id="area"
+              name="area"
+              required
+            >
+
+              <option value="">
+                Select Area
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- =================================================
+               MOSQUE
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="nearestMosque">
+              Nearest Mosque
+            </label>
+
+
+            <input
+              class="auth-input"
+              id="nearestMosque"
+              name="nearestMosque"
+              type="text"
+              autocomplete="off"
+              placeholder="Enter your nearest mosque"
+              required
+            >
+
+
+            <span
+              class="form-error"
+              id="nearestMosqueError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- =================================================
+               USTAZ EXTRA
+          ================================================== -->
+
+          <div
+            class="ustaz-extra"
+            id="ustazExtra"
+          >
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="auth-field">
+
+              <label for="experience">
+                Years of Teaching Experience
+              </label>
+
+
+              <input
+                class="auth-input"
+                id="experience"
+                name="experience"
+                type="number"
+                min="0"
+                max="60"
+                inputmode="numeric"
+                placeholder="Example: 5"
+              >
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="auth-field">
+
+              <label for="gender">
+                Gender
+              </label>
+
+
+              <select
+                class="auth-select"
+                id="gender"
+                name="gender"
+              >
+
+                <option value="">
+                  Select Gender
+                </option>
+
+                <option value="male">
+                  Male
+                </option>
+
+                <option value="female">
+                  Female
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- STUDY FIELDS -->
+
+            <div class="auth-field">
+
+              <span
+                class="auth-field-label"
+                id="studyFieldsLabel"
+              >
+                Study Fields
+              </span>
+
+
+              <div
+                class="role-options study-field-options"
+                role="group"
+                aria-labelledby="studyFieldsLabel"
+              >
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="quran-basic"
+                  >
+
+                  <i class="fa-solid fa-book-open"></i>
+
+                  <strong>
+                    Quran Basic
+                  </strong>
+
+                </label>
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="tajweed"
+                  >
+
+                  <i class="fa-solid fa-headphones"></i>
+
+                  <strong>
+                    Tajweed
+                  </strong>
+
+                </label>
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="hifz"
+                  >
+
+                  <i class="fa-solid fa-brain"></i>
+
+                  <strong>
+                    Hifz
+                  </strong>
+
+                </label>
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="tafseer"
+                  >
+
+                  <i class="fa-solid fa-book-quran"></i>
+
+                  <strong>
+                    Tafseer
+                  </strong>
+
+                </label>
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="hadith"
+                  >
+
+                  <i class="fa-solid fa-mosque"></i>
+
+                  <strong>
+                    Hadith
+                  </strong>
+
+                </label>
+
+
+                <label class="role-option">
+
+                  <input
+                    type="checkbox"
+                    name="studyFields"
+                    value="tarbiyah"
+                  >
+
+                  <i class="fa-solid fa-hands-praying"></i>
+
+                  <strong>
+                    Tarbiyah
+                  </strong>
+
+                </label>
+
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- =================================================
+               PASSWORD
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="signupPassword">
+              Password
+            </label>
+
+
+            <div class="password-wrapper">
+
+              <input
+                class="auth-input"
+                id="signupPassword"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Create a password"
+                required
+              >
+
+
+              <button
+                type="button"
+                class="password-toggle"
+                data-password="signupPassword"
+                aria-label="Show password"
+              >
+
+                <i class="fa-solid fa-eye"></i>
+
+              </button>
+
+            </div>
+
+
+            <span
+              class="form-error"
+              id="signupPasswordError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- =================================================
+               CONFIRM
+          ================================================== -->
+
+          <div class="auth-field">
+
+            <label for="confirmPassword">
+              Confirm Password
+            </label>
+
+
+            <div class="password-wrapper">
+
+              <input
+                class="auth-input"
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Confirm your password"
+                required
+              >
+
+
+              <button
+                type="button"
+                class="password-toggle"
+                data-password="confirmPassword"
+                aria-label="Show password"
+              >
+
+                <i class="fa-solid fa-eye"></i>
+
+              </button>
+
+            </div>
+
+
+            <span
+              class="form-error"
+              id="confirmError"
+              role="alert"
+            ></span>
+
+          </div>
+
+
+          <!-- STATUS -->
+
+          <p
+            class="form-status"
+            id="signupStatus"
+            role="status"
+            aria-live="polite"
+          ></p>
+<div class="legal-consent">
+
+  <label class="legal-consent-label">
+
+    <input
+      type="checkbox"
+      id="signupTerms"
+      name="termsAccepted"
+      value="1"
+      required
+    >
+
+    <span>
+      I have read and agree to
+      <a
+        href="legal.html#terms"
+        target="_blank"
+        rel="noopener"
+      >
+      <u>Terms of Service</u>  
+      </a>
+      and I acknowledge the
+      <a
+        href="legal.html#privacy"
+        target="_blank"
+        rel="noopener"
+      >
+      <u>Privacy Policy</u>
+      </a>.
+    </span>
+
+  </label>
+
+  <span
+    class="form-error"
+    id="signupTermsError"
+    role="alert"
+  ></span>
+
+</div>
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="signupSubmitButton"
+          >
+
+            <span>
+              Create Account
+            </span>
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+          </button>
+
+
+          <p class="auth-fineprint">
+
+            By creating an account, you agree to
+            BarakaLink's Terms of Service and Privacy Policy.
+
+          </p>
+
+
+        </form>
+
+
+        <!-- ===================================================
+             EMAIL OTP
+        ==================================================== -->
+
+        <section
+          class="otp-section email-otp-section"
+          id="emailOtpSection"
+          aria-labelledby="emailOtpTitle"
+          aria-hidden="true"
+        >
+
+          <div class="otp-center">
+
+
+            <div class="otp-icon">
+
+              <i class="fa-solid fa-envelope"></i>
+
+            </div>
+
+
+            <h3 id="emailOtpTitle">
+              Verify your email
+            </h3>
+
+
+            <p id="emailOtpDescription">
+              Enter the 6-digit code we sent to your email address.
+            </p>
+
+
+            <div class="auth-field">
+
+              <label for="emailOtp">
+                Email Verification Code
+              </label>
+
+
+              <input
+                class="auth-input"
+                id="emailOtp"
+                name="emailOtp"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                autocomplete="one-time-code"
+                maxlength="6"
+                placeholder="Enter 6-digit code"
+              >
+
+            </div>
+
+
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              id="verifyEmailOtpBtn"
+            >
+
+              Verify Email
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+
+            <p
+              class="form-error"
+              id="emailOtpError"
+              role="alert"
+              aria-live="polite"
+            ></p>
+
+
+            <button
+              type="button"
+              class="btn btn-outline btn-block"
+              id="resendEmailOtpBtn"
+            >
+              Resend Code
+            </button>
+
+
+            <button
+              type="button"
+              class="btn btn-outline btn-block"
+              id="emailOtpBackBtn"
+            >
+              Change Email
+            </button>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             TELEGRAM
+        ==================================================== -->
+
+        <section
+          class="otp-section telegram-auth-section"
+          id="otpSection"
+          aria-labelledby="telegramAuthTitle"
+          aria-hidden="true"
+        >
+
+          <div class="otp-center">
+
+
+            <div class="otp-icon">
+
+              <i class="fa-brands fa-telegram"></i>
+
+            </div>
+
+
+            <h3 id="telegramAuthTitle">
+              Verify with Telegram
+            </h3>
+
+
+            <p>
+              Connect your Telegram account to securely
+              verify your registration and continue.
+            </p>
+
+
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              id="verifyOtpBtn"
+            >
+
+              <i class="fa-brands fa-telegram"></i>
+
+              Continue with Telegram
+
+            </button>
+
+
+            <p
+              class="form-error"
+              id="otpError"
+              role="alert"
+              aria-live="polite"
+            ></p>
+
+
+            <p class="telegram-auth-note">
+
+              Your Telegram verification is used to
+              confirm your registration.
+
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             LOGIN / SIGNUP SWITCH
+        ==================================================== -->
+
+        <p
+          class="auth-switch"
+          id="authSwitch"
+        >
+
+          <span id="switchText">
+            Don't have an account?
+          </span>
+
+
+          <button
+            type="button"
+            id="switchAuth"
+          >
+            Create one
+          </button>
+
+        </p>
+
+
+      </div>
+
+
+      <p class="login-mobile-footer">
+        © 2026 BarakaLink. All rights reserved.
+      </p>
+
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+
+<script
+  src="https://telegram.org/js/telegram-web-app.js"
+></script>
+
+<script
+  src="js/telegram-app.js"
+></script>
+
+<script
+  src="js/api.js"
+></script>
+
+<script
+  src="js/theme.js"
+></script>
+
+<script
+  src="js/login.js"
+></script>
+
+</body>
+</html>

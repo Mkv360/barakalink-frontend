@@ -1,894 +1,2729 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
+<head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+  <meta
+    content="width=device-width, initial-scale=1"
+    name="viewport"
+  />
   <title>
-   Complete Your Ustaz Profile — BarakaLink
+    Complete Your Ustaz Profile — BarakaLink
   </title>
-  <meta content="Complete your BarakaLink Ustaz profile before continuing to your teacher dashboard." name="description"/>
-  <meta content="noindex, nofollow, noarchive" name="robots"/>
-  <meta content="#FBF7EE" id="themeColorMeta" name="theme-color"/>
-  <meta content="light dark" name="color-scheme"/>
+
+  <meta
+    content="Complete your BarakaLink Ustaz profile before continuing to your teacher dashboard."
+    name="description"
+  />
+
+  <meta
+    content="noindex, nofollow, noarchive"
+    name="robots"
+  />
+
+  <meta
+    content="#FBF7EE"
+    id="themeColorMeta"
+    name="theme-color"
+  />
+
+  <meta
+    content="light dark"
+    name="color-scheme"
+  />
+
   <!-- =========================================================
        FONTS
   ========================================================== -->
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+  <link
+    href="https://fonts.googleapis.com"
+    rel="preconnect"
+  />
+
+  <link
+    crossorigin=""
+    href="https://fonts.gstatic.com"
+    rel="preconnect"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <!-- =========================================================
        SHARED BARAKALINK CSS
   ========================================================== -->
-  <link href="css/profile-completion.css" rel="stylesheet"/>
-  <link href="css/ustaz-recitation-recorder.css" rel="stylesheet"/>
-  <link href="css/ustaz-profile-wizard.css" rel="stylesheet"/>
-  <link href="css/variables.css" rel="stylesheet"/>
-  <link href="css/base.css" rel="stylesheet"/>
-  <link href="css/components.css" rel="stylesheet"/>
-  <link href="css/landing.css" rel="stylesheet"/>
-  <link href="css/teachers.css" rel="stylesheet"/>
-  <link href="css/auth.css" rel="stylesheet"/>
-  <link href="css/dashboard.css" rel="stylesheet"/>
-  <link href="css/responsive.css" rel="stylesheet"/>
-  <!-- =========================================================
-       USTAZ PROFILE COMPLETION CSS
-  ========================================================== -->
+
+  <link
+    href="css/profile-completion.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/ustaz-recitation-recorder.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/ustaz-profile-wizard.css"
+    rel="stylesheet"
+  />
+
+
+  <link
+    href="css/ustaz-selfie-camera-modal.css"
+    rel="stylesheet"
+  />
+
+
+  <link
+    href="css/variables.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/base.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/components.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/landing.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/teachers.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/auth.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/dashboard.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="css/responsive.css"
+    rel="stylesheet"
+  />
+
   <!-- =========================================================
        FONT AWESOME
   ========================================================== -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
- </head>
- <body>
+
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+
   <!-- =========================================================
        PAGE
   ========================================================== -->
+
   <div class="profile-completion-page ustaz-profile-completion-page">
-   <!-- =======================================================
+
+    <!-- =======================================================
          NAVIGATION
     ======================================================== -->
-   <header class="site-nav" id="siteNav">
-    <!-- LOGO -->
-    <a aria-label="BarakaLink home" class="logo" href="index.html">
-     <svg aria-hidden="true" class="logo-mark" fill="none" viewbox="0 0 40 40">
-      <circle cx="20" cy="20" r="13.5" stroke="currentColor" stroke-width="1.7">
-      </circle>
-      <circle cx="20" cy="6" fill="currentColor" r="2.7">
-      </circle>
-      <circle cx="34" cy="20" fill="white" r="2.3" stroke="currentColor" stroke-width="1.6">
-      </circle>
-      <circle cx="20" cy="34" fill="white" r="2.3" stroke="currentColor" stroke-width="1.6">
-      </circle>
-      <circle cx="6" cy="20" fill="white" r="2.3" stroke="currentColor" stroke-width="1.6">
-      </circle>
-     </svg>
-     <span>
-      BarakaLink
-     </span>
-    </a>
-    <!-- ACTIONS -->
-    <div class="nav-actions">
-     <!-- THEME -->
-     <button aria-label="Switch to dark theme" class="icon-button" id="themeToggle" type="button">
-      <i class="fa-solid fa-moon">
-      </i>
-     </button>
-     <!-- LOGOUT -->
-     <button class="btn btn-outline" id="logoutButton" type="button">
-      Logout
-     </button>
-    </div>
-   </header>
-   <!-- =======================================================
+
+    <header
+      class="site-nav"
+      id="siteNav"
+    >
+
+      <!-- LOGO -->
+
+      <a
+        aria-label="BarakaLink home"
+        class="logo"
+        href="index.html"
+      >
+
+        <svg
+          aria-hidden="true"
+          class="logo-mark"
+          fill="none"
+          viewBox="0 0 40 40"
+        >
+
+          <circle
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke="currentColor"
+            stroke-width="1.7"
+          ></circle>
+
+          <circle
+            cx="20"
+            cy="6"
+            fill="currentColor"
+            r="2.7"
+          ></circle>
+
+          <circle
+            cx="34"
+            cy="20"
+            fill="white"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          ></circle>
+
+          <circle
+            cx="20"
+            cy="34"
+            fill="white"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          ></circle>
+
+          <circle
+            cx="6"
+            cy="20"
+            fill="white"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          ></circle>
+
+        </svg>
+
+        <span>
+          BarakaLink
+        </span>
+
+      </a>
+
+      <!-- ACTIONS -->
+
+      <div class="nav-actions">
+
+        <!-- THEME -->
+
+        <button
+          aria-label="Switch to dark theme"
+          class="icon-button"
+          id="themeToggle"
+          type="button"
+        >
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- LOGOUT -->
+
+        <button
+          class="btn btn-outline"
+          id="logoutButton"
+          type="button"
+        >
+          Logout
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- =======================================================
          MAIN
     ======================================================== -->
-   <main>
-    <section class="section profile-completion-section">
-     <div class="container">
-      <!-- =================================================
+
+    <main>
+
+      <section class="section profile-completion-section">
+
+        <div class="container">
+
+          <!-- =================================================
                PAGE HEADING
           ================================================== -->
-      <div class="section-heading center">
-       <div class="profile-completion-badge">
-        <i class="fa-solid fa-user-check">
-        </i>
-        Ustaz Profile Setup
-       </div>
-       <h1>
-        Complete your teaching profile
-       </h1>
-       <p>
-        Your BarakaLink account has been created.
+
+          <div class="section-heading center">
+
+            <div class="profile-completion-badge">
+              <i class="fa-solid fa-user-check"></i>
+              Ustaz Profile Setup
+            </div>
+
+            <h1>
+              Complete your teaching profile
+            </h1>
+
+            <p>
+              Your BarakaLink account has been created.
               Review your registration information first, then
               complete the additional details for your teacher profile.
-       </p>
-      </div>
-      <!-- =================================================
+            </p>
+
+          </div>
+
+
+          <!-- =================================================
                PROFILE CONTENT
           ================================================== -->
-      <div class="profile-completion-grid">
-       <!-- =================================================
+
+          <div class="profile-completion-grid">
+
+            <!-- =================================================
                  INFORMATION PANEL
             ================================================== -->
-       <div class="profile-completion-info">
-        <!-- VERIFIED -->
-        <div class="profile-completion-card">
-         <div class="profile-completion-icon">
-          <i class="fa-solid fa-circle-check">
-          </i>
-         </div>
-         <h2>
-          Your account is verified
-         </h2>
-         <p>
-          Your phone number and Telegram identity have
+
+            <div class="profile-completion-info">
+
+              <!-- VERIFIED -->
+
+              <div class="profile-completion-card">
+
+                <div class="profile-completion-icon">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <h2>
+                  Your account is verified
+                </h2>
+
+                <p>
+                  Your phone number and Telegram identity have
                   already been verified during registration.
-         </p>
-        </div>
-        <!-- TEACHING PROFILE -->
-        <div class="profile-completion-card">
-         <div class="profile-completion-icon">
-          <i class="fa-solid fa-chalkboard-user">
-          </i>
-         </div>
-         <h2>
-          Build your teaching profile
-         </h2>
-         <p>
-          Add your profile photo, biography, qualifications,
-                  languages, recitation sample, pricing, availability,
-                  and teaching preferences.
-         </p>
-        </div>
-        <!-- DISCOVERY -->
-        <div class="profile-completion-card">
-         <div class="profile-completion-icon">
-          <i class="fa-solid fa-magnifying-glass-location">
-          </i>
-         </div>
-         <h2>
-          Help students find you
-         </h2>
-         <p>
-          Your registered teaching subjects, experience,
-                  gender, location, availability, and lesson price
-                  help students understand your profile.
-         </p>
-        </div>
-        <!-- PRIVACY -->
-        <div class="profile-completion-card">
-         <div class="profile-completion-icon">
-          <i class="fa-solid fa-shield-halved">
-          </i>
-         </div>
-         <h2>
-          Your private information stays private
-         </h2>
-         <p>
-          Your Fayda National ID is used for identity
+                </p>
+
+              </div>
+
+
+              <!-- TEACHING PROFILE -->
+
+              <div class="profile-completion-card">
+
+                <div class="profile-completion-icon">
+                  <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+
+                <h2>
+                  Build your teaching profile
+                </h2>
+
+                <p>
+                  Add your profile photo, biography, qualifications,
+                  languages, recitation sample, lesson preferences,
+                  availability, and teaching preferences.
+                </p>
+
+              </div>
+
+
+              <!-- DISCOVERY -->
+
+              <div class="profile-completion-card">
+
+                <div class="profile-completion-icon">
+                  <i class="fa-solid fa-magnifying-glass-location"></i>
+                </div>
+
+                <h2>
+                  Help students find you
+                </h2>
+
+                <p>
+                  Your registered teaching subjects, experience,
+                  gender, location, availability, lesson format,
+                  and teaching preferences help students understand
+                  your profile.
+                </p>
+
+              </div>
+
+
+              <!-- PRIVACY -->
+
+              <div class="profile-completion-card">
+
+                <div class="profile-completion-icon">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <h2>
+                  Your private information stays private
+                </h2>
+
+                <p>
+                  Your Fayda National ID is used for identity
                   verification and will not be displayed publicly.
-         </p>
-        </div>
-       </div>
-       <!-- =================================================
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================================
                  PROFILE FORM CARD
             ================================================== -->
-       <div class="profile-completion-card profile-form-card">
-        <!-- =================================================
+
+            <div class="profile-completion-card profile-form-card">
+
+              <!-- =================================================
                    FORM HEADER
               ================================================== -->
-        <div class="profile-form-header">
-         <div>
-          <h2 id="profileStepTitle">
-           Your registration information
-          </h2>
-          <p id="profileStepDescription">
-           Review the information you provided during
+
+              <div class="profile-form-header">
+
+                <!-- STEP PROGRESS -->
+
+                <div class="profile-form-step-row">
+
+                  <div
+                    aria-live="polite"
+                    class="profile-completion-progress"
+                    id="profileCompletionProgress"
+                  >
+                    <strong id="profileProgressNumber">
+                      Step 1 of 6
+                    </strong>
+                  </div>
+
+
+                  <div
+                    aria-label="Profile completion steps"
+                    class="profile-step-indicator profile-step-indicator-numbers"
+                    id="profileStepIndicator"
+                  >
+
+                    <div
+                      class="profile-step-indicator-item is-active"
+                      data-step="1"
+                    >
+                      <span class="profile-step-indicator-number">
+                        1
+                      </span>
+                    </div>
+
+                    <div class="profile-step-indicator-line"></div>
+
+                    <div
+                      class="profile-step-indicator-item"
+                      data-step="2"
+                    >
+                      <span class="profile-step-indicator-number">
+                        2
+                      </span>
+                    </div>
+
+                    <div class="profile-step-indicator-line"></div>
+
+                    <div
+                      class="profile-step-indicator-item"
+                      data-step="3"
+                    >
+                      <span class="profile-step-indicator-number">
+                        3
+                      </span>
+                    </div>
+
+                    <div class="profile-step-indicator-line"></div>
+
+                    <div
+                      class="profile-step-indicator-item"
+                      data-step="4"
+                    >
+                      <span class="profile-step-indicator-number">
+                        4
+                      </span>
+                    </div>
+
+                    <div class="profile-step-indicator-line"></div>
+
+                    <div
+                      class="profile-step-indicator-item"
+                      data-step="5"
+                    >
+                      <span class="profile-step-indicator-number">
+                        5
+                      </span>
+                    </div>
+
+                    <div class="profile-step-indicator-line"></div>
+
+                    <div
+                      class="profile-step-indicator-item"
+                      data-step="6"
+                    >
+                      <span class="profile-step-indicator-number">
+                        6
+                      </span>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <!-- CURRENT PAGE TITLE -->
+
+                <div class="profile-form-current-page">
+
+                  <h2 id="profileStepTitle">
+                    Your registration information
+                  </h2>
+
+                  <p id="profileStepDescription">
+                    Review the information you provided during
                     Ustaz registration before continuing.
-          </p>
-         </div>
-         <div aria-label="Profile completion progress" class="profile-completion-progress" id="profileCompletionProgress">
-          <span>
-           Step
-          </span>
-          <strong id="profileProgressNumber">
-           1 of 5
-          </strong>
-         </div>
-         <div aria-label="Profile completion steps" class="profile-step-indicator" id="profileStepIndicator">
-          <div class="profile-step-indicator-item is-active" data-step="1">
-           <span class="profile-step-indicator-number">
-            1
-           </span>
-           <span class="profile-step-indicator-label">
-            Review
-           </span>
-          </div>
-          <div class="profile-step-indicator-line">
-          </div>
-          <div class="profile-step-indicator-item" data-step="2">
-           <span class="profile-step-indicator-number">
-            2
-           </span>
-           <span class="profile-step-indicator-label">
-            About
-           </span>
-          </div>
-          <div class="profile-step-indicator-line">
-          </div>
-          <div class="profile-step-indicator-item" data-step="3">
-           <span class="profile-step-indicator-number">
-            3
-           </span>
-           <span class="profile-step-indicator-label">
-            Lessons
-           </span>
-          </div>
-          <div class="profile-step-indicator-line">
-          </div>
-          <div class="profile-step-indicator-item" data-step="4">
-           <span class="profile-step-indicator-number">
-            4
-           </span>
-           <span class="profile-step-indicator-label">
-            Recitation
-           </span>
-          </div>
-          <div class="profile-step-indicator-line">
-          </div>
-          <div class="profile-step-indicator-item" data-step="5">
-           <span class="profile-step-indicator-number">
-            5
-           </span>
-           <span class="profile-step-indicator-label">
-            Verification
-           </span>
-          </div>
-         </div>
-        </div>
-        <!-- =================================================
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- =================================================
                    SINGLE FORM
               ================================================== -->
-        <form class="auth-form" enctype="multipart/form-data" id="ustazProfileCompletionForm" method="post" novalidate="">
-         <!-- =================================================
+
+              <form
+                class="auth-form"
+                enctype="multipart/form-data"
+                id="ustazProfileCompletionForm"
+                method="post"
+                novalidate
+              >
+
+
+                <!-- =================================================
                      PAGE 1
                 ================================================== -->
-         <div class="profile-step" id="ustazProfileStepOne">
-          <!-- =================================================
-                       STEP INTRO
-                  ================================================== -->
-          <div class="profile-subsection-heading">
-           <h3>
-            Review your registration information
-           </h3>
-           <p>
-            This information was collected during signup
-                      and is already associated with your BarakaLink
-                      account.
-           </p>
-          </div>
-          <!-- =================================================
-                       ACCOUNT TYPE
-                  ================================================== -->
-          <div class="auth-field">
-           <label for="profileRole">
-            Account Type
-           </label>
-           <input class="auth-input" id="profileRole" name="role" readonly="" type="text" value="Ustaz / Ustaza"/>
-          </div>
-          <!-- =================================================
-                       FIRST + LAST NAME
-                  ================================================== -->
-          <div class="auth-field">
-           <label>
-            Full Name
-           </label>
-           <div class="name-row">
-            <input autocomplete="given-name" class="auth-input" id="profileFirstName" maxlength="100" name="firstName" placeholder="First Name" readonly="" type="text"/>
-            <input autocomplete="family-name" class="auth-input" id="profileLastName" maxlength="100" name="lastName" placeholder="Last Name" readonly="" type="text"/>
-           </div>
-           <span class="form-error" id="profileNameError">
-           </span>
-          </div>
-          <!-- =================================================
-                       PHONE
-                  ================================================== -->
-          <div class="auth-field">
-           <label for="profilePhone">
-            Phone Number
-           </label>
-           <div class="phone-group">
-            <span class="phone-code">
-             +251
-            </span>
-            <input autocomplete="tel" class="auth-input" id="profilePhone" name="phone" placeholder="912 345 678" readonly="" type="tel"/>
-           </div>
-           <span class="profile-phone-verified" id="profilePhoneVerified">
-            <i class="fa-solid fa-circle-check">
-            </i>
-            Telegram verified
-           </span>
-           <span class="form-error" id="profilePhoneError">
-           </span>
-          </div>
-          <!-- =================================================
-                       LOCATION
-                  ================================================== -->
-          <div class="auth-field">
-           <label>
-            Registration Location
-           </label>
-           <div class="name-row">
-            <input class="auth-input" id="profileSubcity" name="subcity" placeholder="Sub-City" readonly="" type="text"/>
-            <input class="auth-input" id="profileArea" name="area" placeholder="Area" readonly="" type="text"/>
-           </div>
-           <span class="form-error" id="profileLocationError">
-           </span>
-          </div>
-          <!-- =================================================
-                       NEAREST MOSQUE
-                  ================================================== -->
-          <div class="auth-field">
-           <label for="profileNearestMosque">
-            Nearest Mosque
-           </label>
-           <input class="auth-input" id="profileNearestMosque" name="nearestMosque" readonly="" type="text"/>
-          </div>
-          <!-- =================================================
-                       EXPERIENCE
-                  ================================================== -->
-          <div class="auth-field">
-           <label for="profileExperience">
-            Teaching Experience
-           </label>
-           <div class="phone-group">
-            <input class="auth-input" id="profileExperience" max="60" min="0" name="experience" readonly="" type="number"/>
-            <span class="phone-code" style="left:auto;right:14px;">
-             Years
-            </span>
-           </div>
-          </div>
-          <!-- =================================================
-                       GENDER
-                  ================================================== -->
-          <div class="auth-field">
-           <label for="profileGender">
-            Gender
-           </label>
-           <input class="auth-input" id="profileGender" name="gender" readonly="" type="text"/>
-          </div>
-          <!-- =================================================
-                       STUDY FIELDS
-                  ================================================== -->
-          <div class="auth-field">
-           <span class="auth-field-label">
-            Registered Teaching Subjects
-           </span>
-           <p>
-            These teaching subjects were selected during
+
+                <div
+                  class="profile-step"
+                  id="ustazProfileStepOne"
+                >
+
+                  <!-- ACCOUNT TYPE -->
+
+                  <div class="auth-field">
+
+                    <label for="profileRole">
+                      Account Type
+                    </label>
+
+                    <input
+                      class="auth-input"
+                      id="profileRole"
+                      name="role"
+                      readonly
+                      type="text"
+                      value="Ustaz / Ustaza"
+                    />
+
+                  </div>
+
+
+                  <!-- FIRST + LAST NAME -->
+
+                  <div class="auth-field">
+
+                    <label>
+                      Full Name
+                    </label>
+
+                    <div class="name-row">
+
+                      <input
+                        autocomplete="given-name"
+                        class="auth-input"
+                        id="profileFirstName"
+                        maxlength="100"
+                        name="firstName"
+                        placeholder="First Name"
+                        readonly
+                        type="text"
+                      />
+
+                      <input
+                        autocomplete="family-name"
+                        class="auth-input"
+                        id="profileLastName"
+                        maxlength="100"
+                        name="lastName"
+                        placeholder="Last Name"
+                        readonly
+                        type="text"
+                      />
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileNameError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- PHONE -->
+
+                  <div class="auth-field">
+
+                    <label for="profilePhone">
+                      Phone Number
+                    </label>
+
+                    <div class="phone-group">
+
+                      <span class="phone-code">
+                        +251
+                      </span>
+
+                      <input
+                        autocomplete="tel"
+                        class="auth-input"
+                        id="profilePhone"
+                        name="phone"
+                        placeholder="912 345 678"
+                        readonly
+                        type="tel"
+                      />
+
+                    </div>
+
+                    <span
+                      class="profile-phone-verified"
+                      id="profilePhoneVerified"
+                    >
+                      <i class="fa-solid fa-circle-check"></i>
+                      Telegram verified
+                    </span>
+
+                    <span
+                      class="form-error"
+                      id="profilePhoneError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- LOCATION -->
+
+                  <div class="auth-field">
+
+                    <label>
+                      Registration Location
+                    </label>
+
+                    <div class="name-row">
+
+                      <input
+                        class="auth-input"
+                        id="profileSubcity"
+                        name="subcity"
+                        placeholder="Sub-City"
+                        readonly
+                        type="text"
+                      />
+
+                      <input
+                        class="auth-input"
+                        id="profileArea"
+                        name="area"
+                        placeholder="Area"
+                        readonly
+                        type="text"
+                      />
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileLocationError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- NEAREST MOSQUE -->
+
+                  <div class="auth-field">
+
+                    <label for="profileNearestMosque">
+                      Nearest Mosque
+                    </label>
+
+                    <input
+                      class="auth-input"
+                      id="profileNearestMosque"
+                      name="nearestMosque"
+                      readonly
+                      type="text"
+                    />
+
+                  </div>
+
+
+                  <!-- EXPERIENCE -->
+
+                  <div class="auth-field">
+
+                    <label for="profileExperience">
+                      Teaching Experience
+                    </label>
+
+                    <div class="phone-group">
+
+                      <input
+                        class="auth-input"
+                        id="profileExperience"
+                        max="60"
+                        min="0"
+                        name="experience"
+                        readonly
+                        type="number"
+                      />
+
+                      <span
+                        class="phone-code"
+                        style="left:auto;right:14px;"
+                      >
+                        Years
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- GENDER -->
+
+                  <div class="auth-field">
+
+                    <label for="profileGender">
+                      Gender
+                    </label>
+
+                    <input
+                      class="auth-input"
+                      id="profileGender"
+                      name="gender"
+                      readonly
+                      type="text"
+                    />
+
+                  </div>
+
+
+                  <!-- STUDY FIELDS -->
+
+                  <div class="auth-field">
+
+                    <span class="auth-field-label">
+                      Registered Teaching Subjects
+                    </span>
+
+                    <p>
+                      These teaching subjects were selected during
                       your Ustaz registration.
-           </p>
-           <div aria-label="Registered teaching subjects" class="role-options study-field-options" id="profileStudyFields" role="group">
-            <!--
+                    </p>
+
+                    <div
+                      aria-label="Registered teaching subjects"
+                      class="role-options study-field-options"
+                      id="profileStudyFields"
+                      role="group"
+                    >
+                      <!--
                         Populated by ustaz-profile-completion.js
                       -->
-           </div>
-           <span class="form-error" id="profileStudyFieldsError">
-           </span>
-          </div>
-          <!-- =================================================
-                       STEP 1 NOTE
-                  ================================================== -->
-          <div class="profile-form-note">
-           <i class="fa-solid fa-circle-info">
-           </i>
-           Your registration information has already been
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileStudyFieldsError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- STEP 1 NOTE -->
+
+                  <div class="profile-form-note">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Your registration information has already been
                     verified. The next page is where you complete
                     your public teaching profile.
-          </div>
-         </div>
-         <!-- =================================================
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
                      PAGE 2
                 ================================================== -->
-         <!-- =================================================
-                     FORM STATUS
-                ================================================== -->
-         <div class="profile-step" hidden="" id="ustazProfileStepTwo">
-          <div class="profile-subsection-heading">
-           <h3>
-            About You
-           </h3>
-           <p>
-            Help students get to know you and understand how you communicate.
-           </p>
-          </div>
-          <div class="auth-field" id="profilePhotoSection">
-           <label>
-            Profile Photo
-            <span class="required-mark">
-             *
-            </span>
-           </label>
-           <div class="profile-completion-card" id="profilePhotoCard">
-            <div aria-live="polite" id="profilePhotoPreviewWrapper">
-             <div aria-hidden="true" class="profile-completion-icon" id="profilePhotoPlaceholder">
-              <i class="fa-solid fa-user">
-              </i>
-             </div>
-             <img alt="Profile photo preview" hidden="" id="profilePhotoPreview" src=""/>
-            </div>
-            <div>
-             <p>
-              Add a clear profile photo so students
-                          can recognize you.
-             </p>
-             <input accept="image/jpeg,image/png,image/webp" hidden="" id="profilePhoto" name="profilePhoto" type="file"/>
-             <div class="profile-form-actions">
-              <button class="btn btn-outline" id="profilePhotoChangeButton" type="button">
-               <i class="fa-solid fa-camera">
-               </i>
-               Choose Photo
-              </button>
-              <button class="btn btn-outline" hidden="" id="profilePhotoRemoveButton" type="button">
-               <i class="fa-solid fa-trash">
-               </i>
-               Remove
-              </button>
-             </div>
-            </div>
-           </div>
-           <span class="form-error" id="profilePhotoError">
-           </span>
-          </div>
-          <div class="auth-field">
-           <label for="profileDateOfBirth">
-            Date of Birth
-            <span class="required-mark">
-             *
-            </span>
-           </label>
-           <input autocomplete="bday" class="auth-input" id="profileDateOfBirth" name="dateOfBirth" required="" type="date"/>
-           <span class="form-help">
-            Enter your actual date of birth.
-           </span>
-           <span class="form-error" id="profileDateOfBirthError">
-           </span>
-          </div>
-          <div class="auth-field">
-           <label for="profileBio">
-            Bio / About Me
-            <span class="required-mark">
-             *
-            </span>
-           </label>
-           <textarea class="auth-input" id="profileBio" maxlength="1500" name="bio" placeholder="Tell students about yourself, your Islamic studies, teaching experience, teaching approach, and what they can expect from your lessons." required="" rows="6"></textarea>
-           <div aria-live="polite" class="profile-bio-meta">
-            <span>
-             Teacher introduction
-            </span>
-            <span>
-             <strong id="profileBioCount">
-              0
-             </strong>
-             / 1500
-            </span>
-           </div>
-           <span class="form-error" id="profileBioError">
-           </span>
-          </div>
-          <div class="auth-field">
-           <span class="auth-field-label">
-            Languages Spoken
-            <span class="required-mark">
-             *
-            </span>
-           </span>
-           <p>
-            Select the languages you can confidently
+
+                <div
+                  class="profile-step"
+                  hidden
+                  id="ustazProfileStepTwo"
+                >
+
+                  <!-- PROFILE PHOTO -->
+
+                  <div
+                    class="auth-field"
+                    id="profilePhotoSection"
+                  >
+
+                    <label>
+                      Profile Photo
+
+                      <span class="required-mark">
+                        *
+                      </span>
+                    </label>
+
+                    <div
+                      class="profile-photo-upload-card"
+                      id="profilePhotoCard"
+                    >
+
+                      <div
+                        aria-live="polite"
+                        class="profile-avatar-upload"
+                        id="profilePhotoPreviewWrapper"
+                      >
+
+                        <div
+                          aria-hidden="true"
+                          class="profile-avatar-placeholder"
+                          id="profilePhotoPlaceholder"
+                        >
+                          <i class="fa-solid fa-camera"></i>
+                        </div>
+
+
+                        <img
+                          alt="Profile photo preview"
+                          class="profile-avatar-image"
+                          hidden
+                          id="profilePhotoPreview"
+                          src="data:,"
+                        />
+
+                      </div>
+
+
+                      <div class="profile-photo-upload-content">
+
+                        <h4>
+                          Add your profile photo
+                        </h4>
+
+                        <p>
+                          Use a clear photo so parents can recognize you.
+                        </p>
+
+                      </div>
+
+
+                      <input
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                        id="profilePhoto"
+                        name="profilePhoto"
+                        type="file"
+                      />
+
+
+                      <div class="profile-photo-upload-actions">
+
+                        <button
+                          class="btn btn-primary"
+                          id="profilePhotoChangeButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-camera"></i>
+                          Upload Photo
+                        </button>
+
+                        <button
+                          class="btn btn-outline"
+                          hidden
+                          id="profilePhotoRemoveButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                          Remove
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profilePhotoError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- DATE OF BIRTH -->
+
+                  <div class="auth-field">
+
+                    <label for="profileDateOfBirth">
+
+                      Date of Birth
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </label>
+
+                    <input
+                      autocomplete="bday"
+                      class="auth-input"
+                      id="profileDateOfBirth"
+                      name="dateOfBirth"
+                      required
+                      type="date"
+                    />
+
+                    <span class="form-help">
+                      Enter your actual date of birth.
+                    </span>
+
+                    <span
+                      class="form-error"
+                      id="profileDateOfBirthError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- BIO -->
+
+                  <div class="auth-field">
+
+                    <label for="profileBio">
+
+                      Bio / About Me
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </label>
+
+                    <textarea
+                      class="auth-input"
+                      id="profileBio"
+                      maxlength="1500"
+                      name="bio"
+                      placeholder="Tell students about yourself, your Islamic studies, teaching experience, teaching approach, and what they can expect from your lessons."
+                      required
+                      rows="6"
+                    ></textarea>
+
+                    <div
+                      aria-live="polite"
+                      class="profile-bio-meta"
+                    >
+
+                      <span>
+                        Teacher introduction
+                      </span>
+
+                      <span>
+
+                        <strong id="profileBioCount">
+                          0
+                        </strong>
+
+                        / 1500
+
+                      </span>
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileBioError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- LANGUAGES -->
+
+                  <div class="auth-field">
+
+                    <span class="auth-field-label">
+
+                      Languages Spoken
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </span>
+
+                    <p>
+                      Select the languages you can confidently
                       use when teaching and communicating with students.
-           </p>
-           <div aria-label="Languages spoken" class="role-options study-field-options" id="profileLanguages" role="group">
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="amharic"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              Amharic
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="afaan-oromo"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              Afaan Oromo
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="tigrinya"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              Tigrinya
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="somali"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              Somali
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="arabic"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              Arabic
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-            <label class="role-option">
-             <input name="languages" type="checkbox" value="english"/>
-             <i class="fa-solid fa-language">
-             </i>
-             <strong>
-              English
-             </strong>
-             <span aria-hidden="true" class="language-selection-mark">
-              <i class="fa-solid fa-check">
-              </i>
-             </span>
-            </label>
-           </div>
-           <div aria-live="polite" class="language-selection-summary" id="profileLanguagesSelected">
-            <div class="language-selection-summary-label">
-             Selected languages
-            </div>
-            <div class="language-selection-chips" id="profileLanguagesSelectedChips">
-             <span class="language-selection-empty">
-              No languages selected yet
-             </span>
-            </div>
-           </div>
-           <span class="form-error" id="profileLanguagesError">
-           </span>
-          </div>
-         </div>
-         <div class="profile-step" hidden="" id="ustazProfileStepThree">
-          <div class="profile-subsection-heading">
-           <h3>
-            Teaching &amp; Lesson Setup
-           </h3>
-           <p>
-            Tell students how you teach and choose the lesson options you offer.
-           </p>
-          </div>
-          <div class="auth-field">
-           <label for="profileTeachingApproach">
-            Teaching Approach
-           </label>
-           <textarea class="auth-input" id="profileTeachingApproach" maxlength="1000" name="teachingApproach" placeholder="Describe your teaching style, lesson structure, and how you help students improve." rows="5"></textarea>
-           <span class="form-error" id="profileTeachingApproachError">
-           </span>
-          </div>
-          <div class="auth-field">
-           <label for="profileHourlyRate">
-            Price Per Hour
-            <span class="required-mark">
-             *
-            </span>
-           </label>
-           <div class="phone-group">
-            <span class="phone-code">
-             ETB
-            </span>
-            <input class="auth-input" id="profileHourlyRate" inputmode="decimal" min="0" name="hourlyRate" placeholder="Price per hour" required="" step="1" type="number"/>
-           </div>
-           <span class="form-error" id="profileHourlyRateError">
-           </span>
-          </div>
-          <div class="auth-field">
-           <label for="profileLessonDuration">
-            Standard Lesson Duration
-           </label>
-           <select class="auth-select" id="profileLessonDuration" name="lessonDuration">
-            <option value="">
-             Select lesson duration
-            </option>
-            <option value="30">
-             30 minutes
-            </option>
-            <option value="45">
-             45 minutes
-            </option>
-            <option value="60">
-             60 minutes
-            </option>
-            <option value="90">
-             90 minutes
-            </option>
-            <option value="120">
-             120 minutes
-            </option>
-           </select>
-          </div>
-          <div class="auth-field" id="profileLessonFormatSection">
-           <span class="auth-field-label">
-            Lesson Format
-            <span class="required-mark">
-             *
-            </span>
-           </span>
-           <p>
-            Choose how you normally conduct lessons.
-           </p>
-           <div aria-label="Lesson format" class="role-options lesson-format-options" id="profileLessonFormatOptions" role="radiogroup">
-            <label class="role-option">
-             <input name="lessonFormat" type="radio" value="online"/>
-             <i class="fa-solid fa-video">
-             </i>
-             <strong>
-              Online
-             </strong>
-            </label>
-            <label class="role-option">
-             <input name="lessonFormat" type="radio" value="in-person"/>
-             <i class="fa-solid fa-house">
-             </i>
-             <strong>
-              In person
-             </strong>
-            </label>
-            <label class="role-option">
-             <input name="lessonFormat" type="radio" value="both"/>
-             <i class="fa-solid fa-arrows-left-right">
-             </i>
-             <strong>
-              Online &amp; in person
-             </strong>
-            </label>
-           </div>
-           <span class="form-error" id="profileLessonFormatError">
-           </span>
-          </div>
-         </div>
-         <div class="profile-step" hidden="" id="ustazProfileStepFour">
-          <div class="profile-subsection-heading">
-           <h3>
-            Qur'an Recitation &amp; Qualifications
-           </h3>
-           <p>
-            Show your recitation and provide your Islamic studies qualifications.
-           </p>
-          </div>
-          <div class="auth-field">
- <label>
-  Sample Qur'an Recitation
-  <span class="required-mark">*</span>
- </label>
- <p>
-  Record a short, clear recitation sample directly from your device so students can listen to it from your teacher profile.
- </p>
- <div class="profile-completion-card profile-recitation-card" id="profileRecitationCard">
-  <div class="ustaz-recorder" id="profileRecitationRecorder">
-   <div class="ustaz-recorder-main">
-    <button aria-label="Start recording" class="ustaz-recorder-button ustaz-recorder-record" id="profileRecitationRecordButton" type="button">
-     <i class="fa-solid fa-microphone"></i>
-    </button>
-    <div class="ustaz-recorder-middle">
-     <div class="ustaz-recorder-topline">
-      <span class="ustaz-recorder-status" id="profileRecitationStatus">Tap the microphone to record</span>
-      <span class="ustaz-recorder-timer" id="profileRecitationTimer">0:00</span>
-     </div>
-     <div aria-hidden="true" class="ustaz-recorder-waveform" id="profileRecitationWaveform"></div>
-    </div>
-    <button aria-label="Stop recording" class="ustaz-recorder-button ustaz-recorder-stop" hidden id="profileRecitationStopButton" type="button">
-     <i class="fa-solid fa-stop"></i>
-    </button>
-   </div>
-   <div class="ustaz-recorder-footer">
-    <span class="ustaz-recorder-hint">Record directly from your microphone</span>
-   </div>
-  </div>
- </div>
- <div class="ustaz-recitation-preview" hidden id="profileRecitationPreview">
-  <div class="ustaz-audio-player" id="profileRecitationMiniPlayer">
-   <button aria-label="Play recitation" class="ustaz-audio-play-button" id="profileRecitationPlayButton" type="button">
-    <i class="fa-solid fa-play"></i>
-   </button>
-   <div class="ustaz-audio-track">
-    <div class="ustaz-audio-track-top">
-     <strong>Recitation Preview</strong>
-     <span id="profileRecitationCurrentTime">0:00</span>
-    </div>
-    <div class="ustaz-audio-progress-wrap">
-     <input aria-label="Recitation progress" id="profileRecitationProgress" max="0" min="0" step="0.1" type="range" value="0">
-    </div>
-    <div class="ustaz-audio-track-bottom">
-     <span>Qur'an recitation</span>
-     <span id="profileRecitationDuration">0:00</span>
-    </div>
-   </div>
-   <button aria-label="Remove recorded recitation" class="ustaz-audio-remove-button" hidden id="profileRecitationRemoveButton" type="button">
-    <i class="fa-solid fa-trash"></i>
-   </button>
-   <audio id="profileRecitationPlayer" preload="metadata"></audio>
-  </div>
- </div>
- <span class="form-help">A clear recording is recommended.</span>
- <span class="form-error" id="profileRecitationError"></span>
-</div>
-<div class="auth-field">
-           <label for="profileRecitationTitle">
-            Recitation Sample Title
-           </label>
-           <input class="auth-input" id="profileRecitationTitle" maxlength="120" name="recitationTitle" placeholder="Example: Surah Al-Fatiha" type="text"/>
-          </div>
-          <div class="auth-field">
-           <label for="profileRecitationDescription">
-            Recitation Description
-           </label>
-           <textarea class="auth-input" id="profileRecitationDescription" maxlength="500" name="recitationDescription" placeholder="Optional description of your recitation sample." rows="4"></textarea>
-          </div>
-          <div class="auth-field">
-           <span class="auth-field-label">
-            Islamic Studies Qualifications
-           </span>
-           <p>
-            Add your Islamic studies education,
+                    </p>
+
+                    <div
+                      aria-label="Languages spoken"
+                      class="role-options study-field-options"
+                      id="profileLanguages"
+                      role="group"
+                    >
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="amharic"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          Amharic
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="afaan-oromo"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          Afaan Oromo
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="tigrinya"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          Tigrinya
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="somali"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          Somali
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="arabic"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          Arabic
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+
+                      <label class="role-option">
+
+                        <input
+                          name="languages"
+                          type="checkbox"
+                          value="english"
+                        />
+
+                        <i class="fa-solid fa-language"></i>
+
+                        <strong>
+                          English
+                        </strong>
+
+                        <span
+                          aria-hidden="true"
+                          class="language-selection-mark"
+                        >
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+
+                      </label>
+
+                    </div>
+
+
+                    <div
+                      aria-live="polite"
+                      class="language-selection-summary"
+                      id="profileLanguagesSelected"
+                    >
+
+                      <div class="language-selection-summary-label">
+                        Selected languages
+                      </div>
+
+                      <div
+                        class="language-selection-chips"
+                        id="profileLanguagesSelectedChips"
+                      >
+
+                        <span class="language-selection-empty">
+                          No languages selected yet
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileLanguagesError"
+                    ></span>
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGE 3
+                ================================================== -->
+
+                <div
+                  class="profile-step"
+                  hidden
+                  id="ustazProfileStepThree"
+                >
+
+                  <!-- TEACHING APPROACH -->
+
+                  <div class="auth-field">
+
+                    <label for="profileTeachingApproach">
+                      Teaching Approach
+                    </label>
+
+                    <textarea
+                      class="auth-input"
+                      id="profileTeachingApproach"
+                      maxlength="1000"
+                      name="teachingApproach"
+                      placeholder="Describe your teaching style, lesson structure, and how you help students improve."
+                      rows="5"
+                    ></textarea>
+
+                    <span
+                      class="form-error"
+                      id="profileTeachingApproachError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- LESSON DURATION -->
+
+                  <div class="auth-field">
+
+                    <label for="profileLessonDuration">
+                      Standard Lesson Duration
+                    </label>
+
+                    <select
+                      class="auth-select"
+                      id="profileLessonDuration"
+                      name="lessonDuration"
+                    >
+
+                      <option value="">
+                        Select lesson duration
+                      </option>
+
+                      <option value="30">
+                        30 minutes
+                      </option>
+
+                      <option value="45">
+                        45 minutes
+                      </option>
+
+                      <option value="60">
+                        60 minutes
+                      </option>
+
+                      <option value="90">
+                        90 minutes
+                      </option>
+
+                      <option value="120">
+                        120 minutes
+                      </option>
+
+                    </select>
+
+                  </div>
+
+
+                  <!-- PRICE PER HOUR -->
+
+                  <div class="auth-field">
+
+                    <label for="profileHourlyRate">
+
+                      Price Per Hour
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </label>
+
+                    <div class="price-input-wrap">
+
+                      <input
+                        autocomplete="off"
+                        class="auth-input"
+                        id="profileHourlyRate"
+                        inputmode="decimal"
+                        min="0"
+                        name="hourlyRate"
+                        placeholder="Enter your price"
+                        required
+                        step="1"
+                        type="number"
+                      />
+
+                      <span class="price-input-currency">
+                        ETB
+                      </span>
+
+                    </div>
+
+                    <span class="form-help">
+                      Set the amount you normally charge for one hour of teaching.
+                    </span>
+
+                    <span
+                      class="form-error"
+                      id="profileHourlyRateError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- AVAILABILITY -->
+
+                  <div
+                    class="auth-field"
+                    id="profileAvailabilitySection"
+                  >
+
+                    <span class="auth-field-label">
+
+                      Availability
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </span>
+
+                    <p>
+                      Turn availability on when you are ready to receive new
+                      parent inquiries.
+                    </p>
+
+
+                    <div class="profile-availability-card">
+
+                      <div class="profile-availability-copy">
+
+                        <div class="profile-availability-icon">
+                          <i class="fa-solid fa-user-check"></i>
+                        </div>
+
+                        <div>
+
+                          <strong id="profileAvailabilityTitle">
+                            Available to parents
+                          </strong>
+
+                          <span id="profileAvailabilityDescription">
+                            Parents can see your profile and start a conversation.
+                          </span>
+
+                        </div>
+
+                      </div>
+
+
+                      <label
+                        class="profile-switch"
+                        for="profileAvailability"
+                      >
+
+                        <input
+                          checked
+                          id="profileAvailability"
+                          name="availability"
+                          type="checkbox"
+                          value="1"
+                        />
+
+                        <span class="profile-switch-track">
+                          <span class="profile-switch-thumb"></span>
+                        </span>
+
+                      </label>
+
+                    </div>
+
+                    <span
+                      class="form-error"
+                      id="profileAvailabilityError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- LESSON FORMAT -->
+
+                  <div
+                    class="auth-field"
+                    id="profileLessonFormatSection"
+                  >
+
+                    <span class="auth-field-label">
+
+                      Lesson Format
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </span>
+
+                    <p>
+                      Choose how you normally conduct lessons.
+                    </p>
+
+
+                    <div
+                      aria-label="Lesson format"
+                      class="role-options lesson-format-options"
+                      id="profileLessonFormatOptions"
+                      role="radiogroup"
+                    >
+
+                      <!-- ONLINE — NOT AVAILABLE YET -->
+
+                      <label
+                        class="role-option lesson-format-option-unavailable"
+                        aria-disabled="true"
+                      >
+
+                        <input
+                          name="lessonFormat"
+                          type="radio"
+                          value="online"
+                          disabled
+                        />
+
+                        <i class="fa-solid fa-video"></i>
+
+                        <strong>
+                          Online
+                        </strong>
+
+                        <span class="lesson-format-coming-soon">
+                          Available later
+                        </span>
+
+                      </label>
+
+
+                      <!-- IN PERSON — CURRENTLY AVAILABLE -->
+
+                      <label
+                        class="role-option"
+                      >
+
+                        <input
+                          name="lessonFormat"
+                          type="radio"
+                          value="in-person"
+                          checked
+                        />
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <strong>
+                          In person
+                        </strong>
+
+                      </label>
+
+
+                      <!-- ONLINE & IN PERSON — NOT AVAILABLE YET -->
+
+                      <label
+                        class="role-option lesson-format-option-unavailable"
+                        aria-disabled="true"
+                      >
+
+                        <input
+                          name="lessonFormat"
+                          type="radio"
+                          value="both"
+                          disabled
+                        />
+
+                        <i class="fa-solid fa-arrows-left-right"></i>
+
+                        <strong>
+                          Online &amp; in person
+                        </strong>
+
+                        <span class="lesson-format-coming-soon">
+                          Available later
+                        </span>
+
+                      </label>
+
+                    </div>
+
+
+                    <span
+                      class="form-error"
+                      id="profileLessonFormatError"
+                    ></span>
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGE 4
+                ================================================== -->
+
+                <div
+                  class="profile-step"
+                  hidden
+                  id="ustazProfileStepFour"
+                >
+
+                  <!-- RECITATION -->
+
+                  <div class="auth-field">
+
+                    <label>
+
+                      Sample Qur'an Recitation
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </label>
+
+                    <p>
+                      Record a short, clear recitation sample
+                      directly from your device so students can
+                      listen to it from your teacher profile.
+                    </p>
+
+
+                    <div
+                      class="profile-completion-card profile-recitation-card"
+                      id="profileRecitationCard"
+                    >
+
+                      <div
+                        class="ustaz-recorder"
+                        id="profileRecitationRecorder"
+                      >
+
+                        <div class="ustaz-recorder-main">
+
+                          <button
+                            aria-label="Start recording"
+                            class="ustaz-recorder-button ustaz-recorder-record"
+                            id="profileRecitationRecordButton"
+                            type="button"
+                          >
+                            <i class="fa-solid fa-microphone"></i>
+                          </button>
+
+
+                          <div class="ustaz-recorder-middle">
+
+                            <div class="ustaz-recorder-topline">
+
+                              <span
+                                class="ustaz-recorder-status"
+                                id="profileRecitationStatus"
+                              >
+                                Tap the microphone to record
+                              </span>
+
+                              <span
+                                class="ustaz-recorder-timer"
+                                id="profileRecitationTimer"
+                              >
+                                0:00
+                              </span>
+
+                            </div>
+
+
+                            <div
+                              aria-hidden="true"
+                              class="ustaz-recorder-waveform"
+                              id="profileRecitationWaveform"
+                            ></div>
+
+                          </div>
+
+
+                          <button
+                            aria-label="Stop recording"
+                            class="ustaz-recorder-button ustaz-recorder-stop"
+                            hidden
+                            id="profileRecitationStopButton"
+                            type="button"
+                          >
+                            <i class="fa-solid fa-stop"></i>
+                          </button>
+
+                        </div>
+
+
+                        <div class="ustaz-recorder-footer">
+
+                          <span class="ustaz-recorder-hint">
+                            Record directly from your microphone
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                    <!-- RECITATION PREVIEW -->
+
+                    <div
+                      class="ustaz-recitation-preview"
+                      hidden
+                      id="profileRecitationPreview"
+                    >
+
+                      <div
+                        class="ustaz-audio-player"
+                        id="profileRecitationMiniPlayer"
+                      >
+
+                        <button
+                          aria-label="Play recitation"
+                          class="ustaz-audio-play-button"
+                          id="profileRecitationPlayButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+
+
+                        <div class="ustaz-audio-track">
+
+                          <div class="ustaz-audio-track-top">
+
+                            <strong>
+                              Recitation Preview
+                            </strong>
+
+                            <span
+                              id="profileRecitationCurrentTime"
+                            >
+                              0:00
+                            </span>
+
+                          </div>
+
+
+                          <div class="ustaz-audio-progress-wrap">
+
+                            <input
+                              aria-label="Recitation progress"
+                              id="profileRecitationProgress"
+                              max="0"
+                              min="0"
+                              step="0.1"
+                              type="range"
+                              value="0"
+                            />
+
+                          </div>
+
+
+                          <div class="ustaz-audio-track-bottom">
+
+                            <span>
+                              Qur'an recitation
+                            </span>
+
+                            <span
+                              id="profileRecitationDuration"
+                            >
+                              0:00
+                            </span>
+
+                          </div>
+
+                        </div>
+
+
+                        <button
+                          aria-label="Remove recorded recitation"
+                          class="ustaz-audio-remove-button"
+                          hidden
+                          id="profileRecitationRemoveButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+
+
+                        <audio
+                          id="profileRecitationPlayer"
+                          preload="metadata"
+                        ></audio>
+
+                      </div>
+
+                    </div>
+
+
+                    <span class="form-help">
+                      A clear recording is recommended.
+                    </span>
+
+                    <span
+                      class="form-error"
+                      id="profileRecitationError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- RECITATION TITLE -->
+
+                  <div class="auth-field">
+
+                    <label for="profileRecitationTitle">
+                      Recitation Sample Title
+                    </label>
+
+                    <input
+                      class="auth-input"
+                      id="profileRecitationTitle"
+                      maxlength="120"
+                      name="recitationTitle"
+                      placeholder="Example: Surah Al-Fatiha"
+                      type="text"
+                    />
+
+                  </div>
+
+
+                  <!-- RECITATION DESCRIPTION -->
+
+                  <div class="auth-field">
+
+                    <label for="profileRecitationDescription">
+                      Recitation Description
+                    </label>
+
+                    <textarea
+                      class="auth-input"
+                      id="profileRecitationDescription"
+                      maxlength="500"
+                      name="recitationDescription"
+                      placeholder="Optional description of your recitation sample."
+                      rows="4"
+                    ></textarea>
+
+                  </div>
+
+
+                  <!-- QUALIFICATIONS -->
+
+                  <div class="auth-field">
+
+                    <span class="auth-field-label">
+                      Islamic Studies Qualifications
+                    </span>
+
+                    <p>
+                      Add your Islamic studies education,
                       qualifications, madrasa or institute history.
-           </p>
-           <div class="ustaz-qualification-list" id="qualificationList">
-            <div class="ustaz-qualification-item" data-qualification-item="">
-             <div class="ustaz-qualification-header">
-              <strong>
-               Qualification 1
-              </strong>
-             </div>
-             <input class="auth-input" maxlength="150" name="qualifications[0][title]" placeholder="Qualification or Islamic studies program" type="text"/>
-             <input class="auth-input" maxlength="150" name="qualifications[0][institution]" placeholder="Institution / Madrasa / Institute" type="text"/>
-             <div class="name-row">
-              <input class="auth-input" inputmode="numeric" max="2100" min="1900" name="qualifications[0][year]" placeholder="Year completed" type="number"/>
-              <input class="auth-input" maxlength="150" name="qualifications[0][specialization]" placeholder="Specialization" type="text"/>
-             </div>
-             <label class="file-input-label">
-              <span>
-               Supporting certificate
-              </span>
-              <input accept=".pdf,image/jpeg,image/png,image/webp" name="qualificationCertificates[]" type="file"/>
-             </label>
-            </div>
-           </div>
-           <button class="btn btn-outline" id="addQualification" type="button">
-            <i class="fa-solid fa-plus">
-            </i>
-            Add Another Qualification
-           </button>
-           <span class="form-error" id="profileQualificationError">
-           </span>
-          </div>
-         </div>
-         <div class="profile-step" hidden="" id="ustazProfileStepFive">
-          <div class="profile-subsection-heading">
-           <h3>
-            Identity Verification
-           </h3>
-           <p>
-            Provide the private information needed to verify your teacher identity.
-           </p>
-          </div>
-          <div class="profile-subsection-heading">
-           <h3>
-            Identity verification
-           </h3>
-           <p>
-            Your Fayda National ID is private and is used
+                    </p>
+
+
+                    <div
+                      class="ustaz-qualification-list"
+                      id="qualificationList"
+                    >
+
+                      <div
+                        class="ustaz-qualification-item"
+                        data-qualification-item=""
+                      >
+
+                        <div class="ustaz-qualification-header">
+
+                          <strong>
+                            Qualification 1
+                          </strong>
+
+                        </div>
+
+
+                        <input
+                          class="auth-input"
+                          maxlength="150"
+                          name="qualifications[0][title]"
+                          placeholder="Qualification or Islamic studies program"
+                          type="text"
+                        />
+
+
+                        <input
+                          class="auth-input"
+                          maxlength="150"
+                          name="qualifications[0][institution]"
+                          placeholder="Institution / Madrasa / Institute"
+                          type="text"
+                        />
+
+
+                        <div class="name-row">
+
+                          <input
+                            class="auth-input"
+                            inputmode="numeric"
+                            max="2100"
+                            min="1900"
+                            name="qualifications[0][year]"
+                            placeholder="Year completed"
+                            type="number"
+                          />
+
+                          <input
+                            class="auth-input"
+                            maxlength="150"
+                            name="qualifications[0][specialization]"
+                            placeholder="Specialization"
+                            type="text"
+                          />
+
+                        </div>
+
+
+                        <label class="file-input-label">
+
+                          <span>
+                            Supporting certificate
+                          </span>
+
+                          <input
+                            accept=".pdf,image/jpeg,image/png,image/webp"
+                            name="qualificationCertificates[]"
+                            type="file"
+                          />
+
+                        </label>
+
+                      </div>
+
+                    </div>
+
+
+                    <button
+                      class="btn btn-outline"
+                      id="addQualification"
+                      type="button"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                      Add Another Qualification
+                    </button>
+
+
+                    <span
+                      class="form-error"
+                      id="profileQualificationError"
+                    ></span>
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGE 5
+                ================================================== -->
+
+                <div
+                  class="profile-step"
+                  hidden
+                  id="ustazProfileStepFive"
+                >
+
+                  <div class="profile-subsection-heading">
+
+                    <h3>
+                      Identity Verification
+                    </h3>
+
+                    <p>
+                      Provide the private information needed
+                      to verify your teacher identity.
+                    </p>
+
+                  </div>
+
+
+                  <div class="profile-subsection-heading">
+
+                    <h3>
+                      Identity verification
+                    </h3>
+
+                    <p>
+                      Your Fayda National ID is private and is used
                       for BarakaLink identity verification.
-           </p>
-          </div>
-          <div class="auth-field">
-           <label for="profileFaydaId">
-            Fayda National ID
-            <span class="required-mark">
-             *
-            </span>
-           </label>
-           <input autocomplete="off" class="auth-input" id="profileFaydaId" inputmode="numeric" maxlength="32" name="faydaNationalId" placeholder="Enter your Fayda National ID" required="" type="text"/>
-           <span class="form-help">
-            This information will not be displayed
-                      publicly to students.
-           </span>
-           <span class="form-error" id="profileFaydaIdError">
-           </span>
-          </div>
-          <div class="profile-form-note">
-           <i class="fa-solid fa-lock">
-           </i>
-           Your private identity information is handled
+                    </p>
+
+                  </div>
+
+
+                  <!-- =================================================
+                       FAYDA ID DOCUMENTS
+                  ================================================== -->
+
+                  <div class="auth-field">
+
+                    <span class="auth-field-label">
+
+                      Fayda National ID
+
+                      <span class="required-mark">
+                        *
+                      </span>
+
+                    </span>
+
+                    <p>
+                      Upload clear photos of both sides of your Fayda National ID.
+                      These documents are private and are used only for identity
+                      verification.
+                    </p>
+
+
+                    <!-- FAYDA FRONT -->
+
+                    <div
+                      class="fayda-document-card"
+                      id="profileFaydaFrontCard"
+                    >
+
+                      <div class="fayda-document-header">
+
+                        <div class="fayda-document-icon">
+                          <i class="fa-solid fa-id-card"></i>
+                        </div>
+
+                        <div>
+
+                          <h4>
+                            Fayda Front
+                          </h4>
+
+                          <p>
+                            Front side of your Fayda ID
+                          </p>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- PREVIEW -->
+
+                      <div
+                        class="fayda-document-preview"
+                        id="profileFaydaFrontPreviewWrapper"
+                      >
+
+                        <div
+                          aria-hidden="true"
+                          class="fayda-document-placeholder"
+                          id="profileFaydaFrontPlaceholder"
+                        >
+                          <i class="fa-regular fa-id-card"></i>
+                          <span>Fayda Front</span>
+                        </div>
+
+                        <img
+                          alt="Fayda ID front preview"
+                          hidden
+                          id="profileFaydaFrontPreview"
+                          src="data:,"
+                        />
+
+                      </div>
+
+
+                      <!-- MAIN FILE INPUT -->
+
+                      <input
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                        id="profileFaydaFront"
+                        name="faydaFront"
+                        type="file"
+                      />
+
+
+                      <!-- CAMERA INPUT -->
+
+                      <input
+                        accept="image/*"
+                        capture="environment"
+                        hidden
+                        id="profileFaydaFrontCamera"
+                        type="file"
+                      />
+
+
+                      <!-- ACTIONS -->
+
+                      <div class="fayda-document-actions">
+
+                        <button
+                          class="btn btn-primary"
+                          id="profileFaydaFrontUploadButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-upload"></i>
+                          Upload
+                        </button>
+
+                        <button
+                          class="btn btn-outline"
+                          id="profileFaydaFrontCaptureButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-camera"></i>
+                          Take Photo
+                        </button>
+
+                      </div>
+
+                      <button
+                        class="fayda-document-remove"
+                        hidden
+                        id="profileFaydaFrontRemoveButton"
+                        type="button"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                        Remove
+                      </button>
+
+
+                      <span
+                        class="form-error"
+                        id="profileFaydaFrontError"
+                      ></span>
+
+                    </div>
+
+
+                    <!-- FAYDA BACK -->
+
+                    <div
+                      class="fayda-document-card"
+                      id="profileFaydaBackCard"
+                    >
+
+                      <div class="fayda-document-header">
+
+                        <div class="fayda-document-icon">
+                          <i class="fa-solid fa-id-card"></i>
+                        </div>
+
+                        <div>
+
+                          <h4>
+                            Fayda Back
+                          </h4>
+
+                          <p>
+                            Back side of your Fayda ID
+                          </p>
+
+                        </div>
+
+                      </div>
+
+
+                      <!-- PREVIEW -->
+
+                      <div
+                        class="fayda-document-preview"
+                        id="profileFaydaBackPreviewWrapper"
+                      >
+
+                        <div
+                          aria-hidden="true"
+                          class="fayda-document-placeholder"
+                          id="profileFaydaBackPlaceholder"
+                        >
+                          <i class="fa-regular fa-id-card"></i>
+                          <span>Fayda Back</span>
+                        </div>
+
+                        <img
+                          alt="Fayda ID back preview"
+                          hidden
+                          id="profileFaydaBackPreview"
+                          src="data:,"
+                        />
+
+                      </div>
+
+
+                      <!-- MAIN FILE INPUT -->
+
+                      <input
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                        id="profileFaydaBack"
+                        name="faydaBack"
+                        type="file"
+                      />
+
+
+                      <!-- CAMERA INPUT -->
+
+                      <input
+                        accept="image/*"
+                        capture="environment"
+                        hidden
+                        id="profileFaydaBackCamera"
+                        type="file"
+                      />
+
+
+                      <!-- ACTIONS -->
+
+                      <div class="fayda-document-actions">
+
+                        <button
+                          class="btn btn-primary"
+                          id="profileFaydaBackUploadButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-upload"></i>
+                          Upload
+                        </button>
+
+                        <button
+                          class="btn btn-outline"
+                          id="profileFaydaBackCaptureButton"
+                          type="button"
+                        >
+                          <i class="fa-solid fa-camera"></i>
+                          Take Photo
+                        </button>
+
+                      </div>
+
+                      <button
+                        class="fayda-document-remove"
+                        hidden
+                        id="profileFaydaBackRemoveButton"
+                        type="button"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                        Remove
+                      </button>
+
+
+                      <span
+                        class="form-error"
+                        id="profileFaydaBackError"
+                      ></span>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- PRIVATE NOTE -->
+
+                  <div class="profile-form-note">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Your private identity information is handled
                     separately from the information students see on
                     your public teacher profile.
-          </div>
-         </div>
-         <p aria-live="polite" class="form-status" id="profileStatus" role="status">
-         </p>
-         <!-- =================================================
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGE 6
+                ================================================== -->
+
+                <div
+                  class="profile-step"
+                  hidden
+                  id="ustazProfileStepSix"
+                >
+
+                  <div class="profile-subsection-heading">
+
+                    <h3>
+                      Selfie &amp; Review Submission
+                    </h3>
+
+                    <p>
+                      Take a clear selfie, review your profile information,
+                      then submit your completed Ustaz profile for manual review.
+                    </p>
+
+                  </div>
+
+<!-- =================================================
+     STEP 6 — LIVE SELFIE CAMERA
+================================================== -->
+
+<div
+  class="auth-field"
+  id="profileSelfieSection"
+>
+
+  <label>
+    Live Selfie
+
+    <span class="required-mark">
+      *
+    </span>
+  </label>
+
+  <p>
+    Take a live selfie using your device camera.
+    Your selfie is private and will only be used
+    by BarakaLink for manual identity review.
+  </p>
+
+
+  <div
+    class="profile-photo-upload-card"
+    id="ustazSelfieCard"
+  >
+
+    <!-- CAMERA / PREVIEW -->
+
+    <div
+      class="profile-avatar-upload"
+      id="ustazSelfiePreviewWrapper"
+      aria-live="polite"
+    >
+
+      <!-- CAMERA VIDEO -->
+
+      <video
+        autoplay
+        playsinline
+        hidden
+        id="ustazSelfieVideo"
+        class="profile-avatar-image"
+        aria-label="Live selfie camera"
+      ></video>
+
+
+      <!-- CAPTURED SELFIE -->
+
+      <img
+        alt="Selfie preview"
+        hidden
+        id="ustazSelfiePreview"
+        class="profile-avatar-image"
+        src="data:,"
+      />
+
+
+      <!-- PLACEHOLDER -->
+
+      <div
+        aria-hidden="true"
+        class="profile-avatar-placeholder"
+        id="ustazSelfiePlaceholder"
+      >
+        <i class="fa-solid fa-camera"></i>
+      </div>
+
+    </div>
+
+
+    <!-- HIDDEN CANVAS USED TO CREATE THE PHOTO -->
+
+    <canvas
+      hidden
+      id="ustazSelfieCanvas"
+    ></canvas>
+
+
+    <!-- CAMERA INFO -->
+
+    <div class="profile-photo-upload-content">
+
+      <h4>
+        Take your selfie
+      </h4>
+
+      <p id="ustazSelfieStatus">
+        Start the camera, center your face, and take one clear selfie.
+      </p>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="profile-photo-upload-actions">
+
+      <!-- START CAMERA -->
+
+      <button
+        class="btn btn-primary"
+        id="ustazSelfieStartButton"
+        type="button"
+      >
+        <i class="fa-solid fa-camera"></i>
+        Start Camera
+      </button>
+
+
+      <!-- CAPTURE -->
+
+      <button
+        class="btn btn-primary"
+        hidden
+        id="ustazSelfieCaptureButton"
+        type="button"
+      >
+        <i class="fa-solid fa-camera"></i>
+        Capture Selfie
+      </button>
+
+
+      <!-- RETAKE -->
+
+      <button
+        class="btn btn-outline"
+        hidden
+        id="ustazSelfieRetakeButton"
+        type="button"
+      >
+        <i class="fa-solid fa-rotate"></i>
+        Retake
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <span
+    class="form-error"
+    id="ustazSelfieError"
+  ></span>
+
+</div>
+
+                  <!-- =================================================
+                       REVIEW
+                  ================================================== -->
+
+                  <div class="auth-field">
+
+                    <span class="auth-field-label">
+                      Review Before Submission
+                    </span>
+
+                    <p>
+                      Please make sure the information you entered is
+                      accurate before submitting your profile for review.
+                    </p>
+
+
+                    <div class="profile-form-note">
+
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <span>
+                        Your registration information, teaching profile,
+                        recitation, qualifications, Fayda National ID,
+                        profile photo, and selfie will be submitted
+                        for manual review.
+                      </span>
+
+                    </div>
+
+
+                    <div class="profile-form-note">
+
+                      <i class="fa-solid fa-clock"></i>
+
+                      <span>
+                        After submission, your profile will remain under
+                        review. Approval is normally completed within
+                        48 hours, and you will be notified when a decision
+                        is made.
+                      </span>
+
+                    </div>
+
+
+                    <div class="profile-form-note">
+
+                      <i class="fa-solid fa-lock"></i>
+
+                      <span>
+                        Your Fayda National ID and selfie are private
+                        verification materials and are not displayed
+                        on your public teacher profile.
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- =================================================
+                       SUBMISSION CONFIRMATION
+                  ================================================== -->
+
+                  <div class="auth-field">
+
+                    <label class="role-option">
+
+                      <input
+                        id="profileReviewConfirmation"
+                        name="reviewConfirmation"
+                        type="checkbox"
+                        value="1"
+                      />
+
+                      <i class="fa-solid fa-shield-halved"></i>
+
+                      <strong>
+                        I have reviewed my information and confirm
+                        that the details I provided are accurate.
+                      </strong>
+
+                    </label>
+
+                    <span
+                      class="form-error"
+                      id="profileReviewConfirmationError"
+                    ></span>
+
+                  </div>
+
+
+                  <!-- FINAL REVIEW NOTE -->
+
+                  <div class="profile-form-note">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    When you submit, your Ustaz profile will be sent
+                    to BarakaLink for manual review.
+
+                  </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORM STATUS
+                ================================================== -->
+
+                <p
+                  aria-live="polite"
+                  class="form-status"
+                  id="profileStatus"
+                  role="status"
+                ></p>
+
+
+                <!-- =================================================
                      FORM ACTIONS
                 ================================================== -->
-         <div class="profile-form-actions">
-          <!-- LOGOUT -->
-          <button class="btn btn-outline" id="profileLogoutButton" type="button">
-           Logout
-          </button>
-          <!-- BACK -->
-          <button class="btn btn-outline" hidden="" id="profileBackButton" type="button">
-           <i class="fa-solid fa-arrow-left">
-           </i>
-           Back
-          </button>
-          <!-- SAVE / CONTINUE -->
-          <button class="btn btn-primary" id="profileSaveButton" type="submit">
-           <span id="profileSaveButtonText">
-            Save &amp; Continue
-           </span>
-           <i class="fa-solid fa-arrow-right" id="profileSaveButtonIcon">
-           </i>
-          </button>
-         </div>
-         <!-- =================================================
+
+                <div class="profile-form-actions">
+
+                  <!-- LOGOUT -->
+
+                  <button
+                    class="btn btn-outline"
+                    id="profileLogoutButton"
+                    type="button"
+                  >
+                    Logout
+                  </button>
+
+
+                  <!-- BACK -->
+
+                  <button
+                    class="btn btn-outline"
+                    hidden
+                    id="profileBackButton"
+                    type="button"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                  </button>
+
+
+                  <!-- SAVE / CONTINUE -->
+
+                  <button
+                    class="btn btn-primary"
+                    id="profileSaveButton"
+                    type="submit"
+                  >
+
+                    <span id="profileSaveButtonText">
+                      Save &amp; Continue
+                    </span>
+
+                    <i
+                      class="fa-solid fa-arrow-right"
+                      id="profileSaveButtonIcon"
+                    ></i>
+
+                  </button>
+
+                </div>
+
+
+                <!-- =================================================
                      FINAL NOTE
                 ================================================== -->
-         <p class="profile-form-note" id="profileCompletionNote">
-          Your Ustaz profile must be completed before you
+
+                <p
+                  class="profile-form-note"
+                  id="profileCompletionNote"
+                >
+                  Your Ustaz profile must be completed before you
                   can access your BarakaLink teacher dashboard.
-         </p>
-        </form>
-       </div>
-      </div>
-     </div>
-    </section>
-   </main>
-   <!-- =======================================================
+                </p>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- =======================================================
          FOOTER
     ======================================================== -->
-   <footer class="footer">
-    <div class="container footer-bottom">
-     <span>
-      © 2026 BarakaLink. All rights reserved.
-     </span>
-     <span>
-      Built to make Quran learning easier to find.
-     </span>
-    </div>
-   </footer>
+
+    <footer class="footer">
+
+      <div class="container footer-bottom">
+
+        <span>
+          © 2026 BarakaLink. All rights reserved.
+        </span>
+
+        <span>
+          Built to make Quran learning easier to find.
+        </span>
+
+      </div>
+
+    </footer>
+
   </div>
+
+  <!-- =========================================================
+       USTAZ LIVE SELFIE CAMERA MODAL
+       Kept outside .profile-completion-page so the page can be inert.
+  ========================================================== -->
+  <div
+    class="ustaz-selfie-camera-modal"
+    id="ustazSelfieCameraModal"
+    hidden
+    aria-hidden="true"
+  >
+    <div
+      class="ustaz-selfie-camera-backdrop"
+      data-ustaz-selfie-modal-close
+    ></div>
+
+    <section
+      class="ustaz-selfie-camera-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ustazSelfieModalTitle"
+      aria-describedby="ustazSelfieModalDescription"
+    >
+      <header class="ustaz-selfie-camera-header">
+        <div>
+          <span class="ustaz-selfie-camera-eyebrow">
+            PRIVATE IDENTITY CHECK
+          </span>
+
+          <h2 id="ustazSelfieModalTitle">Capture your live selfie</h2>
+
+          <p id="ustazSelfieModalDescription">
+            Position your face in the frame, capture your photo, and check
+            that it is clear before using it for your Ustaz profile review.
+          </p>
+        </div>
+
+        <button
+          class="ustaz-selfie-camera-close"
+          id="ustazSelfieModalCloseButton"
+          type="button"
+          aria-label="Close camera window"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <div
+        class="ustaz-selfie-camera-stage"
+        id="ustazSelfieModalStage"
+        data-mode="starting"
+      >
+        <video
+          id="ustazSelfieModalVideo"
+          autoplay
+          playsinline
+          muted
+          aria-label="Live Ustaz selfie camera preview"
+          hidden
+        ></video>
+
+        <img
+          id="ustazSelfieModalPreview"
+          src="data:,"
+          alt="Large preview of your captured live selfie"
+          hidden
+        />
+
+        <div
+          class="ustaz-selfie-face-guide"
+          id="ustazSelfieFaceGuide"
+          aria-hidden="true"
+          hidden
+        ></div>
+
+        <div
+          class="ustaz-selfie-camera-placeholder"
+          id="ustazSelfieModalPlaceholder"
+        >
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          <span>Preparing your camera…</span>
+        </div>
+      </div>
+
+      <p
+        class="ustaz-selfie-camera-status"
+        id="ustazSelfieModalStatus"
+        role="status"
+        aria-live="polite"
+      >
+        Starting your camera…
+      </p>
+
+      <div class="ustaz-selfie-camera-actions">
+        <button
+          class="btn btn-outline"
+          id="ustazSelfieModalStartButton"
+          type="button"
+          hidden
+        >
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          Try Camera Again
+        </button>
+
+        <button
+          class="btn btn-outline"
+          id="ustazSelfieModalRetakeButton"
+          type="button"
+          hidden
+        >
+          <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+          Retake Photo
+        </button>
+
+        <button
+          class="btn btn-primary"
+          id="ustazSelfieModalCaptureButton"
+          type="button"
+          hidden
+        >
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          Capture Selfie
+        </button>
+
+        <button
+          class="btn btn-primary"
+          id="ustazSelfieModalUseButton"
+          type="button"
+          hidden
+        >
+          <i class="fa-solid fa-check" aria-hidden="true"></i>
+          Use This Selfie
+        </button>
+      </div>
+
+      <p class="ustaz-selfie-camera-privacy">
+        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+        Your selfie is private and is submitted with your profile for
+        authorized BarakaLink manual review.
+      </p>
+    </section>
+  </div>
+  <!-- END USTAZ LIVE SELFIE CAMERA MODAL -->
+
   <!-- =========================================================
        JAVASCRIPT
   ========================================================== -->
-  <script defer="" src="js/api.js">
-  </script>
-  <script defer="" src="js/ustaz-profile-completion.js">
-  </script>
-  <script defer="" src="js/theme.js">
-  </script>
- </body>
+
+  <script
+    defer
+    src="js/api.js"
+  ></script>
+
+  <script
+    defer
+    src="js/ustaz-profile-completion.js"
+  ></script>
+
+  <script
+    defer
+    src="js/theme.js"
+  ></script>
+
+</body>
 </html>

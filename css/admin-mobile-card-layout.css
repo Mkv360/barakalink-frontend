@@ -1,0 +1,298 @@
+/* =========================================================
+   BARAKALINK ADMIN — MOBILE RECORD CARDS
+   On small screens, convert Users, Ustaz Profiles and Support
+   tables into vertically stacked record cards. No horizontal
+   table scrolling is required and all action buttons stay visible.
+   Desktop/tablet table layout remains unchanged.
+========================================================= */
+
+@media (max-width: 680px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .admin-main,
+  .admin-content,
+  .admin-section,
+  .admin-users-panel,
+  .admin-ustaz-table-wrap,
+  .admin-contact-panel {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Do not make people scroll sideways to read table columns. */
+  .admin-users-panel .admin-table-wrap,
+  .admin-ustaz-table-wrap,
+  .admin-contact-panel .admin-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible !important;
+    overflow-y: visible;
+  }
+
+  .admin-table.admin-users-table,
+  .admin-table.admin-ustaz-table,
+  .admin-table.admin-contact-table {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
+  }
+
+  .admin-users-table thead,
+  .admin-ustaz-table thead,
+  .admin-contact-table thead {
+    display: none !important;
+  }
+
+  .admin-users-table tbody,
+  .admin-ustaz-table tbody,
+  .admin-contact-table tbody {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* One database record becomes one card, with its fields top-to-bottom. */
+  .admin-users-table tbody tr,
+  .admin-ustaz-table tbody tr,
+  .admin-contact-table tbody tr {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 12px;
+    padding: 4px 0;
+    overflow: hidden;
+    border: 1px solid var(--admin-border);
+    border-radius: 14px;
+    background: var(--admin-surface);
+    box-shadow: 0 5px 16px rgba(64, 48, 28, .045);
+  }
+
+  .admin-users-table tbody tr:last-child,
+  .admin-ustaz-table tbody tr:last-child,
+  .admin-contact-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .admin-users-table tbody td,
+  .admin-ustaz-table tbody td,
+  .admin-contact-table tbody td {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 5px 8px;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--admin-border);
+    text-align: left !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    font-size: 12px;
+  }
+
+  .admin-users-table tbody td:last-child,
+  .admin-ustaz-table tbody td:last-child,
+  .admin-contact-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  /* Field captions replace the hidden table headings. */
+  .admin-users-table tbody td::before,
+  .admin-ustaz-table tbody td::before,
+  .admin-contact-table tbody td::before {
+    display: block;
+    flex: 0 0 100%;
+    min-width: 0;
+    margin: 0 0 2px;
+    color: var(--admin-muted);
+    font-size: 10px;
+    line-height: 1.35;
+    font-weight: 750;
+    letter-spacing: .045em;
+    text-transform: uppercase;
+  }
+
+  /* USERS: User, Role, Status, Profile, Actions */
+  .admin-users-table tbody td:nth-child(1)::before { content: "User"; }
+  .admin-users-table tbody td:nth-child(2)::before { content: "Role"; }
+  .admin-users-table tbody td:nth-child(3)::before { content: "Status"; }
+  .admin-users-table tbody td:nth-child(4)::before { content: "Profile"; }
+  .admin-users-table tbody td:nth-child(5)::before { content: "Actions"; }
+
+  .admin-users-table .admin-user-name-cell strong,
+  .admin-users-table .admin-user-name-cell small {
+    flex: 0 0 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .admin-users-table .admin-user-name-cell small {
+    margin-top: 0;
+    line-height: 1.45;
+  }
+
+  /* USTAZ PROFILES: Ustaz, Profile, Availability, Review, Status, Action */
+  .admin-ustaz-table tbody td:nth-child(1)::before { content: "Ustaz"; }
+  .admin-ustaz-table tbody td:nth-child(2)::before { content: "Profile"; }
+  .admin-ustaz-table tbody td:nth-child(3)::before { content: "Availability"; }
+  .admin-ustaz-table tbody td:nth-child(4)::before { content: "Review"; }
+  .admin-ustaz-table tbody td:nth-child(5)::before { content: "Status"; }
+  .admin-ustaz-table tbody td:nth-child(6)::before { content: "Action"; }
+
+  .admin-ustaz-table .admin-ustaz-name {
+    min-width: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-ustaz-table .admin-ustaz-name > div:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-ustaz-table .admin-ustaz-name strong,
+  .admin-ustaz-table .admin-ustaz-name small {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .admin-ustaz-table .admin-ustaz-meta-line {
+    flex: 0 0 100%;
+    line-height: 1.45;
+  }
+
+  .admin-ustaz-table .admin-completeness-line {
+    width: 100%;
+  }
+
+  .admin-ustaz-table .admin-ustaz-availability {
+    white-space: normal;
+  }
+
+  /* SUPPORT: Sender, Phone, Message, Received, Status, Action */
+  .admin-contact-table tbody td:nth-child(1)::before { content: "Sender"; }
+  .admin-contact-table tbody td:nth-child(2)::before { content: "Phone"; }
+  .admin-contact-table tbody td:nth-child(3)::before { content: "Message"; }
+  .admin-contact-table tbody td:nth-child(4)::before { content: "Received"; }
+  .admin-contact-table tbody td:nth-child(5)::before { content: "Status"; }
+  .admin-contact-table tbody td:nth-child(6)::before { content: "Action"; }
+
+  .admin-contact-table .admin-contact-sender strong,
+  .admin-contact-table .admin-contact-sender small {
+    flex: 0 0 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .admin-contact-table .admin-contact-sender small {
+    margin-top: 0;
+    line-height: 1.45;
+  }
+
+  .admin-contact-table .admin-contact-phone-link {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-contact-table .admin-contact-type-label,
+  .admin-contact-table .admin-contact-topic-preview,
+  .admin-contact-table .admin-contact-subject-preview,
+  .admin-contact-table .admin-contact-message-preview {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    white-space: normal !important;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    line-height: 1.5;
+  }
+
+  /* Actions are listed under the data, with roomy tap targets. */
+  .admin-users-table tbody td:nth-child(5),
+  .admin-ustaz-table tbody td:nth-child(6),
+  .admin-contact-table tbody td:nth-child(6) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background: var(--admin-surface-2);
+  }
+
+  .admin-users-table tbody td:nth-child(5) > button,
+  .admin-ustaz-table tbody td:nth-child(6) > button,
+  .admin-contact-table tbody td:nth-child(6) > button,
+  .admin-contact-table tbody td:nth-child(6) .admin-secondary-button,
+  .admin-ustaz-table .admin-ustaz-view-button {
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    margin: 0 !important;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  /* A single empty/loading row should remain a simple message, not a card field. */
+  .admin-users-table tbody td.admin-table-empty,
+  .admin-ustaz-table tbody td.admin-table-empty,
+  .admin-contact-table tbody td.admin-table-empty {
+    display: block;
+    width: 100%;
+    padding: 22px 14px !important;
+    border: 0;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  .admin-users-table tbody td.admin-table-empty::before,
+  .admin-ustaz-table tbody td.admin-table-empty::before,
+  .admin-contact-table tbody td.admin-table-empty::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Keep pager controls visible and wrap them instead of overflowing. */
+  .admin-users-panel .admin-pagination,
+  .admin-ustaz-table-wrap + .admin-pagination,
+  .admin-contact-pagination {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .admin-users-panel .admin-pagination,
+  .admin-contact-pagination {
+    justify-content: space-between;
+  }
+
+  .admin-pagination-actions,
+  .admin-contact-pagination > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .admin-pagination .admin-secondary-button,
+  .admin-contact-pagination .admin-secondary-button {
+    min-height: 38px;
+    white-space: normal;
+  }
+}

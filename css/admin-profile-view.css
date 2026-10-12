@@ -1,0 +1,227 @@
+/* =========================================================
+   ADMIN — FULL PROFILE VIEW MODAL
+   Append to the current admin.css when merging changes.
+========================================================= */
+.admin-user-detail-modal-card {
+  width: min(900px, calc(100vw - 28px));
+  max-height: min(88vh, 900px);
+  overflow: auto;
+}
+.admin-user-profile-sections {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+.admin-user-profile-sections:empty {
+  display: none;
+}
+.admin-user-modal-header {
+  padding-right: 38px;
+  margin-bottom: 18px;
+}
+.admin-user-modal-header h2 {
+  overflow-wrap: anywhere;
+}
+.admin-user-modal-header span {
+  display: block;
+  margin-top: 5px;
+  color: var(--admin-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .admin-user-detail-modal-card {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+  .admin-user-detail-modal-card .admin-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-user-detail-modal-card .admin-modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-user-detail-modal-card .admin-modal-actions > button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   ADMIN PROFILE PHOTO — MOBILE PROPORTIONS
+   Show the complete photo instead of cropping it.
+========================================================= */
+
+@media (max-width: 640px) {
+  .admin-ustaz-modal-avatar-large {
+    width: min(46vw, 180px) !important;
+    height: auto !important;
+    min-height: 88px;
+    aspect-ratio: auto !important;
+    flex: 0 0 auto;
+    margin-inline: auto;
+    border-radius: 12px !important;
+    overflow: visible !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-ustaz-modal-avatar-large > img:not([hidden]) {
+    position: static !important;
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+    max-height: 34svh;
+    object-fit: contain !important;
+    object-position: center;
+    border-radius: 10px;
+    cursor: zoom-in;
+  }
+}
+
+
+    /* Mosques section — scoped additions only.
+       They reuse the existing admin.css classes and every rule is limited to
+       .admin-mosques-section, so no other Admin section is affected.
+       They can be moved into css/admin.css unchanged if you prefer. */
+    .admin-mosques-section,
+    .admin-mosques-section .admin-panel-card {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* Keep the hidden attribute working on elements given a display value. */
+    .admin-mosques-section [hidden] { display: none !important; }
+
+    .admin-mosques-section .admin-mosques-feedback,
+    .admin-mosques-section .admin-mosques-summary {
+      margin: 0 0 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .admin-mosques-section .admin-mosques-summary { color: var(--admin-muted, inherit); }
+    .admin-mosques-section .admin-mosques-feedback:empty,
+    .admin-mosques-section .admin-mosques-summary:empty { display: none; }
+
+    .admin-mosques-section .admin-mosques-filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+    .admin-mosques-section .admin-mosques-filters .admin-search-field {
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+    .admin-mosques-section .admin-mosques-filters .admin-filter-field { min-width: 0; }
+    .admin-mosques-section .admin-mosques-filters input,
+    .admin-mosques-section .admin-mosques-filters select {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .admin-mosques-section .admin-mosques-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .admin-mosques-section .admin-mosques-stats {
+      min-width: 0;
+      margin-bottom: 8px;
+    }
+    .admin-mosques-section .admin-mosques-stats .admin-contact-stat-card { min-width: 0; }
+
+    /* Horizontal scrolling stays inside the table wrapper; the page never moves. */
+    .admin-mosques-section .admin-table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .admin-mosques-section .admin-mosques-table { min-width: 640px; }
+    .admin-mosques-section .admin-mosques-table th { white-space: nowrap; }
+    .admin-mosques-section .admin-mosques-table td { overflow-wrap: anywhere; }
+
+    .admin-mosques-section .admin-mosques-sort {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    .admin-mosques-section .admin-mosques-sort:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .admin-mosques-section .admin-mosques-sort-icon { font-size: 11px; opacity: .45; }
+    .admin-mosques-section .admin-mosques-sort.is-active .admin-mosques-sort-icon { opacity: 1; }
+
+    .admin-mosques-section .admin-mosques-pagination {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .admin-mosques-section .admin-mosques-pagination-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-mosques-section .admin-mosques-page-size {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-mosques-section .admin-mosques-pager {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-mosques-section .admin-mosques-page-buttons {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-mosques-section .admin-mosques-page-btn {
+      min-width: 38px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .admin-mosques-section .admin-mosques-page-gap { padding: 0 2px; opacity: .6; }
+
+    @media (max-width: 640px) {
+      .admin-mosques-section .admin-mosques-actions { justify-content: stretch; }
+      .admin-mosques-section .admin-mosques-actions > button { flex: 1 1 140px; }
+      .admin-mosques-section .admin-mosques-pagination,
+      .admin-mosques-section .admin-mosques-pagination-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .admin-mosques-section .admin-mosques-pager { justify-content: center; }
+      .admin-mosques-section .admin-mosques-page-size { justify-content: space-between; }
+      /* 16px stops iOS from zooming the page when a field is focused. */
+      .admin-mosques-section input,
+      .admin-mosques-section select { font-size: 16px; }
+      .admin-mosques-section .admin-secondary-button,
+      .admin-mosques-section .admin-primary-button { min-height: 44px; }
+    }
+  

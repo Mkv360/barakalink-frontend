@@ -2,3 +2,433 @@
    BARAKALINK — DASHBOARD
    Reserved for student and teacher dashboards
 ========================================================= */
+/* =========================================================
+   USTAZ PROFILE PAGE — TRUST
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   NAME
+--------------------------------------------------------- */
+
+#ustazProfileName {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------
+   NO BADGE BY DEFAULT
+--------------------------------------------------------- */
+
+#ustazProfileName::after {
+  content: none;
+}
+
+
+/* =========================================================
+   CREDENTIALS SUBMITTED — BLUE
+========================================================= */
+
+.ustaz-profile-identity-compact[data-trust-state="credentials"]
+#ustazProfileName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #3B82F6;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  animation:
+    ustazProfilePageTrustBlue
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   IDENTITY VERIFIED — GREEN
+========================================================= */
+
+.ustaz-profile-identity-compact[data-trust-state="identity"]
+#ustazProfileName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #22C55E;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  animation:
+    ustazProfilePageTrustGreen
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   TRUSTED PROFILE — GOLD
+========================================================= */
+
+.ustaz-profile-identity-compact[data-trust-state="trusted"]
+#ustazProfileName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #D4A72C;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  animation:
+    ustazProfilePageTrustGold
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   BADGE ANIMATIONS
+========================================================= */
+
+@keyframes ustazProfilePageTrustBlue {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(59, 130, 246, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(59, 130, 246, 0.14);
+  }
+}
+
+
+@keyframes ustazProfilePageTrustGreen {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(34, 197, 94, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(34, 197, 94, 0.14);
+  }
+}
+
+
+@keyframes ustazProfilePageTrustGold {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(212, 167, 44, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(212, 167, 44, 0.14);
+  }
+}
+
+
+/* =========================================================
+   TRUST LABEL
+========================================================= */
+
+.ustaz-profile-page-trust {
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin-top: 9px;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+
+/* Hidden state */
+.ustaz-profile-page-trust[hidden] {
+  display: none !important;
+}
+
+
+/* =========================================================
+   TRUST ICON
+========================================================= */
+
+.ustaz-profile-page-trust-icon {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+}
+
+
+/* =========================================================
+   CREDENTIALS — SAME BLUE
+========================================================= */
+
+#ustazProfilePageTrust[data-trust-state="credentials"] {
+  color: #3B82F6;
+}
+
+#ustazProfilePageTrust[data-trust-state="credentials"]
+.ustaz-profile-page-trust-icon {
+  color: #3B82F6;
+}
+
+
+/* =========================================================
+   IDENTITY — SAME GREEN
+========================================================= */
+
+#ustazProfilePageTrust[data-trust-state="identity"] {
+  color: #22C55E;
+}
+
+#ustazProfilePageTrust[data-trust-state="identity"]
+.ustaz-profile-page-trust-icon {
+  color: #22C55E;
+}
+
+
+/* =========================================================
+   TRUSTED — SAME GOLD
+========================================================= */
+
+#ustazProfilePageTrust[data-trust-state="trusted"] {
+  color: #D4A72C;
+}
+
+#ustazProfilePageTrust[data-trust-state="trusted"]
+.ustaz-profile-page-trust-icon {
+  color: #D4A72C;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+html[data-theme="dark"]
+.ustaz-profile-identity-compact[data-trust-state="credentials"]
+#ustazProfileName::after {
+  background: #60A5FA;
+}
+
+html[data-theme="dark"]
+.ustaz-profile-identity-compact[data-trust-state="identity"]
+#ustazProfileName::after {
+  background: #4ADE80;
+}
+
+html[data-theme="dark"]
+.ustaz-profile-identity-compact[data-trust-state="trusted"]
+#ustazProfileName::after {
+  background: #F0BE46;
+}
+
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="credentials"] {
+  color: #60A5FA;
+}
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="credentials"]
+.ustaz-profile-page-trust-icon {
+  color: #60A5FA;
+}
+
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="identity"] {
+  color: #4ADE80;
+}
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="identity"]
+.ustaz-profile-page-trust-icon {
+  color: #4ADE80;
+}
+
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="trusted"] {
+  color: #F0BE46;
+}
+
+html[data-theme="dark"]
+#ustazProfilePageTrust[data-trust-state="trusted"]
+.ustaz-profile-page-trust-icon {
+  color: #F0BE46;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  #ustazProfileName {
+    gap: 6px;
+  }
+
+  .ustaz-profile-identity-compact[data-trust-state]
+  #ustazProfileName::after {
+
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+
+    font-size: 9px;
+  }
+
+  .ustaz-profile-page-trust {
+    font-size: 0.75rem;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  #ustazProfileName::after {
+    animation: none !important;
+    transform: scale(1) !important;
+    box-shadow: none !important;
+  }
+
+}
+/* =========================================================
+   USTAZ PROFILE IDENTITY — STACKED NAME LAYOUT
+
+   Result:
+
+   Profile complete
+   Alewi Adem  [✓]
+   Ustaz
+========================================================= */
+
+.ustaz-profile-identity-compact
+.ustaz-profile-hero > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+
+/* Profile status stays on its own line */
+.ustaz-profile-identity-compact
+#ustazProfilePill {
+  display: inline-flex;
+  width: fit-content;
+}
+
+
+/* Name + verified badge */
+.ustaz-profile-identity-compact
+#ustazProfileName {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin: 7px 0 0;
+}
+
+
+/* Role stays below the name */
+.ustaz-profile-identity-compact
+#ustazProfileRole {
+  margin: 4px 0 0;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 560px) {
+
+  .ustaz-profile-identity-compact
+  #ustazProfileName {
+    gap: 6px;
+  }
+
+}

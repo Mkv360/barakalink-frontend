@@ -1,0 +1,81 @@
+/*
+ * student-loader.css
+ *
+ * Extracted from: <style id="barakaLinkLoaderStyles"> (inline style #3,
+ * "BARAKALINK BRANDED LOADER STYLES") in <head> of
+ * student-dashboard-light-default.html.
+ *
+ * Includes the loader layout, keyframe animations, transitions, the
+ * max-width: 480px responsive rules and the prefers-reduced-motion rules.
+ * Rules are unchanged.
+ *
+ * Link it AFTER the Font Awesome stylesheet, as in the original page.
+ */
+
+#studentPageLoading.bl-loader-overlay {
+  --bl-loader-gold: var(--gold, #A8751B);
+  --bl-loader-gold-light: var(--gold-light, #E7C989);
+  --bl-loader-fg: var(--text, #1C1712);
+  --bl-loader-bg: var(--page-bg, #FBF7EE);
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: grid !important;
+  place-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: max(24px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  color: var(--bl-loader-fg);
+  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--gold-soft, #F5E6BF) 24%, transparent), transparent min(58vw, 440px)), var(--bl-loader-bg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px) scale(.995);
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
+  isolation: isolate;
+}
+#studentPageLoading.bl-loader-overlay[hidden] { display: none !important; }
+#studentPageLoading.bl-loader-overlay.is-visible {
+  opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;
+  transition: opacity 250ms ease, transform 250ms ease, visibility 0s;
+}
+#studentPageLoading.bl-loader-overlay.is-leaving { opacity: 0; visibility: visible; transform: translateY(-2px) scale(.995); pointer-events: none; }
+.bl-loader-content { display: grid; justify-items: center; gap: 24px; width: min(100%, 420px); text-align: center; }
+.bl-loader-logo-wrap { position: relative; display: grid; place-items: center; width: 112px; height: 112px; color: var(--bl-loader-fg); isolation: isolate; }
+.bl-loader-logo-wrap::before {
+  position: absolute; z-index: -1; inset: 4px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--bl-loader-gold-light) 34%, transparent) 0%, color-mix(in srgb, var(--bl-loader-gold-light) 12%, transparent) 42%, transparent 72%);
+  content: ""; animation: bl-loader-halo-breathe 2.8s ease-in-out infinite;
+}
+.bl-loader-logo { display: block; width: 84px; height: 84px; overflow: visible; color: var(--bl-loader-fg); }
+.bl-loader-sweep { fill: none; stroke: var(--bl-loader-gold); stroke-dasharray: 18 67; transform: rotate(-90deg); transform-origin: 20px 20px; animation: bl-loader-ring-sweep 2.8s linear infinite; }
+.bl-loader-dot-hollow { fill: var(--bl-loader-bg); }
+.bl-loader-lit { opacity: 0; transform-box: fill-box; transform-origin: center; animation: bl-loader-dot-pulse 2.4s ease-in-out infinite; }
+.bl-loader-lit-1 { animation-delay: 0s; }
+.bl-loader-lit-2 { animation-delay: .6s; }
+.bl-loader-lit-3 { animation-delay: 1.2s; }
+.bl-loader-lit-4 { animation-delay: 1.8s; }
+.bl-loader-core { fill: var(--bl-loader-gold); filter: drop-shadow(0 0 2px var(--bl-loader-gold)); }
+.bl-loader-copy { display: grid; justify-items: center; gap: 16px; width: 100%; }
+.bl-loader-wordmark { margin: 0; color: var(--bl-loader-fg); font-family: var(--font-display, "Fraunces", Georgia, serif); font-size: clamp(1.8rem, 5vw, 2.15rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.1; }
+.bl-loader-messages { display: grid; place-items: center; width: 100%; min-height: 3.5em; overflow: hidden; }
+.bl-loader-message { grid-area: 1 / 1; max-width: min(84vw, 350px); margin: 0; color: var(--text-muted, #7D7161); font-family: var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif); font-size: .94rem; font-weight: 500; line-height: 1.65; text-wrap: balance; opacity: 0; transform: translateY(7px); transition: opacity 280ms ease, transform 280ms ease; }
+.bl-loader-message.is-active { opacity: 1; transform: translateY(0); }
+.bl-loader-line { position: relative; width: 132px; height: 3px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--bl-loader-gold) 16%, transparent); }
+.bl-loader-line span { display: block; width: 44%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, transparent, var(--bl-loader-gold), var(--bl-loader-gold-light)); transform: translateX(-120%); animation: bl-loader-line-move 1.7s ease-in-out infinite; }
+.bl-loader-sr { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+@keyframes bl-loader-ring-sweep { from { transform: rotate(-90deg); } to { transform: rotate(270deg); } }
+@keyframes bl-loader-dot-pulse { 0%, 12%, 100% { opacity: .08; transform: scale(.88); } 20%, 34% { opacity: 1; transform: scale(1.06); } 46% { opacity: .35; transform: scale(1); } }
+@keyframes bl-loader-halo-breathe { 0%, 100% { opacity: .55; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
+@keyframes bl-loader-line-move { 0% { transform: translateX(-120%); } 70%, 100% { transform: translateX(300%); } }
+@media (max-width: 480px) { .bl-loader-content { gap: 19px; } .bl-loader-logo-wrap { width: 100px; height: 100px; } .bl-loader-logo { width: 76px; height: 76px; } .bl-loader-copy { gap: 14px; } .bl-loader-message { font-size: .9rem; } }
+@media (prefers-reduced-motion: reduce) {
+  #studentPageLoading.bl-loader-overlay, .bl-loader-message { transition: none !important; }
+  .bl-loader-logo-wrap::before, .bl-loader-sweep, .bl-loader-lit, .bl-loader-line span { animation: none !important; }
+  .bl-loader-lit-1 { opacity: 1; }
+  .bl-loader-lit-2, .bl-loader-lit-3, .bl-loader-lit-4 { opacity: .22; }
+  .bl-loader-line span { width: 38%; transform: translateX(80%); }
+}

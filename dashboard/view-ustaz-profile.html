@@ -16,11 +16,104 @@
 
   <!-- Dedicated stylesheet for this page -->
   <link rel="stylesheet" href="../css/view-ustaz-profile.css">
-  <link rel="stylesheet" href="../css/inbox.css">
+  <!-- Dedicated stylesheet for this page -->
+
+
+<!-- Shared BarakaLink branded loader -->
+<link rel="stylesheet" href="../css/student-loader.css">
 </head>
 <body>
+<!-- =========================================================
+     BARAKALINK BRANDED USTAZ PROFILE LOADER
+     Uses the existing student-loader.js and student-loader.css
+========================================================== -->
+<div
+  class="student-page-loading bl-loader-overlay is-visible"
+  id="studentPageLoading"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading Ustaz profile"
+  aria-hidden="false"
+>
+  <div class="bl-loader-content">
 
-  <div class="ustaz-profile-page">
+    <div class="bl-loader-logo-wrap">
+      <svg
+        class="bl-loader-logo"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <radialGradient
+            id="blLoaderHalo"
+            cx="50%"
+            cy="50%"
+            r="50%"
+          >
+            <stop offset="0%" stop-color="#A8751B" stop-opacity=".58" />
+            <stop offset="55%" stop-color="#E7C989" stop-opacity=".24" />
+            <stop offset="100%" stop-color="#E7C989" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <circle cx="20" cy="20" r="13.5" stroke="currentColor" stroke-width="1.7" />
+        <circle class="bl-loader-sweep" cx="20" cy="20" r="13.5" stroke-width="1.7" stroke-linecap="round" />
+
+        <circle cx="20" cy="6" r="2.7" fill="currentColor" />
+        <circle class="bl-loader-dot-hollow" cx="34" cy="20" r="2.3" stroke="currentColor" stroke-width="1.6" />
+        <circle class="bl-loader-dot-hollow" cx="20" cy="34" r="2.3" stroke="currentColor" stroke-width="1.6" />
+        <circle class="bl-loader-dot-hollow" cx="6" cy="20" r="2.3" stroke="currentColor" stroke-width="1.6" />
+
+        <g class="bl-loader-lit bl-loader-lit-1">
+          <circle cx="20" cy="6" r="7" fill="url(#blLoaderHalo)" />
+          <circle class="bl-loader-core" cx="20" cy="6" r="2.7" />
+        </g>
+
+        <g class="bl-loader-lit bl-loader-lit-2">
+          <circle cx="34" cy="20" r="7" fill="url(#blLoaderHalo)" />
+          <circle class="bl-loader-core" cx="34" cy="20" r="2.3" />
+        </g>
+
+        <g class="bl-loader-lit bl-loader-lit-3">
+          <circle cx="20" cy="34" r="7" fill="url(#blLoaderHalo)" />
+          <circle class="bl-loader-core" cx="20" cy="34" r="2.3" />
+        </g>
+
+        <g class="bl-loader-lit bl-loader-lit-4">
+          <circle cx="6" cy="20" r="7" fill="url(#blLoaderHalo)" />
+          <circle class="bl-loader-core" cx="6" cy="20" r="2.3" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="bl-loader-copy">
+      <p class="bl-loader-wordmark" aria-hidden="true">BarakaLink</p>
+
+      <div class="bl-loader-messages" aria-hidden="true">
+        <p class="bl-loader-message is-active">Preparing this Ustaz's profile…</p>
+        <p class="bl-loader-message">Loading teaching details…</p>
+        <p class="bl-loader-message">Gathering subjects and availability…</p>
+        <p class="bl-loader-message">Almost ready…</p>
+      </div>
+
+      <div class="bl-loader-line" aria-hidden="true">
+        <span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <span class="bl-loader-sr">Loading Ustaz profile…</span>
+</div>
+
+<!-- Must immediately follow the loader markup.
+     Do not change student-loader.js. -->
+<script src="../js/student-loader.js"></script>
+
+<div class="ustaz-profile-page">
+  
 
     <!-- =====================================================
          TOP BAR
@@ -53,7 +146,7 @@
     <main class="ustaz-profile-main">
 
       <!-- LOADING -->
-      <section class="ustaz-profile-loading" id="ustazProfileLoading" aria-live="polite">
+      <section class="ustaz-profile-loading" id="ustazProfileLoading" hidden aria-live="polite">
         <div class="ustaz-profile-loading-spinner"></div>
         <h2>Loading Ustaz profile</h2>
         <p>Please wait while we load this teacher's profile.</p>
@@ -87,6 +180,45 @@
 
           <!-- IDENTITY -->
           <div class="ustaz-card-section ustaz-identity">
+
+            <!-- THREE-DOT ACTIONS (positioned top-right of the card by CSS) -->
+            <div class="ustaz-profile-actions">
+              <button
+                type="button"
+                class="ustaz-profile-more-button"
+                id="ustazProfileMoreButton"
+                aria-label="More actions"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-controls="ustazProfileActionsMenu"
+              >
+                <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+              </button>
+
+              <div
+                class="ustaz-profile-actions-menu"
+                id="ustazProfileActionsMenu"
+                role="menu"
+                aria-labelledby="ustazProfileMoreButton"
+                hidden
+              >
+                <button type="button" class="ustaz-profile-actions-item" id="ustazProfileRateButton" role="menuitem">
+                  <i class="fa-regular fa-star" aria-hidden="true"></i>
+                  <span>Rate this Ustaz</span>
+                </button>
+
+                <button type="button" class="ustaz-profile-actions-item" id="ustazProfileShareButton" role="menuitem">
+                  <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+                  <span>Share profile</span>
+                </button>
+
+                <button type="button" class="ustaz-profile-actions-item ustaz-profile-actions-item-danger" id="ustazProfileReportButton" role="menuitem">
+                  <i class="fa-regular fa-flag" aria-hidden="true"></i>
+                  <span>Report Ustaz</span>
+                </button>
+              </div>
+            </div>
+
             <div class="ustaz-identity-row">
 
               <div class="ustaz-profile-avatar" id="ustazProfileAvatar">
@@ -105,6 +237,80 @@
                 <div class="ustaz-profile-role" id="ustazProfileRole">
                   <i class="fa-solid fa-quran" aria-hidden="true"></i>
                   Ustaz
+                </div>
+                <div
+  class="ustaz-public-availability"
+  id="ustazPublicAvailability"
+  data-availability="unknown"
+  aria-live="polite"
+>
+  <span
+    class="ustaz-public-availability-dot"
+    aria-hidden="true"
+  ></span>
+
+  <span id="ustazPublicAvailabilityLabel">
+    Checking availability
+  </span>
+</div>
+<!-- PROFILE TRUST -->
+<div
+  class="ustaz-public-trust"
+  id="ustazPublicTrust"
+  data-trust-state="none"
+  hidden
+>
+  <span
+    class="ustaz-public-trust-dot"
+    aria-hidden="true"
+  ></span>
+
+  <i
+    class="ustaz-public-trust-icon"
+    id="ustazPublicTrustIcon"
+    aria-hidden="true"
+  ></i>
+
+  <span id="ustazPublicTrustLabel">
+    Credentials Submitted
+  </span>
+
+  <button
+    type="button"
+    class="ustaz-public-trust-info"
+    id="ustazPublicTrustInfoButton"
+    aria-label="About this trust indicator"
+    aria-expanded="false"
+    aria-controls="ustazPublicTrustInfo"
+  >
+    <i
+      class="fa-solid fa-circle-info"
+      aria-hidden="true"
+    ></i>
+  </button>
+
+  <span
+    class="ustaz-public-trust-info-text"
+    id="ustazPublicTrustInfo"
+    role="tooltip"
+    hidden
+  >
+    BarakaLink trust indicators show verification steps completed
+    on a profile. They do not by themselves guarantee teaching
+    quality or qualification.
+  </span>
+</div>
+                <!-- RATING SUMMARY (values come from the backend; never hardcoded) -->
+                <div class="ustaz-profile-rating" id="ustazProfileRating">
+                  <span class="ustaz-profile-rating-stars" id="ustazProfileRatingStars" role="img" aria-label="No ratings yet">
+                    <i class="fa-regular fa-star" aria-hidden="true"></i>
+                    <i class="fa-regular fa-star" aria-hidden="true"></i>
+                    <i class="fa-regular fa-star" aria-hidden="true"></i>
+                    <i class="fa-regular fa-star" aria-hidden="true"></i>
+                    <i class="fa-regular fa-star" aria-hidden="true"></i>
+                  </span>
+                  <strong class="ustaz-profile-rating-average" id="ustazProfileRatingAverage" hidden></strong>
+                  <span class="ustaz-profile-rating-count" id="ustazProfileRatingCount">No ratings yet</span>
                 </div>
 
                 <div class="ustaz-profile-meta">
@@ -233,34 +439,87 @@
               <h3 class="ustaz-profile-recitation-title" id="ustazProfileRecitationTitle">
                 Recitation
               </h3>
-              <p class="ustaz-profile-recitation-description" id="ustazProfileRecitationDescription">
-                No recitation description has been provided.
-              </p>
+            
               <audio class="ustaz-profile-audio" id="ustazProfileAudio" controls preload="metadata" hidden></audio>
               <div class="ustaz-profile-audio-empty" id="ustazProfileAudioEmpty">
                 No recitation recording is available.
               </div>
             </div>
           </div>
+<!-- QUALIFICATIONS -->
 
-          <!-- SAVE BUTTON -->
-          <div class="ustaz-card-section ustaz-card-save">
-            <button type="button" class="ustaz-profile-save-button" id="ustazProfileSaveButton" aria-label="Save this Ustaz">
-              <i class="fa-regular fa-bookmark" aria-hidden="true"></i>
-              <span id="ustazProfileSaveText">
-                Save Ustaz
-              </span>
-            </button>
-
-<button
-  type="button"
-  id="ustazProfileChatButton"
-  class="ustaz-profile-action ustaz-profile-chat"
+<div
+  class="ustaz-card-section"
+  id="ustazQualificationsSection"
 >
-  <i class="fa-regular fa-comment-dots" aria-hidden="true"></i>
-  <span>Chat Ustaz</span>
-</button>
-          </div>
+  <h2 class="ustaz-card-heading">
+    Qualifications
+  </h2>
+
+  <p class="ustaz-profile-qualifications-description">
+    Islamic studies qualifications and supporting certificates provided by this Ustaz.
+  </p>
+
+  <div
+    class="ustaz-profile-qualifications"
+    id="ustazProfileQualifications"
+  >
+    <div class="ustaz-profile-qualification-empty">
+      <i
+        class="fa-regular fa-folder-open"
+        aria-hidden="true"
+      ></i>
+
+
+  <span>
+    No qualifications have been provided.
+  </span>
+</div>
+
+
+  </div>
+</div>
+<!-- PROFILE ACTIONS -->
+<div class="ustaz-card-section ustaz-card-save">
+
+
+
+
+  <!-- 2. CHAT USTAZ -->
+  <button
+    type="button"
+    id="ustazProfileChatButton"
+    class="ustaz-profile-chat"
+  >
+    <i
+      class="fa-regular fa-comment-dots"
+      aria-hidden="true"
+    ></i>
+
+    <span>
+      Chat Ustaz
+    </span>
+  </button>
+
+
+  <!-- 3. SAVE USTAZ -->
+  <button
+    type="button"
+    class="ustaz-profile-save-button"
+    id="ustazProfileSaveButton"
+    aria-label="Save this Ustaz"
+  >
+    <i
+      class="fa-regular fa-bookmark"
+      aria-hidden="true"
+    ></i>
+
+    <span id="ustazProfileSaveText">
+      Save Ustaz
+    </span>
+  </button>
+
+</div>
 
         </section>
 
@@ -286,6 +545,203 @@
 
   </div>
 
+
+  <!-- =====================================================
+       RATE MODAL
+       (outside .ustaz-profile-page so no ancestor can trap
+       its fixed positioning)
+  ====================================================== -->
+  <div class="ustaz-modal" id="ustazRateModal" hidden>
+    <div class="ustaz-modal-backdrop" data-modal-close></div>
+
+    <div
+      class="ustaz-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ustazRateTitle"
+      aria-describedby="ustazRateDescription"
+    >
+      <button type="button" class="ustaz-modal-close" data-modal-close aria-label="Close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <h2 class="ustaz-modal-title" id="ustazRateTitle">Rate this Ustaz</h2>
+      <p class="ustaz-modal-description" id="ustazRateDescription">
+        How would you rate your experience with this Ustaz?
+      </p>
+
+      <div class="ustaz-rate-stars" id="ustazRateStars" role="radiogroup" aria-label="Your rating">
+        <button type="button" class="ustaz-rate-star" role="radio" aria-checked="false" aria-label="1 star" data-value="1" tabindex="0">
+          <i class="fa-regular fa-star" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="ustaz-rate-star" role="radio" aria-checked="false" aria-label="2 stars" data-value="2" tabindex="-1">
+          <i class="fa-regular fa-star" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="ustaz-rate-star" role="radio" aria-checked="false" aria-label="3 stars" data-value="3" tabindex="-1">
+          <i class="fa-regular fa-star" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="ustaz-rate-star" role="radio" aria-checked="false" aria-label="4 stars" data-value="4" tabindex="-1">
+          <i class="fa-regular fa-star" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="ustaz-rate-star" role="radio" aria-checked="false" aria-label="5 stars" data-value="5" tabindex="-1">
+          <i class="fa-regular fa-star" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <p class="ustaz-rate-selected" id="ustazRateSelected" aria-live="polite">Select a rating</p>
+
+      <p class="ustaz-modal-status" id="ustazRateStatus" role="status" aria-live="polite" hidden></p>
+
+      <div class="ustaz-modal-actions">
+        <button type="button" class="ustaz-modal-button ustaz-modal-button-secondary" data-modal-close>
+          Cancel
+        </button>
+        <button type="button" class="ustaz-modal-button ustaz-modal-button-primary" id="ustazRateSubmit" disabled>
+          Submit rating
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =====================================================
+       REPORT MODAL
+  ====================================================== -->
+  <div class="ustaz-modal" id="ustazReportModal" hidden>
+    <div class="ustaz-modal-backdrop" data-modal-close></div>
+
+    <div
+      class="ustaz-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ustazReportTitle"
+      aria-describedby="ustazReportDescription"
+    >
+      <button type="button" class="ustaz-modal-close" data-modal-close aria-label="Close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <h2 class="ustaz-modal-title" id="ustazReportTitle">Report this Ustaz</h2>
+      <p class="ustaz-modal-description" id="ustazReportDescription">
+        Tell us about an issue with this profile or conduct. Your report will be reviewed by the BarakaLink team.
+      </p>
+
+      <form class="ustaz-report-form" id="ustazReportForm" novalidate>
+
+        <div class="ustaz-modal-field">
+          <label class="ustaz-modal-label" for="ustazReportCategory">Issue type</label>
+          <select class="ustaz-modal-select" id="ustazReportCategory" name="category" required>
+            <option value="">Select an issue type</option>
+            <option value="unethical_conduct">Unethical conduct</option>
+            <option value="harassment">Harassment or inappropriate behavior</option>
+            <option value="misleading_profile">Misleading or false profile information</option>
+            <option value="inappropriate_content">Inappropriate content</option>
+            <option value="safety_concern">Safety concern</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="ustaz-modal-field">
+          <label class="ustaz-modal-label" for="ustazReportDetails">Details</label>
+          <textarea
+            class="ustaz-modal-textarea"
+            id="ustazReportDetails"
+            name="details"
+            rows="5"
+            maxlength="1000"
+            required
+            placeholder="Please describe the issue clearly and include any relevant details."
+          ></textarea>
+          <div class="ustaz-modal-counter" id="ustazReportCounter">0 / 1000</div>
+        </div>
+
+        <p class="ustaz-modal-status" id="ustazReportStatus" role="status" aria-live="polite" hidden></p>
+
+        <div class="ustaz-modal-actions">
+          <button type="button" class="ustaz-modal-button ustaz-modal-button-secondary" data-modal-close>
+            Cancel
+          </button>
+          <button type="submit" class="ustaz-modal-button ustaz-modal-button-primary" id="ustazReportSubmit">
+            Submit report
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- NON-BLOCKING TOAST (e.g. "Profile link copied") -->
+  <div class="ustaz-toast" id="ustazProfileToast" role="status" aria-live="polite" hidden></div>
+
+<!-- =====================================================
+     PARENT REVIEW CHAT BLOCKED MODAL
+====================================================== -->
+<div
+  class="ustaz-modal"
+  id="ustazParentChatReviewModal"
+  hidden
+>
+  <div
+    class="ustaz-modal-backdrop"
+    data-parent-chat-review-close
+  ></div>
+
+  <div
+    class="ustaz-modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ustazParentChatReviewTitle"
+    aria-describedby="ustazParentChatReviewDescription"
+  >
+
+    <button
+      type="button"
+      class="ustaz-modal-close"
+      id="ustazParentChatReviewClose"
+      aria-label="Close"
+    >
+      <i
+        class="fa-solid fa-xmark"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <div
+      class="ustaz-modal-icon"
+      aria-hidden="true"
+    >
+      <i class="fa-solid fa-clock"></i>
+    </div>
+
+    <h2
+      class="ustaz-modal-title"
+      id="ustazParentChatReviewTitle"
+    >
+      Messaging is unavailable
+    </h2>
+
+    <p
+      class="ustaz-modal-description"
+      id="ustazParentChatReviewDescription"
+    >
+      Your Parent account is still under review. You can browse Ustaz and Ustaza profiles, but messaging is unavailable until BarakaLink approves your profile.
+    </p>
+
+    <div class="ustaz-modal-actions">
+
+      <button
+        type="button"
+        class="ustaz-modal-button ustaz-modal-button-primary"
+        id="ustazParentChatReviewDone"
+      >
+        Got it
+      </button>
+
+    </div>
+
+  </div>
+</div>
   <!-- Shared API helper -->
   <script src="../js/api.js"></script>
 

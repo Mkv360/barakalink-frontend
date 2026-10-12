@@ -195,7 +195,19 @@
       "signupEmailField"
     );
 
+  /* =======================================================
+     LEGAL CONSENT
+  ======================================================= */
 
+  const signupTerms =
+    document.getElementById(
+      "signupTerms"
+    );
+
+  const signupTermsError =
+    document.getElementById(
+      "signupTermsError"
+    );
   /* =======================================================
      SAFETY
   ======================================================= */
@@ -313,6 +325,64 @@
 
   }
 
+/* =======================================================
+   REGISTRATION TEXT CAPITALIZATION
+======================================================= */
+
+function capitalizeWordInitials(value) {
+  return String(value ?? "").replace(
+    /(^|\s)(\p{L})/gu,
+    function (_match, separator, letter) {
+      return separator + letter.toUpperCase();
+    }
+  );
+}
+
+function bindNameCapitalization(id) {
+  const input = getElement(id);
+
+  if (
+    !input ||
+    input.dataset.capitalizationBound === "true"
+  ) {
+    return;
+  }
+
+  input.dataset.capitalizationBound = "true";
+
+  input.addEventListener("input", function () {
+    const originalValue = input.value;
+    const selectionStart = input.selectionStart;
+    const selectionEnd = input.selectionEnd;
+
+    const formattedValue =
+      capitalizeWordInitials(originalValue);
+
+    if (formattedValue === originalValue) {
+      return;
+    }
+
+    input.value = formattedValue;
+
+    if (
+      typeof selectionStart === "number" &&
+      typeof selectionEnd === "number"
+    ) {
+      input.setSelectionRange(
+        selectionStart,
+        selectionEnd
+      );
+    }
+  });
+}
+
+/* Apply immediately when auth.js initializes */
+[
+  "firstName",
+  "lastName",
+  "nearestMosque"
+].forEach(bindNameCapitalization);
+
 
   function setText(
     id,
@@ -347,76 +417,146 @@
 
   }
 
+function normalizePhone(value) {
 
-  function normalizePhone(value) {
-
-    let phone =
-      String(value || "")
-        .trim()
-        .replace(
-          /\D/g,
-          ""
-        );
+  let phone =
+    String(value || "")
+      .trim()
+      .replace(/\D/g, "");
 
 
-    if (
-      phone.startsWith("00")
-    ) {
+  /*
+    Ethiopian mobile numbers supported:
 
-      phone =
-        phone.slice(2);
+    Local:
+      0912345678
+      0712345678
+      0912 345 678
+      0712 345 678
 
-    }
+    International:
+      +251912345678
+      +251712345678
+      251912345678
+      251712345678
 
+    Also tolerate:
+      +251 0912345678
+      251 0912345678
 
-    if (
-      phone.startsWith("2519") ||
-      phone.startsWith("2517")
-    ) {
-
-      return phone;
-
-    }
-
-
-    if (
-      phone.startsWith("09") &&
-      phone.length === 10
-    ) {
-
-      return `251${phone.slice(1)}`;
-
-    }
+    Final stored format:
+      2519XXXXXXXX
+      2517XXXXXXXX
+  */
 
 
-    if (
-      phone.startsWith("07") &&
-      phone.length === 10
-    ) {
-
-      return `251${phone.slice(1)}`;
-
-    }
+  if (!phone) {
+    return "";
+  }
 
 
-    if (
-      (
-        phone.startsWith("9") ||
-        phone.startsWith("7")
-      ) &&
-      phone.length === 9
-    ) {
+  /*
+    Remove international dialing prefix.
+    00XXXXXXXX → XXXXXXXXX
+  */
 
-      return `251${phone}`;
+  if (phone.startsWith("00")) {
 
-    }
+    phone =
+      phone.slice(2);
 
+  }
+
+
+  /*
+    Sometimes users enter:
+      25109XXXXXXXX
+      25107XXXXXXXX
+
+    Remove the extra Ethiopian national
+    dialing prefix zero.
+  */
+
+  if (
+    phone.startsWith("25107") ||
+    phone.startsWith("25109")
+  ) {
+
+    phone =
+      "251" + phone.slice(4);
+
+  }
+
+
+  /*
+    Already normalized Ethiopian number:
+      2517XXXXXXXX
+      2519XXXXXXXX
+  */
+
+  if (
+    /^251[79]\d{8}$/.test(phone)
+  ) {
 
     return phone;
 
   }
 
 
+  /*
+    Local Ethiopian format:
+      07XXXXXXXX
+      09XXXXXXXX
+  */
+
+  if (
+    /^0[79]\d{8}$/.test(phone)
+  ) {
+
+    return (
+      "251" +
+      phone.slice(1)
+    );
+
+  }
+
+
+  /*
+    Local format without leading zero:
+      7XXXXXXXX
+      9XXXXXXXX
+  */
+
+  if (
+    /^[79]\d{8}$/.test(phone)
+  ) {
+
+    return (
+      "251" +
+      phone
+    );
+
+  }
+
+
+  return phone;
+
+}
+function isValidEthiopianMobile(value) {
+
+  const normalized =
+    normalizePhone(value);
+
+  /*
+    2517XXXXXXXX = Safaricom Ethiopia
+    2519XXXXXXXX = Ethiopian mobile numbers
+  */
+
+  return /^251[79]\d{8}$/.test(
+    normalized
+  );
+
+}
   function isValidEmail(value) {
 
     const email =
@@ -919,7 +1059,31 @@
       }
     );
 
+  /* =======================================================
+     LEGAL CONSENT
+  ======================================================= */
 
+  if (signupTerms) {
+
+    signupTerms.addEventListener(
+      "change",
+      function () {
+
+        if (
+          signupTerms.checked
+        ) {
+
+          setText(
+            "signupTermsError",
+            ""
+          );
+
+        }
+
+      }
+    );
+
+  }
   /* =======================================================
      EMAIL OTP UI
   ======================================================= */
@@ -1208,7 +1372,7 @@
   function showLogin() {
 
     authTitle.textContent =
-      "Welcome Back";
+      "Continue Your Journey";
 
 
     authSubtitle.textContent =
@@ -1264,7 +1428,7 @@
 
 
     authSubtitle.textContent =
-      "Create your account and start your Quran learning journey.";
+      "Create your account and start your Quran journey.";
 
 
     loginForm.style.display =
@@ -1472,17 +1636,13 @@
 
       role:
         "parent",
+firstName: capitalizeWordInitials(
+  getElement("firstName")?.value.trim() || ""
+),
 
-      firstName:
-        getElement(
-          "firstName"
-        )?.value.trim() || "",
-
-      lastName:
-        getElement(
-          "lastName"
-        )?.value.trim() || "",
-
+lastName: capitalizeWordInitials(
+  getElement("lastName")?.value.trim() || ""
+),
       phone:
         normalizePhone(
           getElement(
@@ -1499,23 +1659,28 @@
         getElement(
           "area"
         )?.value || "",
-
-      nearestMosque:
-        getElement(
-          "nearestMosque"
-        )?.value.trim() || "",
+nearestMosque: capitalizeWordInitials(
+  getElement("nearestMosque")?.value.trim() || ""
+),
 
       password:
         getElement(
           "signupPassword"
         )?.value || "",
 
-      confirmPassword:
+          confirmPassword:
         getElement(
           "confirmPassword"
-        )?.value || ""
+        )?.value || "",
+
+      termsAccepted:
+        Boolean(
+          signupTerms?.checked
+        )
 
     };
+
+
 
 
     if (
@@ -1592,7 +1757,6 @@
   /* =======================================================
      VALIDATION
   ======================================================= */
-
   function validateRegistration(data) {
 
     clearText(
@@ -1609,10 +1773,11 @@
 
       "nearestMosqueError",
 
+      "signupTermsError",
+
       "signupStatus"
 
     );
-
 
     let valid =
       true;
@@ -1682,22 +1847,21 @@
     /* ---------------------------------------------------
        PHONE
     --------------------------------------------------- */
+if (
+  !isValidEthiopianMobile(
+    data.phone
+  )
+) {
 
-    if (
-      !/^251[79]\d{8}$/.test(
-        data.phone
-      )
-    ) {
+  setText(
+    "signupPhoneError",
+    "Enter a valid Ethiopian mobile number starting with 07 or 09."
+  );
 
-      setText(
-        "signupPhoneError",
-        "Enter a valid Ethiopian phone number."
-      );
+  valid =
+    false;
 
-      valid =
-        false;
-
-    }
+}
 
 
     /* ---------------------------------------------------
@@ -1841,7 +2005,34 @@
 
     }
 
+    /* ---------------------------------------------------
+       LEGAL CONSENT
+    --------------------------------------------------- */
 
+    if (
+      !signupTerms ||
+      !signupTerms.checked
+    ) {
+
+      setText(
+        "signupTermsError",
+        "Please agree to the Terms of Service and Privacy Policy to create your account."
+      );
+
+      /*
+        Only move focus to the checkbox if all earlier
+        registration validation has passed.
+      */
+      if (valid && signupTerms) {
+
+        signupTerms.focus();
+
+      }
+
+      valid =
+        false;
+
+    }
     return valid;
 
   }
@@ -3019,34 +3210,25 @@ try {
 
       }
 
+else {
 
-      else {
+  if (
+    !isValidEthiopianMobile(
+      identifier
+    )
+  ) {
 
-        const phone =
-          normalizePhone(
-            identifier
-          );
+    setText(
+      "loginPhoneError",
+      "Enter a valid email or Ethiopian mobile number starting with 07 or 09."
+    );
 
+    valid =
+      false;
 
-        if (
-          !/^251[79]\d{8}$/.test(
-            phone
-          )
-        ) {
+  }
 
-          setText(
-            "loginPhoneError",
-            "Enter a valid email or Ethiopian phone number."
-          );
-
-          valid =
-            false;
-
-        }
-
-      }
-
-
+}
       if (!password) {
 
         setText(

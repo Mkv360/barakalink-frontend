@@ -1,0 +1,754 @@
+/* =========================================================
+   BARAKALINK — USTAZ NOTIFICATION CENTER
+   Professional presentation layer for:
+   - Notification bell + badge
+   - Messages side-menu badge
+   - Notification panel
+   - New-message preview with avatar/photo
+   - Official BarakaLink system messages
+
+   Presentation only. Does not change JS behavior.
+========================================================= */
+
+#ustazNotificationButton,
+#ustazNotificationPanel,
+#ustazNotificationPanel * {
+  box-sizing: border-box;
+}
+
+#ustazNotificationButton {
+  position: relative;
+}
+
+/* ---------------------------------------------------------
+   BELL BADGE
+--------------------------------------------------------- */
+
+#ustazNotificationBadge {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border: 2px solid var(--surface, #FFFFFF);
+  border-radius: 999px;
+  background: var(--gold, #A47B2C);
+  color: var(--surface, #FFFFFF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(28, 23, 18, 0.16);
+  z-index: 5;
+  transform-origin: center;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+#ustazNotificationBadge:not([hidden]) {
+  animation: ustazNotificationBadgeIn 180ms ease-out;
+}
+
+#ustazNotificationButton:hover #ustazNotificationBadge,
+#ustazNotificationButton:focus-visible #ustazNotificationBadge {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 5px 12px rgba(28, 23, 18, 0.2);
+}
+
+@keyframes ustazNotificationBadgeIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------------------------------------------------------
+   SIDE-MENU NEW MESSAGE COUNTER
+--------------------------------------------------------- */
+
+#ustazMessagesBadge {
+  min-width: 21px;
+  height: 21px;
+  padding: 0 6px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: var(--gold, #A47B2C);
+  color: var(--surface, #FFFFFF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 2px 7px rgba(28, 23, 18, 0.14);
+  animation: ustazMessageBadgeIn 180ms ease-out;
+}
+
+#ustazMessagesBadge[hidden],
+#ustazNotificationBadge[hidden] {
+  display: none !important;
+}
+
+@keyframes ustazMessageBadgeIn {
+  from { opacity: 0; transform: scale(0.78); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------------------------------------------------------
+   PANEL
+--------------------------------------------------------- */
+
+#ustazNotificationPanel {
+  position: absolute;
+  z-index: 1200;
+  width: min(410px, calc(100vw - 28px));
+  max-width: 410px;
+  max-height: min(620px, calc(100vh - 110px));
+  overflow: hidden;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 18px;
+  background: var(--surface, #FFFFFF);
+  color: var(--text, #1C1712);
+  box-shadow:
+    0 18px 45px rgba(28, 23, 18, 0.14),
+    0 4px 14px rgba(28, 23, 18, 0.08);
+  isolation: isolate;
+}
+
+#ustazNotificationPanel[hidden] {
+  display: none !important;
+}
+
+#ustazNotificationPanel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gold, #A47B2C);
+  opacity: 0.9;
+  z-index: 2;
+}
+
+#ustazNotificationPanel > header,
+#ustazNotificationPanel > .notification-header,
+#ustazNotificationPanel > .ustaz-notification-header,
+#ustazNotificationPanel > [data-notification-header] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 62px;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--surface-muted, #F1E8D6);
+  background: var(--surface, #FFFFFF);
+}
+
+#ustazNotificationClear {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted, #7D7161);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+#ustazNotificationClear:hover {
+  color: var(--text, #1C1712);
+  background: var(--surface-soft, #FFFDF8);
+}
+
+#ustazNotificationClear:focus-visible {
+  outline: 2px solid var(--gold, #A47B2C);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------
+   LIST / SCROLL AREA
+--------------------------------------------------------- */
+
+#ustazNotificationList {
+  max-height: min(550px, calc(100vh - 180px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(164, 123, 44, 0.4) transparent;
+}
+
+#ustazNotificationList::-webkit-scrollbar {
+  width: 7px;
+}
+
+#ustazNotificationList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#ustazNotificationList::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(164, 123, 44, 0.38);
+  background-clip: padding-box;
+}
+
+#ustazNotificationList::-webkit-scrollbar-thumb:hover {
+  background: rgba(164, 123, 44, 0.56);
+  background-clip: padding-box;
+}
+
+/* ---------------------------------------------------------
+   EMPTY STATE
+--------------------------------------------------------- */
+
+#ustazNotificationList .student-notification-empty {
+  min-height: 220px;
+  padding: 30px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-soft, #4C4135);
+}
+
+#ustazNotificationList .student-notification-empty-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 13px;
+  border-radius: 50%;
+  background: var(--surface-muted, #F1E8D6);
+  color: var(--gold, #A47B2C);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+#ustazNotificationList .student-notification-empty strong,
+#ustazNotificationList .student-notification-empty-title {
+  margin: 0;
+  color: var(--text, #1C1712);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+#ustazNotificationList .student-notification-empty p,
+#ustazNotificationList .student-notification-empty-body {
+  max-width: 260px;
+  margin: 7px 0 0;
+  color: var(--text-muted, #7D7161);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------
+   BASE NOTIFICATION CARD
+--------------------------------------------------------- */
+
+#ustazNotificationList > .student-notification-item:not(.barakalink-message-notification) {
+  width: 100%;
+  margin: 0;
+  padding: 13px 12px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  text-align: left;
+  color: inherit;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+#ustazNotificationList > .student-notification-item:not(.barakalink-message-notification).is-unread {
+  border-color: rgba(164, 123, 44, 0.1);
+  background: var(--surface-soft, #FFFDF8);
+}
+
+#ustazNotificationList > .student-notification-item:not(.barakalink-message-notification)[role='button'] {
+  cursor: pointer;
+}
+
+#ustazNotificationList > .student-notification-item:not(.barakalink-message-notification)[role='button']:hover {
+  border-color: rgba(164, 123, 44, 0.18);
+  background: var(--surface-soft, #FFFDF8);
+  transform: translateY(-1px);
+}
+
+#ustazNotificationList > .student-notification-item:not(.barakalink-message-notification)[role='button']:focus-visible,
+#ustazNotificationList .barakalink-system-message[role='button']:focus-visible,
+#ustazNotificationList .barakalink-message-notification:focus-visible {
+  outline: 2px solid var(--gold, #A47B2C);
+  outline-offset: 2px;
+}
+
+#ustazNotificationList .student-notification-item-icon {
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  border-radius: 11px;
+  background: var(--surface-muted, #F1E8D6);
+  color: var(--gold, #A47B2C);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+#ustazNotificationList .student-notification-item-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#ustazNotificationList .student-notification-item-copy strong {
+  color: var(--text, #1C1712);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+#ustazNotificationList .student-notification-item-copy p {
+  margin: 0;
+  color: var(--text-soft, #4C4135);
+  font-size: 12px;
+  line-height: 1.48;
+  overflow-wrap: anywhere;
+}
+
+#ustazNotificationList .student-notification-item-copy small {
+  margin-top: 3px;
+  color: var(--text-muted, #7D7161);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+#ustazNotificationList .student-notification-item.is-read {
+  opacity: 0.78;
+}
+
+#ustazNotificationList .student-notification-item.is-read:hover {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------
+   NEW MESSAGE CARD
+--------------------------------------------------------- */
+
+#ustazNotificationList .barakalink-message-notification {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 13px 12px 13px 11px;
+  border: 1px solid rgba(164, 123, 44, 0.12);
+  border-radius: 14px;
+  background: var(--surface, #FFFFFF);
+  color: var(--text, #1C1712);
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: 11px;
+  row-gap: 3px;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+#ustazNotificationList .barakalink-message-notification:hover {
+  border-color: rgba(164, 123, 44, 0.24);
+  background: var(--surface-soft, #FFFDF8);
+  box-shadow: 0 7px 18px rgba(28, 23, 18, 0.07);
+  transform: translateY(-1px);
+}
+
+#ustazNotificationList .barakalink-message-notification:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(28, 23, 18, 0.06);
+}
+
+#ustazNotificationList .barakalink-message-notification::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: var(--gold, #A47B2C);
+  opacity: 0.9;
+}
+
+/* ---------------------------------------------------------
+   AVATAR / PHOTO
+--------------------------------------------------------- */
+
+#ustazNotificationList .barakalink-message-notification-avatar {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border: 2px solid var(--surface, #FFFFFF);
+  border-radius: 50%;
+  background: var(--surface-muted, #F1E8D6);
+  color: var(--gold, #A47B2C);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(164, 123, 44, 0.16),
+    0 4px 11px rgba(28, 23, 18, 0.08);
+}
+
+#ustazNotificationList .barakalink-message-notification-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  background: var(--surface-muted, #F1E8D6);
+}
+
+#ustazNotificationList .barakalink-message-notification-initials {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+#ustazNotificationList .barakalink-message-notification-initials[hidden] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   MESSAGE COPY
+--------------------------------------------------------- */
+
+#ustazNotificationList .barakalink-message-notification-copy {
+  min-width: 0;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+#ustazNotificationList .barakalink-message-notification-title {
+  color: var(--gold, #A47B2C);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+#ustazNotificationList .barakalink-message-notification-name {
+  min-width: 0;
+  color: var(--text, #1C1712);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#ustazNotificationList .barakalink-message-notification-preview {
+  min-width: 0;
+  margin-top: 1px;
+  color: var(--text-soft, #4C4135);
+  font-size: 11px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+   line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+#ustazNotificationList .barakalink-message-notification-time {
+  min-width: max-content;
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  padding-left: 4px;
+  color: var(--text-muted, #7D7161);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#ustazNotificationList .barakalink-message-notification-dot {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: end;
+  align-self: end;
+  width: 7px;
+  height: 7px;
+  margin: 0 3px 2px 0;
+  border-radius: 50%;
+  background: var(--gold, #A47B2C);
+  box-shadow: 0 0 0 3px rgba(164, 123, 44, 0.1);
+}
+
+/* ---------------------------------------------------------
+   OFFICIAL BARAKALINK MESSAGE
+--------------------------------------------------------- */
+
+#ustazNotificationList .barakalink-system-message {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 14px 12px;
+  border: 1px solid rgba(164, 123, 44, 0.15);
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface-soft, #FFFDF8),
+      var(--surface, #FFFFFF)
+    );
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  color: var(--text, #1C1712);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+#ustazNotificationList .barakalink-system-message.is-unread {
+  border-color: rgba(164, 123, 44, 0.24);
+  box-shadow: 0 5px 16px rgba(164, 123, 44, 0.08);
+}
+
+#ustazNotificationList .barakalink-system-message[role='button'] {
+  cursor: pointer;
+}
+
+#ustazNotificationList .barakalink-system-message[role='button']:hover {
+  border-color: rgba(164, 123, 44, 0.34);
+  box-shadow: 0 8px 20px rgba(28, 23, 18, 0.07);
+  transform: translateY(-1px);
+}
+
+#ustazNotificationList .barakalink-system-message.is-read {
+  opacity: 0.82;
+}
+
+#ustazNotificationList .barakalink-system-message-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--surface-muted, #F1E8D6);
+  color: var(--gold, #A47B2C);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  box-shadow: inset 0 0 0 1px rgba(164, 123, 44, 0.08);
+}
+
+#ustazNotificationList .barakalink-system-message-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#ustazNotificationList .barakalink-system-message-brand {
+  width: fit-content;
+  max-width: 100%;
+  color: var(--gold, #A47B2C);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#ustazNotificationList .barakalink-system-message-title {
+  color: var(--text, #1C1712);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#ustazNotificationList .barakalink-system-message-body {
+  margin: 1px 0 0;
+  color: var(--text-soft, #4C4135);
+  font-size: 11px;
+  line-height: 1.52;
+  overflow-wrap: anywhere;
+}
+
+#ustazNotificationList .barakalink-system-message-time {
+  margin-top: 3px;
+  color: var(--text-muted, #7D7161);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ---------------------------------------------------------
+   SPACING
+--------------------------------------------------------- */
+
+#ustazNotificationList > .student-notification-item + .student-notification-item,
+#ustazNotificationList > .barakalink-system-message + .barakalink-system-message,
+#ustazNotificationList > .barakalink-message-notification + .barakalink-system-message,
+#ustazNotificationList > .barakalink-system-message + .barakalink-message-notification,
+#ustazNotificationList > .student-notification-item + .barakalink-message-notification,
+#ustazNotificationList > .barakalink-message-notification + .student-notification-item {
+  margin-top: 6px;
+}
+
+/* ---------------------------------------------------------
+   DESKTOP
+--------------------------------------------------------- */
+
+@media (min-width: 700px) {
+  #ustazNotificationPanel {
+    width: 410px;
+  }
+
+  #ustazNotificationList {
+    padding: 9px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification,
+  #ustazNotificationList .barakalink-system-message,
+  #ustazNotificationList > .student-notification-item:not(.barakalink-message-notification) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 699px) {
+  #ustazNotificationPanel {
+    width: min(410px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 88px);
+    border-radius: 16px;
+  }
+
+  #ustazNotificationPanel > header,
+  #ustazNotificationPanel > .notification-header,
+  #ustazNotificationPanel > .ustaz-notification-header,
+  #ustazNotificationPanel > [data-notification-header] {
+    min-height: 56px;
+    padding: 16px 14px 12px;
+  }
+
+  #ustazNotificationList {
+    max-height: calc(100vh - 145px);
+    padding: 7px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification {
+    grid-template-columns: 43px minmax(0, 1fr) auto;
+    column-gap: 10px;
+    padding: 12px 10px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-avatar {
+    width: 43px;
+    height: 43px;
+    flex-basis: 43px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-name {
+    font-size: 12px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-preview {
+    font-size: 10.5px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-time {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 420px) {
+  #ustazNotificationPanel {
+    width: calc(100vw - 14px);
+    max-width: calc(100vw - 14px);
+    border-radius: 14px;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-time {
+    max-width: 46px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #ustazNotificationList .barakalink-message-notification-dot {
+    margin-right: 2px;
+  }
+}
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #ustazNotificationBadge:not([hidden]),
+  #ustazMessagesBadge,
+  #ustazNotificationList .barakalink-message-notification,
+  #ustazNotificationList .barakalink-system-message,
+  #ustazNotificationList .student-notification-item,
+  #ustazNotificationClear {
+    animation: none !important;
+    transition: none !important;
+  }
+}

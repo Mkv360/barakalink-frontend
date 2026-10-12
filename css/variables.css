@@ -3,7 +3,6 @@
 ========================================================= */
 
 :root {
-
   --page-bg: #FBF7EE;
   --surface: #FFFFFF;
   --surface-soft: #FFFDF8;
@@ -31,11 +30,9 @@
   --dark-muted: rgba(251,247,238,.64);
 
   --container: 1220px;
-
   --nav-height: 78px;
 
-  --section-space:
-    clamp(4.5rem, 9vw, 8rem);
+  --section-space: clamp(4.5rem, 9vw, 8rem);
 
   --radius-sm: 12px;
   --radius-md: 20px;
@@ -43,35 +40,19 @@
   --radius-xl: 40px;
   --pill: 999px;
 
-  --shadow-sm:
-    0 12px 35px -20px rgba(28,23,18,.25);
+  --shadow-sm: 0 12px 35px -20px rgba(28,23,18,.25);
+  --shadow-md: 0 28px 65px -30px rgba(28,23,18,.30);
+  --shadow-gold: 0 22px 50px -18px rgba(168,117,27,.42);
 
-  --shadow-md:
-    0 28px 65px -30px rgba(28,23,18,.30);
-
-  --shadow-gold:
-    0 22px 50px -18px rgba(168,117,27,.42);
-
-  --font-display:
-    "Fraunces",
-    ui-serif,
-    Georgia,
-    serif;
-
-  --font-body:
-    "Plus Jakarta Sans",
-    ui-sans-serif,
-    system-ui,
-    sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
-
 
 /* =========================================================
    DARK THEME TOKENS
 ========================================================= */
 
 body.dark-theme {
-
   --page-bg: #17130F;
   --surface: #211A13;
   --surface-soft: #261E16;
@@ -91,16 +72,10 @@ body.dark-theme {
 
   --dark-section: #110D09;
   --dark-section-2: #0B0805;
-
   --dark-text: #F8F0E1;
   --dark-muted: rgba(248,240,225,.62);
 
-  --shadow-sm:
-    0 14px 35px -20px rgba(0,0,0,.55);
-
-  --shadow-md:
-    0 30px 75px -30px rgba(0,0,0,.65);
-
-  --shadow-gold:
-    0 22px 50px -18px rgba(214,168,79,.25);
+  --shadow-sm: 0 14px 35px -20px rgba(0,0,0,.55);
+  --shadow-md: 0 30px 75px -30px rgba(0,0,0,.65);
+  --shadow-gold: 0 22px 50px -18px rgba(214,168,79,.25);
 }

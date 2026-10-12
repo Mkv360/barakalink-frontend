@@ -2,3 +2,520 @@
    BARAKALINK — TEACHERS
    Reserved for find-teachers.html and teacher-profile.html
 ========================================================= */
+
+/* =========================================================
+   USTAZ DASHBOARD — PROFILE TRUST INDICATOR
+
+   Visual result:
+
+   Alewi Adem  [●✓]
+
+   Patient, friendly, and structured. I teach each student
+   according to their level and learning pace...
+
+   📄 Credentials Submitted
+
+   📍 bole • atlas
+========================================================= */
+
+
+/* =========================================================
+   PROFILE NAME + VERIFIED BADGE
+========================================================= */
+
+#ustazHomeName {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------
+   NO BADGE BY DEFAULT
+--------------------------------------------------------- */
+
+#ustazHomeName::after {
+  content: none;
+}
+
+
+/* =========================================================
+   CREDENTIALS SUBMITTED — BLUE
+========================================================= */
+
+.ustaz-profile-overview-panel:has(
+  .ustaz-profile-trust-indicator[data-trust-state="credentials"]
+) #ustazHomeName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #3B82F6;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: scale(1);
+
+  animation:
+    ustazDashboardTrustBadgePulseBlue
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   IDENTITY VERIFIED — GREEN
+========================================================= */
+
+.ustaz-profile-overview-panel:has(
+  .ustaz-profile-trust-indicator[data-trust-state="identity"]
+) #ustazHomeName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #22C55E;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: scale(1);
+
+  animation:
+    ustazDashboardTrustBadgePulseGreen
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   TRUSTED PROFILE — GOLD
+========================================================= */
+
+.ustaz-profile-overview-panel:has(
+  .ustaz-profile-trust-indicator[data-trust-state="trusted"]
+) #ustazHomeName::after {
+
+  content: "✓";
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #D4A72C;
+  color: #FFFFFF;
+
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+
+  box-sizing: border-box;
+
+  transform: scale(1);
+
+  animation:
+    ustazDashboardTrustBadgePulseGold
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   BADGE ANIMATIONS
+========================================================= */
+
+@keyframes ustazDashboardTrustBadgePulseBlue {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(59, 130, 246, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(59, 130, 246, 0.13);
+  }
+}
+
+
+@keyframes ustazDashboardTrustBadgePulseGreen {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(34, 197, 94, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(34, 197, 94, 0.13);
+  }
+}
+
+
+@keyframes ustazDashboardTrustBadgePulseGold {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(212, 167, 44, 0);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 4px rgba(212, 167, 44, 0.13);
+  }
+}
+
+
+/* =========================================================
+   TRUST LABEL
+   Always stays BELOW the biography because the HTML already
+   places it after #ustazHomeBio.
+========================================================= */
+
+.ustaz-profile-trust-indicator {
+
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin-top: 8px;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+
+/* Hidden trust state */
+.ustaz-profile-trust-indicator[hidden] {
+  display: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   REMOVE THE OLD DOT FROM THIS ROW
+   The badge now belongs beside the teacher name.
+--------------------------------------------------------- */
+
+.ustaz-profile-trust-dot {
+  display: none !important;
+}
+
+
+/* =========================================================
+   CREDENTIALS SUBMITTED — BLUE
+========================================================= */
+
+.ustaz-profile-trust-indicator[data-trust-state="credentials"] {
+  color: #3B82F6;
+}
+
+.ustaz-profile-trust-indicator[data-trust-state="credentials"]
+#ustazProfileTrustLabel {
+  color: #3B82F6;
+}
+
+
+/* =========================================================
+   IDENTITY VERIFIED — GREEN
+========================================================= */
+
+.ustaz-profile-trust-indicator[data-trust-state="identity"] {
+  color: #22C55E;
+}
+
+.ustaz-profile-trust-indicator[data-trust-state="identity"]
+#ustazProfileTrustLabel {
+  color: #22C55E;
+}
+
+
+/* =========================================================
+   TRUSTED PROFILE — GOLD
+========================================================= */
+
+.ustaz-profile-trust-indicator[data-trust-state="trusted"] {
+  color: #D4A72C;
+}
+
+.ustaz-profile-trust-indicator[data-trust-state="trusted"]
+#ustazProfileTrustLabel {
+  color: #D4A72C;
+}
+
+
+/* =========================================================
+   INFO BUTTON
+========================================================= */
+
+.ustaz-profile-trust-info {
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: currentColor;
+
+  font-size: 0.78rem;
+  line-height: 1;
+
+  opacity: 0.65;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.ustaz-profile-trust-info:hover,
+.ustaz-profile-trust-info[aria-expanded="true"] {
+
+  background: rgba(127, 127, 127, 0.12);
+
+  opacity: 1;
+}
+
+.ustaz-profile-trust-info:focus-visible {
+
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   INFO TOOLTIP
+========================================================= */
+
+.ustaz-profile-trust-tooltip {
+
+  position: absolute;
+  z-index: 30;
+
+  left: 0;
+  top: calc(100% + 8px);
+
+  width: min(320px, calc(100vw - 40px));
+
+  margin: 0;
+  padding: 11px 13px;
+
+  border: 1px solid var(--ud-border-strong);
+  border-radius: 10px;
+
+  background: var(--ud-surface);
+  color: var(--ud-text);
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.10);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.ustaz-profile-trust-tooltip[hidden] {
+  display: none !important;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+html[data-theme="dark"] {
+
+  .ustaz-profile-trust-indicator[data-trust-state="credentials"],
+  .ustaz-profile-trust-indicator[data-trust-state="credentials"]
+  #ustazProfileTrustLabel {
+    color: #60A5FA;
+  }
+
+  .ustaz-profile-trust-indicator[data-trust-state="identity"],
+  .ustaz-profile-trust-indicator[data-trust-state="identity"]
+  #ustazProfileTrustLabel {
+    color: #4ADE80;
+  }
+
+  .ustaz-profile-trust-indicator[data-trust-state="trusted"],
+  .ustaz-profile-trust-indicator[data-trust-state="trusted"]
+  #ustazProfileTrustLabel {
+    color: #F0BE46;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  #ustazHomeName {
+    gap: 6px;
+  }
+
+  #ustazHomeName::after {
+
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+
+    font-size: 9px;
+  }
+
+  .ustaz-profile-trust-indicator {
+    gap: 6px;
+    font-size: 0.75rem;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  #ustazHomeName::after {
+    animation: none !important;
+    transform: scale(1) !important;
+    box-shadow: none !important;
+  }
+
+  .ustaz-profile-trust-info {
+    transition: none;
+  }
+
+}
+
+/* =========================================================
+   BARAKALINK — PUBLIC USTAZ CARD PHOTOS
+   Consistent sizing, clean cropping, no stretched photos
+========================================================= */
+
+.popular-teacher-card {
+  overflow: hidden;
+}
+
+.popular-teacher-card .popular-teacher-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 180px;
+  max-height: 240px;
+  overflow: hidden;
+
+  background-color: var(--surface-muted, #F1E8D6);
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* When the photo is an img inside the photo container */
+.popular-teacher-card .popular-teacher-image > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Also support an img that has the photo class directly */
+.popular-teacher-card img.popular-teacher-image {
+  height: clamp(180px, 22vw, 240px);
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+  .popular-teacher-card .popular-teacher-image {
+    min-height: 150px;
+  }
+
+  .popular-teacher-card img.popular-teacher-image {
+    height: 170px;
+  }
+
+  .popular-teacher-card .popular-teacher-image > img {
+    object-position: center 28%;
+  }
+}

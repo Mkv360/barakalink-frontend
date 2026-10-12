@@ -404,3 +404,848 @@ body.dark-theme .profile-edit-choice {
     flex: 1;
   }
 }
+
+
+/* =========================================================
+   USTAZ EDIT PROFILE PAGE — SCOPED LAYER
+   ---------------------------------------------------------
+   Everything below starts with .ustaz-profile-edit-page, so the
+   generic rules above (shared with other profile pages) are not
+   affected. Specificity is raised on purpose because
+   profile-completion.css loads AFTER this file.
+
+   CSS-only: HTML order, IDs, input names and JS hooks are
+   untouched. Cards that are moved visually use `order`, so
+   keyboard and screen-reader order still follow the HTML.
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. Scoped tokens (light + dark)
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page {
+  --pe-control-h: 46px;
+  --pe-line: rgba(0, 0, 0, 0.12);
+  --pe-line-soft: rgba(0, 0, 0, 0.08);
+  --pe-field-bg: #fff;
+}
+
+body.dark-theme .ustaz-profile-edit-page {
+  --pe-line: rgba(255, 255, 255, 0.12);
+  --pe-line-soft: rgba(255, 255, 255, 0.09);
+  --pe-field-bg: #211c17;
+}
+
+
+/* ---------------------------------------------------------
+   2. Guards: [hidden], box-sizing, no horizontal overflow
+--------------------------------------------------------- */
+
+/* The HTML hidden attribute must win over shared component display rules. */
+.ustaz-profile-edit-page [hidden] {
+  display: none !important;
+}
+
+.ustaz-profile-edit-page,
+.ustaz-profile-edit-page *,
+.ustaz-profile-edit-page *::before,
+.ustaz-profile-edit-page *::after {
+  box-sizing: border-box;
+}
+
+.ustaz-profile-edit-page {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.ustaz-profile-edit-page .profile-edit-shell,
+.ustaz-profile-edit-page .profile-edit-header,
+.ustaz-profile-edit-page .ustaz-profile-edit-form,
+.ustaz-profile-edit-page .profile-edit-card,
+.ustaz-profile-edit-page .profile-edit-card-heading,
+.ustaz-profile-edit-page .profile-edit-grid,
+.ustaz-profile-edit-page .profile-edit-field,
+.ustaz-profile-edit-page .profile-edit-photo-layout,
+.ustaz-profile-edit-page .profile-edit-photo-actions,
+.ustaz-profile-edit-page .profile-edit-inline-actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-shell {
+  width: min(1050px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+
+/* ---------------------------------------------------------
+   3. Page header: wrap instead of overflowing on narrow screens
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-header {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.ustaz-profile-edit-page .ustaz-profile-edit-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* ---------------------------------------------------------
+   4. The form is a stack of cards
+   Mobile = flex column (so the sticky Save bar keeps working).
+   Tablet/desktop (section 14) = 12-column grid.
+   Default `order: 5` keeps HTML order; section 15 promotes a few
+   cards. Per-card margin is reset because `gap` now spaces them.
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .ustaz-profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.ustaz-profile-edit-page .ustaz-profile-edit-form > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0;
+  order: 5;
+}
+
+
+/* ---------------------------------------------------------
+   5. Cards, headings, intro text
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-card {
+  width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ustaz-profile-edit-page .profile-edit-card-heading > div {
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.ustaz-profile-edit-page .profile-edit-card-heading > span {
+  flex: 0 0 auto;
+}
+
+.ustaz-profile-edit-page .profile-edit-card-heading h2 {
+  line-height: 1.25;
+}
+
+.ustaz-profile-edit-page .ustaz-edit-section-description,
+.ustaz-profile-edit-page .profile-edit-card > .profile-edit-field-help {
+  margin: 0 0 16px;
+  font-size: .8rem;
+  line-height: 1.55;
+  opacity: .7;
+}
+
+
+/* ---------------------------------------------------------
+   6. Field grid, controls, help / counter / error text
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* One consistent height for every single-line control.
+   :where() keeps the specificity low so the phone control can override it. */
+.ustaz-profile-edit-page .profile-edit-field :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+  select
+) {
+  min-height: var(--pe-control-h);
+}
+
+.ustaz-profile-edit-page .profile-edit-field input[type="date"] {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-field textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .profile-edit-field-help,
+.ustaz-profile-edit-page .form-help {
+  display: block;
+  margin: 6px 0 0;
+  font-size: .74rem;
+  line-height: 1.45;
+  opacity: .62;
+}
+
+.ustaz-profile-edit-page .profile-edit-card > .form-help {
+  margin-top: 10px;
+}
+
+/* Character counter stays on one line with its caption. */
+.ustaz-profile-edit-page .profile-edit-field-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+}
+
+/* Empty message slots take no space; filled ones stay visible. */
+.ustaz-profile-edit-page .form-error {
+  margin-top: 6px;
+  font-size: .74rem;
+  line-height: 1.4;
+}
+
+.ustaz-profile-edit-page .form-error:empty {
+  display: none;
+}
+
+.ustaz-profile-edit-page .form-error:not(:empty) {
+  display: block;
+  color: #a43d3d;
+}
+
+
+/* ---------------------------------------------------------
+   7. Choice chips (subjects, languages, lesson format)
+   Fixes `.profile-edit-field label {display:block}` winning over
+   `.profile-edit-choice {display:flex}` for chips inside a field.
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-choice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.ustaz-profile-edit-page .profile-edit-choice input {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.ustaz-profile-edit-page .profile-edit-choice > i {
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: .95rem;
+  line-height: 1;
+  color: #9a7420;
+}
+
+.ustaz-profile-edit-page .profile-edit-choice :where(span, strong) {
+  min-width: 0;
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+/* The JS toggles .is-selected; :has() keeps the state correct immediately. */
+.ustaz-profile-edit-page label.profile-edit-choice.is-selected,
+.ustaz-profile-edit-page label.profile-edit-choice:has(input:checked) {
+  border-color: #9a7420 !important;
+  background: rgba(212, 175, 55, 0.13) !important;
+}
+
+
+/* ---------------------------------------------------------
+   8. Teaching subjects: separated from the locked details above
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-field-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 6px 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--pe-line-soft);
+}
+
+.ustaz-profile-edit-page .profile-edit-field-heading-row > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .profile-edit-field-heading-row > span {
+  flex: 0 0 auto;
+}
+
+.ustaz-profile-edit-page .profile-edit-field-heading-row label {
+  margin-bottom: 4px;
+  font-size: .9rem;
+}
+
+.ustaz-profile-edit-page .profile-edit-field-heading-row .profile-edit-field-help {
+  margin: 0;
+  opacity: .7;
+}
+
+
+/* ---------------------------------------------------------
+   9. Phone: "+251" and the number read as one continuous value
+   The wrapper draws the single border/background; the prefix and
+   the readonly input inside it are borderless and gapless.
+   The wrapper carries the same .72 dimming as other readonly
+   inputs, so prefix and number are always equally dim.
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-readonly-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-phone-input {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--pe-control-h);
+  padding: 0 13px;
+  border: 1px solid var(--pe-line);
+  border-radius: 11px;
+  background: var(--pe-field-bg);
+  color: inherit;
+  font: inherit;
+  line-height: 1.4;
+  opacity: .72;
+  cursor: not-allowed;
+  overflow: hidden;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-phone-input > span {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-phone-input > input {
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  opacity: 1;
+  text-overflow: ellipsis;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-phone-input > input:focus {
+  border: 0;
+  box-shadow: none;
+  outline: none;
+}
+
+.ustaz-profile-edit-page .profile-edit-field .ustaz-phone-input:focus-within {
+  border-color: rgba(154, 116, 32, .55);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, .10);
+}
+
+.ustaz-profile-edit-page .profile-phone-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* ---------------------------------------------------------
+   10. Inputs with a leading icon / "ETB" prefix
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-input-with-icon .ustaz-input-prefix {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  transform: translateY(-50%);
+  font-size: .75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #9a7420;
+  pointer-events: none;
+}
+
+.ustaz-profile-edit-page .profile-edit-input-with-icon .ustaz-input-prefix + input {
+  padding-left: 50px;
+}
+
+
+/* ---------------------------------------------------------
+   11. Qualifications, recitation, identity note
+   Only layout properties are set on classes whose colors live in
+   profile-completion.css.
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .ustaz-qualification-list {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.ustaz-profile-edit-page .ustaz-qualification-header {
+  margin-bottom: 12px;
+}
+
+.ustaz-profile-edit-page .ustaz-qualification-upload {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-width: 0;
+  max-width: 100%;
+  margin-top: 14px;
+}
+
+.ustaz-profile-edit-page .ustaz-qualification-upload input[type="file"] {
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 100%;
+  font-size: .8rem;
+}
+
+.ustaz-profile-edit-page .profile-edit-recitation-card {
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .profile-edit-recitation-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .profile-edit-recitation-content > p {
+  margin: 4px 0 12px;
+}
+
+.ustaz-profile-edit-page .profile-edit-recitation-card + .ustaz-recitation-preview {
+  margin-top: 12px;
+}
+
+.ustaz-profile-edit-page .ustaz-recitation-preview > div:last-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .ustaz-recitation-preview audio {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 8px;
+}
+
+.ustaz-profile-edit-page .ustaz-security-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ustaz-profile-edit-page .ustaz-security-card > div {
+  min-width: 0;
+}
+
+.ustaz-profile-edit-page .ustaz-security-icon {
+  flex: 0 0 auto;
+}
+
+.ustaz-profile-edit-page .ustaz-security-card p {
+  margin: 4px 0 0;
+  font-size: .8rem;
+  line-height: 1.55;
+}
+
+
+/* ---------------------------------------------------------
+   12. Info note and Save / Cancel bar
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .ustaz-profile-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.55;
+}
+
+.ustaz-profile-edit-page .ustaz-profile-note > i {
+  flex: 0 0 auto;
+  margin-top: .2em;
+}
+
+.ustaz-profile-edit-page .profile-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.ustaz-profile-edit-page .profile-edit-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--pe-control-h);
+  text-decoration: none;
+}
+
+.ustaz-profile-edit-page .ustaz-profile-actions-spacer {
+  flex: 1 1 auto;
+}
+
+
+/* ---------------------------------------------------------
+   13. Photo card (mobile / tablet: avatar left, text right)
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-photo-layout {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-preview {
+  flex: 0 0 100px;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-preview img {
+  display: block;
+  max-width: 100%;
+}
+
+.ustaz-profile-edit-page .profile-edit-photo-actions strong,
+.ustaz-profile-edit-page .profile-edit-photo-actions p,
+.ustaz-profile-edit-page .profile-edit-field {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+
+/* ---------------------------------------------------------
+   14. Validation state (set by showFieldError())
+--------------------------------------------------------- */
+
+.ustaz-profile-edit-page .profile-edit-field.has-error input:not([type="file"]),
+.ustaz-profile-edit-page .profile-edit-field.has-error select,
+.ustaz-profile-edit-page .profile-edit-field.has-error textarea,
+.ustaz-profile-edit-page .profile-edit-field input.is-invalid,
+.ustaz-profile-edit-page .profile-edit-field select.is-invalid,
+.ustaz-profile-edit-page .profile-edit-field textarea.is-invalid {
+  border-color: #b33d3d !important;
+  box-shadow: 0 0 0 3px rgba(179, 61, 61, 0.12) !important;
+}
+
+.ustaz-profile-edit-page .profile-edit-field.has-error .profile-edit-input-with-icon input,
+.ustaz-profile-edit-page .profile-edit-field.has-error .ustaz-readonly-wrap input {
+  border-color: #b33d3d !important;
+}
+
+/* The phone wrapper draws the border, so the inner input shows no ring. */
+.ustaz-profile-edit-page .profile-edit-field.has-error .ustaz-phone-input {
+  border-color: #b33d3d !important;
+  box-shadow: 0 0 0 3px rgba(179, 61, 61, 0.12) !important;
+}
+
+.ustaz-profile-edit-page .profile-edit-field.has-error .ustaz-phone-input > input {
+  box-shadow: none !important;
+}
+
+.ustaz-profile-edit-page .profile-edit-field.has-error label {
+  color: inherit;
+}
+
+
+/* ---------------------------------------------------------
+   15. TABLET + DESKTOP (>= 701px): 12-column card grid
+--------------------------------------------------------- */
+
+@media (min-width: 701px) {
+
+  .ustaz-profile-edit-page .ustaz-profile-edit-form {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  /* Teaching subjects: 3 x 2 instead of an uneven 4 + 2. */
+  .ustaz-profile-edit-page #profileStudyFields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Languages: 3 x 2 on tablet (6 across on desktop, below). */
+  .ustaz-profile-edit-page #profileLanguages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Qualification: title | institution, then year | specialization. */
+  .ustaz-profile-edit-page .profile-edit-qualification-item > .profile-edit-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .ustaz-profile-edit-page .profile-edit-qualification-item > .profile-edit-grid > .profile-edit-field {
+    grid-column: span 6;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   16. CARD PLACEMENT MAP
+   The cards have no classes of their own, so each is identified
+   by an ID it contains. `:has()` is Baseline widely available;
+   browsers without it simply keep the single-column HTML order.
+--------------------------------------------------------- */
+
+@supports selector(:has(*)) {
+
+  /* ---- Visual order (all widths). HTML order is unchanged. ---- */
+
+  .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-photo-card {
+    order: 1;
+  }
+
+  /* Registration information */
+  .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileRole) {
+    order: 2;
+  }
+
+  /* Personal introduction */
+  .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileDateOfBirth) {
+    order: 3;
+  }
+
+  /* Teaching experience */
+  .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileExperience) {
+    order: 4;
+  }
+
+  /* Inside Registration: phone after gender, teaching subjects last. */
+  .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) > .profile-edit-field:has(#profilePhone) {
+    order: 1;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) > .profile-edit-field:has(#profileStudyFields) {
+    order: 2;
+  }
+
+
+  /* ---- Tablet + desktop (>= 701px) ---- */
+
+  @media (min-width: 701px) {
+
+    /* Personal introduction (7) beside Teaching experience (5). */
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileDateOfBirth) {
+      grid-column: span 7;
+    }
+
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileExperience) {
+      grid-column: span 5;
+    }
+
+    /* Experience has a single field: use the full card width. */
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileExperience) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Registration: account type | first name | last name, then gender | phone. */
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) > .profile-edit-field {
+      grid-column: span 2;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) > .profile-edit-field:has(#profilePhone) {
+      grid-column: span 4;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileRole) > .profile-edit-field:has(#profileStudyFields) {
+      grid-column: 1 / -1;
+    }
+
+    /* Location: sub-city | area | nearest mosque in one row. */
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileSubcity) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileSubcity) > .profile-edit-field {
+      grid-column: auto;
+    }
+
+    /* Qualification: narrow year, wide specialization. */
+    .ustaz-profile-edit-page .profile-edit-qualification-item > .profile-edit-grid > .profile-edit-field:has([name$="[year]"]) {
+      grid-column: span 3;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-qualification-item > .profile-edit-grid > .profile-edit-field:has([name$="[specialization]"]) {
+      grid-column: span 9;
+    }
+  }
+
+
+  /* ---- Desktop (>= 1024px) ---- */
+
+  @media (min-width: 1024px) {
+
+    /* Row 1: photo (4) | registration information (8). */
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-photo-card {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileRole) {
+      grid-column: span 8;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-photo-card .profile-edit-photo-layout {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      margin-block: auto;
+      text-align: center;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-photo-card .profile-edit-inline-actions {
+      justify-content: center;
+    }
+
+    /* Row 2: personal introduction (8) | teaching experience (4). */
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileDateOfBirth) {
+      grid-column: span 8;
+    }
+
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileExperience) {
+      grid-column: span 4;
+    }
+
+    /* Date of birth sits left of the bio; counter and errors stay with the bio. */
+    .ustaz-profile-edit-page .profile-edit-grid:has(#profileDateOfBirth) {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .ustaz-profile-edit-page .profile-edit-field:has(#profileDateOfBirth) {
+      grid-column: span 4;
+    }
+
+    .ustaz-profile-edit-page .profile-edit-field:has(#profileBio) {
+      grid-column: span 8;
+    }
+
+    /* Languages: one row of six. */
+    .ustaz-profile-edit-page #profileLanguages {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    /* Recitation (6) | recitation details (6). */
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileRecitationCard),
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileRecitationTitle) {
+      grid-column: span 6;
+    }
+
+    /* Teaching approach (6) | pricing & format (6). */
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileTeachingApproach),
+    .ustaz-profile-edit-page .ustaz-profile-edit-form > .profile-edit-card:has(#profileHourlyRate) {
+      grid-column: span 6;
+    }
+  }
+}
+
+
+/* ---------------------------------------------------------
+   17. MOBILE (<= 700px): one column, nothing clipped
+--------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  .ustaz-profile-edit-page .profile-edit-shell {
+    width: calc(100% - 20px);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-card {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-photo-layout {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-photo-actions {
+    width: 100%;
+  }
+
+  .ustaz-profile-edit-page .profile-edit-inline-actions {
+    justify-content: center;
+  }
+
+  /* Cancel and Save share the sticky bar equally. */
+  .ustaz-profile-edit-page .ustaz-profile-actions-spacer {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+
+  .ustaz-profile-edit-page .profile-edit-shell {
+    width: calc(100% - 16px);
+  }
+
+  .ustaz-profile-edit-page .profile-edit-card {
+    padding: 12px;
+  }
+}

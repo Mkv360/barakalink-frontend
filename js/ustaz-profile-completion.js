@@ -23,10 +23,9 @@ PAGE 2
 
 PAGE 3
 * Teaching approach
-* Hourly price
 * Lesson duration
 * Lesson format
-* Availability
+* Current platform: IN-PERSON ONLY
 
 PAGE 4
 * Qur'an recitation recorder
@@ -37,20 +36,31 @@ PAGE 4
 PAGE 5
 * Fayda National ID
 
+PAGE 6
+* Private identity selfie
+* Submit profile for manual admin review
+
+
+
+CURRENT LESSON FORMAT RULE
+* In-person is the only available lesson format.
+* Online is disabled.
+* Online & in-person is disabled.
+
 ========================================================= */
 
 
 /* =========================================================
 CONFIGURATION
 ========================================================= */
-
 const USTAZ_PROFILE_CONFIG = Object.freeze({
 
   PROFILE_ENDPOINT:
     "/profile",
-COMPLETION_ENDPOINT:
-window.BARAKALINK_USTAZ_PROFILE_ENDPOINT ||
-"/profile/complete",
+
+  COMPLETION_ENDPOINT:
+    window.BARAKALINK_USTAZ_PROFILE_ENDPOINT ||
+    "/profile/complete",
 
   DRAFT_KEY:
     "barakalink_ustaz_profile_draft",
@@ -64,7 +74,25 @@ window.BARAKALINK_USTAZ_PROFILE_ENDPOINT ||
   MAX_AUDIO_SIZE:
     25 * 1024 * 1024,
 
+  MAX_FAYDA_IMAGE_SIZE:
+    8 * 1024 * 1024,
+
+  MAX_SELFIE_SIZE:
+    5 * 1024 * 1024,
+
   PHOTO_TYPES: [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ],
+
+  FAYDA_IMAGE_TYPES: [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ],
+
+  SELFIE_TYPES: [
     "image/jpeg",
     "image/png",
     "image/webp"
@@ -84,6 +112,12 @@ window.BARAKALINK_USTAZ_PROFILE_ENDPOINT ||
     1500
 
 });
+
+/* =========================================================
+CURRENT PLATFORM RULES
+========================================================= */
+
+const USTAZ_LESSON_FORMAT = "in-person";
 
 
 /* =========================================================
@@ -106,8 +140,47 @@ const state = {
 
   studyFields:
     [],
-
   photoFile:
+    null,
+
+  selfieFile:
+    null,
+
+  selfieStream:
+    null,
+
+  selfieCameraActive:
+    false,
+
+  /* Live selfie modal lifecycle and unconfirmed capture. */
+  selfieCameraRequestId:
+    0,
+
+  selfieStarting:
+    false,
+
+  selfieCapturing:
+    false,
+
+  selfiePendingFile:
+    null,
+
+  selfiePendingObjectUrl:
+    "",
+
+  selfieModalOpen:
+    false,
+
+  selfieModalOpener:
+    null,
+
+  selfieModalPreviousOverflow:
+    "",
+
+  faydaFrontFile:
+    null,
+
+  faydaBackFile:
     null,
 
   audioFile:
@@ -125,6 +198,12 @@ const state = {
   mediaRecorder:
     null,
 
+  microphoneRequestInProgress:
+    false,
+
+  recordingSessionActive:
+    false,
+
   mediaStream:
     null,
 
@@ -138,7 +217,13 @@ const state = {
     1,
 
   submitting:
-    false
+    false,
+
+  reviewStatus:
+    "",
+
+  reviewRejectionReason:
+    ""
 
 };
 
@@ -169,7 +254,9 @@ function safeString(value, fallback = "") {
     value === null ||
     value === undefined
   ) {
+
     return fallback;
+
   }
 
   const text =
@@ -247,8 +334,26 @@ function redirectToLogin() {
 
 function redirectToDashboard() {
 
+  /*
+   * Build the dashboard URL relative to the current page.
+   * This avoids issues with the current URL path.
+   */
+
+  const dashboardUrl =
+    new URL(
+      "dashboard/teacher.html",
+      window.location.href
+    ).href;
+
+
+  console.info(
+    "[BarakaLink][Ustaz Profile] Redirecting to dashboard:",
+    dashboardUrl
+  );
+
+
   window.location.replace(
-    "dashboard/teacher.html"
+    dashboardUrl
   );
 
 }
@@ -362,7 +467,9 @@ async function loadCurrentProfile() {
   state.profile = {
 
     user,
+
     teacherProfile,
+
     studyFields:
       state.studyFields
 
@@ -702,7 +809,9 @@ function renderRegisteredStudyFields() {
   if (fields.length === 0) {
 
     const empty =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     empty.className =
       "profile-study-fields-empty";
@@ -822,7 +931,7 @@ function getSavedPage() {
     return (
       Number.isInteger(value) &&
       value >= 1 &&
-      value <= 5
+      value <= 6
     )
       ? value
       : 1;
@@ -858,12 +967,25 @@ function setPage(page) {
 
   const nextPage =
     Math.min(
-      5,
+      6,
       Math.max(
         1,
         Number(page) || 1
       )
     );
+
+  if (
+    state.page === 6 &&
+    nextPage !== 6
+  ) {
+
+    closeSelfieModal({
+      restoreFocus: false
+    });
+
+    stopSelfieCamera();
+
+  }
 
   state.page =
     nextPage;
@@ -873,7 +995,8 @@ function setPage(page) {
     "ustazProfileStepTwo",
     "ustazProfileStepThree",
     "ustazProfileStepFour",
-    "ustazProfileStepFive"
+    "ustazProfileStepFive",
+    "ustazProfileStepSix"
   ];
 
   stepIds.forEach(
@@ -908,26 +1031,31 @@ function setPage(page) {
       "Qur'an Recitation & Qualifications",
 
     5:
-      "Identity Verification"
+      "Fayda National ID",
+
+    6:
+      "Selfie & Review Submission"
 
   };
-
   const descriptions = {
 
     1:
       "Review the information you provided during Ustaz registration before continuing.",
 
     2:
-      "Help students get to know you and understand how you communicate.",
+      "Help parents get to know you and understand how you teach.",
 
     3:
-      "Tell students how you teach and choose the lesson options you offer.",
+      "Tell parents how you teach and choose the lesson options you offer.",
 
     4:
       "Show your recitation and provide your Islamic studies qualifications.",
 
     5:
-      "Provide the private information needed to verify your teacher identity."
+      "Upload both sides of your Fayda National ID for private admin review.",
+
+    6:
+      "Take a private selfie and submit your completed Ustaz profile for manual admin review."
 
   };
 
@@ -963,10 +1091,10 @@ function setPage(page) {
 
   }
 
-  if (number) {
+    if (number) {
 
     number.textContent =
-      `${state.page} of 5`;
+      `Step ${state.page} of 6`;
 
   }
 
@@ -980,20 +1108,26 @@ function setPage(page) {
   if (buttonText) {
 
     buttonText.textContent =
-      state.page === 1
-        ? "Save & Continue"
-        : state.page === 5
-          ? "Complete Profile"
-          : "Continue";
+      state.reviewStatus ===
+        USTAZ_REVIEW_STATUS.PENDING
+        ? "Under Review"
+        : state.page === 1
+          ? "Save & Continue"
+          : state.page === 6
+            ? "Submit for Review"
+            : "Continue";
 
   }
 
   if (buttonIcon) {
 
     buttonIcon.className =
-      state.page === 5
-        ? "fa-solid fa-check"
-        : "fa-solid fa-arrow-right";
+      state.reviewStatus ===
+        USTAZ_REVIEW_STATUS.PENDING
+        ? "fa-solid fa-clock"
+        : state.page === 6
+          ? "fa-solid fa-paper-plane"
+          : "fa-solid fa-arrow-right";
 
   }
 
@@ -1084,11 +1218,118 @@ function updateStepIndicator() {
 
 }
 
-
 /* =========================================================
-PAGE 2 PREFILL
+   AVAILABILITY HELPERS
 ========================================================= */
 
+function normalizeBoolean(value) {
+
+  if (
+    value === true ||
+    value === 1 ||
+    value === "1" ||
+    value === "true" ||
+    value === "TRUE" ||
+    value === "on"
+  ) {
+    return true;
+  }
+
+  if (
+    value === false ||
+    value === 0 ||
+    value === "0" ||
+    value === "false" ||
+    value === "FALSE" ||
+    value === "off"
+  ) {
+    return false;
+  }
+
+  return false;
+}
+
+
+function readTeacherAvailability(teacher) {
+
+  const source =
+    teacher ||
+    {};
+
+  return normalizeBoolean(
+    source.isAvailable ??
+    source.is_available ??
+    source.availability ??
+    source.available
+  );
+
+}
+
+
+function updateAvailabilityUI() {
+
+  const input =
+    $("profileAvailability");
+
+  const title =
+    $("profileAvailabilityTitle");
+
+  const description =
+    $("profileAvailabilityDescription");
+
+  if (!input) {
+    return;
+  }
+
+  const available =
+    Boolean(
+      input.checked
+    );
+
+  if (title) {
+
+    title.textContent =
+      available
+        ? "Available for students"
+        : "Currently unavailable";
+
+  }
+
+  if (description) {
+
+    description.textContent =
+      available
+        ? "Parents can find your profile and start a new chat."
+        : "Your profile will not appear in parent discovery.";
+
+  }
+
+}
+
+
+function setupAvailability() {
+
+  const input =
+    $("profileAvailability");
+
+  if (!input) {
+    return;
+  }
+
+  input.addEventListener(
+    "change",
+    function () {
+
+      updateAvailabilityUI();
+
+      saveDraft();
+
+    }
+  );
+
+  updateAvailabilityUI();
+
+}
 function prefillExistingTeacherData() {
 
   const teacher =
@@ -1134,42 +1375,75 @@ function prefillExistingTeacherData() {
   );
 
   setValue(
-    "profileHourlyRate",
-    teacher.hourlyRate ??
-      teacher.hourly_rate ??
-      teacher.pricePerHour ??
-      teacher.price_per_hour ??
-      ""
-  );
-
-  setValue(
     "profileLessonDuration",
     teacher.lessonDuration ??
       teacher.lesson_duration ??
       ""
   );
 
-  const lessonFormat =
-    safeString(
-      teacher.lessonFormat ??
-      teacher.lesson_format
-    );
 
-  if (lessonFormat) {
+  /* =======================================================
+     HOURLY PRICE
+  ======================================================= */
 
-    const input =
-      document.querySelector(
-        `input[name="lessonFormat"][value="${CSS.escape(lessonFormat)}"]`
+  const hourlyRate =
+    teacher.hourlyRate ??
+    teacher.hourly_rate ??
+    teacher.pricePerHour ??
+    teacher.price_per_hour ??
+    "";
+
+  setValue(
+    "profileHourlyRate",
+    hourlyRate
+  );
+
+
+  /* =======================================================
+     AVAILABILITY
+
+     A brand-new, incomplete profile starts available by default.
+     Admin approval remains a separate server-side gate; this
+     default must never make an unapproved profile discoverable.
+     Existing reviewed profiles keep their saved server value.
+  ======================================================= */
+const isNewIncompleteProfile =
+  !Boolean(
+    state.user?.profileCompleted ??
+    state.user?.profile_completed ??
+    false
+  ) &&
+  !state.reviewStatus;
+
+const availability =
+  isNewIncompleteProfile
+    ? true
+    : readTeacherAvailability(
+        teacher
       );
 
-    if (input) {
+const availabilityInput =
+  $("profileAvailability");
 
-      input.checked =
-        true;
+if (availabilityInput) {
 
-    }
+  availabilityInput.checked =
+    availability;
 
-  }
+}
+
+updateAvailabilityUI();
+
+  /* =======================================================
+     LESSON FORMAT
+  ======================================================= */
+
+  enforceInPersonLessonFormat();
+
+
+  /* =======================================================
+     LANGUAGES
+  ======================================================= */
 
   const languages =
     Array.isArray(
@@ -1205,7 +1479,13 @@ function prefillExistingTeacherData() {
     }
   );
 
-  const availability =
+
+  /* =======================================================
+     OLD AVAILABILITY DAYS
+     Kept for compatibility with existing data.
+  ======================================================= */
+
+  const availabilityDays =
     Array.isArray(
       teacher.availabilityDays
     )
@@ -1216,7 +1496,7 @@ function prefillExistingTeacherData() {
         ? teacher.availability_days
         : [];
 
-  availability.forEach(
+  availabilityDays.forEach(
     day => {
 
       const value =
@@ -1242,6 +1522,121 @@ function prefillExistingTeacherData() {
 
   updateLanguageSelectionUI();
 
+  updateAvailabilityUI();
+
+}
+
+/* =========================================================
+LESSON FORMAT
+CURRENTLY IN-PERSON ONLY
+========================================================= */
+
+function enforceInPersonLessonFormat() {
+
+  const inputs =
+    $$(
+      'input[name="lessonFormat"]'
+    );
+
+  if (!inputs.length) {
+    return;
+  }
+
+  inputs.forEach(
+    input => {
+
+      const value =
+        safeString(
+          input.value
+        ).toLowerCase();
+
+      const isInPerson =
+        value === USTAZ_LESSON_FORMAT;
+
+      /*
+       * Online and both remain visible in HTML
+       * but cannot currently be selected.
+       */
+      input.disabled =
+        !isInPerson;
+
+      /*
+       * In-person is the only active option.
+       */
+      input.checked =
+        isInPerson;
+
+    }
+  );
+
+}
+
+
+function setupLessonFormat() {
+
+  const container =
+    $("profileLessonFormatOptions");
+
+  if (!container) {
+    return;
+  }
+
+  if (
+    container.dataset.lessonFormatSetup ===
+      "true"
+  ) {
+
+    enforceInPersonLessonFormat();
+
+    return;
+
+  }
+
+  container.dataset.lessonFormatSetup =
+    "true";
+
+  /*
+   * Extra protection in case markup,
+   * saved drafts, or older browser state
+   * tries to select an unavailable option.
+   */
+  container.addEventListener(
+    "change",
+    function(event) {
+
+      const input =
+        event.target.closest(
+          'input[name="lessonFormat"]'
+        );
+
+      if (!input) {
+        return;
+      }
+
+      if (
+        input.value !==
+        USTAZ_LESSON_FORMAT
+      ) {
+
+        enforceInPersonLessonFormat();
+
+        return;
+
+      }
+
+      clearFieldError(
+        "profileLessonFormatError"
+      );
+
+      enforceInPersonLessonFormat();
+
+      saveDraft();
+
+    }
+  );
+
+  enforceInPersonLessonFormat();
+
 }
 
 
@@ -1253,7 +1648,8 @@ function normalizeLanguage(value) {
 
   if (
     value &&
-    typeof value === "object"
+    typeof value ===
+      "object"
   ) {
 
     value =
@@ -1458,16 +1854,15 @@ function setupPhoto() {
             "";
 
         }
+if (preview) {
 
-        if (preview) {
+  preview.src =
+    "data:,";
 
-          preview.src =
-            "";
+  preview.hidden =
+    true;
 
-          preview.hidden =
-            true;
-
-        }
+}
 
         if (placeholder) {
 
@@ -1551,7 +1946,655 @@ function renderExistingPhoto() {
 
 }
 
+/* =========================================================
+FAYDA DOCUMENTS
+========================================================= */
 
+function setupFaydaDocuments() {
+
+  setupFaydaDocument({
+    key:
+      "front",
+
+    inputId:
+      "profileFaydaFront",
+
+    cameraInputId:
+      "profileFaydaFrontCamera",
+
+    uploadButtonId:
+      "profileFaydaFrontUploadButton",
+
+    captureButtonId:
+      "profileFaydaFrontCaptureButton",
+
+    removeButtonId:
+      "profileFaydaFrontRemoveButton",
+
+    previewId:
+      "profileFaydaFrontPreview",
+
+    placeholderId:
+      "profileFaydaFrontPlaceholder",
+
+    errorId:
+      "profileFaydaFrontError"
+  });
+
+
+  setupFaydaDocument({
+    key:
+      "back",
+
+    inputId:
+      "profileFaydaBack",
+
+    cameraInputId:
+      "profileFaydaBackCamera",
+
+    uploadButtonId:
+      "profileFaydaBackUploadButton",
+
+    captureButtonId:
+      "profileFaydaBackCaptureButton",
+
+    removeButtonId:
+      "profileFaydaBackRemoveButton",
+
+    previewId:
+      "profileFaydaBackPreview",
+
+    placeholderId:
+      "profileFaydaBackPlaceholder",
+
+    errorId:
+      "profileFaydaBackError"
+  });
+
+}
+
+
+function setupFaydaDocument(config) {
+
+  const input =
+    $(config.inputId);
+
+  const cameraInput =
+    $(config.cameraInputId);
+
+  const uploadButton =
+    $(config.uploadButtonId);
+
+  const captureButton =
+    $(config.captureButtonId);
+
+  const removeButton =
+    $(config.removeButtonId);
+
+  if (!input) {
+    return;
+  }
+
+  if (
+    input.dataset.faydaSetup ===
+      "true"
+  ) {
+
+    return;
+
+  }
+
+  input.dataset.faydaSetup =
+    "true";
+
+
+  /* =======================================================
+     UPLOAD
+  ======================================================= */
+
+  if (uploadButton) {
+
+    uploadButton.addEventListener(
+      "click",
+      function() {
+
+        input.click();
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     CAMERA
+  ======================================================= */
+
+  if (
+    captureButton &&
+    cameraInput
+  ) {
+
+    captureButton.addEventListener(
+      "click",
+      function() {
+
+        cameraInput.click();
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     NORMAL FILE
+  ======================================================= */
+
+  input.addEventListener(
+    "change",
+    function() {
+
+      const file =
+        input.files?.[0] ||
+        null;
+
+      handleFaydaFile(
+        config,
+        file
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     CAMERA FILE
+  ======================================================= */
+
+  if (cameraInput) {
+
+    cameraInput.addEventListener(
+      "change",
+      function() {
+
+        const file =
+          cameraInput.files?.[0] ||
+          null;
+
+        handleFaydaFile(
+          config,
+          file
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     REMOVE
+  ======================================================= */
+
+  if (removeButton) {
+
+    removeButton.addEventListener(
+      "click",
+      function() {
+
+        removeFaydaDocument(
+          config
+        );
+
+      }
+    );
+
+  }
+
+}
+
+
+function handleFaydaFile(
+  config,
+  file
+) {
+
+  if (!file) {
+    return;
+  }
+
+  clearFieldError(
+    config.errorId
+  );
+
+
+  /* =======================================================
+     TYPE
+  ======================================================= */
+
+  if (
+    !USTAZ_PROFILE_CONFIG.FAYDA_IMAGE_TYPES.includes(
+      file.type
+    )
+  ) {
+
+    showFieldError(
+      config.errorId,
+      "Please choose a JPG, PNG, or WebP image."
+    );
+
+    resetFaydaInput(
+      config
+    );
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     SIZE
+  ======================================================= */
+
+  if (
+    file.size >
+    USTAZ_PROFILE_CONFIG.MAX_FAYDA_IMAGE_SIZE
+  ) {
+
+    showFieldError(
+      config.errorId,
+      "The Fayda image must be 8 MB or smaller."
+    );
+
+    resetFaydaInput(
+      config
+    );
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     STORE
+  ======================================================= */
+
+  if (
+    config.key ===
+      "front"
+  ) {
+
+    state.faydaFrontFile =
+      file;
+
+  } else {
+
+    state.faydaBackFile =
+      file;
+
+  }
+
+
+  /* =======================================================
+     PREVIEW
+  ======================================================= */
+
+  renderFaydaFilePreview(
+    config,
+    file
+  );
+
+
+  updateFaydaDocumentButtons(
+    config,
+    true
+  );
+
+  saveDraft();
+
+}
+
+
+function renderFaydaFilePreview(
+  config,
+  file
+) {
+
+  const preview =
+    $(config.previewId);
+
+  const placeholder =
+    $(config.placeholderId);
+
+  if (!preview) {
+    return;
+  }
+
+  const url =
+    URL.createObjectURL(
+      file
+    );
+
+  preview.src =
+    url;
+
+  preview.hidden =
+    false;
+
+  if (placeholder) {
+
+    placeholder.hidden =
+      true;
+
+  }
+
+  preview.onload =
+    function() {
+
+      try {
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      } catch {
+
+        /* Ignore stale object URLs. */
+
+      }
+
+    };
+
+}
+
+
+function renderExistingFaydaDocuments() {
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  const faydaDocuments =
+    teacher.faydaDocuments ||
+    teacher.fayda_documents ||
+    {};
+
+
+  const frontUrl =
+    faydaDocuments.frontUrl ??
+    faydaDocuments.front_url ??
+    teacher.faydaFrontUrl ??
+    teacher.fayda_front_url ??
+    teacher.faydaFrontImageUrl ??
+    teacher.fayda_front_image_url ??
+    "";
+
+
+  const backUrl =
+    faydaDocuments.backUrl ??
+    faydaDocuments.back_url ??
+    teacher.faydaBackUrl ??
+    teacher.fayda_back_url ??
+    teacher.faydaBackImageUrl ??
+    teacher.fayda_back_image_url ??
+    "";
+
+
+  if (frontUrl) {
+
+    renderExistingFaydaDocument(
+      {
+        key:
+          "front",
+
+        previewId:
+          "profileFaydaFrontPreview",
+
+        placeholderId:
+          "profileFaydaFrontPlaceholder",
+
+        removeButtonId:
+          "profileFaydaFrontRemoveButton",
+
+        errorId:
+          "profileFaydaFrontError"
+      },
+      frontUrl
+    );
+
+  }
+
+
+  if (backUrl) {
+
+    renderExistingFaydaDocument(
+      {
+        key:
+          "back",
+
+        previewId:
+          "profileFaydaBackPreview",
+
+        placeholderId:
+          "profileFaydaBackPlaceholder",
+
+        removeButtonId:
+          "profileFaydaBackRemoveButton",
+
+        errorId:
+          "profileFaydaBackError"
+      },
+      backUrl
+    );
+
+  }
+
+}
+
+
+function renderExistingFaydaDocument(
+  config,
+  url
+) {
+
+  const preview =
+    $(config.previewId);
+
+  const placeholder =
+    $(config.placeholderId);
+
+  const removeButton =
+    $(config.removeButtonId);
+
+  if (!preview) {
+    return;
+  }
+
+  preview.src =
+    resolveMediaUrl(
+      url
+    );
+
+  preview.hidden =
+    false;
+
+  if (placeholder) {
+
+    placeholder.hidden =
+      true;
+
+  }
+
+  if (removeButton) {
+
+    removeButton.hidden =
+      false;
+
+  }
+
+}
+
+
+function updateFaydaDocumentButtons(
+  config,
+  hasFile
+) {
+
+  const removeButton =
+    $(config.removeButtonId);
+
+  if (removeButton) {
+
+    removeButton.hidden =
+      !hasFile;
+
+  }
+
+}
+
+
+function resetFaydaInput(
+  config
+) {
+
+  const input =
+    $(config.inputId);
+
+  const cameraInput =
+    $(config.cameraInputId);
+
+  if (input) {
+
+    input.value =
+      "";
+
+  }
+
+  if (cameraInput) {
+
+    cameraInput.value =
+      "";
+
+  }
+
+
+  if (
+    config.key ===
+      "front"
+  ) {
+
+    state.faydaFrontFile =
+      null;
+
+  } else {
+
+    state.faydaBackFile =
+      null;
+
+  }
+
+}
+
+
+function removeFaydaDocument(
+  config
+) {
+
+  resetFaydaInput(
+    config
+  );
+
+  const preview =
+    $(config.previewId);
+
+  const placeholder =
+    $(config.placeholderId);
+
+  const removeButton =
+    $(config.removeButtonId);
+
+  if (preview) {
+
+    preview.src =
+      "data:,";
+
+    preview.hidden =
+      true;
+
+  }
+
+  if (placeholder) {
+
+    placeholder.hidden =
+      false;
+
+  }
+
+  if (removeButton) {
+
+    removeButton.hidden =
+      true;
+
+  }
+
+  clearFieldError(
+    config.errorId
+  );
+
+  saveDraft();
+
+}
+
+
+function hasExistingFaydaFront() {
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  const documents =
+    teacher.faydaDocuments ||
+    teacher.fayda_documents ||
+    {};
+
+  return Boolean(
+
+    documents.frontUrl ??
+    documents.front_url ??
+    teacher.faydaFrontUrl ??
+    teacher.fayda_front_url ??
+    teacher.faydaFrontImageUrl ??
+    teacher.fayda_front_image_url
+
+  );
+
+}
+
+
+function hasExistingFaydaBack() {
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  const documents =
+    teacher.faydaDocuments ||
+    teacher.fayda_documents ||
+    {};
+
+  return Boolean(
+
+    documents.backUrl ??
+    documents.back_url ??
+    teacher.faydaBackUrl ??
+    teacher.fayda_back_url ??
+    teacher.faydaBackImageUrl ??
+    teacher.fayda_back_image_url
+
+  );
+
+}
 /* =========================================================
 MEDIA URL
 ========================================================= */
@@ -2005,30 +3048,72 @@ STOP MICROPHONE STREAM
 
 function stopActiveRecitationStream() {
 
-  if (state.mediaStream) {
+  const stream =
+    state.mediaStream;
 
-    state.mediaStream
-      .getTracks()
-      .forEach(
-        track => {
-
-          try {
-
-            track.stop();
-
-          } catch {
-
-            /* Ignore already-stopped tracks. */
-
-          }
-
-        }
-      );
-
+  if (!stream) {
+    return;
   }
+
+  const tracks =
+    typeof stream.getTracks ===
+      "function"
+      ? stream.getTracks()
+      : [];
+
+  console.debug(
+    "[BarakaLink][Ustaz Profile][Recorder] Releasing microphone stream:",
+    {
+      active:
+        stream.active,
+
+      audioTrackCount:
+        stream.getAudioTracks?.().length || 0,
+
+      tracks:
+        tracks.map(track => ({
+          label:
+            track.label,
+
+          readyState:
+            track.readyState,
+
+          enabled:
+            track.enabled,
+
+          muted:
+            track.muted
+        }))
+    }
+  );
+
+  /*
+   * Clear the state reference before stopping tracks so a re-entrant
+   * recorder lifecycle event can never reuse this stream.
+   */
 
   state.mediaStream =
     null;
+
+  tracks.forEach(
+    track => {
+
+      try {
+
+        track.stop();
+
+      } catch {
+
+        /* Ignore already-stopped tracks. */
+
+      }
+
+    }
+  );
+
+  console.debug(
+    "[BarakaLink][Ustaz Profile][Recorder] Microphone stream released."
+  );
 
 }
 
@@ -2038,6 +3123,56 @@ REQUEST MICROPHONE
 ========================================================= */
 
 async function requestRecitationMicrophone() {
+
+  if (
+    state.microphoneRequestInProgress
+  ) {
+
+    throw new DOMException(
+      "A microphone request is already in progress.",
+      "AbortError"
+    );
+
+  }
+
+  if (
+    state.recordingSessionActive
+  ) {
+
+    throw new DOMException(
+      "A recording session is already active.",
+      "AbortError"
+    );
+
+  }
+
+  if (
+    state.mediaRecorder &&
+    state.mediaRecorder.state !==
+      "inactive"
+  ) {
+
+    throw new DOMException(
+      "A MediaRecorder instance is still active.",
+      "AbortError"
+    );
+
+  }
+
+  /*
+   * A new recording attempt always starts with a fresh recorder-owned
+   * microphone stream. Never reuse a previous live stream here.
+   */
+
+  if (state.mediaStream) {
+
+    console.debug(
+      "[BarakaLink][Ustaz Profile][Recorder] Cleaning stale recorder stream before new microphone request."
+    );
+
+    stopActiveRecitationStream();
+
+  }
 
   if (
     !navigator.mediaDevices ||
@@ -2052,121 +3187,214 @@ async function requestRecitationMicrophone() {
 
   }
 
-  const attempts = [
+  state.microphoneRequestInProgress =
+    true;
 
-    {
-      audio: {
-        echoCancellation:
-          true,
-
-        noiseSuppression:
-          true,
-
-        autoGainControl:
-          true,
-
-        channelCount:
-          1
-      }
-    },
-
-    {
-      audio: true
-    }
-
-  ];
-
-  let lastError =
+  let acquiredStream =
     null;
-
-  for (
-    const constraints of attempts
-  ) {
-
-    try {
-
-      return await navigator.mediaDevices.getUserMedia(
-        constraints
-      );
-
-    } catch (error) {
-
-      lastError =
-        error;
-
-      if (
-        error?.name !==
-          "NotReadableError" &&
-        error?.name !==
-          "OverconstrainedError" &&
-        error?.name !==
-          "AbortError"
-      ) {
-
-        throw error;
-
-      }
-
-    }
-
-  }
-
-  /*
-   * Try explicitly selecting an audio input.
-   */
 
   try {
 
-    const devices =
-      await navigator.mediaDevices.enumerateDevices();
+    console.debug(
+      "[BarakaLink][Ustaz Profile][Recorder] Requesting microphone:",
+      {
+        mediaStream:
+          state.mediaStream,
 
-    const inputs =
-      devices.filter(
-        device =>
-          device.kind ===
-            "audioinput" &&
-          device.deviceId
+        mediaRecorder:
+          state.mediaRecorder,
+
+        mediaRecorderState:
+          state.mediaRecorder?.state,
+
+        recordingSessionActive:
+          state.recordingSessionActive,
+
+        microphoneRequestInProgress:
+          state.microphoneRequestInProgress
+      }
+    );
+
+    /*
+     * Keep the microphone request deliberately simple.
+     * Do not enumerate devices or retry automatically.
+     */
+
+    acquiredStream =
+      await navigator.mediaDevices.getUserMedia({
+        audio:
+          true
+      });
+
+    const audioTracks =
+      typeof acquiredStream?.getAudioTracks ===
+        "function"
+        ? acquiredStream.getAudioTracks()
+        : [];
+
+    const liveTrack =
+      audioTracks.find(
+        track =>
+          track.readyState === "live"
       );
 
-    for (
-      const device of inputs
+    console.debug(
+      "[BarakaLink][Ustaz Profile][Recorder] Microphone request returned:",
+      {
+        streamActive:
+          acquiredStream?.active,
+
+        audioTrackCount:
+          audioTracks.length,
+
+        audioTracks:
+          audioTracks.map(track => ({
+            readyState:
+              track.readyState,
+
+            enabled:
+              track.enabled,
+
+            muted:
+              track.muted,
+
+            label:
+              track.label
+          }))
+      }
+    );
+
+    if (
+      !acquiredStream ||
+      !acquiredStream.active ||
+      !liveTrack
     ) {
 
-      try {
+      if (acquiredStream) {
 
-        return await navigator.mediaDevices.getUserMedia({
-          audio: {
-            deviceId: {
-              exact:
-                device.deviceId
-            },
-            channelCount: 1
-          }
-        });
+        acquiredStream
+          .getTracks()
+          .forEach(
+            track => {
 
-      } catch (error) {
+              try {
+                track.stop();
+              } catch {
+                /* Ignore cleanup errors. */
+              }
 
-        lastError =
-          error;
+            }
+          );
 
       }
 
+      throw new DOMException(
+        "The microphone did not provide a usable audio stream.",
+        "NotReadableError"
+      );
+
     }
+
+    state.mediaStream =
+      acquiredStream;
+
+    console.debug(
+      "[BarakaLink][Ustaz Profile][Recorder] Microphone stream stored:",
+      {
+        active:
+          acquiredStream.active,
+
+        track:
+          {
+            readyState:
+              liveTrack.readyState,
+
+            enabled:
+              liveTrack.enabled,
+
+            muted:
+              liveTrack.muted,
+
+            label:
+              liveTrack.label
+          },
+
+        mediaStream:
+          state.mediaStream
+      }
+    );
+
+    return acquiredStream;
 
   } catch (error) {
 
-    lastError =
-      error;
+    /*
+     * A failed request must never leave the returned stream, or any
+     * previous recorder-owned stream, occupying the microphone.
+     */
+
+    if (acquiredStream) {
+
+      acquiredStream
+        .getTracks()
+        .forEach(
+          track => {
+
+            try {
+              track.stop();
+            } catch {
+              /* Ignore cleanup errors. */
+            }
+
+          }
+        );
+
+    }
+
+    if (
+      state.mediaStream ===
+      acquiredStream
+    ) {
+
+      state.mediaStream =
+        null;
+
+    }
+
+    console.debug(
+      "[BarakaLink][Ustaz Profile][Recorder] Microphone request ended:",
+      {
+        errorName:
+          error?.name,
+
+        errorMessage:
+          error?.message,
+
+        mediaStream:
+          state.mediaStream,
+
+        mediaRecorder:
+          state.mediaRecorder,
+
+        mediaRecorderState:
+          state.mediaRecorder?.state,
+
+        recordingSessionActive:
+          state.recordingSessionActive,
+
+        microphoneRequestInProgress:
+          state.microphoneRequestInProgress
+      }
+    );
+
+    throw error;
+
+  } finally {
+
+    state.microphoneRequestInProgress =
+      false;
 
   }
-
-  throw (
-    lastError ||
-    new DOMException(
-      "The microphone could not be opened.",
-      "NotReadableError"
-    )
-  );
 
 }
 
@@ -2386,7 +3614,37 @@ function setupRecitation() {
 
   }
 
+  if (
+    recordButton.dataset.recitationRecorderSetup ===
+      "true"
+  ) {
+
+    return;
+
+  }
+
+  recordButton.dataset.recitationRecorderSetup =
+    "true";
+
   renderRecitationWaveform();
+
+  const setRecorderControlsDisabled =
+    disabled => {
+
+      recordButton.disabled =
+        disabled;
+
+      const fileButton =
+        $("profileRecitationFileButton");
+
+      if (fileButton) {
+
+        fileButton.disabled =
+          disabled;
+
+      }
+
+    };
 
   const setRecordingUi =
     recording => {
@@ -2405,6 +3663,10 @@ function setupRecitation() {
         );
 
       }
+
+      setRecorderControlsDisabled(
+        recording
+      );
 
     };
 
@@ -2547,6 +3809,37 @@ function setupRecitation() {
         "profileRecitationError"
       );
 
+      /*
+       * The microphone request lock is owned by
+       * requestRecitationMicrophone().
+       */
+
+      if (
+        state.microphoneRequestInProgress
+      ) {
+
+        return;
+
+      }
+
+      if (
+        state.recordingSessionActive
+      ) {
+
+        return;
+
+      }
+
+      if (
+        state.mediaRecorder &&
+        state.mediaRecorder.state !==
+          "inactive"
+      ) {
+
+        return;
+
+      }
+
       if (
         !navigator.mediaDevices ||
         typeof navigator.mediaDevices.getUserMedia !==
@@ -2555,7 +3848,7 @@ function setupRecitation() {
 
         showFieldError(
           "profileRecitationError",
-          "This browser does not support microphone recording."
+          "This browser does not support microphone recording. You can use an audio file instead."
         );
 
         return;
@@ -2569,7 +3862,7 @@ function setupRecitation() {
 
         showFieldError(
           "profileRecitationError",
-          "Microphone recording is not supported in this browser."
+          "Microphone recording is not supported in this browser. You can use an audio file instead."
         );
 
         return;
@@ -2577,40 +3870,87 @@ function setupRecitation() {
       }
 
       /*
-       * Stop any previous recording.
+       * Disable the controls immediately so a user cannot initiate a
+       * second recorder request while getUserMedia() is pending.
+       * The actual request lock remains inside requestRecitationMicrophone().
        */
 
-      if (
-        state.mediaRecorder &&
-        state.mediaRecorder.state !==
-          "inactive"
-      ) {
-
-        try {
-
-          state.mediaRecorder.stop();
-
-        } catch {
-
-          /* Ignore stale recorder. */
-
-        }
-
-      }
-
-      stopActiveRecitationStream();
+      setRecorderControlsDisabled(
+        true
+      );
 
       clearRecitationPreview();
 
-      let stream;
+      let stream =
+        null;
 
       try {
 
         stream =
           await requestRecitationMicrophone();
 
-        state.mediaStream =
-          stream;
+        const liveTrack =
+          stream
+            ?.getAudioTracks?.()
+            .find(
+              track =>
+                track.readyState === "live"
+            );
+
+        console.debug(
+          "[BarakaLink][Ustaz Profile][Recorder] Stream ready for MediaRecorder:",
+          {
+            streamActive:
+              stream?.active,
+
+            track:
+              liveTrack
+                ? {
+                    readyState:
+                      liveTrack.readyState,
+
+                    enabled:
+                      liveTrack.enabled,
+
+                    muted:
+                      liveTrack.muted,
+
+                    label:
+                      liveTrack.label
+                  }
+                : null,
+
+            mediaStream:
+              state.mediaStream,
+
+            mediaRecorder:
+              state.mediaRecorder,
+
+            mediaRecorderState:
+              state.mediaRecorder?.state,
+
+            recordingSessionActive:
+              state.recordingSessionActive,
+
+            microphoneRequestInProgress:
+              state.microphoneRequestInProgress
+          }
+        );
+
+        if (
+          !stream ||
+          !stream.active ||
+          !liveTrack
+        ) {
+
+          stopActiveRecitationStream();
+
+          throw new DOMException(
+            "The microphone stream was not usable for recording.",
+            "NotReadableError"
+          );
+
+        }
 
       } catch (error) {
 
@@ -2622,20 +3962,30 @@ function setupRecitation() {
         const message =
           error?.name ===
             "NotAllowedError"
-            ? "Microphone access was blocked. Allow microphone access in your browser and try again."
-            : error?.name ===
-                "NotFoundError"
-              ? "No microphone was found on this device."
-              : error?.name ===
-                  "NotReadableError"
-                ? "The microphone is busy or unavailable. Close other apps or tabs using the microphone, then try again."
-                : error?.name ===
-                    "NotSupportedError"
-                  ? "Microphone recording is not supported by this browser."
-                  : error?.name ===
-                      "SecurityError"
-                    ? "Microphone access is blocked by the browser or page security settings."
-                    : "The microphone could not be opened. Check your microphone and try again.";
+            ?
+              "Microphone access was blocked. Allow microphone access for BarakaLink and try again."
+            :
+          error?.name ===
+            "NotFoundError"
+            ?
+              "No microphone was found on this device."
+            :
+          error?.name ===
+            "NotReadableError"
+            ?
+              "The microphone is unavailable or already in use. Close other apps or browser tabs using the microphone, then try again."
+            :
+          error?.name ===
+            "OverconstrainedError"
+            ?
+              "The microphone could not satisfy the requested settings. Try again."
+            :
+          error?.name ===
+            "SecurityError"
+            ?
+              "Microphone access is blocked by the browser or page security settings."
+            :
+              "The microphone could not be opened. Check your microphone and try again.";
 
         showFieldError(
           "profileRecitationError",
@@ -2646,9 +3996,31 @@ function setupRecitation() {
           "Tap the microphone to try again"
         );
 
+        stopActiveRecitationStream();
+
+        state.recordingChunks =
+          [];
+
+        state.recordingMimeType =
+          "";
+
+        state.recordingSessionActive =
+          false;
+
+        state.mediaRecorder =
+          null;
+
+        setRecorderControlsDisabled(
+          false
+        );
+
         return;
 
       }
+
+      /*
+       * requestRecitationMicrophone() returned a fresh, verified stream.
+       */
 
       state.recordingChunks =
         [];
@@ -2656,9 +4028,12 @@ function setupRecitation() {
       state.recordingMimeType =
         getSupportedRecordingMimeType();
 
+      let recorderInstance =
+        null;
+
       try {
 
-        state.mediaRecorder =
+        recorderInstance =
           state.recordingMimeType
             ? new MediaRecorder(
                 stream,
@@ -2671,27 +4046,79 @@ function setupRecitation() {
                 stream
               );
 
-      } catch (error) {
+        state.mediaRecorder =
+          recorderInstance;
 
-        stopActiveRecitationStream();
+        state.recordingSessionActive =
+          true;
+
+        console.debug(
+          "[BarakaLink][Ustaz Profile][Recorder] MediaRecorder created:",
+          {
+            state:
+              recorderInstance.state,
+
+            mimeType:
+              recorderInstance.mimeType,
+
+            mediaStream:
+              state.mediaStream,
+
+            recordingSessionActive:
+              state.recordingSessionActive
+          }
+        );
+
+      } catch (error) {
 
         console.error(
           "[BarakaLink][Ustaz Profile] MediaRecorder creation failed:",
           error
         );
 
+        state.mediaRecorder =
+          null;
+
+        state.recordingSessionActive =
+          false;
+
+        state.recordingChunks =
+          [];
+
+        state.recordingMimeType =
+          "";
+
+        stopActiveRecitationStream();
+
+        setRecorderControlsDisabled(
+          false
+        );
+
         showFieldError(
           "profileRecitationError",
-          "Your browser could not start audio recording. Please try again or check your microphone."
+          "Your browser could not start audio recording. You can use an audio file instead."
         );
 
         return;
 
       }
 
-      state.mediaRecorder.addEventListener(
+      let recordingFailed =
+        false;
+
+      recorderInstance.addEventListener(
         "dataavailable",
         event => {
+
+          if (
+            recordingFailed ||
+            state.mediaRecorder !==
+              recorderInstance
+          ) {
+
+            return;
+
+          }
 
           if (
             event.data?.size
@@ -2706,12 +4133,52 @@ function setupRecitation() {
         }
       );
 
-
-      state.mediaRecorder.addEventListener(
+      recorderInstance.addEventListener(
         "stop",
         () => {
 
-          stopActiveRecitationStream();
+          /*
+           * A failed recorder may still dispatch its final stop event.
+           * Use that event to release the recorder reference only after
+           * the failed MediaRecorder has reached its terminal lifecycle.
+           */
+
+          if (recordingFailed) {
+
+            stopRecitationTimer();
+
+            state.recordingChunks =
+              [];
+
+            if (
+              state.mediaRecorder ===
+                recorderInstance
+            ) {
+
+              state.mediaRecorder =
+                null;
+
+              state.recordingSessionActive =
+                false;
+
+            }
+
+            stopActiveRecitationStream();
+
+            return;
+
+          }
+
+          if (
+            state.mediaRecorder !==
+              recorderInstance
+          ) {
+
+            return;
+
+          }
+
+          stopRecitationTimer();
 
           const chunks =
             state.recordingChunks ||
@@ -2728,6 +4195,11 @@ function setupRecitation() {
           state.mediaRecorder =
             null;
 
+          state.recordingSessionActive =
+            false;
+
+          stopActiveRecitationStream();
+
           const blob =
             new Blob(
               chunks,
@@ -2737,13 +4209,31 @@ function setupRecitation() {
               }
             );
 
+          console.debug(
+            "[BarakaLink][Ustaz Profile][Recorder] Recording stopped:",
+            {
+              chunkCount:
+                chunks.length,
+
+              blobSize:
+                blob.size,
+
+              mediaStream:
+                state.mediaStream,
+
+              mediaRecorder:
+                state.mediaRecorder,
+
+              recordingSessionActive:
+                state.recordingSessionActive
+            }
+          );
+
           if (!blob.size) {
 
             setRecordingUi(
               false
             );
-
-            stopRecitationTimer();
 
             updateRecitationTimer(
               0
@@ -2751,6 +4241,10 @@ function setupRecitation() {
 
             setRecitationStatus(
               "No audio was recorded. Please try again."
+            );
+
+            setRecorderControlsDisabled(
+              false
             );
 
             return;
@@ -2764,22 +4258,66 @@ function setupRecitation() {
         }
       );
 
-
-      state.mediaRecorder.addEventListener(
+      recorderInstance.addEventListener(
         "error",
         event => {
+
+          recordingFailed =
+            true;
 
           console.error(
             "[BarakaLink][Ustaz Profile] Recording error:",
             event
           );
 
-          stopActiveRecitationStream();
-
           stopRecitationTimer();
+
+          state.recordingChunks =
+            [];
+
+          if (
+            state.mediaRecorder ===
+              recorderInstance
+          ) {
+
+            if (
+              recorderInstance.state ===
+                "inactive"
+            ) {
+
+              state.mediaRecorder =
+                null;
+
+              state.recordingSessionActive =
+                false;
+
+            } else {
+
+              /*
+               * Keep the failed recorder reference while the browser
+               * finishes its terminal lifecycle so another MediaRecorder
+               * cannot be created on top of it.
+               */
+
+              state.recordingSessionActive =
+                true;
+
+            }
+
+          }
+
+          stopActiveRecitationStream();
 
           setRecordingUi(
             false
+          );
+
+          setRecorderControlsDisabled(
+            false
+          );
+
+          updateRecitationTimer(
+            0
           );
 
           setRecitationStatus(
@@ -2794,11 +4332,53 @@ function setupRecitation() {
         }
       );
 
-
       try {
 
-        state.mediaRecorder.start(
+        console.debug(
+          "[BarakaLink][Ustaz Profile][Recorder] Starting MediaRecorder:",
+          {
+            state:
+              recorderInstance.state,
+
+            streamActive:
+              stream.active,
+
+            audioTracks:
+              stream.getAudioTracks().map(track => ({
+                readyState:
+                  track.readyState,
+
+                enabled:
+                  track.enabled,
+
+                muted:
+                  track.muted,
+
+                label:
+                  track.label
+              }))
+          }
+        );
+
+        recorderInstance.start(
           250
+        );
+
+        console.debug(
+          "[BarakaLink][Ustaz Profile][Recorder] MediaRecorder started:",
+          {
+            state:
+              recorderInstance.state,
+
+            mediaRecorder:
+              state.mediaRecorder,
+
+            mediaStream:
+              state.mediaStream,
+
+            recordingSessionActive:
+              state.recordingSessionActive
+          }
         );
 
       } catch (error) {
@@ -2808,13 +4388,32 @@ function setupRecitation() {
           error
         );
 
-        stopActiveRecitationStream();
+        recordingFailed =
+          true;
 
         state.mediaRecorder =
           null;
 
+        state.recordingSessionActive =
+          false;
+
+        state.recordingChunks =
+          [];
+
+        stopRecitationTimer();
+
+        stopActiveRecitationStream();
+
         setRecordingUi(
           false
+        );
+
+        setRecorderControlsDisabled(
+          false
+        );
+
+        updateRecitationTimer(
+          0
         );
 
         showFieldError(
@@ -2851,15 +4450,32 @@ function setupRecitation() {
 
       stopRecitationTimer();
 
+      const recorderInstance =
+        state.mediaRecorder;
+
       if (
-        state.mediaRecorder &&
-        state.mediaRecorder.state !==
+        recorderInstance &&
+        recorderInstance.state !==
           "inactive"
       ) {
 
+        console.debug(
+          "[BarakaLink][Ustaz Profile][Recorder] Stop requested:",
+          {
+            state:
+              recorderInstance.state,
+
+            mediaStream:
+              state.mediaStream,
+
+            recordingSessionActive:
+              state.recordingSessionActive
+          }
+        );
+
         try {
 
-          state.mediaRecorder.stop();
+          recorderInstance.stop();
 
         } catch (error) {
 
@@ -2868,19 +4484,50 @@ function setupRecitation() {
             error
           );
 
+          state.mediaRecorder =
+            null;
+
+          state.recordingSessionActive =
+            false;
+
+          state.recordingChunks =
+            [];
+
           stopActiveRecitationStream();
 
           setRecordingUi(
             false
           );
 
+          setRecorderControlsDisabled(
+            false
+          );
+
+          updateRecitationTimer(
+            0
+          );
+
+          setRecitationStatus(
+            "Recording failed. Please try again."
+          );
+
         }
 
       } else {
 
+        state.mediaRecorder =
+          null;
+
+        state.recordingSessionActive =
+          false;
+
         stopActiveRecitationStream();
 
         setRecordingUi(
+          false
+        );
+
+        setRecorderControlsDisabled(
           false
         );
 
@@ -2964,7 +4611,6 @@ function setupRecitation() {
 
   }
 
-
   player.addEventListener(
     "loadedmetadata",
     updateRecitationPlaybackUi
@@ -3042,6 +4688,69 @@ function setupRecitation() {
   updateRecitationPlaybackUi();
 
   updateRecitationPlayButton();
+
+}
+
+
+if (!window.__barakaLinkUstazMicCleanupBound) {
+
+  window.__barakaLinkUstazMicCleanupBound =
+    true;
+
+  const cleanupMicrophone = () => {
+
+    stopRecitationTimer();
+
+    const recorderInstance =
+      state.mediaRecorder;
+
+    /*
+     * Clear the shared recorder reference before stopping so a late
+     * stop/data event cannot be mistaken for the next recording session.
+     */
+
+    state.mediaRecorder =
+      null;
+
+    state.recordingSessionActive =
+      false;
+
+    state.recordingChunks =
+      [];
+
+    state.microphoneRequestInProgress =
+      false;
+
+    if (
+      recorderInstance &&
+      recorderInstance.state !== "inactive"
+    ) {
+
+      try {
+
+        recorderInstance.stop();
+
+      } catch {
+
+        /* Ignore teardown errors. */
+
+      }
+
+    }
+
+    stopActiveRecitationStream();
+
+  };
+
+  window.addEventListener(
+    "pagehide",
+    cleanupMicrophone
+  );
+
+  window.addEventListener(
+    "beforeunload",
+    cleanupMicrophone
+  );
 
 }
 
@@ -3228,7 +4937,6 @@ function addQualification(data = {}) {
   item.dataset.qualificationItem =
     "";
 
-
   item.innerHTML = `
 
     <div
@@ -3313,7 +5021,6 @@ function addQualification(data = {}) {
 
   `;
 
-
   const title =
     item.querySelector(
       '[name*="[title]"]'
@@ -3334,7 +5041,6 @@ function addQualification(data = {}) {
       '[name*="[specialization]"]'
     );
 
-
   if (title) {
 
     title.value =
@@ -3343,7 +5049,6 @@ function addQualification(data = {}) {
       );
 
   }
-
 
   if (institution) {
 
@@ -3354,7 +5059,6 @@ function addQualification(data = {}) {
 
   }
 
-
   if (year) {
 
     year.value =
@@ -3364,7 +5068,6 @@ function addQualification(data = {}) {
 
   }
 
-
   if (specialization) {
 
     specialization.value =
@@ -3373,7 +5076,6 @@ function addQualification(data = {}) {
       );
 
   }
-
 
   const removeButton =
     item.querySelector(
@@ -3396,7 +5098,6 @@ function addQualification(data = {}) {
     );
 
   }
-
 
   list.appendChild(
     item
@@ -3432,7 +5133,6 @@ function renumberQualifications() {
           `Qualification ${index + 1}`;
 
       }
-
 
       $$(
         "input",
@@ -3470,7 +5170,6 @@ function renumberQualifications() {
 /* =========================================================
 DRAFT
 ========================================================= */
-
 function saveDraft() {
 
   const draft = {
@@ -3498,19 +5197,21 @@ function saveDraft() {
       $("profileTeachingApproach")?.value ||
       "",
 
-    hourlyRate:
-      $("profileHourlyRate")?.value ||
-      "",
-
     lessonDuration:
       $("profileLessonDuration")?.value ||
       "",
 
-    lessonFormat:
-      document.querySelector(
-        'input[name="lessonFormat"]:checked'
-      )?.value ||
+    hourlyRate:
+      $("profileHourlyRate")?.value ||
       "",
+
+    availability:
+      Boolean(
+        $("profileAvailability")?.checked
+      ),
+
+    lessonFormat:
+      USTAZ_LESSON_FORMAT,
 
     languages:
       $$(
@@ -3563,8 +5264,9 @@ function saveDraft() {
 
   };
 
+
   /*
-   * Fayda is intentionally NOT persisted.
+   * Fayda image files are NEVER stored in localStorage.
    */
 
   try {
@@ -3586,6 +5288,7 @@ function saveDraft() {
   }
 
 }
+
 
 
 function loadDraft() {
@@ -3624,6 +5327,8 @@ function loadDraft() {
       "object"
   ) {
 
+    enforceInPersonLessonFormat();
+
     return;
 
   }
@@ -3654,34 +5359,77 @@ function loadDraft() {
   );
 
   setValue(
+    "profileLessonDuration",
+    draft.lessonDuration
+  );
+  setValue(
     "profileHourlyRate",
     draft.hourlyRate
   );
 
-  setValue(
-    "profileLessonDuration",
-    draft.lessonDuration
+
+  const availabilityInput =
+    $("profileAvailability");
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  const hasServerAvailability = [
+    teacher.isAvailable,
+    teacher.is_available,
+    teacher.available,
+    teacher.availability,
+    teacher.availableForParents,
+    teacher.available_for_parents,
+    teacher.acceptingStudents,
+    teacher.accepting_students
+  ].some(
+    value =>
+      value !== undefined &&
+      value !== null &&
+      value !== ""
   );
 
+  const isNewIncompleteProfile =
+    !Boolean(
+      state.user?.profileCompleted ??
+      state.user?.profile_completed ??
+      false
+    ) &&
+    !state.reviewStatus;
 
+  /*
+   * Availability comes from the current server profile.
+   * Never let an old local draft override an explicit server
+   * value. For a brand-new incomplete profile, preserve the
+   * enabled default selected during server-data prefill.
+   */
   if (
-    draft.lessonFormat
+    availabilityInput &&
+    !hasServerAvailability &&
+    !isNewIncompleteProfile &&
+    draft.availability !== undefined
   ) {
 
-    const radio =
-      document.querySelector(
-        `input[name="lessonFormat"][value="${CSS.escape(draft.lessonFormat)}"]`
+    availabilityInput.checked =
+      normalizeBoolean(
+        draft.availability,
+        availabilityInput.checked
       );
-
-    if (radio) {
-
-      radio.checked =
-        true;
-
-    }
 
   }
 
+  updateAvailabilityUI();
+  /*
+   * Ignore any old saved hourlyRate field.
+   *
+   * Ignore any old saved online/both lesson format.
+   *
+   * Current platform rule is always in-person.
+   */
+
+  enforceInPersonLessonFormat();
 
   normalizeArray(
     draft.languages
@@ -3708,7 +5456,6 @@ function loadDraft() {
     }
   );
 
-
   normalizeArray(
     draft.availabilityDays
   ).forEach(
@@ -3732,7 +5479,6 @@ function loadDraft() {
 
     }
   );
-
 
   const first =
     $$(
@@ -3780,7 +5526,6 @@ function loadDraft() {
 
   }
 
-
   if (
     Array.isArray(
       draft.qualifications
@@ -3802,10 +5547,14 @@ function loadDraft() {
 
   }
 
-
   updateBioCounter();
 
   updateLanguageSelectionUI();
+
+  /*
+   * Final safety check after draft restoration.
+   */
+  enforceInPersonLessonFormat();
 
 }
 
@@ -3902,6 +5651,1760 @@ function clearDraft() {
 }
 
 
+
+/* =========================================================
+PRIVATE IDENTITY SELFIE — IN-PAGE CAMERA MODAL
+
+The profile card shows only the last confirmed selfie. The modal owns
+the live stream and a pending capture. A captured image is promoted to
+state.selfieFile only when the user clicks "Use This Selfie".
+
+Closing/cancelling the modal discards the pending image but never clears
+a previously confirmed local selfie or an existing server selfie.
+========================================================= */
+
+function stopSelfieCamera() {
+
+  /* Invalidate any permission/capture request that is still resolving. */
+  state.selfieCameraRequestId += 1;
+  state.selfieStarting = false;
+
+  const stream =
+    state.selfieStream;
+
+  if (stream) {
+
+    stream.getTracks().forEach(
+      track => {
+
+        try {
+          track.stop();
+        } catch {
+          /* Ignore tracks that are already stopped. */
+        }
+
+      }
+    );
+
+  }
+
+  state.selfieStream =
+    null;
+
+  state.selfieCameraActive =
+    false;
+
+  const videos = [
+    $("ustazSelfieModalVideo"),
+    $("ustazSelfieVideo")
+  ];
+
+  videos.forEach(
+    video => {
+
+      if (!video) {
+        return;
+      }
+
+      try {
+        video.pause();
+      } catch {
+        /* Ignore videos that have not started. */
+      }
+
+      video.srcObject =
+        null;
+
+      video.hidden =
+        true;
+
+    }
+  );
+
+  const startButton =
+    $("ustazSelfieStartButton");
+
+  const captureButton =
+    $("ustazSelfieCaptureButton");
+
+  if (startButton) {
+    startButton.hidden = false;
+  }
+
+  /* The old in-card capture control is retained for markup compatibility.
+     Capturing is now handled by the modal's own button. */
+  if (captureButton) {
+    captureButton.hidden = true;
+  }
+
+}
+
+
+function validateSelfieFile(file) {
+
+  if (!file) {
+    return false;
+  }
+
+  clearFieldError(
+    "ustazSelfieError"
+  );
+
+  if (
+    !USTAZ_PROFILE_CONFIG.SELFIE_TYPES.includes(
+      file.type
+    )
+  ) {
+
+    showFieldError(
+      "ustazSelfieError",
+      "Please choose a JPG, PNG, or WebP selfie."
+    );
+
+    return false;
+
+  }
+
+  if (
+    file.size >
+    USTAZ_PROFILE_CONFIG.MAX_SELFIE_SIZE
+  ) {
+
+    showFieldError(
+      "ustazSelfieError",
+      "The selfie must be 5 MB or smaller."
+    );
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+
+function renderSelfiePreview(file) {
+
+  const preview =
+    $("ustazSelfiePreview");
+
+  const placeholder =
+    $("ustazSelfiePlaceholder");
+
+  if (!preview || !file) {
+    return;
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  preview.onload =
+    function() {
+
+      try {
+        URL.revokeObjectURL(url);
+      } catch {
+        /* Ignore stale object URLs. */
+      }
+
+      preview.onload = null;
+
+    };
+
+  preview.onerror =
+    function() {
+
+      try {
+        URL.revokeObjectURL(url);
+      } catch {
+        /* Ignore stale object URLs. */
+      }
+
+      preview.onerror = null;
+
+    };
+
+  preview.src =
+    url;
+
+  preview.hidden =
+    false;
+
+  if (placeholder) {
+    placeholder.hidden = true;
+  }
+
+}
+
+
+function setSelfieFile(file) {
+
+  if (!validateSelfieFile(file)) {
+    return false;
+  }
+
+  state.selfieFile =
+    file;
+
+  stopSelfieCamera();
+
+  renderSelfiePreview(file);
+
+  const retakeButton =
+    $("ustazSelfieRetakeButton");
+
+  if (retakeButton) {
+    retakeButton.hidden = false;
+  }
+
+  const status =
+    $("ustazSelfieStatus");
+
+  if (status) {
+    status.textContent =
+      "Selfie confirmed. You can retake it before submitting your profile for admin review.";
+  }
+
+  return true;
+
+}
+
+
+/* ---------- modal and element helpers ---------- */
+
+function getSelfieModalElements() {
+
+  return {
+    modal: $("ustazSelfieCameraModal"),
+    shell: document.querySelector(".profile-completion-page"),
+    video: $("ustazSelfieModalVideo"),
+    preview: $("ustazSelfieModalPreview"),
+    canvas: $("ustazSelfieCanvas"),
+    stage: $("ustazSelfieModalStage"),
+    guide: $("ustazSelfieFaceGuide"),
+    placeholder: $("ustazSelfieModalPlaceholder"),
+    status: $("ustazSelfieModalStatus"),
+    closeButton: $("ustazSelfieModalCloseButton"),
+    startButton: $("ustazSelfieModalStartButton"),
+    captureButton: $("ustazSelfieModalCaptureButton"),
+    retakeButton: $("ustazSelfieModalRetakeButton"),
+    useButton: $("ustazSelfieModalUseButton")
+  };
+
+}
+
+
+function setSelfieAspect(width, height) {
+
+  const stage =
+    $("ustazSelfieModalStage");
+
+  if (
+    stage &&
+    width > 0 &&
+    height > 0
+  ) {
+
+    stage.style.setProperty(
+      "--ustaz-selfie-aspect",
+      `${width} / ${height}`
+    );
+
+  }
+
+}
+
+
+function syncSelfieAspectFromVideo() {
+
+  const video =
+    $("ustazSelfieModalVideo");
+
+  if (!video) {
+    return;
+  }
+
+  setSelfieAspect(
+    video.videoWidth,
+    video.videoHeight
+  );
+
+}
+
+
+function setSelfieModalMessage(message, isError = false) {
+
+  const status =
+    $("ustazSelfieModalStatus");
+
+  if (!status) {
+    return;
+  }
+
+  status.textContent =
+    message || "";
+
+  status.dataset.state =
+    isError ? "error" : "info";
+
+}
+
+
+function focusSelfieModalPrimary() {
+
+  const elements =
+    getSelfieModalElements();
+
+  const target = [
+    elements.useButton,
+    elements.captureButton,
+    elements.retakeButton,
+    elements.startButton,
+    elements.closeButton
+  ].find(
+    button =>
+      button &&
+      !button.hidden &&
+      !button.disabled
+  );
+
+  if (target) {
+    target.focus({
+      preventScroll: true
+    });
+  }
+
+}
+
+
+function setSelfieModalMode(mode, message, isError = false) {
+
+  const elements =
+    getSelfieModalElements();
+
+  const isLive =
+    mode === "live";
+
+  const isCaptured =
+    mode === "captured";
+
+  const hasError =
+    mode === "error" || isError;
+
+  if (elements.stage) {
+    elements.stage.dataset.mode = mode;
+  }
+
+  if (elements.video) {
+    elements.video.hidden = !isLive;
+  }
+
+  if (elements.preview) {
+    elements.preview.hidden = !isCaptured;
+  }
+
+  if (elements.guide) {
+    elements.guide.hidden = !isLive;
+  }
+
+  if (elements.placeholder) {
+
+    elements.placeholder.hidden =
+      isLive || isCaptured;
+
+    const label =
+      elements.placeholder.querySelector("span");
+
+    if (label) {
+      label.textContent =
+        hasError
+          ? "Camera unavailable"
+          : "Preparing your camera…";
+    }
+
+  }
+
+  if (elements.startButton) {
+    elements.startButton.hidden = !hasError;
+    elements.startButton.disabled = false;
+  }
+
+  if (elements.captureButton) {
+    elements.captureButton.hidden = !isLive;
+    elements.captureButton.disabled = false;
+  }
+
+  if (elements.retakeButton) {
+    elements.retakeButton.hidden = !isCaptured;
+  }
+
+  if (elements.useButton) {
+    elements.useButton.hidden = !isCaptured;
+  }
+
+  setSelfieModalMessage(
+    message,
+    hasError
+  );
+
+  if (state.selfieModalOpen) {
+    focusSelfieModalPrimary();
+  }
+
+}
+
+
+function releasePendingSelfieUrl() {
+
+  if (!state.selfiePendingObjectUrl) {
+    return;
+  }
+
+  try {
+    URL.revokeObjectURL(
+      state.selfiePendingObjectUrl
+    );
+  } catch {
+    /* Ignore already-released object URLs. */
+  }
+
+  state.selfiePendingObjectUrl =
+    "";
+
+}
+
+
+function discardPendingSelfie() {
+
+  state.selfiePendingFile =
+    null;
+
+  releasePendingSelfieUrl();
+
+  const preview =
+    $("ustazSelfieModalPreview");
+
+  if (preview) {
+
+    preview.onload = null;
+    preview.onerror = null;
+    preview.hidden = true;
+    preview.src = "data:,";
+
+  }
+
+}
+
+
+function openSelfieModal(opener) {
+
+  if (
+    state.selfieModalOpen ||
+    state.submitting ||
+    state.reviewStatus === USTAZ_REVIEW_STATUS.PENDING
+  ) {
+    return;
+  }
+
+  const elements =
+    getSelfieModalElements();
+
+  if (
+    !elements.modal ||
+    !elements.video ||
+    !elements.preview ||
+    !elements.canvas ||
+    !elements.stage
+  ) {
+
+    showFieldError(
+      "ustazSelfieError",
+      "The camera window is not available on this page. Please refresh and try again."
+    );
+
+    return;
+
+  }
+
+  clearFieldError(
+    "ustazSelfieError"
+  );
+
+  state.selfieModalOpener =
+    opener || document.activeElement || null;
+
+  state.selfieModalOpen =
+    true;
+
+  discardPendingSelfie();
+
+  elements.modal.hidden =
+    false;
+
+  elements.modal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  /* This modal is outside the page shell. Make the page behind it inert. */
+  if (elements.shell) {
+    elements.shell.setAttribute("inert", "");
+  }
+
+  state.selfieModalPreviousOverflow =
+    document.body.style.overflow;
+
+  document.body.style.overflow =
+    "hidden";
+
+  setSelfieModalMode(
+    "starting",
+    "Preparing your camera. Allow camera access if your browser asks."
+  );
+
+  window.requestAnimationFrame(
+    () => {
+
+      if (
+        state.selfieModalOpen &&
+        elements.closeButton
+      ) {
+        elements.closeButton.focus({
+          preventScroll: true
+        });
+      }
+
+    }
+  );
+
+  startSelfieCamera();
+
+}
+
+
+function closeSelfieModal({
+  restoreFocus = true
+} = {}) {
+
+  const elements =
+    getSelfieModalElements();
+
+  stopSelfieCamera();
+
+  if (!state.selfieModalOpen) {
+    if (elements.modal) {
+      elements.modal.hidden = true;
+      elements.modal.setAttribute("aria-hidden", "true");
+    }
+    return;
+  }
+
+  state.selfieModalOpen =
+    false;
+
+  /* An unconfirmed photo is discarded; state.selfieFile is left alone. */
+  discardPendingSelfie();
+
+  if (elements.modal) {
+
+    elements.modal.hidden =
+      true;
+
+    elements.modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+  }
+
+  if (elements.shell) {
+    elements.shell.removeAttribute("inert");
+  }
+
+  document.body.style.overflow =
+    state.selfieModalPreviousOverflow;
+
+  if (restoreFocus) {
+
+    const opener =
+      state.selfieModalOpener;
+
+    let target =
+      opener &&
+      opener.isConnected &&
+      !opener.hidden &&
+      !opener.disabled
+        ? opener
+        : null;
+
+    if (!target) {
+
+      target = [
+        $("ustazSelfieRetakeButton"),
+        $("ustazSelfieStartButton")
+      ].find(
+        button =>
+          button &&
+          !button.hidden &&
+          !button.disabled
+      ) || null;
+
+    }
+
+    if (target) {
+      target.focus({
+        preventScroll: true
+      });
+    }
+
+  }
+
+  state.selfieModalOpener =
+    null;
+
+}
+
+
+async function startSelfieCamera() {
+
+  if (
+    !state.selfieModalOpen ||
+    state.selfieStarting
+  ) {
+    return;
+  }
+
+  const video =
+    $("ustazSelfieModalVideo");
+
+  if (
+    !navigator.mediaDevices ||
+    typeof navigator.mediaDevices.getUserMedia !== "function"
+  ) {
+
+    const message =
+      window.isSecureContext === false
+        ? "Camera access requires HTTPS or localhost. Open this page through a secure connection and try again."
+        : "This browser does not support live camera access.";
+
+    setSelfieModalMode(
+      "error",
+      message,
+      true
+    );
+
+    showFieldError(
+      "ustazSelfieError",
+      message
+    );
+
+    return;
+
+  }
+
+  stopSelfieCamera();
+
+  const requestId =
+    ++state.selfieCameraRequestId;
+
+  state.selfieStarting =
+    true;
+
+  setSelfieModalMode(
+    "starting",
+    "Starting your camera. Allow camera access if your browser asks."
+  );
+
+  try {
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user",
+          width: { ideal: 1280 },
+          height: { ideal: 960 }
+        },
+        audio: false
+      });
+
+    /* If the modal closed or the user retried, do not keep this stream. */
+    if (
+      requestId !== state.selfieCameraRequestId ||
+      !state.selfieModalOpen
+    ) {
+
+      stream.getTracks().forEach(
+        track => track.stop()
+      );
+
+      return;
+
+    }
+
+    state.selfieStream =
+      stream;
+
+    video.srcObject =
+      stream;
+
+    video.muted =
+      true;
+
+    video.playsInline =
+      true;
+
+    video.hidden =
+      false;
+
+    await video.play();
+
+    if (
+      requestId !== state.selfieCameraRequestId ||
+      !state.selfieModalOpen
+    ) {
+      return;
+    }
+
+    state.selfieCameraActive =
+      true;
+
+    syncSelfieAspectFromVideo();
+
+    clearFieldError(
+      "ustazSelfieError"
+    );
+
+    setSelfieModalMode(
+      "live",
+      "Camera is ready. Center your face in the outline, then tap Capture Selfie."
+    );
+
+  } catch (error) {
+
+    if (
+      requestId !== state.selfieCameraRequestId
+    ) {
+      return;
+    }
+
+    console.error(
+      "[BarakaLink][Ustaz Profile][Selfie] Camera access failed:",
+      error
+    );
+
+    stopSelfieCamera();
+
+    let message =
+      "Unable to start the camera. Please try again.";
+
+    if (error?.name === "NotAllowedError") {
+      message =
+        "Camera permission was denied. Allow camera access in your browser settings, then try again.";
+    } else if (error?.name === "NotFoundError") {
+      message =
+        "No camera was found on this device.";
+    } else if (error?.name === "NotReadableError") {
+      message =
+        "Your camera may be in use by another app. Close that app and try again.";
+    } else if (error?.name === "SecurityError") {
+      message =
+        "Camera access is blocked by your browser security settings.";
+    }
+
+    showFieldError(
+      "ustazSelfieError",
+      message
+    );
+
+    setSelfieModalMode(
+      "error",
+      message,
+      true
+    );
+
+  } finally {
+
+    if (
+      requestId === state.selfieCameraRequestId
+    ) {
+      state.selfieStarting = false;
+    }
+
+  }
+
+}
+
+
+async function captureSelfie() {
+
+  if (
+    state.selfieCapturing ||
+    !state.selfieModalOpen
+  ) {
+    return;
+  }
+
+  const video =
+    $("ustazSelfieModalVideo");
+
+  const canvas =
+    $("ustazSelfieCanvas");
+
+  const captureButton =
+    $("ustazSelfieModalCaptureButton");
+
+  if (
+    !video ||
+    !canvas ||
+    !state.selfieCameraActive ||
+    !state.selfieStream
+  ) {
+
+    setSelfieModalMessage(
+      "Start the live camera before capturing your selfie.",
+      true
+    );
+
+    return;
+
+  }
+
+  const width =
+    video.videoWidth;
+
+  const height =
+    video.videoHeight;
+
+  if (!width || !height) {
+
+    setSelfieModalMessage(
+      "The camera is still preparing. Please try again.",
+      true
+    );
+
+    return;
+
+  }
+
+  state.selfieCapturing =
+    true;
+
+  const sessionToken =
+    state.selfieCameraRequestId;
+
+  if (captureButton) {
+    captureButton.disabled = true;
+  }
+
+  try {
+
+    canvas.width =
+      width;
+
+    canvas.height =
+      height;
+
+    const context =
+      canvas.getContext("2d");
+
+    if (!context) {
+
+      setSelfieModalMessage(
+        "Unable to capture the selfie from the camera.",
+        true
+      );
+
+      return;
+
+    }
+
+    context.drawImage(
+      video,
+      0,
+      0,
+      width,
+      height
+    );
+
+    const blob =
+      await new Promise(
+        resolve => canvas.toBlob(
+          resolve,
+          "image/jpeg",
+          0.9
+        )
+      );
+
+    if (
+      sessionToken !== state.selfieCameraRequestId ||
+      !state.selfieModalOpen
+    ) {
+      return;
+    }
+
+    if (!blob || blob.type !== "image/jpeg") {
+
+      setSelfieModalMessage(
+        "Unable to prepare the selfie. Please try again.",
+        true
+      );
+
+      return;
+
+    }
+
+    const file =
+      new File(
+        [blob],
+        `ustaz-selfie-${Date.now()}.jpg`,
+        {
+          type: "image/jpeg",
+          lastModified: Date.now()
+        }
+      );
+
+    if (!validateSelfieFile(file)) {
+
+      setSelfieModalMessage(
+        "The selfie must be a valid image and 5 MB or smaller. Please try again.",
+        true
+      );
+
+      return;
+
+    }
+
+    const objectUrl =
+      URL.createObjectURL(file);
+
+    const preview =
+      $("ustazSelfieModalPreview");
+
+    try {
+
+      preview.src =
+        objectUrl;
+
+      if (typeof preview.decode === "function") {
+        await preview.decode();
+      }
+
+    } catch (decodeError) {
+
+      console.error(
+        "[BarakaLink][Ustaz Profile][Selfie] Captured preview could not be decoded:",
+        decodeError
+      );
+
+      URL.revokeObjectURL(objectUrl);
+      preview.src = "data:,";
+
+      if (
+        sessionToken === state.selfieCameraRequestId &&
+        state.selfieModalOpen
+      ) {
+
+        setSelfieModalMessage(
+          "The captured photo could not be displayed. Please try again.",
+          true
+        );
+
+      }
+
+      return;
+
+    }
+
+    if (
+      sessionToken !== state.selfieCameraRequestId ||
+      !state.selfieModalOpen
+    ) {
+
+      URL.revokeObjectURL(objectUrl);
+      preview.src = "data:,";
+      return;
+
+    }
+
+    discardPendingSelfie();
+
+    state.selfiePendingFile =
+      file;
+
+    state.selfiePendingObjectUrl =
+      objectUrl;
+
+    /* discardPendingSelfie resets the preview; attach the newly confirmed-pending URL. */
+    preview.src =
+      objectUrl;
+
+    preview.hidden =
+      false;
+
+    setSelfieAspect(
+      width,
+      height
+    );
+
+    /* Release the camera as soon as the frame has been captured. */
+    stopSelfieCamera();
+
+    setSelfieModalMode(
+      "captured",
+      "Photo captured. Check that your face is clear and well lit, then choose Use This Selfie or retake it."
+    );
+
+  } finally {
+
+    state.selfieCapturing =
+      false;
+
+    if (captureButton) {
+      captureButton.disabled = false;
+    }
+
+  }
+
+}
+
+
+function retakeModalSelfie() {
+
+  if (!state.selfieModalOpen) {
+    return;
+  }
+
+  discardPendingSelfie();
+  startSelfieCamera();
+
+}
+
+
+function useModalSelfie() {
+
+  if (
+    !state.selfieModalOpen ||
+    !state.selfiePendingFile
+  ) {
+
+    setSelfieModalMessage(
+      "Capture a selfie first.",
+      true
+    );
+
+    return;
+
+  }
+
+  if (!validateSelfieFile(state.selfiePendingFile)) {
+
+    setSelfieModalMessage(
+      "Please retake the selfie and make sure it is a supported image smaller than 5 MB.",
+      true
+    );
+
+    return;
+
+  }
+
+  /* Only the explicit confirmation replaces the previously confirmed file. */
+  const acceptedFile =
+    state.selfiePendingFile;
+
+  if (!setSelfieFile(acceptedFile)) {
+    return;
+  }
+
+  closeSelfieModal();
+
+}
+
+
+/* The browser may suspend a page while its camera permission prompt is open. */
+function pauseSelfieCameraIfActive() {
+
+  if (
+    !state.selfieStream &&
+    !state.selfieStarting
+  ) {
+    return;
+  }
+
+  stopSelfieCamera();
+
+  if (state.selfieModalOpen) {
+
+    setSelfieModalMode(
+      "error",
+      "The camera was turned off because the page was hidden. Tap Try Camera Again to continue.",
+      true
+    );
+
+  }
+
+}
+
+
+function handleSelfieModalKeydown(event) {
+
+  if (!state.selfieModalOpen) {
+    return;
+  }
+
+  if (event.key === "Escape") {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    closeSelfieModal();
+
+    return;
+
+  }
+
+  /* Keep keyboard focus inside the modal while the page behind it is inert. */
+  if (event.key === "Tab") {
+
+    const elements =
+      getSelfieModalElements();
+
+    const focusable = [
+      elements.closeButton,
+      elements.startButton,
+      elements.retakeButton,
+      elements.captureButton,
+      elements.useButton
+    ].filter(
+      element =>
+        element &&
+        !element.hidden &&
+        !element.disabled
+    );
+
+    if (!focusable.length) {
+      return;
+    }
+
+    const first =
+      focusable[0];
+
+    const last =
+      focusable[focusable.length - 1];
+
+    if (
+      event.shiftKey &&
+      document.activeElement === first
+    ) {
+
+      event.preventDefault();
+      last.focus();
+
+    } else if (
+      !event.shiftKey &&
+      document.activeElement === last
+    ) {
+
+      event.preventDefault();
+      first.focus();
+
+    }
+
+  }
+
+}
+
+
+function clearSelfieSelection() {
+
+  state.selfieFile =
+    null;
+
+  const preview =
+    $("ustazSelfiePreview");
+
+  const placeholder =
+    $("ustazSelfiePlaceholder");
+
+  const retakeButton =
+    $("ustazSelfieRetakeButton");
+
+  if (preview) {
+
+    preview.onload = null;
+    preview.onerror = null;
+    preview.src = "data:,";
+    preview.hidden = true;
+
+  }
+
+  if (placeholder) {
+    placeholder.hidden = false;
+  }
+
+  if (retakeButton) {
+    retakeButton.hidden = true;
+  }
+
+  closeSelfieModal({
+    restoreFocus: false
+  });
+
+  clearFieldError(
+    "ustazSelfieError"
+  );
+
+  const status =
+    $("ustazSelfieStatus");
+
+  if (status) {
+    status.textContent =
+      "Start the camera, center your face, and take one clear selfie.";
+  }
+
+}
+
+
+function setupSelfie() {
+
+  const startButton =
+    $("ustazSelfieStartButton");
+
+  const captureButton =
+    $("ustazSelfieCaptureButton");
+
+  const retakeButton =
+    $("ustazSelfieRetakeButton");
+
+  const modal =
+    $("ustazSelfieCameraModal");
+
+  const modalCloseButton =
+    $("ustazSelfieModalCloseButton");
+
+  const modalStartButton =
+    $("ustazSelfieModalStartButton");
+
+  const modalCaptureButton =
+    $("ustazSelfieModalCaptureButton");
+
+  const modalRetakeButton =
+    $("ustazSelfieModalRetakeButton");
+
+  const modalUseButton =
+    $("ustazSelfieModalUseButton");
+
+  if (
+    !startButton ||
+    !modal ||
+    !modalCaptureButton
+  ) {
+
+    console.warn(
+      "[BarakaLink][Ustaz Profile][Selfie] Camera modal controls not found."
+    );
+
+    return;
+
+  }
+
+  if (
+    startButton.dataset.selfieSetup === "true"
+  ) {
+    return;
+  }
+
+  startButton.dataset.selfieSetup =
+    "true";
+
+  /* Keep the legacy card capture control hidden: camera actions now live in the modal. */
+  if (captureButton) {
+    captureButton.hidden = true;
+  }
+
+  startButton.addEventListener(
+    "click",
+    function() {
+      openSelfieModal(startButton);
+    }
+  );
+
+  if (retakeButton) {
+
+    retakeButton.addEventListener(
+      "click",
+      function() {
+        openSelfieModal(retakeButton);
+      }
+    );
+
+  }
+
+  if (modalCloseButton) {
+    modalCloseButton.addEventListener(
+      "click",
+      () => closeSelfieModal()
+    );
+  }
+
+  modal.addEventListener(
+    "click",
+    function(event) {
+
+      const target =
+        event.target;
+
+      if (
+        target === modal ||
+        (
+          target instanceof Element &&
+          target.closest("[data-ustaz-selfie-modal-close]")
+        )
+      ) {
+        closeSelfieModal();
+      }
+
+    }
+  );
+
+  if (modalStartButton) {
+    modalStartButton.addEventListener(
+      "click",
+      startSelfieCamera
+    );
+  }
+
+  modalCaptureButton.addEventListener(
+    "click",
+    captureSelfie
+  );
+
+  if (modalRetakeButton) {
+    modalRetakeButton.addEventListener(
+      "click",
+      retakeModalSelfie
+    );
+  }
+
+  if (modalUseButton) {
+    modalUseButton.addEventListener(
+      "click",
+      useModalSelfie
+    );
+  }
+
+  const modalVideo =
+    $("ustazSelfieModalVideo");
+
+  if (modalVideo) {
+
+    modalVideo.addEventListener(
+      "loadedmetadata",
+      syncSelfieAspectFromVideo
+    );
+
+    modalVideo.addEventListener(
+      "resize",
+      syncSelfieAspectFromVideo
+    );
+
+  }
+
+  document.addEventListener(
+    "keydown",
+    handleSelfieModalKeydown
+  );
+
+  document.addEventListener(
+    "visibilitychange",
+    function() {
+      if (document.hidden) {
+        pauseSelfieCameraIfActive();
+      }
+    }
+  );
+
+  window.addEventListener(
+    "pagehide",
+    function() {
+      closeSelfieModal({
+        restoreFocus: false
+      });
+    }
+  );
+
+  window.addEventListener(
+    "beforeunload",
+    function() {
+      closeSelfieModal({
+        restoreFocus: false
+      });
+    }
+  );
+
+}
+
+
+/* =========================================================
+END PRIVATE IDENTITY SELFIE
+========================================================= */
+
+
+function hasExistingSelfie() {
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  return Boolean(
+    teacher.selfieUrl ??
+    teacher.selfie_url ??
+    teacher.identitySelfieUrl ??
+    teacher.identity_selfie_url ??
+    teacher.verificationSelfieUrl ??
+    teacher.verification_selfie_url
+  );
+
+}
+
+
+function renderExistingSelfie() {
+
+  const teacher =
+    state.teacherProfile ||
+    {};
+
+  const url =
+    teacher.selfieUrl ??
+    teacher.selfie_url ??
+    teacher.identitySelfieUrl ??
+    teacher.identity_selfie_url ??
+    teacher.verificationSelfieUrl ??
+    teacher.verification_selfie_url ??
+    "";
+
+  if (!url) {
+
+    return;
+
+  }
+
+  const preview =
+    $("ustazSelfiePreview");
+
+  const placeholder =
+    $("ustazSelfiePlaceholder");
+
+  if (preview) {
+
+    preview.src =
+      resolveMediaUrl(
+        url
+      );
+
+    preview.hidden =
+      false;
+
+  }
+
+  if (placeholder) {
+
+    placeholder.hidden =
+      true;
+
+  }
+
+  const retakeButton =
+    $("ustazSelfieRetakeButton");
+
+  if (retakeButton) {
+
+    retakeButton.hidden =
+      false;
+
+  }
+
+  const status =
+    $("ustazSelfieStatus");
+
+  if (status) {
+
+    status.textContent =
+      "A selfie is already on your private review record. You can replace it before submission if needed.";
+
+  }
+
+}
+
+
+const USTAZ_REVIEW_STATUS = Object.freeze({
+
+  PENDING:
+    "pending",
+
+  APPROVED:
+    "approved",
+
+  REJECTED:
+    "rejected"
+
+});
+
+
+function normalizeReviewStatus(value) {
+
+  const status =
+    safeString(
+      value
+    )
+      .toLowerCase()
+      .replace(
+        /[\s_-]+/g,
+        "-"
+      );
+
+  if (
+    [
+      "pending",
+      "under-review",
+      "in-review",
+      "review"
+    ].includes(
+      status
+    )
+  ) {
+
+    return USTAZ_REVIEW_STATUS.PENDING;
+
+  }
+
+  if (
+    [
+      "approved",
+      "approve"
+    ].includes(
+      status
+    )
+  ) {
+
+    return USTAZ_REVIEW_STATUS.APPROVED;
+
+  }
+
+  if (
+    [
+      "rejected",
+      "reject",
+      "declined"
+    ].includes(
+      status
+    )
+  ) {
+
+    return USTAZ_REVIEW_STATUS.REJECTED;
+
+  }
+
+  return "";
+
+}
+
+
+function getProfileReviewStatus(source = {}) {
+
+  return normalizeReviewStatus(
+    source?.profileReviewStatus ??
+    source?.profile_review_status
+  );
+
+}
+
+
+function getProfileReviewReason(source = {}) {
+
+  return safeString(
+    source?.reviewRejectionReason ??
+    source?.review_rejection_reason
+  );
+
+}
+
+
+function showReviewNotice(
+  status,
+  reason = ""
+) {
+
+  const notice =
+    $("ustazReviewNotice");
+
+  const title =
+    $("ustazReviewNoticeTitle");
+
+  const message =
+    $("ustazReviewNoticeMessage");
+
+  if (!notice) {
+
+    return;
+
+  }
+
+  notice.hidden =
+    !status;
+
+  notice.dataset.reviewStatus =
+    status || "";
+
+  if (
+    status ===
+      USTAZ_REVIEW_STATUS.PENDING
+  ) {
+
+    if (title) {
+
+      title.textContent =
+        "Your Ustaz account is under review";
+
+    }
+
+    if (message) {
+
+      message.textContent =
+        "Your profile and private identity documents have been submitted to BarakaLink admins. You can log in and view your information, but editing is locked until the review is completed. You will be notified when a decision is made, normally within 48 hours.";
+
+    }
+
+    return;
+
+  }
+
+  if (
+    status ===
+      USTAZ_REVIEW_STATUS.REJECTED
+  ) {
+
+    if (title) {
+
+      title.textContent =
+        "Your Ustaz profile needs changes";
+
+    }
+
+    if (message) {
+
+      message.textContent =
+        reason
+          ? `Admin review was not approved. Reason: ${reason}`
+          : "Admin review was not approved. Please review your profile, make the requested changes, and submit it again.";
+
+    }
+
+    return;
+
+  }
+
+  if (
+    status ===
+      USTAZ_REVIEW_STATUS.APPROVED
+  ) {
+
+    if (title) {
+
+      title.textContent =
+        "Your Ustaz profile has been approved";
+
+    }
+
+    if (message) {
+
+      message.textContent =
+        "Your Ustaz profile has been approved by BarakaLink admins.";
+
+    }
+
+  }
+
+}
+
+
+function setReviewLock(locked) {
+
+  const form =
+    $("ustazProfileCompletionForm");
+
+  if (!form) {
+
+    return;
+
+  }
+
+  form.classList.toggle(
+    "is-review-locked",
+    locked
+  );
+
+  form
+    .querySelectorAll(
+      "input, textarea, select, button"
+    )
+    .forEach(
+      element => {
+
+        if (
+          element.id ===
+            "profileLogoutButton"
+        ) {
+
+          return;
+
+        }
+
+        element.disabled =
+          locked;
+
+      }
+    );
+
+}
+
+
+function applyReviewState() {
+
+  const status =
+    state.reviewStatus;
+
+  showReviewNotice(
+    status,
+    state.reviewRejectionReason
+  );
+
+  if (
+    status ===
+      USTAZ_REVIEW_STATUS.PENDING
+  ) {
+
+    setReviewLock(
+      true
+    );
+
+    closeSelfieModal({
+      restoreFocus: false
+    });
+
+    stopSelfieCamera();
+
+    return;
+
+  }
+
+  setReviewLock(
+    false
+  );
+
+}
+
+
 /* =========================================================
 VALIDATION
 ========================================================= */
@@ -3914,7 +7417,6 @@ function validateStep(step) {
   /*
    * IMPORTANT:
    * clearErrors() is now a real function.
-   * There is NO $$$() call.
    */
 
   clearErrors();
@@ -3954,7 +7456,6 @@ function validateStep(step) {
 
     }
 
-
     const bio =
       safeString(
         $("profileBio")?.value
@@ -3974,7 +7475,6 @@ function validateStep(step) {
 
     }
 
-
     const languages =
       $$(
         'input[name="languages"]:checked'
@@ -3993,7 +7493,6 @@ function validateStep(step) {
         false;
 
     }
-
 
     const photoExists =
       state.photoFile ||
@@ -4019,18 +7518,32 @@ function validateStep(step) {
   /* =======================================================
   PAGE 3 — TEACHING & LESSON SETUP
   ======================================================= */
+  /* =======================================================
+  PAGE 3 — TEACHING & LESSON SETUP
+  ======================================================= */
 
   if (step === 3) {
 
-    const hourlyRate =
-      Number(
+    enforceInPersonLessonFormat();
+
+
+    /* =====================================================
+       HOURLY PRICE
+    ===================================================== */
+
+    const hourlyRateRaw =
+      safeString(
         $("profileHourlyRate")?.value
       );
 
+    const hourlyRate =
+      Number(
+        hourlyRateRaw
+      );
+
     if (
-      !Number.isFinite(
-        hourlyRate
-      ) ||
+      !hourlyRateRaw ||
+      !Number.isFinite(hourlyRate) ||
       hourlyRate <= 0
     ) {
 
@@ -4045,16 +7558,24 @@ function validateStep(step) {
     }
 
 
+    /* =====================================================
+       LESSON FORMAT
+    ===================================================== */
+
     const lessonFormat =
       document.querySelector(
         'input[name="lessonFormat"]:checked'
       );
 
-    if (!lessonFormat) {
+    if (
+      !lessonFormat ||
+      lessonFormat.value !==
+        USTAZ_LESSON_FORMAT
+    ) {
 
       showFieldError(
         "profileLessonFormatError",
-        "Please select a lesson format."
+        "In-person lessons are currently the only available lesson format."
       );
 
       valid =
@@ -4062,10 +7583,10 @@ function validateStep(step) {
 
     }
 
+
     return valid;
 
   }
-
 
   /* =======================================================
   PAGE 4 — RECITATION & QUALIFICATIONS
@@ -4098,32 +7619,72 @@ function validateStep(step) {
   PAGE 5 — FAYDA
   ======================================================= */
 
+    /* =======================================================
+  PAGE 5 — FAYDA DOCUMENTS
+  ======================================================= */
+
   if (step === 5) {
 
-    const fayda =
-      safeString(
-        $("profileFaydaId")?.value
+    const frontExists =
+      Boolean(
+        state.faydaFrontFile ||
+        hasExistingFaydaFront()
       );
 
-    if (!fayda) {
+    if (!frontExists) {
 
       showFieldError(
-        "profileFaydaIdError",
-        "Please enter your Fayda National ID."
+        "profileFaydaFrontError",
+        "Please upload or take a photo of the front of your Fayda ID."
       );
 
       valid =
         false;
 
-    } else if (
-      !/^[0-9]+$/.test(
-        fayda
-      )
-    ) {
+    }
+
+
+    const backExists =
+      Boolean(
+        state.faydaBackFile ||
+        hasExistingFaydaBack()
+      );
+
+    if (!backExists) {
 
       showFieldError(
-        "profileFaydaIdError",
-        "Fayda National ID must contain numbers only."
+        "profileFaydaBackError",
+        "Please upload or take a photo of the back of your Fayda ID."
+      );
+
+      valid =
+        false;
+
+    }
+
+
+    return valid;
+
+  }
+
+
+  /* =======================================================
+  PAGE 6 — SELFIE
+  ======================================================= */
+
+  if (step === 6) {
+
+    const selfieExists =
+      Boolean(
+        state.selfieFile ||
+        hasExistingSelfie()
+      );
+
+    if (!selfieExists) {
+
+      showFieldError(
+        "ustazSelfieError",
+        "Please take a clear live selfie before submitting your profile."
       );
 
       valid =
@@ -4134,7 +7695,6 @@ function validateStep(step) {
     return valid;
 
   }
-
 
   return valid;
 
@@ -4147,7 +7707,7 @@ function validateAllPages() {
 
   for (
     let page = 2;
-    page <= 5;
+    page <= 6;
     page += 1
   ) {
 
@@ -4174,7 +7734,7 @@ function validateAllPages() {
       true,
 
     page:
-      5
+      6
 
   };
 
@@ -4325,7 +7885,6 @@ function clearErrors() {
       }
     );
 
-
   $$(".has-error")
     .forEach(
       element => {
@@ -4379,7 +7938,6 @@ function setStatus(
 /* =========================================================
 FORM DATA
 ========================================================= */
-
 function buildFormData() {
 
   const data =
@@ -4392,12 +7950,15 @@ function buildFormData() {
   );
 
 
+  /* =======================================================
+     ABOUT
+  ======================================================= */
+
   append(
     data,
     "dateOfBirth",
     $("profileDateOfBirth")?.value
   );
-
 
   append(
     data,
@@ -4406,12 +7967,15 @@ function buildFormData() {
   );
 
 
+  /* =======================================================
+     RECITATION
+  ======================================================= */
+
   append(
     data,
     "recitationTitle",
     $("profileRecitationTitle")?.value
   );
-
 
   append(
     data,
@@ -4420,19 +7984,15 @@ function buildFormData() {
   );
 
 
+  /* =======================================================
+     TEACHING
+  ======================================================= */
+
   append(
     data,
     "teachingApproach",
     $("profileTeachingApproach")?.value
   );
-
-
-  append(
-    data,
-    "hourlyRate",
-    $("profileHourlyRate")?.value
-  );
-
 
   append(
     data,
@@ -4441,107 +8001,150 @@ function buildFormData() {
   );
 
 
+  /* =======================================================
+     PRICE
+  ======================================================= */
+
   append(
     data,
-    "lessonFormat",
-    document.querySelector(
-      'input[name="lessonFormat"]:checked'
-    )?.value
+    "hourlyRate",
+    $("profileHourlyRate")?.value
   );
 
+
+  /* =======================================================
+     AVAILABILITY
+  ======================================================= */
+
+  data.append(
+    "availability",
+    $("profileAvailability")?.checked
+      ? "1"
+      : "0"
+  );
+
+
+  /* =======================================================
+     LESSON FORMAT
+  ======================================================= */
+
+  data.append(
+    "lessonFormat",
+    USTAZ_LESSON_FORMAT
+  );
+
+
+  /* =======================================================
+     LANGUAGES
+  ======================================================= */
 
   $$(
     'input[name="languages"]:checked'
-  ).forEach(
-    input => {
-
-      data.append(
-        "languages[]",
-        input.value
-      );
-
-    }
-  );
-
-
-  $$(
-    'input[name="availabilityDays"]:checked'
-  ).forEach(
-    input => {
-
-      data.append(
-        "availabilityDays[]",
-        input.value
-      );
-
-    }
-  );
-
-
-  $$(
-    "[data-qualification-item]"
-  ).forEach(
-    (
-      item,
-      index
-    ) => {
-
-      append(
-        data,
-        `qualifications[${index}][title]`,
-        item.querySelector(
-          '[name*="[title]"]'
-        )?.value
-      );
-
-
-      append(
-        data,
-        `qualifications[${index}][institution]`,
-        item.querySelector(
-          '[name*="[institution]"]'
-        )?.value
-      );
-
-
-      append(
-        data,
-        `qualifications[${index}][year]`,
-        item.querySelector(
-          '[name*="[year]"]'
-        )?.value
-      );
-
-
-      append(
-        data,
-        `qualifications[${index}][specialization]`,
-        item.querySelector(
-          '[name*="[specialization]"]'
-        )?.value
-      );
-
-
-      const certificate =
-        item.querySelector(
-          'input[type="file"]'
-        )?.files?.[0];
-
-
-      if (certificate) {
+  )
+    .forEach(
+      input => {
 
         data.append(
-          "qualificationCertificates[]",
-          certificate
+          "languages[]",
+          input.value
         );
 
       }
-
-    }
-  );
+    );
 
 
-  if (state.photoFile) {
+  /* =======================================================
+     OLD AVAILABILITY DAYS
+     Kept for compatibility.
+  ======================================================= */
+
+  $$(
+    'input[name="availabilityDays"]:checked'
+  )
+    .forEach(
+      input => {
+
+        data.append(
+          "availabilityDays[]",
+          input.value
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     QUALIFICATIONS
+  ======================================================= */
+
+  $$(
+    '[data-qualification-item]'
+  )
+    .forEach(
+      (
+        item,
+        index
+      ) => {
+
+        append(
+          data,
+          `qualifications[${index}][title]`,
+          item.querySelector(
+            '[name*="[title]"]'
+          )?.value
+        );
+
+        append(
+          data,
+          `qualifications[${index}][institution]`,
+          item.querySelector(
+            '[name*="[institution]"]'
+          )?.value
+        );
+
+        append(
+          data,
+          `qualifications[${index}][year]`,
+          item.querySelector(
+            '[name*="[year]"]'
+          )?.value
+        );
+
+        append(
+          data,
+          `qualifications[${index}][specialization]`,
+          item.querySelector(
+            '[name*="[specialization]"]'
+          )?.value
+        );
+
+
+        const certificate =
+          item.querySelector(
+            'input[type="file"]'
+          )?.files?.[0];
+
+
+        if (certificate) {
+
+          data.append(
+            `qualificationCertificates[${index}]`,
+            certificate
+          );
+
+        }
+
+      }
+    );
+
+
+  /* =======================================================
+     PROFILE PHOTO
+  ======================================================= */
+
+  if (
+    state.photoFile
+  ) {
 
     data.append(
       "profilePhoto",
@@ -4551,7 +8154,13 @@ function buildFormData() {
   }
 
 
-  if (state.audioFile) {
+  /* =======================================================
+     RECITATION AUDIO
+  ======================================================= */
+
+  if (
+    state.audioFile
+  ) {
 
     data.append(
       "recitationAudio",
@@ -4561,22 +8170,55 @@ function buildFormData() {
   }
 
 
-  /*
-   * Fayda is ONLY sent on final submission.
-   * It is NEVER stored in localStorage.
-   */
+  /* =======================================================
+     FAYDA FRONT
+  ======================================================= */
 
-  append(
-    data,
-    "faydaNationalId",
-    $("profileFaydaId")?.value
+  if (
+    state.faydaFrontFile
+  ) {
+
+    data.append(
+      "faydaFront",
+      state.faydaFrontFile
+    );
+
+  }
+
+
+  /* =======================================================
+     FAYDA BACK
+  ======================================================= */
+
+  if (
+    state.faydaBackFile
+  ) {
+
+    data.append(
+      "faydaBack",
+      state.faydaBackFile
+    );
+
+  }
+
+/* =======================================================
+   IDENTITY SELFIE
+======================================================= */
+
+if (
+  state.selfieFile
+) {
+
+  data.append(
+    "selfiePhoto",
+    state.selfieFile
   );
 
+}
 
   return data;
 
 }
-
 
 function append(
   formData,
@@ -4606,28 +8248,68 @@ FINAL SUBMISSION
 
 async function submitProfile() {
 
+  /*
+   * This function is only valid on the final wizard step.
+   */
+
+  if (
+    state.page !== 6
+  ) {
+
+    console.warn(
+      "[BarakaLink][Ustaz Profile] Final submission called before page 6."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    state.submitting ||
+    state.reviewStatus ===
+      USTAZ_REVIEW_STATUS.PENDING
+  ) {
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     VALIDATE ENTIRE PROFILE
+  ======================================================= */
+
   const validation =
     validateAllPages();
 
-  if (!validation.valid) {
+
+  if (
+    !validation.valid
+  ) {
 
     setPage(
       validation.page
     );
+
 
     setStatus(
       "Please review the highlighted fields.",
       "error"
     );
 
-    const error =
+
+    const errorElement =
       document.querySelector(
         ".has-error"
       );
 
-    if (error) {
 
-      error.scrollIntoView({
+    if (
+      errorElement
+    ) {
+
+      errorElement.scrollIntoView({
         behavior:
           "smooth",
 
@@ -4637,35 +8319,32 @@ async function submitProfile() {
 
     }
 
+
     return;
 
   }
 
+
+  /* =======================================================
+     SAVE DRAFT
+  ======================================================= */
 
   saveDraft();
 
 
+  const endpoint =
+    USTAZ_PROFILE_CONFIG.COMPLETION_ENDPOINT;
+
+
   if (
-    !USTAZ_PROFILE_CONFIG.COMPLETION_ENDPOINT
+    !endpoint
   ) {
 
     setStatus(
-      "Your profile is ready, but the Ustaz profile-completion API is not enabled yet.",
+      "The profile-completion API is not configured.",
       "error"
     );
 
-    console.warn(
-      "[BarakaLink][Ustaz Profile] No completion endpoint configured."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    state.submitting
-  ) {
 
     return;
 
@@ -4686,7 +8365,9 @@ async function submitProfile() {
     $("profileSaveButtonIcon");
 
 
-  if (button) {
+  if (
+    button
+  ) {
 
     button.disabled =
       true;
@@ -4694,15 +8375,19 @@ async function submitProfile() {
   }
 
 
-  if (buttonText) {
+  if (
+    buttonText
+  ) {
 
     buttonText.textContent =
-      "Saving...";
+      "Submitting for Review...";
 
   }
 
 
-  if (buttonIcon) {
+  if (
+    buttonIcon
+  ) {
 
     buttonIcon.className =
       "fa-solid fa-circle-notch fa-spin";
@@ -4711,20 +8396,79 @@ async function submitProfile() {
 
 
   setStatus(
-    "Saving your teaching profile...",
+    "Submitting your Ustaz profile for admin review...",
     "loading"
   );
 
 
   try {
 
+    /* =====================================================
+       BUILD FINAL PAYLOAD
+    ===================================================== */
+
     const data =
       buildFormData();
 
 
+    console.info(
+      "[BarakaLink][Ustaz Profile] Final profile submission:",
+      {
+        endpoint,
+
+        page:
+          state.page,
+
+        hasPhoto:
+          Boolean(
+            state.photoFile
+          ),
+
+        hasRecitation:
+          Boolean(
+            state.audioFile
+          ),
+
+                lessonFormat:
+          USTAZ_LESSON_FORMAT,
+
+        hourlyRate:
+          $("profileHourlyRate")?.value ||
+          "",
+
+        availability:
+          Boolean(
+            $("profileAvailability")?.checked
+          ),
+
+        hasFaydaFront:
+          Boolean(
+            state.faydaFrontFile ||
+            hasExistingFaydaFront()
+          ),
+
+        hasFaydaBack:
+          Boolean(
+            state.faydaBackFile ||
+            hasExistingFaydaBack()
+          ),
+
+        hasSelfie:
+          Boolean(
+            state.selfieFile ||
+            hasExistingSelfie()
+          )
+      }
+    );
+
+
+    /* =====================================================
+       SUBMIT TO SERVER
+    ===================================================== */
+
     const response =
       await window.BarakaLinkAPI.request(
-        USTAZ_PROFILE_CONFIG.COMPLETION_ENDPOINT,
+        endpoint,
         {
           method:
             "POST",
@@ -4735,36 +8479,134 @@ async function submitProfile() {
       );
 
 
+    console.info(
+      "[BarakaLink][Ustaz Profile] Completion response:",
+      response
+    );
+
+
     if (
       response?.success ===
-        false
+      false
     ) {
 
       throw new Error(
         response?.message ||
-        "The server could not save your profile."
+        "The server could not complete your profile."
       );
 
     }
 
 
+    /* =====================================================
+       REVIEW STATUS
+    ===================================================== */
+
+    const responseData =
+      response?.data ||
+      response ||
+      {};
+
+    const reviewStatus =
+      getProfileReviewStatus(
+        responseData
+      ) ||
+      getProfileReviewStatus(
+        responseData?.user ||
+        {}
+      ) ||
+      getProfileReviewStatus(
+        responseData?.teacherProfile ||
+        {}
+      ) ||
+      USTAZ_REVIEW_STATUS.PENDING;
+
+    const rejectionReason =
+      getProfileReviewReason(
+        responseData
+      ) ||
+      getProfileReviewReason(
+        responseData?.user ||
+        {}
+      ) ||
+      getProfileReviewReason(
+        responseData?.teacherProfile ||
+        {}
+      );
+
+    state.reviewStatus =
+      reviewStatus;
+
+    state.reviewRejectionReason =
+      rejectionReason;
+
+    /*
+     * Submission into the admin review queue is NOT the
+     * same thing as approval.
+     */
+
     clearDraft();
 
+    if (
+      reviewStatus ===
+        USTAZ_REVIEW_STATUS.APPROVED
+    ) {
+
+      setStatus(
+        response?.message ||
+        "Your Ustaz profile has been approved.",
+        "success"
+      );
+
+      applyReviewState();
+
+      redirectToDashboard();
+
+      return;
+
+    }
+
+    if (
+      reviewStatus ===
+        USTAZ_REVIEW_STATUS.REJECTED
+    ) {
+
+      setStatus(
+        rejectionReason
+          ? `Your profile was not approved: ${rejectionReason}`
+          : response?.message ||
+            "Your profile was not approved. Please review the requested changes.",
+        "error"
+      );
+
+      applyReviewState();
+
+      return;
+
+    }
+
+    /*
+     * Normal final state: pending manual review.
+     */
 
     setStatus(
       response?.message ||
-      "Your Ustaz profile has been completed successfully.",
+      "Your profile has been submitted for admin review. You will be notified when a decision is made, normally within 48 hours.",
       "success"
     );
 
+    applyReviewState();
 
-    window.setTimeout(
-      redirectToDashboard,
-      600
+    setPage(
+      1
     );
 
+    return;
 
-  } catch (error) {
+
+  } catch (
+    error
+  ) {
 
     console.error(
       "[BarakaLink][Ustaz Profile] Submission failed:",
@@ -4788,10 +8630,9 @@ async function submitProfile() {
 
     setStatus(
       error?.message ||
-      "We could not save your profile.",
+      "We could not complete your profile.",
       "error"
     );
-
 
   } finally {
 
@@ -4799,32 +8640,45 @@ async function submitProfile() {
       false;
 
 
-    if (button) {
+    if (
+      button
+    ) {
 
       button.disabled =
-        false;
+        state.reviewStatus ===
+          USTAZ_REVIEW_STATUS.PENDING;
 
     }
 
 
-    if (buttonText) {
+    if (
+      buttonText
+    ) {
 
       buttonText.textContent =
-        state.page === 1
-          ? "Save & Continue"
-          : state.page === 5
-            ? "Complete Profile"
-            : "Continue";
+        state.reviewStatus ===
+          USTAZ_REVIEW_STATUS.PENDING
+          ? "Under Review"
+          : state.page === 6
+            ? "Submit for Review"
+            : state.page === 1
+              ? "Save & Continue"
+              : "Continue";
 
     }
 
 
-    if (buttonIcon) {
+    if (
+      buttonIcon
+    ) {
 
       buttonIcon.className =
-        state.page === 5
-          ? "fa-solid fa-check"
-          : "fa-solid fa-arrow-right";
+        state.reviewStatus ===
+          USTAZ_REVIEW_STATUS.PENDING
+          ? "fa-solid fa-clock"
+          : state.page === 6
+            ? "fa-solid fa-paper-plane"
+            : "fa-solid fa-arrow-right";
 
     }
 
@@ -4842,9 +8696,19 @@ function setupForm() {
   const form =
     $("ustazProfileCompletionForm");
 
-  if (!form) {
+
+  if (
+    !form
+  ) {
+
+    console.warn(
+      "[BarakaLink][Ustaz Profile] Completion form not found."
+    );
+
     return;
+
   }
+
 
   if (
     form.dataset.profileSetup ===
@@ -4855,67 +8719,117 @@ function setupForm() {
 
   }
 
+
   form.dataset.profileSetup =
     "true";
 
 
   form.addEventListener(
     "submit",
-    function(event) {
+    async function(event) {
+
+      /*
+       * Always prevent the browser's native form submission.
+       */
 
       event.preventDefault();
 
+      event.stopPropagation();
+
 
       /*
-       * PAGE 1-4
+       * Ignore duplicate submission while the final request
+       * is already in progress.
        */
 
       if (
-        state.page <
-        5
+        state.submitting ||
+        state.reviewStatus ===
+          USTAZ_REVIEW_STATUS.PENDING
       ) {
-
-        if (
-          !validateStep(
-            state.page
-          )
-        ) {
-
-          setStatus(
-            "Please review the highlighted fields.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        saveDraft();
-
-
-        setPage(
-          state.page + 1
-        );
-
-
-        setStatus(
-          "",
-          ""
-        );
 
         return;
 
       }
 
 
-      /*
-       * PAGE 5
-       */
+      /* =====================================================
+         FINAL PAGE
+      ===================================================== */
 
-      submitProfile();
+      if (
+        state.page >= 6
+      ) {
 
-    }
+        state.page =
+          6;
+
+
+        await submitProfile();
+
+
+        return;
+
+      }
+
+
+      /* =====================================================
+         PAGES 1-5
+      ===================================================== */
+
+      if (
+        !validateStep(
+          state.page
+        )
+      ) {
+
+        setStatus(
+          "Please review the highlighted fields.",
+          "error"
+        );
+
+
+        const error =
+          document.querySelector(
+            ".has-error"
+          );
+
+
+        if (
+          error
+        ) {
+
+          error.scrollIntoView({
+            behavior:
+              "smooth",
+
+            block:
+              "center"
+          });
+
+        }
+
+
+        return;
+
+      }
+
+
+      saveDraft();
+
+
+      setPage(
+        state.page + 1
+      );
+
+
+      setStatus(
+        "",
+        ""
+      );
+
+    },
+    false
   );
 
 }
@@ -4945,7 +8859,6 @@ function setupBackButton() {
 
   button.dataset.profileBackSetup =
     "true";
-
 
   button.addEventListener(
     "click",
@@ -4993,19 +8906,23 @@ function setupAutoSave() {
   let timer =
     null;
 
-
   function schedule() {
 
     window.clearTimeout(
       timer
     );
 
-
     timer =
       window.setTimeout(
         function() {
 
           updateBioCounter();
+
+          /*
+           * Enforce current lesson-format architecture
+           * before saving any draft.
+           */
+          enforceInPersonLessonFormat();
 
           saveDraft();
 
@@ -5015,12 +8932,10 @@ function setupAutoSave() {
 
   }
 
-
   form.addEventListener(
     "input",
     schedule
   );
-
 
   form.addEventListener(
     "change",
@@ -5055,7 +8970,6 @@ function setupLogout() {
   const formLogout =
     $("profileLogoutButton");
 
-
   if (topLogout) {
 
     topLogout.addEventListener(
@@ -5064,7 +8978,6 @@ function setupLogout() {
     );
 
   }
-
 
   if (formLogout) {
 
@@ -5100,38 +9013,330 @@ async function initialize() {
 
 
     /*
+     * =====================================================
      * SERVER DATA FIRST
+     * =====================================================
      */
 
     await loadCurrentProfile();
 
 
     /*
+     * =====================================================
+     * IMPORTANT
+     *
+     * If the server says this Ustaz profile is already
+     * complete, do NOT initialize the completion wizard.
+     * =====================================================
+     */
+
+    const serverProfileCompleted =
+      Boolean(
+        state.user?.profileCompleted ??
+        state.user?.profile_completed ??
+        false
+      );
+
+    state.reviewStatus =
+      getProfileReviewStatus(
+        state.user
+      ) ||
+      getProfileReviewStatus(
+        state.teacherProfile
+      );
+
+    state.reviewRejectionReason =
+      getProfileReviewReason(
+        state.user
+      ) ||
+      getProfileReviewReason(
+        state.teacherProfile
+      );
+
+    /*
+     * Approval is now separate from profile completion.
+     * Pending/rejected profiles stay in the Ustaz flow.
+     */
+
+    if (
+      state.reviewStatus ===
+        USTAZ_REVIEW_STATUS.APPROVED
+    ) {
+
+      console.info(
+        "[BarakaLink][Ustaz Profile] Profile is approved. Redirecting to teacher dashboard."
+      );
+
+      clearDraft();
+
+      redirectToDashboard();
+
+      return;
+
+    }
+
+    /*
+     * Backward compatibility with the old backend:
+     * if it only reports profileCompleted=true and provides
+     * no review status, preserve the existing redirect.
+     */
+
+    if (
+      serverProfileCompleted &&
+      !state.reviewStatus
+    ) {
+
+      clearDraft();
+
+      redirectToDashboard();
+
+      return;
+
+    }
+
+
+    /*
+     * =====================================================
      * PAGE 1
+     * =====================================================
      */
 
     syncRegistrationInformation();
 
 
     /*
+     * =====================================================
      * EXISTING PROFILE DATA
+     * =====================================================
      */
+/* =========================================================
+AVAILABILITY
+========================================================= */
 
+function normalizeBoolean(value, fallback = false) {
+
+  if (
+    typeof value ===
+      "boolean"
+  ) {
+
+    return value;
+
+  }
+
+  if (
+    typeof value ===
+      "number"
+  ) {
+
+    return value !== 0;
+
+  }
+
+  const normalized =
+    safeString(
+      value
+    ).toLowerCase();
+
+  if (
+    [
+      "true",
+      "1",
+      "yes",
+      "on",
+      "available",
+      "active"
+    ].includes(
+      normalized
+    )
+  ) {
+
+    return true;
+
+  }
+
+  if (
+    [
+      "false",
+      "0",
+      "no",
+      "off",
+      "unavailable",
+      "inactive"
+    ].includes(
+      normalized
+    )
+  ) {
+
+    return false;
+
+  }
+
+  return fallback;
+
+}
+
+
+function readTeacherAvailability(
+  teacher
+) {
+
+  if (!teacher) {
+
+    return true;
+
+  }
+
+  const candidates = [
+
+    /* Current database source of truth. */
+    teacher.acceptingStudents,
+    teacher.accepting_students,
+
+    /* Legacy API/database fields, for compatibility. */
+    teacher.isAvailable,
+    teacher.is_available,
+
+    teacher.availableForParents,
+    teacher.available_for_parents,
+    teacher.available,
+    teacher.availability
+
+  ];
+
+  for (
+    const candidate of candidates
+  ) {
+
+    if (
+      candidate !== undefined &&
+      candidate !== null &&
+      candidate !== ""
+    ) {
+
+      return normalizeBoolean(
+        candidate,
+        true
+      );
+
+    }
+
+  }
+
+  /*
+   * V1 default:
+   * newly completed Ustaz profiles are available.
+   */
+
+  return true;
+
+}
+
+
+function updateAvailabilityUI() {
+
+  const input =
+    $("profileAvailability");
+
+  const title =
+    $("profileAvailabilityTitle");
+
+  const description =
+    $("profileAvailabilityDescription");
+
+  if (!input) {
+    return;
+  }
+
+  const available =
+    Boolean(
+      input.checked
+    );
+
+  if (title) {
+
+    title.textContent =
+      available
+        ? "Available to parents"
+        : "Currently unavailable";
+
+  }
+
+  if (description) {
+
+    description.textContent =
+      available
+        ? "After admin approval, parents can find your profile and start a conversation."
+        : "After approval, your profile will stay out of new parent searches.";
+
+  }
+
+}
+
+
+function setupAvailability() {
+
+  const input =
+    $("profileAvailability");
+
+  if (!input) {
+    return;
+  }
+
+  if (
+    input.dataset.availabilitySetup ===
+      "true"
+  ) {
+
+    updateAvailabilityUI();
+
+    return;
+
+  }
+
+  input.dataset.availabilitySetup =
+    "true";
+
+  input.addEventListener(
+    "change",
+    function() {
+
+      clearFieldError(
+        "profileAvailabilityError"
+      );
+
+      updateAvailabilityUI();
+
+      saveDraft();
+
+    }
+  );
+
+  updateAvailabilityUI();
+
+}
     prefillExistingTeacherData();
 
 
     /*
+     * =====================================================
      * UI SETUP
+     * =====================================================
      */
-
     setupPhoto();
+
+    setupSelfie();
+
+    setupFaydaDocuments();
+
+    setupAvailability();
 
     setupLanguageSelection();
 
+    setupLessonFormat();
+
     setupRecitation();
-
     setupQualifications();
-
     setupForm();
 
     setupBackButton();
@@ -5142,35 +9347,61 @@ async function initialize() {
 
 
     /*
-     * Draft only affects completion fields.
+     * =====================================================
+     * DRAFT
      *
-     * Page 1 always comes from server.
+     * Only load the draft when the server says the profile
+     * is NOT complete.
+     *
+     * Page 1 always comes from the server.
+     * =====================================================
      */
 
-    loadDraft();
+    if (
+      state.reviewStatus !==
+        USTAZ_REVIEW_STATUS.PENDING
+    ) {
+
+      loadDraft();
+
+    }
 
 
     /*
-     * Existing server media.
+     * =====================================================
+     * EXISTING SERVER MEDIA
+     * =====================================================
      */
-
     renderExistingPhoto();
 
-    renderExistingRecitation();
+    renderExistingSelfie();
 
+    renderExistingFaydaDocuments();
+
+    renderExistingRecitation();
 
     updateBioCounter();
 
     updateLanguageSelectionUI();
 
+    updateAvailabilityUI();
+
+    enforceInPersonLessonFormat();
 
     /*
-     * Restore saved page.
+     * =====================================================
+     * RESTORE SAVED WIZARD PAGE
+     * =====================================================
      */
 
     setPage(
-      getSavedPage()
+      state.reviewStatus ===
+        USTAZ_REVIEW_STATUS.PENDING
+        ? 1
+        : getSavedPage()
     );
+
+    applyReviewState();
 
 
     setStatus(
@@ -5188,13 +9419,24 @@ async function initialize() {
         teacherProfileId:
           state.teacherProfile?.id,
 
+        profileCompleted:
+          serverProfileCompleted,
+
+        reviewStatus:
+          state.reviewStatus,
+
+        lessonFormat:
+          USTAZ_LESSON_FORMAT,
+
         studyFieldCount:
           state.studyFields.length
       }
     );
 
 
-  } catch (error) {
+  } catch (
+    error
+  ) {
 
     console.error(
       "[BarakaLink][Ustaz Profile] Initialization failed:",
@@ -5235,19 +9477,66 @@ window.BarakaLinkUstazProfileCompletion = {
 
   next() {
 
+    /*
+     * Pages 1-4 move forward normally.
+     */
+
     if (
       state.page <
-      5
+      6
     ) {
+
+      if (
+        !validateStep(
+          state.page
+        )
+      ) {
+
+        setStatus(
+          "Please review the highlighted fields.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      saveDraft();
+
 
       setPage(
         state.page + 1
       );
 
+
+      setStatus(
+        "",
+        ""
+      );
+
+
+      return;
+
     }
 
-  },
 
+    /*
+     * Page 6 is the final submission step.
+     */
+
+    if (
+      state.reviewStatus ===
+        USTAZ_REVIEW_STATUS.PENDING
+    ) {
+
+      return;
+
+    }
+
+    submitProfile();
+
+  },
 
   back() {
 
@@ -5263,7 +9552,6 @@ window.BarakaLinkUstazProfileCompletion = {
     }
 
   },
-
 
   reloadProfile:
     loadCurrentProfile,

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BarakaLink Loader Test</title>
+
+  <!-- Link to the loader stylesheet -->
+  <link rel="stylesheet" href="css/barakalink-loader.css">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       BARAKALINK LOADER TEST PAGE
+       Standalone preview — does not auto-hide on page load.
+  ====================================================== -->
+
+  <div
+    id="barakaLinkPageLoader"
+    class="is-visible"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading BarakaLink"
+    aria-hidden="false"
+  >
+    <div class="bl-loader-content">
+
+      <!-- Animated BarakaLink logo -->
+      <div class="bl-loader-logo-wrap">
+        <svg
+          class="bl-loader-logo"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <radialGradient
+              id="blLoaderHalo"
+              cx="50%"
+              cy="50%"
+              r="50%"
+            >
+              <stop
+                class="bl-loader-halo-core"
+                offset="0%"
+                stop-color="#d4af37"
+                stop-opacity=".58"
+              />
+
+              <stop
+                class="bl-loader-halo-mid"
+                offset="55%"
+                stop-color="#e6cf86"
+                stop-opacity=".24"
+              />
+
+              <stop
+                class="bl-loader-halo-edge"
+                offset="100%"
+                stop-color="#e6cf86"
+                stop-opacity="0"
+              />
+            </radialGradient>
+          </defs>
+
+          <!-- Base circular ring -->
+          <circle
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+
+          <!-- Rotating golden ring -->
+          <circle
+            class="bl-loader-sweep"
+            cx="20"
+            cy="20"
+            r="13.5"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          />
+
+          <!-- Four original logo dots -->
+          <circle
+            cx="20"
+            cy="6"
+            r="2.7"
+            fill="currentColor"
+          />
+
+          <circle
+            class="bl-loader-dot-hollow"
+            cx="34"
+            cy="20"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            class="bl-loader-dot-hollow"
+            cx="20"
+            cy="34"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <circle
+            class="bl-loader-dot-hollow"
+            cx="6"
+            cy="20"
+            r="2.3"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+
+          <!-- Top dot glow -->
+          <g class="bl-loader-lit bl-loader-lit-1">
+            <circle
+              cx="20"
+              cy="6"
+              r="7"
+              fill="url(#blLoaderHalo)"
+            />
+            <circle
+              class="bl-loader-core"
+              cx="20"
+              cy="6"
+              r="2.7"
+            />
+          </g>
+
+          <!-- Right dot glow -->
+          <g class="bl-loader-lit bl-loader-lit-2">
+            <circle
+              cx="34"
+              cy="20"
+              r="7"
+              fill="url(#blLoaderHalo)"
+            />
+            <circle
+              class="bl-loader-core"
+              cx="34"
+              cy="20"
+              r="2.3"
+            />
+          </g>
+
+          <!-- Bottom dot glow -->
+          <g class="bl-loader-lit bl-loader-lit-3">
+            <circle
+              cx="20"
+              cy="34"
+              r="7"
+              fill="url(#blLoaderHalo)"
+            />
+            <circle
+              class="bl-loader-core"
+              cx="20"
+              cy="34"
+              r="2.3"
+            />
+          </g>
+
+          <!-- Left dot glow -->
+          <g class="bl-loader-lit bl-loader-lit-4">
+            <circle
+              cx="6"
+              cy="20"
+              r="7"
+              fill="url(#blLoaderHalo)"
+            />
+            <circle
+              class="bl-loader-core"
+              cx="6"
+              cy="20"
+              r="2.3"
+            />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Brand and loading messages -->
+      <div class="bl-loader-copy">
+
+        <p class="bl-loader-wordmark" aria-hidden="true">
+          BarakaLink
+        </p>
+
+        <div class="bl-loader-messages" aria-hidden="true">
+          <p class="bl-loader-message is-active">
+            Preparing your learning space…
+          </p>
+
+          <p class="bl-loader-message">
+            Bringing your dashboard together…
+          </p>
+
+          <p class="bl-loader-message">
+            Making your next learning step easier…
+          </p>
+
+          <p class="bl-loader-message">
+            A little patience, a lot of barakah…
+          </p>
+        </div>
+
+        <!-- Animated loading line -->
+        <div class="bl-loader-line" aria-hidden="true">
+          <span></span>
+        </div>
+
+      </div>
+    </div>
+
+    <span class="bl-loader-sr">
+      Loading BarakaLink…
+    </span>
+  </div>
+
+  <!-- Link to the loader JavaScript -->
+  <script src="js/loader.js" defer></script>
+
+</body>
+</html>

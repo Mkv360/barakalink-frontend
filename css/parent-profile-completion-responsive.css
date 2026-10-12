@@ -1,0 +1,649 @@
+
+/* =========================================================
+   BARAKALINK — PARENT PROFILE COMPLETION
+   Targeted mobile fixes. Existing styles remain unchanged.
+========================================================= */
+
+/* Prevent children from forcing horizontal page scrolling */
+.parent-profile-completion-page,
+.parent-profile-completion-page main,
+.parent-profile-completion-page .container,
+.parent-profile-completion-page .profile-completion-grid,
+.parent-profile-completion-page .profile-form-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.parent-profile-completion-page {
+  overflow-x: clip;
+}
+
+.parent-profile-completion-page *,
+.parent-selfie-camera-modal *,
+.profile-submission-success-overlay * {
+  box-sizing: border-box;
+}
+
+/* Media and long text must fit their containers */
+.parent-profile-completion-page img,
+.parent-profile-completion-page video,
+.parent-profile-completion-page canvas,
+.parent-selfie-camera-modal img,
+.parent-selfie-camera-modal video {
+  max-width: 100%;
+}
+
+.parent-profile-completion-page .profile-form-note,
+.parent-profile-completion-page .form-error,
+.parent-profile-completion-page .form-status,
+.parent-profile-completion-page .profile-completion-card h2,
+.parent-profile-completion-page .profile-completion-card p {
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TABLET AND MOBILE
+========================================================= */
+
+@media (max-width: 820px) {
+  .parent-profile-completion-page .profile-completion-grid {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .parent-profile-completion-page .profile-completion-info,
+  .parent-profile-completion-page .profile-form-card {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  /* Page spacing */
+  .parent-profile-completion-page .container {
+    width: calc(100% - 24px);
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .parent-profile-completion-page .profile-completion-section {
+    min-height: auto;
+    padding-top: 24px;
+    padding-bottom: 30px;
+  }
+
+  /* Top navigation */
+  .parent-profile-completion-page .site-nav {
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 8px;
+  }
+
+  .parent-profile-completion-page .site-nav .logo {
+    min-width: 0;
+    gap: 7px;
+    font-size: 1rem;
+  }
+
+  .parent-profile-completion-page .logo-mark {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 auto;
+  }
+
+  .parent-profile-completion-page .nav-actions {
+    flex: 0 0 auto;
+    gap: 7px;
+  }
+
+  .parent-profile-completion-page .nav-actions .btn {
+    min-height: 42px;
+    padding: 8px 11px;
+    white-space: nowrap;
+  }
+
+  /* Heading */
+  .parent-profile-completion-page .section-heading {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .parent-profile-completion-page .section-heading h1 {
+    font-size: clamp(1.7rem, 7vw, 2.1rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+  }
+
+  .parent-profile-completion-page .section-heading p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .parent-profile-completion-page .profile-completion-badge {
+    max-width: 100%;
+    line-height: 1.4;
+  }
+
+  /* Information cards */
+  .parent-profile-completion-page .profile-completion-info {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .parent-profile-completion-page
+  .profile-completion-info .profile-completion-card {
+    padding: 15px;
+  }
+
+  .parent-profile-completion-page
+  .profile-completion-info .profile-completion-card h2 {
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .parent-profile-completion-page
+  .profile-completion-info .profile-completion-card p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  /* Form card */
+  .parent-profile-completion-page .profile-form-card {
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .parent-profile-completion-page .profile-form-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+  }
+
+  .parent-profile-completion-page .profile-form-header h2 {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  .parent-profile-completion-page .profile-form-header p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  /* Progress label and five-step indicator */
+  .parent-profile-completion-page .profile-form-step-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .profile-completion-progress {
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    padding: 9px 11px;
+  }
+
+  .parent-profile-completion-page .profile-step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .profile-step-indicator-item {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .profile-step-indicator-number {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .parent-profile-completion-page .profile-step-indicator-line {
+    flex: 1 1 0;
+    min-width: 4px;
+    width: auto;
+  }
+
+  /* Fields: use a readable mobile font to avoid iOS zoom */
+  .parent-profile-completion-page .auth-form,
+  .parent-profile-completion-page .profile-step,
+  .parent-profile-completion-page .auth-field {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .parent-profile-completion-page .auth-field {
+    margin-bottom: 4px;
+  }
+
+  .parent-profile-completion-page .auth-input,
+  .parent-profile-completion-page .auth-select,
+  .parent-profile-completion-page input,
+  .parent-profile-completion-page select,
+  .parent-profile-completion-page textarea {
+    max-width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  .parent-profile-completion-page .auth-input,
+  .parent-profile-completion-page .auth-select {
+    min-height: 48px;
+  }
+
+  .parent-profile-completion-page textarea {
+    width: 100%;
+    min-height: 130px;
+    line-height: 1.55;
+  }
+
+  /* Name and phone fields */
+  .parent-profile-completion-page .name-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .parent-profile-completion-page .phone-group {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+
+  .parent-profile-completion-page .phone-group > * {
+    min-width: 0;
+  }
+
+  /* Interest choices: two columns instead of one long list */
+  .parent-profile-completion-page .role-options.study-field-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .study-field-options .role-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 60px;
+    padding: 10px;
+  }
+
+  .parent-profile-completion-page .study-field-options .role-option strong {
+    min-width: 0;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .parent-profile-completion-page
+  #profileTeacherGenderPreferences {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    width: 100%;
+  }
+
+  .parent-profile-completion-page
+  #profileTeacherGenderPreferences .role-option {
+    min-width: 0;
+    min-height: 50px;
+    padding: 10px;
+  }
+
+  .parent-profile-completion-page
+  #profileTeacherGenderPreferences .role-option:last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Profile photo and selfie preview */
+  .parent-profile-completion-page .profile-photo-upload-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+    padding: 15px;
+  }
+
+  .parent-profile-completion-page .profile-avatar-upload {
+    flex: 0 1 auto;
+    max-width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .parent-profile-completion-page .profile-photo-upload-content {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .parent-profile-completion-page .profile-photo-upload-content p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .parent-profile-completion-page .profile-photo-upload-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: 9px;
+  }
+
+  .parent-profile-completion-page .profile-photo-upload-actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  /* Fayda front and back cards */
+  .parent-profile-completion-page .fayda-document-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 12px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .parent-profile-completion-page .fayda-document-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .fayda-document-header > div:last-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .parent-profile-completion-page .fayda-document-preview {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .parent-profile-completion-page .fayda-document-preview img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+  }
+
+  .parent-profile-completion-page .fayda-document-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+    width: 100%;
+  }
+
+  .parent-profile-completion-page .fayda-document-actions .btn,
+  .parent-profile-completion-page .fayda-document-remove {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  /* Notes and review confirmation */
+  .parent-profile-completion-page .profile-form-note {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .parent-profile-completion-page label.role-option:has(#profileReviewConfirmation) {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
+  .parent-profile-completion-page #profileReviewConfirmation {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+  }
+
+  /* Bottom actions */
+  .parent-profile-completion-page .profile-form-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .parent-profile-completion-page .profile-form-actions .btn,
+  .parent-profile-completion-page .profile-form-actions #profileSaveButton,
+  .parent-profile-completion-page .profile-form-actions #profileLogoutButton {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    margin: 0;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  /* Footer */
+  .parent-profile-completion-page .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 12px;
+    text-align: center;
+    line-height: 1.5;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 360px) {
+  .parent-profile-completion-page .container {
+    width: calc(100% - 18px);
+  }
+
+  .parent-profile-completion-page .site-nav {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .parent-profile-completion-page .site-nav .logo {
+    font-size: 0.88rem;
+  }
+
+  .parent-profile-completion-page .nav-actions {
+    gap: 5px;
+  }
+
+  .parent-profile-completion-page .nav-actions .btn {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .parent-profile-completion-page .profile-form-card {
+    padding: 12px;
+  }
+
+  .parent-profile-completion-page .role-options.study-field-options,
+  .parent-profile-completion-page #profileTeacherGenderPreferences {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .parent-profile-completion-page
+  #profileTeacherGenderPreferences .role-option:last-child {
+    grid-column: auto;
+  }
+
+  .parent-profile-completion-page .profile-step-indicator-number {
+    width: 27px;
+    height: 27px;
+  }
+}
+
+/* =========================================================
+   LIVE SELFIE CAMERA MODAL
+========================================================= */
+
+@media (max-width: 600px) {
+  .parent-selfie-camera-modal {
+    padding: 10px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .parent-selfie-camera-dialog {
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    margin: auto;
+    padding: 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 18px;
+  }
+
+  .parent-selfie-camera-header {
+    gap: 9px;
+    margin-bottom: 12px;
+  }
+
+  .parent-selfie-camera-header h2 {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .parent-selfie-camera-header p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .parent-selfie-camera-close {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .parent-selfie-camera-stage {
+    width: 100%;
+    min-width: 0;
+    min-height: 170px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    max-height: 43dvh;
+    overflow: hidden;
+  }
+
+  .parent-selfie-camera-stage video,
+  .parent-selfie-camera-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .parent-selfie-camera-status,
+  .parent-selfie-camera-privacy {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .parent-selfie-camera-modal-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .parent-selfie-camera-modal-actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 45px;
+    justify-content: center;
+    white-space: normal;
+  }
+}
+
+/* Keep the success dialog inside short screens */
+.profile-submission-success-overlay {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.profile-submission-success-dialog {
+  width: 100%;
+  max-width: 500px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .profile-submission-success-overlay {
+    align-items: center;
+    padding: 12px;
+  }
+
+  .profile-submission-success-dialog {
+    padding: 23px 18px;
+  }
+}
+
+/* Short phones */
+@media (max-width: 600px) and (max-height: 650px) {
+  .parent-selfie-camera-dialog {
+    max-height: calc(100dvh - 16px);
+  }
+
+  .parent-selfie-camera-stage {
+    min-height: 145px;
+    max-height: 34dvh;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .parent-profile-completion-page *,
+  .parent-selfie-camera-dialog,
+  .parent-selfie-camera-close {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
