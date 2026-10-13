@@ -45,7 +45,9 @@
   const LOCAL_API_BASE =
     "http://localhost:5000/api";
 
-
+/* Temporary API address for phone-hotspot testing. */
+const LAN_TEST_API_BASE =
+  "http://10.242.161.51:5000/api";
   /*
     Replace this only when you have a real public HTTPS API.
 
@@ -57,7 +59,7 @@
   */
 const PUBLIC_API_BASE =
   window.BARAKALINK_PUBLIC_API_BASE ||
-  "https://recently-reg-conditioning-instances.trycloudflare.com/api";
+  "https://observations-vintage-doctors-mercury.trycloudflare.com/api";
   /* =======================================================
      HELPERS
   ======================================================= */
@@ -261,15 +263,33 @@ const PUBLIC_API_BASE =
   let API_BASE =
     "";
 
+/* Temporary testing mode: ?api=lan or ?api=public */
+const apiModeParam =
+  new URLSearchParams(window.location.search).get("api");
 
+try {
+  if (apiModeParam === "lan") {
+    sessionStorage.setItem("barakalink_api_mode", "lan");
+  } else if (apiModeParam === "public") {
+    sessionStorage.removeItem("barakalink_api_mode");
+  }
+} catch (_) {}
+
+let useLanTestApi = false;
+
+try {
+  useLanTestApi =
+    sessionStorage.getItem("barakalink_api_mode") === "lan";
+} catch (_) {}
   /*
     1. Explicit manual override
        Highest priority.
   */
-
-  if (
-    window.BARAKALINK_API_BASE
-  ) {
+if (useLanTestApi) {
+  API_BASE = LAN_TEST_API_BASE;
+} else if (
+  window.BARAKALINK_API_BASE
+) {
 
     API_BASE =
       normalizeBaseUrl(
@@ -686,7 +706,19 @@ window.BARAKALINK_API_BASE = API_BASE;
       ...options,
       headers
     };
+try {
+  const apiUrl = new URL(API_BASE);
 
+  if (isPrivateIPv4(apiUrl.hostname)) {
+    fetchOptions.targetAddressSpace = "local";
+  } else if (
+    apiUrl.hostname === "localhost" ||
+    apiUrl.hostname === "127.0.0.1" ||
+    apiUrl.hostname === "::1"
+  ) {
+    fetchOptions.targetAddressSpace = "loopback";
+  }
+} catch (_) {}
 
     /*
       IMPORTANT FIX:
