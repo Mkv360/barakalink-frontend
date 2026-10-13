@@ -22,45 +22,37 @@
    - Does not contain UI logic.
 ========================================================= */
 
+const DEFAULT_API_BASE =
+  'http://localhost:5000/api';
+
+const NOTIFICATION_ENDPOINTS =
+  Object.freeze({
+    NOTIFICATIONS:
+      '/notifications',
+
+    UNREAD_COUNT:
+      '/notifications/unread-count',
+
+    READ_ALL:
+      '/notifications/read-all',
+
+    SYSTEM_MESSAGES:
+      '/notifications/system-messages',
+  });
+
+
 /* =========================================================
-   API BASE — LOCAL COMPUTER + PUBLIC PHONE ACCESS
+   API BASE
 ========================================================= */
 
-const LOCAL_API_BASE = 'http://localhost:5000/api';
-
-/*
- * Fallback for GitHub Pages / Telegram when the shared
- * API client has not configured a base URL.
- *
- * Update this if your Cloudflare quick-tunnel hostname changes.
- */
-const PUBLIC_API_FALLBACK =
-  'https://recently-reg-conditioning-instances.trycloudflare.com/api';
-
 function getApiBase() {
-  const configured =
-    window.BarakaLinkAPI?.base ||
-    window.BARAKALINK_API_BASE;
 
-  if (configured) {
-    return String(configured)
-      .trim()
-      .replace(/\/+$/, '');
-  }
+  return String(
+    window.BARAKALINK_API_BASE ||
+    DEFAULT_API_BASE
+  ).replace(/\/+$/, '');
 
-  const hostname = window.location.hostname;
-
-  const isLocalComputer = [
-    'localhost',
-    '127.0.0.1',
-    '::1',
-  ].includes(hostname);
-
-  return isLocalComputer
-    ? LOCAL_API_BASE
-    : PUBLIC_API_FALLBACK;
 }
-
 
 
 /* =========================================================
