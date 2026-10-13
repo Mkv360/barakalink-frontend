@@ -12,7 +12,7 @@
 
   if (!grid) return;
 
-  const LAN_TEST_API_BASE = "http://10.242.161.51:5000/api";
+  const LAN_TEST_API_BASE = "http://10.82.205.51:5000/api";
   const API_MODE_KEY = "barakalink_api_mode";
 
   function isPrivateIPv4(hostname) {
