@@ -1,4 +1,5 @@
 
+
 "use strict";
 
 /* BARAKALINK — PUBLIC LANDING-PAGE TEACHERS
@@ -11,21 +12,97 @@
 
   if (!grid) return;
 
-  const apiBase = String(
-    window.BarakaLinkAPI?.base ||
-    window.BARAKALINK_API_BASE ||
-    (
-      location.hostname === "localhost" ||
-      location.hostname === "127.0.0.1"
-        ? "http://localhost:5000/api"
-        : `${location.protocol}//${location.hostname}:5000/api`
-    )
-  ).replace(/\/+$/, "");
+  const LAN_TEST_API_BASE = "http://10.242.161.51:5000/api";
+  const API_MODE_KEY = "barakalink_api_mode";
+
+  function isPrivateIPv4(hostname) {
+    const parts = String(hostname || "").split(".");
+
+    if (
+      parts.length !== 4 ||
+      parts.some(
+        part =>
+          !/^\d{1,3}$/.test(part) ||
+          Number(part) > 255
+      )
+    ) {
+      return false;
+    }
+
+    const [a, b] = parts.map(Number);
+
+    return (
+      a === 10 ||
+      (a === 192 && b === 168) ||
+      (a === 172 && b >= 16 && b <= 31)
+    );
+  }
+
+  function getApiMode() {
+    const params = new URLSearchParams(window.location.search);
+    const requestedMode = params.get("api");
+
+    try {
+      if (requestedMode === "lan") {
+        sessionStorage.setItem(API_MODE_KEY, "lan");
+      } else if (requestedMode === "public") {
+        sessionStorage.removeItem(API_MODE_KEY);
+      }
+
+      return sessionStorage.getItem(API_MODE_KEY) || "public";
+    } catch (_) {
+      return requestedMode === "lan" ? "lan" : "public";
+    }
+  }
+
+  const apiMode = getApiMode();
+
+  function resolveApiBase() {
+    // Explicit temporary LAN testing mode.
+    if (apiMode === "lan") {
+      return LAN_TEST_API_BASE;
+    }
+
+    // Prefer the shared BarakaLink API configuration.
+    const configuredBase = String(
+      window.BarakaLinkAPI?.base ||
+      window.BARAKALINK_API_BASE ||
+      window.BARAKALINK_PUBLIC_API_BASE ||
+      ""
+    ).trim().replace(/\/+$/, "");
+
+    if (configuredBase) {
+      return configuredBase;
+    }
+
+    const hostname = window.location.hostname;
+
+    if (
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "::1"
+    ) {
+      return "http://localhost:5000/api";
+    }
+
+    // For a frontend served directly from a PC's private LAN address.
+    if (isPrivateIPv4(hostname)) {
+      return `http://${hostname}:5000/api`;
+    }
+
+    // Do not accidentally construct https://github-host:5000/api.
+    return "";
+  }
+
+  const apiBase = resolveApiBase();
 
   const makeText = (tag, className, value) => {
     const element = document.createElement(tag);
+
     if (className) element.className = className;
+
     element.textContent = value || "";
+
     return element;
   };
 
@@ -69,6 +146,50 @@
     return `${years}+ ${years === 1 ? "year" : "years"} experience`;
   };
 
+  const resolveAvatarUrl = (avatarUrl) => {
+    const value = String(avatarUrl || "").trim();
+
+    if (!value || !apiBase) return "";
+
+    try {
+      return new URL(value, apiBase).href;
+    } catch (_) {
+      return "";
+    }
+  };
+
+  const addAvatar = (container, teacher, large = false) => {
+    const avatarUrl = resolveAvatarUrl(teacher.avatar_url);
+
+    if (!avatarUrl) {
+      container.textContent = getInitials(teacher);
+      return;
+    }
+
+    const avatar = document.createElement("img");
+
+    avatar.src = avatarUrl;
+    avatar.alt = `${getName(teacher)} profile photo`;
+    avatar.loading = "lazy";
+    avatar.decoding = "async";
+    avatar.style.cssText =
+      "width:100%;height:100%;object-fit:cover;border-radius:inherit;";
+
+    avatar.addEventListener("error", () => {
+      avatar.remove();
+
+      if (!container.querySelector("img")) {
+        container.textContent = getInitials(teacher);
+      }
+    }, { once: true });
+
+    if (large) {
+      container.replaceChildren(avatar);
+    } else {
+      container.replaceChildren(avatar);
+    }
+  };
+
   const createTeacherCard = (teacher) => {
     const card = document.createElement("article");
     card.className = "popular-teacher-card";
@@ -81,31 +202,7 @@
     const image = document.createElement("div");
     image.className = `popular-teacher-image ${genderClass}`;
 
-    const avatarUrl = String(teacher.avatar_url || "").trim();
-
-    if (avatarUrl) {
-      const avatar = document.createElement("img");
-
-      try {
-        avatar.src = new URL(avatarUrl, apiBase).href;
-        avatar.alt = `${getName(teacher)} profile photo`;
-        avatar.loading = "lazy";
-        avatar.decoding = "async";
-        avatar.style.cssText =
-          "width:100%;height:100%;object-fit:cover;border-radius:inherit;";
-
-        avatar.addEventListener("error", () => {
-          avatar.remove();
-          image.append(makeText("span", "", getInitials(teacher)));
-        }, { once: true });
-
-        image.append(avatar);
-      } catch (_) {
-        image.append(makeText("span", "", getInitials(teacher)));
-      }
-    } else {
-      image.append(makeText("span", "", getInitials(teacher)));
-    }
+    addAvatar(image, teacher);
 
     const content = makeText("div", "popular-teacher-content");
     const top = makeText("div", "popular-teacher-top");
@@ -120,6 +217,7 @@
     );
 
     const tags = makeText("div", "popular-tags");
+
     const fields = String(teacher.study_fields || "")
       .split(",")
       .map(field => field.trim())
@@ -127,17 +225,27 @@
       .slice(0, 3);
 
     if (fields.length) {
-      fields.forEach(field => tags.append(makeText("span", "", field)));
+      fields.forEach(field => {
+        tags.append(makeText("span", "", field));
+      });
     } else {
-      tags.append(makeText("span", "", "Study fields not provided"));
+      tags.append(
+        makeText("span", "", "Study fields not provided")
+      );
     }
 
     content.append(tags);
 
     const footer = makeText("div", "popular-teacher-footer");
+
     footer.append(makeText("span", "", getExperience(teacher)));
 
-    const button = makeText("button", "btn btn-primary popular-view-btn", "");
+    const button = makeText(
+      "button",
+      "btn btn-primary popular-view-btn",
+      ""
+    );
+
     button.type = "button";
     button.dataset.auth = "signup-parent";
     button.append(document.createTextNode("View Profile "));
@@ -145,12 +253,13 @@
     const arrow = document.createElement("i");
     arrow.className = "fa-solid fa-arrow-right";
     arrow.setAttribute("aria-hidden", "true");
-    button.append(arrow);
 
+    button.append(arrow);
     footer.append(button);
     content.append(footer);
 
     card.append(image, content);
+
     return card;
   };
 
@@ -158,24 +267,56 @@
     grid.setAttribute("aria-busy", "true");
 
     try {
+      if (!apiBase) {
+        throw new Error(
+          "No API address is configured. Ensure js/api.js loads before this file."
+        );
+      }
+
+      const requestUrl = new URL(`${apiBase}/teachers/popular`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Accept: "application/json"
+        },
+        cache: "no-store",
+        credentials: "include"
+      };
+
+      /*
+       * Chrome's Local Network Access support can require the request
+       * destination to be declared when an HTTPS page accesses a private
+       * HTTP LAN address. This option does not bypass browser permissions.
+       */
+      if (
+        apiMode === "lan" &&
+        requestUrl.protocol === "http:" &&
+        isPrivateIPv4(requestUrl.hostname)
+      ) {
+        requestOptions.targetAddressSpace = "local";
+      }
+
       const response = await fetch(
-        `${apiBase}/teachers/popular`,
-        {
-          method: "GET",
-          headers: { Accept: "application/json" },
-          cache: "no-store",
-          credentials: "include"
-        }
+        requestUrl.href,
+        requestOptions
       );
 
       if (!response.ok) {
-        throw new Error(`Teacher request failed (${response.status}).`);
+        throw new Error(
+          `Teacher request failed (${response.status}).`
+        );
       }
 
       const payload = await response.json();
 
-      if (payload.success !== true || !Array.isArray(payload.data)) {
-        throw new Error("The teacher response was not in the expected format.");
+      if (
+        payload.success !== true ||
+        !Array.isArray(payload.data)
+      ) {
+        throw new Error(
+          "The teacher response was not in the expected format."
+        );
       }
 
       const teachers = payload.data;
@@ -188,6 +329,7 @@
             "Approved teacher profiles will appear here when available."
           )
         );
+
         return;
       }
 
@@ -208,7 +350,10 @@
         const pills = heroCard.querySelector(".subject-pills");
         const footer = heroCard.querySelector(".teacher-card-footer");
 
-        if (name) name.textContent = getName(featured);
+        if (name) {
+          name.textContent = getName(featured);
+        }
+
         if (description) {
           description.textContent =
             String(featured.study_fields || "").trim() ||
@@ -221,12 +366,18 @@
 
         if (meta[0]) {
           const value = meta[0].querySelector("span");
-          if (value) value.textContent = getExperience(featured);
+
+          if (value) {
+            value.textContent = getExperience(featured);
+          }
         }
 
         if (meta[1]) {
           const value = meta[1].querySelector("span");
-          if (value) value.textContent = getLocation(featured);
+
+          if (value) {
+            value.textContent = getLocation(featured);
+          }
         }
 
         if (pills) {
@@ -238,7 +389,9 @@
             .filter(Boolean)
             .slice(0, 3)
             .forEach(field => {
-              pills.append(makeText("span", "subject-pill", field));
+              pills.append(
+                makeText("span", "subject-pill", field)
+              );
             });
         }
 
@@ -255,34 +408,19 @@
           );
         }
 
-        const avatarWrap = heroCard.querySelector(".teacher-avatar-large");
-        const avatarUrl = String(featured.avatar_url || "").trim();
+        const avatarWrap = heroCard.querySelector(
+          ".teacher-avatar-large"
+        );
 
         if (avatarWrap) {
-          avatarWrap.textContent = getInitials(featured);
-
-          if (avatarUrl) {
-            try {
-              const avatar = document.createElement("img");
-              avatar.src = new URL(avatarUrl, apiBase).href;
-              avatar.alt = `${getName(featured)} profile photo`;
-              avatar.loading = "lazy";
-              avatar.style.cssText =
-                "width:100%;height:100%;object-fit:cover;border-radius:inherit;";
-
-              avatar.addEventListener("error", () => avatar.remove(), {
-                once: true
-              });
-
-              avatarWrap.replaceChildren(avatar);
-            } catch (_) {
-              /* Keep the real teacher's initials as a fallback. */
-            }
-          }
+          addAvatar(avatarWrap, featured, true);
         }
       }
     } catch (error) {
-      console.error("[BarakaLink] Could not load public teachers:", error);
+      console.error(
+        "[BarakaLink] Could not load public teachers:",
+        error
+      );
 
       grid.replaceChildren(
         makeText(
@@ -297,9 +435,11 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", loadPopularTeachers, {
-      once: true
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      loadPopularTeachers,
+      { once: true }
+    );
   } else {
     loadPopularTeachers();
   }
