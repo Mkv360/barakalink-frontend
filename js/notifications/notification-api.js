@@ -31,7 +31,7 @@ const DEFAULT_API_BASE =
   'http://localhost:5000/api';
 
 const LAN_TEST_API_BASE =
-  'http://10.242.161.51:5000/api';
+  'http://10.82.205.51:5000/api';
 
 const API_MODE_KEY =
   'barakalink_api_mode';
